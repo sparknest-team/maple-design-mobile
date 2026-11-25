@@ -37,7 +37,7 @@ test('unmount cleans the bound window even before popup watcher flushes', async 
   }
 })
 
-async function fixture() {
+async function fixture(nested = false) {
   const iframe = document.createElement('iframe')
   document.body.append(iframe)
   const view = iframe.contentWindow
@@ -54,7 +54,14 @@ async function fixture() {
   const reference = doc.createElement('button')
   const popup = doc.createElement('div')
   scroll.append(reference, popup)
-  doc.body.append(scroll)
+  const outer = doc.createElement('div')
+  if (nested) {
+    outer.style.overflow = 'auto'
+    outer.append(scroll)
+    doc.body.append(outer)
+  } else {
+    doc.body.append(scroll)
+  }
   const callbacks = new Map()
   let id = 0
   const raf = vi.spyOn(view, 'requestAnimationFrame').mockImplementation((callback) => {
@@ -129,6 +136,7 @@ async function fixture() {
     windowListener: add.mock.calls.find(([type]) => type === 'scroll')?.[1],
     view,
     scroll,
+    outer,
     visible,
     callbacks,
     raf,
@@ -212,6 +220,23 @@ test('consumed frame cannot issue a second close', async () => {
     const callback = [...probe.callbacks.values()][0]
     callback(0)
     callback(0)
+    expect(probe.requestClose).toHaveBeenCalledTimes(1)
+  } finally {
+    probe.cleanup()
+  }
+})
+
+test('checks every scroller that moved before the same animation frame', async () => {
+  const probe = await fixture(true)
+  try {
+    probe.scroll.scrollTop = 20
+    probe.scroll.dispatchEvent(new probe.view.Event('scroll'))
+    probe.outer.scrollTop = 1
+    probe.outer.dispatchEvent(new probe.view.Event('scroll'))
+    expect(probe.callbacks.size).toBe(1)
+    for (const callback of probe.callbacks.values()) {
+      callback(0)
+    }
     expect(probe.requestClose).toHaveBeenCalledTimes(1)
   } finally {
     probe.cleanup()

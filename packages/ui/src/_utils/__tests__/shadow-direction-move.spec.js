@@ -77,6 +77,23 @@ test('ignores unrelated subtree mutations', async () => {
   }
 })
 
+test('a sibling direction change only refreshes its own consumers', async () => {
+  const a = fixture()
+  const b = fixture()
+  try {
+    await flushPromises()
+    const read = vi.spyOn(b.wrapper.element, 'getAttribute')
+    a.hosts[0].dir = 'ltr'
+    await flushPromises()
+    expect(a.wrapper.attributes('data-direction')).toBe('ltr')
+    expect(read).not.toHaveBeenCalledWith('dir')
+  } finally {
+    vi.restoreAllMocks()
+    a.cleanup()
+    b.cleanup()
+  }
+})
+
 test('moving one instance does not refresh an unrelated instance', async () => {
   const a = fixture()
   const b = fixture()

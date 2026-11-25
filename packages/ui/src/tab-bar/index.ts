@@ -1,4 +1,4 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import { props as tabBarItemProps } from './item-props'
 import { props as tabBarProps } from './props'
 import _TabBar from './TabBar.vue'
@@ -12,9 +12,6 @@ const TabBar: import('../utils/components').ComponentWithInstall<typeof _TabBar 
     }),
     { components: [_TabBar, TabBarItem] },
   )
-
-withPropsDefaultsSetter(TabBar, tabBarProps)
-withPropsDefaultsSetter(TabBarItem, tabBarItemProps)
 
 export { tabBarProps, tabBarItemProps, TabBar, TabBarItem }
 

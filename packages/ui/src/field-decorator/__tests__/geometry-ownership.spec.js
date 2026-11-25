@@ -162,3 +162,37 @@ test('a consumed frame cannot release a newer scheduled measurement', () => {
   resize(new Event('resize'))
   expect(frames).toHaveLength(2)
 })
+
+test('geometry uses the iframe owning the field for resize, frames and cleanup', () => {
+  const frame = document.body.appendChild(document.createElement('iframe'))
+  const view = frame.contentWindow
+  const root = view.document.createElement('div')
+  const middle = root.appendChild(view.document.createElement('span'))
+  const callbacks = []
+  const cancel = vi.fn()
+  view.requestAnimationFrame = (callback) => callbacks.push(callback)
+  view.cancelAnimationFrame = cancel
+  view.ResizeObserver = Observer
+  let width = 120
+  Object.defineProperty(root, 'clientWidth', { value: 400 })
+  Object.defineProperty(middle, 'offsetWidth', { get: () => width })
+  let geometry
+  const wrapper = mount({
+    setup() {
+      geometry = useFieldGeometry(ref(root), ref(middle))
+      return () => h('div')
+    },
+  })
+  try {
+    width = 220
+    view.dispatchEvent(new view.Event('resize'))
+    expect(callbacks).toHaveLength(1)
+    callbacks[0](0)
+    expect(geometry.value['--mp-internal-field-content-width']).toBe('220px')
+    view.dispatchEvent(new view.Event('resize'))
+  } finally {
+    wrapper.unmount()
+    frame.remove()
+  }
+  expect(cancel).toHaveBeenCalledWith(2)
+})

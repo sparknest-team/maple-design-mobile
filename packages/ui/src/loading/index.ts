@@ -1,4 +1,4 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import { vLoading } from './directive'
 import LoadingSource from './Loading.vue'
 import { loadingProps } from './props'
@@ -8,7 +8,6 @@ const Loading = withInstall(LoadingSource, undefined, {
     app.directive('mp-loading', vLoading)
   },
 })
-withPropsDefaultsSetter(Loading, loadingProps)
 
 export { Loading, loadingProps, vLoading }
 export type { LoadingDirectiveOptions } from './directive'

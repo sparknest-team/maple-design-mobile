@@ -1,143 +1,119 @@
-import { computed, onActivated, onBeforeUnmount, onDeactivated, onMounted, onUpdated, ref, watch, type Ref } from 'vue'
+import { computed, onUpdated, ref, watch, type Ref } from 'vue'
+import { createFrame } from '../_utils/animation-frame'
 import { useDirection } from '../_utils/direction'
+import { onActiveLifecycle } from '../utils/active-target'
 
 /** Observe the content column, including a hidden popup becoming visible. */
 export function useFieldGeometry(root: Ref<HTMLElement | undefined>, middle: Ref<HTMLElement | undefined>) {
   const { dir, isRtl } = useDirection(() => root.value)
   const offset = ref<number>()
   const width = ref<number>()
-  let observer: ResizeObserver | undefined
-  let observedRoot: HTMLElement | undefined
-  let observedMiddle: HTMLElement | undefined
-  let frame: number | undefined
-  let mounted = false
-  let generation = 0
-  let frameGeneration = 0
-  let measurementGeneration = 0
+  let enabled = false
+  let binding:
+    | {
+        host: HTMLElement
+        content: HTMLElement
+        view: Window
+        schedule: () => void
+        dispose: () => void
+      }
+    | undefined
 
-  const measure = (cycle = generation) => {
-    const rootElement = root.value
-    const middleElement = middle.value
-    const measurement = ++measurementGeneration
-    const current = () =>
-      mounted &&
-      cycle === generation &&
-      measurement === measurementGeneration &&
-      root.value === rootElement &&
-      middle.value === middleElement
-    if (!current() || !rootElement || !middleElement) {
+  function sync() {
+    if (!enabled) {
       return
     }
-    const rootWidth = rootElement.clientWidth
-    if (!current() || !rootWidth) {
+    const host = root.value
+    const content = middle.value
+    const view = host?.ownerDocument.defaultView
+    if (binding && binding.host === host && binding.content === content && binding.view === view) {
+      binding.schedule()
       return
     }
-    const left = middleElement.offsetLeft
-    if (!current()) {
+    binding?.dispose()
+    if (!host || !content || !view) {
       return
     }
-    const contentWidth = middleElement.offsetWidth
-    if (!current()) {
-      return
-    }
-    const nextOffset = isRtl.value ? rootWidth - left - contentWidth : left
-    if (!current()) {
-      return
-    }
-    offset.value = nextOffset
-    if (current()) {
-      width.value = contentWidth
-    }
-  }
-  const schedule = () => {
-    if (!mounted || frame !== undefined) {
-      return
-    }
-    const cycle = generation
-    if (typeof requestAnimationFrame === 'function') {
-      const ticket = ++frameGeneration
-      let consumed = false
-      frame = requestAnimationFrame(() => {
-        if (consumed || cycle !== generation || ticket !== frameGeneration || !mounted) {
-          return
-        }
-        consumed = true
-        frame = undefined
-        measure(cycle)
-      })
-    } else {
-      measure(cycle)
-    }
+    bind(host, content, view)
   }
 
-  const observeTargets = () => {
-    if (observedRoot === root.value && observedMiddle === middle.value) {
-      return
-    }
-    if (observedRoot || observedMiddle) {
-      observer?.disconnect()
-    }
-    observedRoot = root.value
-    observedMiddle = middle.value
-    if (root.value) {
-      observer?.observe(root.value)
-    }
-    if (middle.value) {
-      observer?.observe(middle.value)
-    }
-  }
-  watch(
-    [root, middle],
-    () => {
-      if (!mounted) {
+  function bind(host: HTMLElement, content: HTMLElement, view: Window & typeof globalThis) {
+    const frame = createFrame()
+    let revision = 0
+    function measure() {
+      const ticket = ++revision
+      const current = () =>
+        binding?.schedule === schedule && ticket === revision && root.value === host && middle.value === content
+      if (!current()) {
         return
       }
-      observeTargets()
-      schedule()
+      const rootWidth = host.clientWidth
+      if (!current() || !rootWidth) {
+        return
+      }
+      const left = content.offsetLeft
+      if (!current()) {
+        return
+      }
+      const contentWidth = content.offsetWidth
+      if (!current()) {
+        return
+      }
+      const nextOffset = isRtl.value ? rootWidth - left - contentWidth : left
+      if (!current()) {
+        return
+      }
+      offset.value = nextOffset
+      if (current()) {
+        width.value = contentWidth
+      }
+    }
+    function schedule() {
+      if (binding?.schedule !== schedule) {
+        return
+      }
+      if (host.ownerDocument.defaultView !== view) {
+        sync()
+        return
+      }
+      if (typeof view.requestAnimationFrame === 'function') {
+        frame.request(view, measure)
+      } else {
+        measure()
+      }
+    }
+    const observer = view.ResizeObserver && new view.ResizeObserver(schedule)
+    binding = {
+      host,
+      content,
+      view,
+      schedule,
+      dispose() {
+        binding = undefined
+        frame.cancel()
+        observer?.disconnect()
+        view.removeEventListener('resize', schedule)
+      },
+    }
+    observer?.observe(host)
+    observer?.observe(content)
+    view.addEventListener('resize', schedule)
+    measure()
+  }
+  watch([root, middle, dir], sync, { flush: 'post' })
+  onUpdated(sync)
+  onActiveLifecycle(
+    () => {
+      if (!enabled) {
+        enabled = true
+        sync()
+      }
     },
-    { flush: 'post' },
+    () => {
+      enabled = false
+      binding?.dispose()
+    },
   )
-  const start = () => {
-    if (mounted) {
-      return
-    }
-    mounted = true
-    const cycle = ++generation
-    measure(cycle)
-    if (!mounted || cycle !== generation) {
-      return
-    }
-    if (typeof ResizeObserver !== 'undefined') {
-      observer = new ResizeObserver(() => {
-        if (mounted && cycle === generation) {
-          schedule()
-        }
-      })
-      observeTargets()
-    }
-    window.addEventListener('resize', schedule)
-  }
-  onMounted(start)
-  onActivated(start)
-  watch(dir, schedule, { flush: 'post' })
-  onUpdated(schedule)
-  const stop = () => {
-    mounted = false
-    generation++
-    frameGeneration++
-    measurementGeneration++
-    observer?.disconnect()
-    observer = undefined
-    observedRoot = undefined
-    observedMiddle = undefined
-    window.removeEventListener('resize', schedule)
-    if (frame !== undefined) {
-      cancelAnimationFrame(frame)
-      frame = undefined
-    }
-  }
-  onDeactivated(stop)
-  onBeforeUnmount(stop)
 
   return computed(() => ({
     '--mp-internal-field-hint-origin': isRtl.value ? 'right center' : undefined,

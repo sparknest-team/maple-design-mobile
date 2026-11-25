@@ -9,8 +9,8 @@
 <script setup lang="ts">
 import { computed, h, nextTick, provide, ref, watch } from 'vue'
 import type { TriggerInstance } from '../trigger'
-import Trigger from '../trigger'
 import { useTriggerState } from '../trigger/state'
+import Trigger from '../trigger/trigger'
 import { createNamespace } from '../utils/components'
 import { rootTriggerAppearance } from './appearance'
 import { menuInjectionKey } from './context'

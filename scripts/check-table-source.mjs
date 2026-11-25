@@ -6,6 +6,7 @@ import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { ESLint } from 'eslint'
 
 const source = new URL('../../cedar-design-web/packages/ui/src/', import.meta.url)
 const target = new URL('../packages/ui/src/', import.meta.url)
@@ -38,17 +39,27 @@ try {
     ['apply', '--whitespace=nowarn', fileURLToPath(new URL('./table-source/mobile.patch', import.meta.url))],
     { cwd: temporary },
   )
+  const lint = new ESLint({ cwd: fileURLToPath(new URL('../', import.meta.url)), fix: true })
+  const generated = new Map()
   for (const { target: name } of Object.values(files)) {
-    const text = await readFile(join(temporary, name), 'utf8')
     const file = new URL(name, target)
+    let text = await readFile(join(temporary, name), 'utf8')
+    if (/\.(?:tsx?|vue)$/.test(name)) {
+      const [result] = await lint.lintText(text, { filePath: fileURLToPath(file) })
+      assert.ok(result && !result.errorCount, name + ': ' + JSON.stringify(result?.messages))
+      text = result.output ?? text
+    }
     if (write) {
-      await mkdir(dirname(fileURLToPath(file)), { recursive: true })
-      await writeFile(file, text)
+      generated.set(file, text)
     } else {
       assert.equal(await readFile(file, 'utf8'), text, name + ' differs from the Cedar port')
     }
   }
   if (write) {
+    for (const [file, text] of generated) {
+      await mkdir(dirname(fileURLToPath(file)), { recursive: true })
+      await writeFile(file, text)
+    }
     await writeFile(manifest, JSON.stringify(files, null, 2) + '\n')
   }
   console.log(

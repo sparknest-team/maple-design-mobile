@@ -1,4 +1,4 @@
-import { defineComponent, h, ref } from 'vue'
+import { defineComponent, h, onMounted, ref } from 'vue'
 import { resolveDirection, useDirection } from '@maple-design/use-vue'
 import { flushPromises, mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
@@ -137,6 +137,74 @@ test('updates a slider inside a shadow scope when its direction changes', async 
     expect(thumb.element.style.left).toBe('20%')
     await thumb.trigger('keydown', { key: 'ArrowRight' })
     expect(thumb.attributes('aria-valuenow')).toBe('21')
+  } finally {
+    wrapper.unmount()
+    host.remove()
+  }
+})
+
+test('tracks open slot direction, reassignment and later slot-name changes', async () => {
+  const host = document.createElement('div')
+  host.dir = 'ltr'
+  document.body.append(host)
+  const root = host.attachShadow({ mode: 'open' })
+  const a = document.createElement('slot')
+  const b = document.createElement('slot')
+  a.name = 'a'
+  a.dir = 'rtl'
+  b.name = 'b'
+  b.dir = 'ltr'
+  root.append(a, b)
+  const mountPoint = document.createElement('div')
+  mountPoint.slot = 'a'
+  host.append(mountPoint)
+  const Probe = defineComponent({
+    setup() {
+      const el = ref()
+      const { dir } = useDirection(() => el.value)
+      return () => h('span', { ref: el, 'data-direction': dir.value })
+    },
+  })
+  const wrapper = mount(Probe, { attachTo: mountPoint })
+  try {
+    await flushPromises()
+    expect(wrapper.attributes('data-direction')).toBe('rtl')
+    mountPoint.slot = 'b'
+    await flushPromises()
+    expect(wrapper.attributes('data-direction')).toBe('ltr')
+    b.dir = 'rtl'
+    await flushPromises()
+    expect(wrapper.attributes('data-direction')).toBe('rtl')
+    mountPoint.slot = 'none'
+    await flushPromises()
+    expect(wrapper.attributes('data-direction')).toBe('ltr')
+    a.name = 'none'
+    await flushPromises()
+    expect(wrapper.attributes('data-direction')).toBe('rtl')
+  } finally {
+    wrapper.unmount()
+    host.remove()
+  }
+})
+
+test('resolves the reference direction before consumer mounted hooks read it', () => {
+  const host = document.createElement('div')
+  host.dir = 'rtl'
+  document.body.append(host)
+  let first
+  const Probe = defineComponent({
+    setup() {
+      const target = ref()
+      const { dir } = useDirection(() => target.value)
+      onMounted(() => {
+        first = dir.value
+      })
+      return () => h('button', { ref: target })
+    },
+  })
+  const wrapper = mount(Probe, { attachTo: host })
+  try {
+    expect(first).toBe('rtl')
   } finally {
     wrapper.unmount()
     host.remove()

@@ -152,6 +152,34 @@ describe('phone-width documentation theme regression', { timeout: 600_000 }, () 
     }
   })
 
+  it('opens documentation areas from the phone site and standalone preview', async () => {
+    const context = await browser.newContext(devices['iPhone 13'])
+    try {
+      const page = await context.newPage()
+      await page.goto(origin + '/#/zh-CN/quickstart')
+      const navigation = page.getByRole('navigation', { name: '文档分区' })
+      for (const [name, entry] of [
+        ['组件', 'button'],
+        ['特色与场景', 'showcase'],
+        ['AI 与工具', 'ai'],
+      ]) {
+        const button = navigation.getByRole('button', { name, exact: true })
+        await button.tap()
+        await page.waitForURL(origin + '/#/zh-CN/' + entry)
+        assert.equal(await button.getAttribute('aria-pressed'), 'true')
+      }
+      await page.goto(origin + '/mobile.html#/button?language=en-US')
+      await page
+        .getByRole('navigation', { name: 'Documentation areas' })
+        .getByRole('button', { name: 'Features and scenarios' })
+        .tap()
+      await page.waitForURL(origin + '/#/en-US/showcase')
+      await page.locator('.maple-site-header__section[aria-pressed="true"]').waitFor()
+    } finally {
+      await context.close()
+    }
+  })
+
   for (const surface of ['example', 'documentation']) {
     for (const width of [320, 375, 390]) {
       it(

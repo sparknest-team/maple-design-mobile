@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import { computed, inject, nextTick, ref, watch } from 'vue'
 import { createNamespace } from '../utils/components'
-import { tabsInjectionKey } from './context'
+import { focusScope, tabsInjectionKey } from './context'
 import { tabItemProps } from './props'
 import type { TabItemSlots } from './types'
 
@@ -24,8 +24,7 @@ defineOptions({ name: createNamespace('tab-item').name })
 const props = defineProps(tabItemProps)
 const ctx = inject(tabsInjectionKey)!
 const { n, classes } = createNamespace('tabs')
-const name = computed(() => props.name)
-const active = computed(() => ctx.active.value === name.value)
+const active = computed(() => ctx.active.value === props.name)
 const visited = ref(active.value)
 const panel = ref<HTMLElement>()
 let focusGeneration = 0
@@ -36,31 +35,28 @@ watch(
     if (value) {
       return
     }
-    const element = panel.value,
-      document = element?.ownerDocument,
-      origin = document?.activeElement
-    if (!element || !document || !origin || !element.contains(origin)) {
+    const element = panel.value
+    if (!element) {
+      return
+    }
+    const scope = focusScope(element)
+    const origin = scope.activeElement
+    if (!origin || !element.contains(origin)) {
       return
     }
     nextTick(() =>
       nextTick(() => {
-        if (generation !== focusGeneration || active.value || !element.isConnected) {
+        if (generation !== focusGeneration || !element.isConnected) {
           return
         }
-        const focus = document.activeElement
-        if (focus && focus !== document.body && focus !== origin && !element.contains(focus)) {
+        const doc = element.ownerDocument
+        const focus = scope.activeElement ?? doc.activeElement
+        if (focus && focus !== doc.body && focus !== origin && !element.contains(focus)) {
           return
         }
-        const selected = ctx.active.value
-        if (selected === undefined) {
-          return
+        if (ctx.active.value !== undefined) {
+          ctx.focusTab(ctx.active.value, scope)
         }
-        const target = document.getElementById(ctx.id(selected, 'tab')) as HTMLButtonElement | null
-        if (!target || target.disabled) {
-          return
-        }
-        ctx.focused.value = selected
-        target.focus()
       }),
     )
   },

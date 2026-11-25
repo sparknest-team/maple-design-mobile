@@ -235,6 +235,10 @@ const sourceAliasesPlugin = {
       )
     }
     if (name === 'date' || name === 'date-range') {
+      assert.ok(
+        !inc.some(([file]) => /[/\\]dayjs[/\\]plugin[/\\]isSameOr(?:Before|After)\.js$/.test(file)),
+        name + ' should use the shared calendar bounds check',
+      )
       const hasRangeRenderer = inc.some(([filename]) =>
         /[/\\]date-range[/\\]presentation[/\\]RangeContent\.vue$/.test(filename),
       )
@@ -243,6 +247,44 @@ const sourceAliasesPlugin = {
         name === 'date-range',
         `${name} must ${name === 'date-range' ? 'retain' : 'not bundle'} the dedicated range renderer`,
       )
+    }
+    if (['input', 'input-number', 'textarea', 'auto-complete', 'search', 'time', 'time-range'].includes(name)) {
+      assert.ok(
+        !inc.some(([file]) => file.replace(/\\/g, '/').endsWith('/field-decorator/index.ts')),
+        name + ' retained the public FieldDecorator installer',
+      )
+    }
+    if (name === 'auto-complete' || name === 'input-tag') {
+      assert.ok(
+        !inc.some(([file]) => file.replace(/\\/g, '/').endsWith('/trigger/index.ts')),
+        name + ' retained the public Trigger installer',
+      )
+    }
+    if (['auto-complete', 'input-tag', 'select'].includes(name)) {
+      assert.ok(
+        !inc.some(([file]) => file.replace(/\\/g, '/').endsWith('/selection-scrollbar/index.ts')),
+        name + ' retained the Scrollbar installer',
+      )
+    }
+    const embeddedEntries = {
+      avatar: ['popover', 'trigger'],
+      'split-button': ['menu', 'button', 'trigger'],
+      popover: ['trigger'],
+      menu: ['trigger'],
+    }
+    for (const dependency of embeddedEntries[name] ?? []) {
+      assert.ok(
+        !inc.some(([file]) => file.replace(/\\/g, '/').endsWith('/' + dependency + '/index.ts')),
+        name + ' retained the public ' + dependency + ' installer',
+      )
+    }
+    if (name === 'table') {
+      for (const group of ['checkbox/CheckboxGroup.vue', 'radio/RadioGroup.vue']) {
+        assert.ok(
+          !inc.some(([filename]) => filename.replace(/\\/g, '/').endsWith('/' + group)),
+          'Table retained ' + group,
+        )
+      }
     }
     if (name === 'cascader') {
       assert.equal(
@@ -257,6 +299,12 @@ const sourceAliasesPlugin = {
         false,
         `${name} must not bundle the imperative Picker service`,
       )
+    }
+    if (name === 'input' || name === 'verification-code') {
+      for (const sibling of ['InputPassword.vue', 'InputGroup.vue', 'InputGroupLabel.vue']) {
+        const retained = inc.some(([filename]) => filename.replace(/\\/g, '/').endsWith('/input/' + sibling))
+        assert.equal(retained, name === 'input', name + ' bundle unexpectedly changed its dependency on ' + sibling)
+      }
     }
     if (name === 'button' || name === 'checkbox') {
       const group = name === 'button' ? 'ButtonGroup.vue' : 'CheckboxGroup.vue'

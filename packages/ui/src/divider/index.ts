@@ -1,9 +1,8 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import DividerSource from './Divider.vue'
 import { props as dividerProps } from './props'
 
 const Divider = withInstall(DividerSource)
-withPropsDefaultsSetter(Divider, dividerProps)
 
 export { Divider, dividerProps }
 export type {

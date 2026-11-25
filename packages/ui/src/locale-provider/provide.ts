@@ -1,5 +1,4 @@
 import { inject, provide } from 'vue'
-import { keyInProvides } from '@maple-design/use-vue'
 
 export interface LocaleProvider {
   t: (id: string) => string | undefined
@@ -12,9 +11,5 @@ export function provideLocaleProvider(localeProvider: LocaleProvider) {
 }
 
 export function injectLocaleProvider() {
-  if (!keyInProvides(LOCALE_PROVIDER_KEY)) {
-    return { t: null }
-  }
-
-  return inject<LocaleProvider>(LOCALE_PROVIDER_KEY)!
+  return inject<LocaleProvider | { t: null }>(LOCALE_PROVIDER_KEY, { t: null })
 }

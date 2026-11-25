@@ -1,5 +1,5 @@
 import type { PropType } from 'vue'
-import { triggerProps as triggerPropDefaults } from '../trigger'
+import { triggerProps as triggerPropDefaults } from '../trigger/props'
 import { componentSizes, type ComponentSize } from '../utils/constants'
 import { menuDefaults } from './appearance'
 import type { MenuFieldNames } from './selection'

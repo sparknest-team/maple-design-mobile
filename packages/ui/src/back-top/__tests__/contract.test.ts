@@ -265,3 +265,24 @@ describe('BackTop copied contract', () => {
     expect(ease(0.5, (x) => x * x)).toBe(0.25)
   })
 })
+
+test('default and selector scroll targets stay in the mounting document', async () => {
+  const frame = document.body.appendChild(document.createElement('iframe'))
+  const doc = frame.contentDocument!
+  const scrolling = (doc.scrollingElement ?? doc.documentElement) as HTMLElement
+  const local = doc.body.appendChild(doc.createElement('section'))
+  local.id = 'back-top-frame-scroll'
+  scrolling.scrollTop = 430
+  local.scrollTop = 310
+  const wrapper = mount(BackTop, { attachTo: doc.body, props: { popupContainer: false, duration: 0 } })
+  try {
+    wrapper.vm.scrollToTop()
+    expect(scrolling.scrollTop).toBe(0)
+    await wrapper.setProps({ targetContainer: '#back-top-frame-scroll' })
+    wrapper.vm.scrollToTop()
+    expect(local.scrollTop).toBe(0)
+  } finally {
+    wrapper.unmount()
+    frame.remove()
+  }
+})

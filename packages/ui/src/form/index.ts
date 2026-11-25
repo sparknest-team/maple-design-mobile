@@ -1,4 +1,4 @@
-import { useValidation, withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { useValidation, withInstall } from '../utils/components'
 import _Form from './Form.vue'
 import _FormItem from './FormItem.vue'
 import { props as formItemProps } from './item-props'
@@ -25,9 +25,6 @@ const Form: import('../utils/components').ComponentWithInstall<
   }),
   { components: [_Form, FormItem] },
 )
-
-withPropsDefaultsSetter(Form, formProps)
-withPropsDefaultsSetter(FormItem, formItemProps)
 
 export { formProps, formItemProps, Form, FormItem }
 export { useFormItem } from './item-provide'

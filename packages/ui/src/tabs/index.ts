@@ -1,4 +1,4 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import { tabItemProps, tabNavProps, tabPaneProps, tabsItemsProps, tabsNavsProps, tabsProps } from './props'
 import _TabItem from './TabItem.vue'
 import _TabNav from './TabNav.vue'
@@ -26,12 +26,6 @@ const Tabs: import('../utils/components').ComponentWithInstall<
   }),
   { components: [_Tabs, _TabPane, _TabNav, _TabsNavs, _TabItem, _TabsItems] },
 )
-withPropsDefaultsSetter(_Tabs, tabsProps)
-withPropsDefaultsSetter(_TabNav, tabNavProps)
-withPropsDefaultsSetter(_TabsNavs, tabsNavsProps)
-withPropsDefaultsSetter(_TabItem, tabItemProps)
-withPropsDefaultsSetter(_TabPane, tabPaneProps)
-withPropsDefaultsSetter(_TabsItems, tabsItemsProps)
 export type TabsInstance = InstanceType<typeof _Tabs>
 export type TabNavInstance = InstanceType<typeof _TabNav>
 export type TabsNavsInstance = InstanceType<typeof _TabsNavs>

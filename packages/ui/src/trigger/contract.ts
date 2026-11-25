@@ -15,3 +15,6 @@ export const triggerPlacements = [
   'right-end',
 ] as const
 export type TriggerPlacement = (typeof triggerPlacements)[number]
+
+export const oppositeSide = { top: 'bottom', bottom: 'top', left: 'right', right: 'left' } as const
+export type PlacementSide = keyof typeof oppositeSide

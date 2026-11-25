@@ -1,4 +1,4 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import { navMenuItemProps } from './item-props'
 import _NavMenu from './NavMenu'
 import _NavMenuItem from './NavMenuItem'
@@ -9,8 +9,6 @@ const NavMenu: import('../utils/components').ComponentWithInstall<typeof _NavMen
   withInstall(_NavMenu, Object.assign(_NavMenu, { Item: NavMenuItem }), {
     components: [_NavMenu, _NavMenuItem],
   })
-withPropsDefaultsSetter(NavMenu, navMenuProps)
-withPropsDefaultsSetter(NavMenuItem, navMenuItemProps)
 export { NavMenu, NavMenuItem, navMenuProps, navMenuItemProps }
 export type { NavMenuItemProps, NavMenuItemSlotContext, NavMenuItemExposed } from './item-props'
 export type {

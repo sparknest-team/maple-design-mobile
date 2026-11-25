@@ -1,9 +1,8 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import CardSource from './Card.vue'
 import { cardProps } from './props'
 
 const Card = withInstall(CardSource)
-withPropsDefaultsSetter(Card, cardProps)
 
 export { cardProps }
 export type {

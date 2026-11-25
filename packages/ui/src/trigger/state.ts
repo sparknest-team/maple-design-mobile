@@ -5,46 +5,56 @@ export interface TriggerStateOptions {
   defaultOpen?: boolean
   disabled?: boolean
 }
-export type TriggerStateEmit = (event: 'update:open' | 'open-change', value: boolean) => void
+export interface TriggerStateEmit {
+  (event: 'update:open', value: boolean): void
+  (event: 'open-change', value: boolean): void
+}
+
+/** Each scheduled callback belongs to one request, even if the host reuses timer IDs. */
+export function createDelayedTask() {
+  let stop: (() => void) | undefined
+  function cancel() {
+    const dispose = stop
+    stop = undefined
+    dispose?.()
+  }
+  function schedule(run: () => void, delay = 0) {
+    cancel()
+    const dispose = () => clearTimeout(timer)
+    const timer = setTimeout(() => {
+      if (stop !== dispose) {
+        return
+      }
+      stop = undefined
+      run()
+    }, delay)
+    stop = dispose
+  }
+  return { schedule, cancel }
+}
 
 export function useTriggerState(options: TriggerStateOptions, emit: TriggerStateEmit) {
   const localOpen = ref(options.open ?? options.defaultOpen ?? false)
   const visible = computed(() => options.open ?? localOpen.value)
-  let timer: ReturnType<typeof setTimeout> | undefined
-  let generation = 0
-  let suspended = false
-  let disposed = false
-  const cancel = () => {
-    generation++
-    if (timer !== undefined) {
-      clearTimeout(timer)
-    }
-    timer = undefined
-  }
+  const { schedule, cancel } = createDelayedTask()
+  let active = true
   const request = (value: boolean, delay = 0) => {
     cancel()
-    if (disposed || suspended) {
-      return
-    }
-    const currentGeneration = generation
-    if ((value && options.disabled) || value === visible.value) {
+    const canChange = () => active && !(value && options.disabled) && value !== visible.value
+    if (!canChange()) {
       return
     }
     const commit = () => {
-      if (currentGeneration !== generation || disposed || suspended) {
-        return
-      }
-      generation++
-      timer = undefined
-      if ((value && options.disabled) || value === visible.value) {
-        return
-      }
       localOpen.value = value
       emit('update:open', value)
       emit('open-change', value)
     }
     if (delay > 0) {
-      timer = setTimeout(commit, delay)
+      schedule(() => {
+        if (canChange()) {
+          commit()
+        }
+      }, delay)
     } else {
       commit()
     }
@@ -62,21 +72,20 @@ export function useTriggerState(options: TriggerStateOptions, emit: TriggerState
     () => options.disabled,
     (disabled) => {
       if (disabled) {
-        cancel()
         request(false)
       }
     },
   )
   onActivated(() => {
-    suspended = false
+    active = true
   })
   onDeactivated(() => {
-    cancel()
     request(false)
-    suspended = true
+    active = false
+    cancel()
   })
   onBeforeUnmount(() => {
-    disposed = true
+    active = false
     cancel()
   })
   return { visible, request, cancel }

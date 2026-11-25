@@ -1,15 +1,7 @@
 <template>
   <div :class="n('nav')">
     <slot name="prefix" />
-    <button
-      v-if="showButtons"
-      type="button"
-      :class="classes(n('scroll-button'), [ctx.props.scrollButtons === 'auto', n('--scroll-auto')])"
-      :aria-label="text.previous"
-      @click="scroll(-1)"
-    >
-      {{ ctx.props.orientation !== 'vertical' && ctx.rtl.value ? '›' : '‹' }}
-    </button>
+    <ScrollButton v-if="showButtons" :direction="-1" />
     <div
       ref="scroller"
       v-bind="$attrs"
@@ -27,15 +19,7 @@
     >
       <slot />
     </div>
-    <button
-      v-if="showButtons"
-      type="button"
-      :class="classes(n('scroll-button'), [ctx.props.scrollButtons === 'auto', n('--scroll-auto')])"
-      :aria-label="text.next"
-      @click="scroll(1)"
-    >
-      {{ ctx.props.orientation !== 'vertical' && ctx.rtl.value ? '‹' : '›' }}
-    </button>
+    <ScrollButton v-if="showButtons" :direction="1" />
     <button
       v-if="ctx.props.editable && ctx.props.showAddButton"
       type="button"
@@ -49,8 +33,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, inject, nextTick, onActivated, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { resolveDirection } from '../_utils/direction'
+import { computed, h, inject, nextTick, ref, watch } from 'vue'
+import { useActiveTarget } from '../utils/active-target'
 import { createNamespace } from '../utils/components'
 import { tabsInjectionKey } from './context'
 import { tabsNavsProps } from './props'
@@ -66,7 +50,6 @@ const text = useTabsLocale()
 const scroller = ref<HTMLElement>()
 const overflow = ref(false)
 const showButtons = computed(() => ctx.props.scrollButtons !== false && overflow.value)
-let observer: ResizeObserver | undefined
 function resize() {
   const el = scroller.value
   if (!el) {
@@ -84,26 +67,39 @@ function resize() {
   const extent = vertical ? rect.height : rect.width
   const viewport = vertical ? el.clientHeight : el.clientWidth
   const position = ctx.props.scrollPosition
-  const rtl = !vertical && resolveDirection(el, ctx.rtl.value ? 'rtl' : 'ltr') === 'rtl'
-  let delta = 0
-  if (position === 'start') {
-    delta = rtl ? start + extent - viewport : start
-  } else if (position === 'center') {
-    delta = start - (viewport - extent) / 2
+  const rtl = !vertical && ctx.rtlAt(el)
+  const end = start + extent - viewport
+  let delta: number
+  if (position === 'center') {
+    delta = (start + end) / 2
+  } else if (position === 'start') {
+    delta = rtl ? end : start
   } else if (position === 'end') {
-    delta = rtl ? start : start - viewport + extent
+    delta = rtl ? start : end
   } else if (typeof position === 'number') {
-    delta = rtl ? start + extent - viewport + position : start - position
-  } else if (start < 0) {
-    delta = start
-  } else if (start + extent > viewport) {
-    delta = start + extent - viewport
+    delta = rtl ? end + position : start - position
+  } else {
+    delta = start < 0 ? start : Math.max(0, end)
   }
   if (vertical) {
     el.scrollTop += delta
   } else {
     el.scrollLeft += delta
   }
+}
+function ScrollButton({ direction }: { direction: number }) {
+  const previous = direction < 0
+  const reversed = ctx.props.orientation !== 'vertical' && ctx.rtl.value
+  return h(
+    'button',
+    {
+      type: 'button',
+      class: classes(n('scroll-button'), [ctx.props.scrollButtons === 'auto', n('--scroll-auto')]),
+      'aria-label': previous ? text.value.previous : text.value.next,
+      onClick: () => scroll(direction),
+    },
+    previous !== reversed ? '‹' : '›',
+  )
 }
 function scroll(direction: number) {
   const el = scroller.value
@@ -113,8 +109,7 @@ function scroll(direction: number) {
   if (ctx.props.orientation === 'vertical') {
     el.scrollTop += direction * el.clientHeight
   } else {
-    el.scrollLeft +=
-      direction * el.clientWidth * (resolveDirection(el, ctx.rtl.value ? 'rtl' : 'ltr') === 'rtl' ? -1 : 1)
+    el.scrollLeft += direction * el.clientWidth * (ctx.rtlAt(el) ? -1 : 1)
   }
 }
 function wheel(event: WheelEvent) {
@@ -128,44 +123,54 @@ function wheel(event: WheelEvent) {
     return
   }
   event.preventDefault()
-  const rtl = resolveDirection(el, ctx.rtl.value ? 'rtl' : 'ltr') === 'rtl'
+  const rtl = ctx.rtlAt(el)
   el.scrollLeft += event.deltaY * (rtl ? -1 : 1)
 }
-async function refresh() {
-  await nextTick()
-  observer?.disconnect()
-  if (scroller.value) {
-    observer?.observe(scroller.value)
-    for (const el of Array.from(scroller.value.children)) {
-      observer?.observe(el)
+useActiveTarget(
+  () => scroller.value?.ownerDocument.defaultView ?? undefined,
+  (view) => {
+    let active = true
+    const onResize = () => {
+      if (active) {
+        resize()
+      }
     }
-  }
-  resize()
-}
-watch(
-  () => [
-    ctx.active.value,
-    ctx.entries.value,
-    ctx.props.orientation,
-    ctx.props.size,
-    ctx.props.variant,
-    ctx.props.scrollPosition,
-  ],
-  refresh,
-  { flush: 'post' },
+    const observed = view.ResizeObserver && new view.ResizeObserver(onResize)
+    const observe = () => {
+      if (!active) {
+        return
+      }
+      const list = scroller.value
+      if (observed && list) {
+        observed.disconnect()
+        observed.observe(list)
+        for (const child of list.children) {
+          observed.observe(child)
+        }
+      }
+      resize()
+    }
+    const stop = watch(
+      () => [
+        ctx.active.value,
+        ctx.entries.value,
+        ctx.props.orientation,
+        ctx.props.size,
+        ctx.props.variant,
+        ctx.props.scrollPosition,
+      ],
+      observe,
+      { flush: 'post' },
+    )
+    view.addEventListener('resize', onResize)
+    nextTick(observe)
+    return () => {
+      observed?.disconnect()
+      active = false
+      stop()
+      view.removeEventListener('resize', onResize)
+    }
+  },
 )
-onMounted(() => {
-  if (typeof ResizeObserver !== 'undefined') {
-    observer = new ResizeObserver(resize)
-  }
-  window.addEventListener('resize', resize)
-  refresh()
-})
-onActivated(refresh)
-onBeforeUnmount(() => {
-  observer?.disconnect()
-  observer = undefined
-  window.removeEventListener('resize', resize)
-})
 defineExpose<TabsNavsExpose>({ resize })
 </script>

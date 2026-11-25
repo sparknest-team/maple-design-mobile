@@ -1,9 +1,8 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import ProgressSource from './Progress.vue'
 import { progressProps } from './props'
 
 const Progress = withInstall(ProgressSource)
-withPropsDefaultsSetter(Progress, progressProps)
 
 export { progressProps }
 

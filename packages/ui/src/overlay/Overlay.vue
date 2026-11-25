@@ -31,12 +31,12 @@
 
 <script setup lang="ts">
 import { computed, mergeProps, onActivated, onDeactivated, ref, useAttrs } from 'vue'
-import { useEventListener } from '@maple-design/use-vue'
 import { useDirection } from '../_utils/direction'
 import { useZIndex } from '../context/zIndex'
 import { useThemeScope } from '../theme-provider/context'
+import { useActiveTarget } from '../utils/active-target'
 import { createNamespace } from '../utils/components'
-import { usePopupContainer } from '../utils/popup-container'
+import { useLayerContainer } from '../utils/layer-container'
 import { usePopupLayer } from '../utils/popup-layer'
 import { usePopupTransition } from '../utils/popup-transition'
 import { useScrollLock } from '../utils/scroll-lock'
@@ -81,40 +81,26 @@ const transition = usePopupTransition(
   (event) => emit(event),
 )
 const { shouldRender } = transition
-const popupContainerTarget = usePopupContainer(() => props.popupContainer)
-const popupDocument = computed(() => {
-  const target = popupContainerTarget.value
-  if (typeof target !== 'string') {
-    return target.ownerDocument
-  }
-  return typeof document === 'undefined' ? undefined : document
-})
-const scrollLockTarget = computed(() => {
-  const target = popupContainerTarget.value
-  return typeof target === 'string' ? popupDocument.value?.body : target
-})
+const { popupContainerTarget, scrollLockTarget, modalDocument } = useLayerContainer(() => props.popupContainer)
 const layerActive = () => mergedOpen.value && !teleportDisabled.value
 const { zIndex } = useZIndex(layerActive, 3)
 const mergedZIndex = computed(() => props.zIndex ?? zIndex.value)
 useVisualSurface(
-  () => (mergedOpen.value || transition.leaving.value ? overlayRoot.value : undefined),
+  () => ((mergedOpen.value || transition.leaving.value) && modalDocument() ? overlayRoot.value : undefined),
   () => mergedZIndex.value,
 )
-const { onStackTop } = usePopupLayer(
-  layerActive,
-  mergedZIndex,
-  () => overlayRoot.value?.ownerDocument ?? popupDocument.value,
-)
+const { onStackTop } = usePopupLayer(layerActive, mergedZIndex, modalDocument)
 
 // Private ownership query for components that delegate keyboard shortcuts to this layer.
 defineExpose({ _isTopLayer: onStackTop })
 
-useScrollLock(
-  () => scrollLockTarget.value,
-  () => (mergedOpen.value || transition.leaving.value) && props.lockScroll,
-  { reserveScrollBar: true },
-)
-useEventListener(() => popupDocument.value, 'keydown', handleKeydown)
+useScrollLock(scrollLockTarget, () => (mergedOpen.value || transition.leaving.value) && props.lockScroll, {
+  reserveScrollBar: true,
+})
+useActiveTarget(modalDocument, (doc) => {
+  doc.addEventListener('keydown', handleKeydown)
+  return () => doc.removeEventListener('keydown', handleKeydown)
+})
 
 function handleBackdropPointerDown(event: PointerEvent) {
   backdropPointerDown = event.target === event.currentTarget

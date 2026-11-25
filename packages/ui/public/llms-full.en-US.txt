@@ -6824,92 +6824,65 @@ html[lang='en-US'] .demo-config-comparison-hint > [lang='zh-CN'] {
 </style>
 ```
 
-### Sizes and heading levels
+### Card sizes and heading levels
 
-Choose the Card size, title level, or footer alignment to preview a Card containing a Section. Use the Section variant control to change the nested Section appearance. The Card description stays at 15px and the Section description stays at 13px. Changes to Card size affect the spacing around its description.
-
-| Size | h1 | h2 | h3 | h4 | h5 | h6 | Body horizontal padding | Description top margin |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `xs` | 25px | 21px | 19px | 17px | 15px | 13px | 8px | 6px |
-| `sm` | 26px | 22px | 20px | 18px | 16px | 14px | 12px | 8px |
-| `md` | 30px | 26px | 24px | 22px | 20px | 18px | 16px | 20px |
-| `lg` | 34px | 30px | 28px | 26px | 24px | 22px | 20px | 20px |
-| `xl` | 38px | 34px | 32px | 30px | 28px | 26px | 24px | 24px |
+Size controls spacing. Heading level controls the title font size. The preview shows the active combination, font sizes and gaps above the title and description. Turn off “Show content” to leave only a comment in the default slot. The body container and its spacing disappear. The title and its description form the card header. From `xs` through `xl`, their gap is 2px, 4px, 6px, 8px and 10px, respectively.
 
 Example source: src/card/example/demos/en-US/sizes-and-headings.vue
 
 ```vue
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { ref, watch } from 'vue'
 
-const footerAlignments = ['start', 'center', 'end'] as const
-const sectionVariants = ['heading-line', 'plain', 'tonal', 'outline'] as const
-const headingLevels = [1, 2, 3, 4, 5, 6] as const
-const model = reactive<{
-  size: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-  headingLevel: (typeof headingLevels)[number]
-  footerAlign: (typeof footerAlignments)[number]
-  sectionVariant: (typeof sectionVariants)[number]
-}>({
-  size: 'md',
-  headingLevel: 4,
-  footerAlign: 'end',
-  sectionVariant: 'heading-line',
-})
+const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
+const size = ref<(typeof sizes)[number]>('md')
+const levels = [1, 2, 3, 4, 5, 6] as const
+const level = ref<(typeof levels)[number]>(1)
+const showContent = ref(true)
+const preview = ref<HTMLElement | null>(null)
+const titleMetrics = ref('')
+const descriptionMetrics = ref('')
+
+function measureText() {
+  const container = preview.value?.querySelector<HTMLElement>('.mp-card__container')
+  const title = container?.querySelector(`h${level.value}`)
+  const description = container?.querySelector('.mp-card__description')
+  if (!container || !title?.parentElement || !description) return
+
+  titleMetrics.value = formatMetrics(title, getComputedStyle(title.parentElement).marginTop)
+  descriptionMetrics.value = formatMetrics(description, getComputedStyle(description).marginTop)
+}
+
+function formatMetrics(element: Element, gap: string) {
+  const fontSize = getComputedStyle(element).fontSize
+  return `font size ${fontSize} · gap above ${gap}`
+}
+
+watch([preview, size, level], measureText, { flush: 'post' })
 </script>
 
 <template>
   <mp-space direction="column" align="stretch">
-    <mp-form :model="model" layout="vertical" edit-mode="direct">
-      <mp-form-item field="size" label="Card size">
-        <mp-radio-group v-model="model.size" aria-label="Card size">
-          <mp-radio value="xs">Extra small (xs)</mp-radio>
-          <mp-radio value="sm">Compact (sm)</mp-radio>
-          <mp-radio value="md">Default (md)</mp-radio>
-          <mp-radio value="lg">Large (lg)</mp-radio>
-          <mp-radio value="xl">Extra large (xl)</mp-radio>
-        </mp-radio-group>
-      </mp-form-item>
-      <mp-form-item field="headingLevel" label="Heading level">
-        <mp-radio-group v-model="model.headingLevel" aria-label="Heading level">
-          <mp-radio v-for="level in headingLevels" :key="level" :value="level">h{{ level }}</mp-radio>
-        </mp-radio-group>
-      </mp-form-item>
-      <mp-form-item field="footerAlign" label="Footer alignment">
-        <mp-radio-group v-model="model.footerAlign" aria-label="Footer alignment">
-          <mp-radio v-for="value in footerAlignments" :key="value" :value="value">{{ value }}</mp-radio>
-        </mp-radio-group>
-      </mp-form-item>
-      <mp-form-item field="sectionVariant" label="Section variant">
-        <mp-radio-group v-model="model.sectionVariant" aria-label="Section variant">
-          <mp-radio v-for="value in sectionVariants" :key="value" :value="value">{{ value }}</mp-radio>
-        </mp-radio-group>
-      </mp-form-item>
-    </mp-form>
-    <output
-      >Rendered tag <code>&lt;h{{ model.headingLevel }}&gt;</code></output
-    >
-
-    <mp-card
-      :size="model.size"
-      :heading-level="model.headingLevel"
-      :footer-align="model.footerAlign"
-      title="Project overview"
-      description="Project settings apply to the whole team."
-      top-divider
-      bottom-divider
-    >
-      <mp-section
-        :size="model.size"
-        :heading-level="model.headingLevel"
-        :variant="model.sectionVariant"
-        title="Member permissions"
-        description="Permissions are grouped by role."
-      >
-        Administrators can invite members.
-      </mp-section>
-      <template #footer>Last updated today</template>
-    </mp-card>
+    <span>Card size</span>
+    <mp-radio-group v-model="size" aria-label="Card size">
+      <mp-radio v-for="value in sizes" :key="value" :value="value">{{ value }}</mp-radio>
+    </mp-radio-group>
+    <span>Heading level</span>
+    <mp-radio-group v-model="level" aria-label="Heading level">
+      <mp-radio v-for="value in levels" :key="value" :value="value">h{{ value }}</mp-radio>
+    </mp-radio-group>
+    <mp-checkbox v-model="showContent">Show content</mp-checkbox>
+    <output>
+      Size {{ size }} · Heading h{{ level }}<br>
+      Title · {{ titleMetrics }}<br>
+      Description · {{ descriptionMetrics }}
+    </output>
+    <div ref="preview" @transitionend="measureText">
+      <mp-card :size="size" :heading-level="level" title="Project overview" description="Project settings apply to the entire team.">
+        <!-- Only this comment remains when content is hidden. -->
+        <span v-if="showContent">Administrators can invite members.</span>
+      </mp-card>
+    </div>
   </mp-space>
 </template>
 ```
@@ -7369,14 +7342,14 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-card-content-row-margin` | `16px 0 0 0` | `margin` |
 | `--mp-card-description-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-card-description-font-size` | `15px` | `font-size` |
-| `--mp-card-description-margin` | `20px 0 0 0` | `margin` |
+| `--mp-card-description-margin` | `6px 0 0 0` | `margin` |
 | `--mp-card-description-padding` | `0 16px` | `padding` |
 | `--mp-card-filled-background` | `var(--mp-sys-color-surface-muted)` | `background-color` |
 | `--mp-card-floating-buttons-bottom` | `16px` | `bottom` |
 | `--mp-card-floating-buttons-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-card-floating-buttons-right` | `16px` | `inset-inline-end` |
 | `--mp-card-footer-bottom` | `9px` | `bottom` |
-| `--mp-card-footer-margin` | `30px 0 0 0` | `margin` |
+| `--mp-card-footer-margin` | `16px 0 0 0` | `margin` |
 | `--mp-card-footer-padding` | `0 16px` | `padding` |
 | `--mp-card-footer-right` | `13px` | `inset-inline-end`, `inset-inline-start` |
 | `--mp-card-heading-size-step` | `1px` | `font-size` |
@@ -7391,16 +7364,16 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-card-row-line-height` | `1.5` | `line-height` |
 | `--mp-card-size-lg-section-margin` | `20px 0 0` | `margin` |
 | `--mp-card-size-lg-section-padding` | `0 20px` | `padding` |
-| `--mp-card-size-lg-title-font-size` | `24px` | `font-size` |
-| `--mp-card-size-sm-section-margin` | `8px 0 0` | `margin` |
+| `--mp-card-size-lg-title-font-size` | `20px` | `font-size` |
+| `--mp-card-size-sm-section-margin` | `12px 0 0` | `margin` |
 | `--mp-card-size-sm-section-padding` | `0 12px` | `padding` |
-| `--mp-card-size-sm-title-font-size` | `16px` | `font-size` |
+| `--mp-card-size-sm-title-font-size` | `20px` | `font-size` |
 | `--mp-card-size-xl-section-margin` | `24px 0 0` | `margin` |
 | `--mp-card-size-xl-section-padding` | `0 24px` | `padding` |
-| `--mp-card-size-xl-title-font-size` | `28px` | `font-size` |
-| `--mp-card-size-xs-section-margin` | `6px 0 0` | `margin` |
+| `--mp-card-size-xl-title-font-size` | `20px` | `font-size` |
+| `--mp-card-size-xs-section-margin` | `8px 0 0` | `margin` |
 | `--mp-card-size-xs-section-padding` | `0 8px` | `padding` |
-| `--mp-card-size-xs-title-font-size` | `15px` | `font-size` |
+| `--mp-card-size-xs-title-font-size` | `20px` | `font-size` |
 | `--mp-card-subtitle-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-card-subtitle-font-size` | `15px` | `font-size` |
 | `--mp-card-subtitle-margin` | `10px 0 0 0` | `margin` |
@@ -7408,9 +7381,9 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-card-subtitle-row-margin` | `-8px 0 0 0` | `margin` |
 | `--mp-card-title-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-card-title-font-size` | `20px` | `font-size` |
-| `--mp-card-title-margin` | `15px 0 0 0` | `margin` |
+| `--mp-card-title-margin` | `16px 0 0 0` | `margin` |
 | `--mp-card-title-padding` | `0 16px` | `padding` |
-| `--mp-card-title-row-margin` | `12px 0` | `margin` |
+| `--mp-card-title-row-margin` | `16px 0 12px` | `margin` |
 
 </div>
 
@@ -19689,14 +19662,14 @@ Source: `src/card/style/token.less`
 | `--mp-card-content-row-margin` | Public | `16px 0 0 0` | Local CSS<br>`margin` |
 | `--mp-card-description-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
 | `--mp-card-description-font-size` | Public | `15px` | Local CSS<br>`font-size` |
-| `--mp-card-description-margin` | Public | `20px 0 0 0` | Local CSS<br>`margin` |
+| `--mp-card-description-margin` | Public | `6px 0 0 0` | Local CSS<br>`margin` |
 | `--mp-card-description-padding` | Public | `0 16px` | Local CSS<br>`padding` |
 | `--mp-card-filled-background` | Public | `var(--mp-sys-color-surface-muted)` | Local CSS<br>`background-color` |
 | `--mp-card-floating-buttons-bottom` | Public | `16px` | Local CSS<br>`bottom` |
 | `--mp-card-floating-buttons-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
 | `--mp-card-floating-buttons-right` | Public | `16px` | Local CSS<br>`inset-inline-end` |
 | `--mp-card-footer-bottom` | Public | `9px` | Local CSS<br>`bottom` |
-| `--mp-card-footer-margin` | Public | `30px 0 0 0` | Local CSS<br>`margin` |
+| `--mp-card-footer-margin` | Public | `16px 0 0 0` | Local CSS<br>`margin` |
 | `--mp-card-footer-padding` | Public | `0 16px` | Local CSS<br>`padding` |
 | `--mp-card-footer-right` | Public | `13px` | Local CSS<br>`inset-inline-end`, `inset-inline-start` |
 | `--mp-card-heading-size-step` | Public | `1px` | Local CSS<br>`font-size` |
@@ -19711,16 +19684,16 @@ Source: `src/card/style/token.less`
 | `--mp-card-row-line-height` | Public | `1.5` | Local CSS<br>`line-height` |
 | `--mp-card-size-lg-section-margin` | Public | `20px 0 0` | Local CSS<br>`margin` |
 | `--mp-card-size-lg-section-padding` | Public | `0 20px` | Local CSS<br>`padding` |
-| `--mp-card-size-lg-title-font-size` | Public | `24px` | Local CSS<br>`font-size` |
-| `--mp-card-size-sm-section-margin` | Public | `8px 0 0` | Local CSS<br>`margin` |
+| `--mp-card-size-lg-title-font-size` | Public | `20px` | Local CSS<br>`font-size` |
+| `--mp-card-size-sm-section-margin` | Public | `12px 0 0` | Local CSS<br>`margin` |
 | `--mp-card-size-sm-section-padding` | Public | `0 12px` | Local CSS<br>`padding` |
-| `--mp-card-size-sm-title-font-size` | Public | `16px` | Local CSS<br>`font-size` |
+| `--mp-card-size-sm-title-font-size` | Public | `20px` | Local CSS<br>`font-size` |
 | `--mp-card-size-xl-section-margin` | Public | `24px 0 0` | Local CSS<br>`margin` |
 | `--mp-card-size-xl-section-padding` | Public | `0 24px` | Local CSS<br>`padding` |
-| `--mp-card-size-xl-title-font-size` | Public | `28px` | Local CSS<br>`font-size` |
-| `--mp-card-size-xs-section-margin` | Public | `6px 0 0` | Local CSS<br>`margin` |
+| `--mp-card-size-xl-title-font-size` | Public | `20px` | Local CSS<br>`font-size` |
+| `--mp-card-size-xs-section-margin` | Public | `8px 0 0` | Local CSS<br>`margin` |
 | `--mp-card-size-xs-section-padding` | Public | `0 8px` | Local CSS<br>`padding` |
-| `--mp-card-size-xs-title-font-size` | Public | `15px` | Local CSS<br>`font-size` |
+| `--mp-card-size-xs-title-font-size` | Public | `20px` | Local CSS<br>`font-size` |
 | `--mp-card-subtitle-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
 | `--mp-card-subtitle-font-size` | Public | `15px` | Local CSS<br>`font-size` |
 | `--mp-card-subtitle-margin` | Public | `10px 0 0 0` | Local CSS<br>`margin` |
@@ -19728,9 +19701,9 @@ Source: `src/card/style/token.less`
 | `--mp-card-subtitle-row-margin` | Public | `-8px 0 0 0` | Local CSS<br>`margin` |
 | `--mp-card-title-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
 | `--mp-card-title-font-size` | Public | `20px` | Local CSS<br>`font-size` |
-| `--mp-card-title-margin` | Public | `15px 0 0 0` | Local CSS<br>`margin` |
+| `--mp-card-title-margin` | Public | `16px 0 0 0` | Local CSS<br>`margin` |
 | `--mp-card-title-padding` | Public | `0 16px` | Local CSS<br>`padding` |
-| `--mp-card-title-row-margin` | Public | `12px 0` | Local CSS<br>`margin` |
+| `--mp-card-title-row-margin` | Public | `16px 0 12px` | Local CSS<br>`margin` |
 
 </div>
 
@@ -21359,34 +21332,34 @@ Source: `src/section/style/token.less`
 | `--mp-section-description-size` | Public | `13px` | Local CSS<br>`font-size` |
 | `--mp-section-divider-color` | Public | `var(--mp-sys-color-border-default)` | Local CSS<br>`border-block-start` |
 | `--mp-section-divider-width` | Public | `1px` | Local CSS<br>`border`, `border-block-start` |
-| `--mp-section-header-gap` | Public | `20px` | Local CSS<br>`margin-block-end` |
+| `--mp-section-header-gap` | Public | `16px` | Local CSS<br>`margin-block-end` |
 | `--mp-section-heading-gap` | Public | `16px` | Local CSS<br>`margin-inline-start` |
 | `--mp-section-heading-size-step` | Public | `1px` | Local CSS<br>`font-size`, `line-height` |
 | `--mp-section-marker-gap` | Public | `12px` | Local CSS<br>`padding-inline-end`, `padding-inline-start`, `row-gap` |
-| `--mp-section-marker-height` | Public | `16px` | Local CSS<br>`height` |
+| `--mp-section-marker-height` | Public | `calc(100% - 1lh + 1em)` | Local CSS<br>`height` |
 | `--mp-section-marker-radius` | Public | `2px` | Local CSS<br>`border-radius` |
 | `--mp-section-marker-width` | Public | `3px` | Local CSS<br>`padding-inline-start`, `width` |
 | `--mp-section-outline-color` | Public | `var(--mp-sys-color-border-default)` | Local CSS<br>`border` |
 | `--mp-section-size-lg-card-padding` | Public | `20px` | Local CSS<br>`padding` |
-| `--mp-section-size-lg-header-gap` | Public | `24px` | Local CSS<br>`margin-block-end` |
-| `--mp-section-size-lg-marker-height` | Public | `20px` | Local CSS<br>`height` |
+| `--mp-section-size-lg-header-gap` | Public | `20px` | Local CSS<br>`margin-block-end` |
+| `--mp-section-size-lg-marker-height` | Public | `calc(100% - 1lh + 1em)` | Local CSS<br>`height` |
 | `--mp-section-size-lg-title-line-height` | Public | `28px` | Local CSS<br>`line-height` |
-| `--mp-section-size-lg-title-size` | Public | `20px` | Local CSS<br>`font-size` |
+| `--mp-section-size-lg-title-size` | Public | `16px` | Local CSS<br>`font-size` |
 | `--mp-section-size-sm-card-padding` | Public | `12px` | Local CSS<br>`padding` |
 | `--mp-section-size-sm-header-gap` | Public | `12px` | Local CSS<br>`margin-block-end` |
-| `--mp-section-size-sm-marker-height` | Public | `14px` | Local CSS<br>`height` |
+| `--mp-section-size-sm-marker-height` | Public | `calc(100% - 1lh + 1em)` | Local CSS<br>`height` |
 | `--mp-section-size-sm-title-line-height` | Public | `20px` | Local CSS<br>`line-height` |
-| `--mp-section-size-sm-title-size` | Public | `14px` | Local CSS<br>`font-size` |
+| `--mp-section-size-sm-title-size` | Public | `16px` | Local CSS<br>`font-size` |
 | `--mp-section-size-xl-card-padding` | Public | `24px` | Local CSS<br>`padding` |
-| `--mp-section-size-xl-header-gap` | Public | `28px` | Local CSS<br>`margin-block-end` |
-| `--mp-section-size-xl-marker-height` | Public | `24px` | Local CSS<br>`height` |
+| `--mp-section-size-xl-header-gap` | Public | `24px` | Local CSS<br>`margin-block-end` |
+| `--mp-section-size-xl-marker-height` | Public | `calc(100% - 1lh + 1em)` | Local CSS<br>`height` |
 | `--mp-section-size-xl-title-line-height` | Public | `32px` | Local CSS<br>`line-height` |
-| `--mp-section-size-xl-title-size` | Public | `24px` | Local CSS<br>`font-size` |
+| `--mp-section-size-xl-title-size` | Public | `16px` | Local CSS<br>`font-size` |
 | `--mp-section-size-xs-card-padding` | Public | `8px` | Local CSS<br>`padding` |
 | `--mp-section-size-xs-header-gap` | Public | `8px` | Local CSS<br>`margin-block-end` |
-| `--mp-section-size-xs-marker-height` | Public | `12px` | Local CSS<br>`height` |
+| `--mp-section-size-xs-marker-height` | Public | `calc(100% - 1lh + 1em)` | Local CSS<br>`height` |
 | `--mp-section-size-xs-title-line-height` | Public | `18px` | Local CSS<br>`line-height` |
-| `--mp-section-size-xs-title-size` | Public | `14px` | Local CSS<br>`font-size` |
+| `--mp-section-size-xs-title-size` | Public | `16px` | Local CSS<br>`font-size` |
 | `--mp-section-title-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
 | `--mp-section-title-line-height` | Public | `24px` | Local CSS<br>`line-height` |
 | `--mp-section-title-size` | Public | `16px` | Local CSS<br>`font-size` |
@@ -52798,71 +52771,71 @@ Example source: src/section/example/demos/en-US/outline.vue
 </template>
 ```
 
-### Section sizes
+### Section sizes and heading levels
 
-Choose a size and heading level to preview the title. Each heading column shows its default font size. The dashed border marks the content area.
-
-| Size | h1 | h2 | h3 | h4 | h5 | h6 | Card padding | Gap below header |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `xs` | 24px | 20px | 18px | 16px | 14px | 12px | 8px | 8px |
-| `sm` | 24px | 20px | 18px | 16px | 14px | 12px | 12px | 12px |
-| `md` | 26px | 22px | 20px | 18px | 16px | 14px | 16px | 20px |
-| `lg` | 30px | 26px | 24px | 22px | 20px | 18px | 20px | 24px |
-| `xl` | 34px | 30px | 28px | 26px | 24px | 22px | 24px | 28px |
+Size controls spacing. Heading level controls the title font size. The preview shows the active combination, font sizes and gaps above the title and description. Turn off “Show content” to leave only a comment in the default slot. The body container and its spacing disappear. The centered marker is one font size tall for a single line and grows by one line height for each additional line. The description appears below the title.
 
 Example source: src/section/example/demos/en-US/sizes.vue
 
 ```vue
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { ref, watch } from 'vue'
 
-const headingLevels = [1, 2, 3, 4, 5, 6] as const
-const model = reactive<{ size: 'xs' | 'sm' | 'md' | 'lg' | 'xl'; headingLevel: (typeof headingLevels)[number] }>({
-  size: 'md',
-  headingLevel: 4,
-})
+const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
+const size = ref<(typeof sizes)[number]>('md')
+const levels = [1, 2, 3, 4, 5, 6] as const
+const level = ref<(typeof levels)[number]>(1)
+const showContent = ref(true)
+const preview = ref<HTMLElement | null>(null)
+const titleMetrics = ref('')
+const descriptionMetrics = ref('')
+
+function measureText() {
+  const container = preview.value?.querySelector<HTMLElement>('.mp-section__surface')
+  const title = container?.querySelector(`h${level.value}`)
+  const description = container?.querySelector('.mp-section__description')
+  if (!container || !title || !description) return
+
+  titleMetrics.value = formatMetrics(title, getComputedStyle(container).paddingTop)
+  descriptionMetrics.value = formatMetrics(description, getComputedStyle(description).marginTop)
+}
+
+function formatMetrics(element: Element, gap: string) {
+  const fontSize = getComputedStyle(element).fontSize
+  return `font size ${fontSize} · gap above ${gap}`
+}
+
+watch([preview, size, level], () => {
+  measureText()
+  const view = preview.value?.ownerDocument.defaultView
+  view?.requestAnimationFrame?.(measureText)
+}, { flush: 'post' })
 </script>
 
 <template>
   <mp-space direction="column" align="stretch">
-    <mp-form :model="model" layout="vertical" edit-mode="direct">
-      <mp-form-item field="size" label="Section size">
-        <mp-radio-group v-model="model.size" aria-label="Section size">
-          <mp-radio value="xs">Extra small (xs)</mp-radio>
-          <mp-radio value="sm">Compact (sm)</mp-radio>
-          <mp-radio value="md">Default (md)</mp-radio>
-          <mp-radio value="lg">Large (lg)</mp-radio>
-          <mp-radio value="xl">Extra large (xl)</mp-radio>
-        </mp-radio-group>
-      </mp-form-item>
-      <mp-form-item field="headingLevel" label="Heading level">
-        <mp-radio-group v-model="model.headingLevel" aria-label="Heading level">
-          <mp-radio v-for="level in headingLevels" :key="level" :value="level">h{{ level }}</mp-radio>
-        </mp-radio-group>
-      </mp-form-item>
-    </mp-form>
-    <output
-      >Rendered tag <code>&lt;h{{ model.headingLevel }}&gt;</code></output
-    >
-
-    <mp-section
-      :size="model.size"
-      variant="outline"
-      show-marker
-      :heading-level="model.headingLevel"
-      title="Member permissions"
-    >
-      <div class="section-size-content">Administrators can invite members and update project settings.</div>
-    </mp-section>
+    <span>Section size</span>
+    <mp-radio-group v-model="size" aria-label="Section size">
+      <mp-radio v-for="value in sizes" :key="value" :value="value">{{ value }}</mp-radio>
+    </mp-radio-group>
+    <span>Heading level</span>
+    <mp-radio-group v-model="level" aria-label="Heading level">
+      <mp-radio v-for="value in levels" :key="value" :value="value">h{{ value }}</mp-radio>
+    </mp-radio-group>
+    <mp-checkbox v-model="showContent">Show content</mp-checkbox>
+    <output>
+      Size {{ size }} · Heading h{{ level }}<br>
+      Title · {{ titleMetrics }}<br>
+      Description · {{ descriptionMetrics }}
+    </output>
+    <div ref="preview" @transitionend="measureText">
+      <mp-section :size="size" :heading-level="level" variant="outline" show-marker title="Member permissions" description="Permissions are grouped by member role.">
+        <!-- Only this comment remains when content is hidden. -->
+        <span v-if="showContent">Administrators can invite members.</span>
+      </mp-section>
+    </div>
   </mp-space>
 </template>
-
-<style scoped>
-.section-size-content {
-  border: 1px dashed currentColor;
-  padding: 8px;
-}
-</style>
 ```
 
 ### With or without a heading
@@ -53005,34 +52978,34 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-section-description-size` | `13px` | `font-size` |
 | `--mp-section-divider-color` | `var(--mp-sys-color-border-default)` | `border-block-start` |
 | `--mp-section-divider-width` | `1px` | `border`, `border-block-start` |
-| `--mp-section-header-gap` | `20px` | `margin-block-end` |
+| `--mp-section-header-gap` | `16px` | `margin-block-end` |
 | `--mp-section-heading-gap` | `16px` | `margin-inline-start` |
 | `--mp-section-heading-size-step` | `1px` | `font-size`, `line-height` |
 | `--mp-section-marker-gap` | `12px` | `padding-inline-end`, `padding-inline-start`, `row-gap` |
-| `--mp-section-marker-height` | `16px` | `height` |
+| `--mp-section-marker-height` | `calc(100% - 1lh + 1em)` | `height` |
 | `--mp-section-marker-radius` | `2px` | `border-radius` |
 | `--mp-section-marker-width` | `3px` | `padding-inline-start`, `width` |
 | `--mp-section-outline-color` | `var(--mp-sys-color-border-default)` | `border` |
 | `--mp-section-size-lg-card-padding` | `20px` | `padding` |
-| `--mp-section-size-lg-header-gap` | `24px` | `margin-block-end` |
-| `--mp-section-size-lg-marker-height` | `20px` | `height` |
+| `--mp-section-size-lg-header-gap` | `20px` | `margin-block-end` |
+| `--mp-section-size-lg-marker-height` | `calc(100% - 1lh + 1em)` | `height` |
 | `--mp-section-size-lg-title-line-height` | `28px` | `line-height` |
-| `--mp-section-size-lg-title-size` | `20px` | `font-size` |
+| `--mp-section-size-lg-title-size` | `16px` | `font-size` |
 | `--mp-section-size-sm-card-padding` | `12px` | `padding` |
 | `--mp-section-size-sm-header-gap` | `12px` | `margin-block-end` |
-| `--mp-section-size-sm-marker-height` | `14px` | `height` |
+| `--mp-section-size-sm-marker-height` | `calc(100% - 1lh + 1em)` | `height` |
 | `--mp-section-size-sm-title-line-height` | `20px` | `line-height` |
-| `--mp-section-size-sm-title-size` | `14px` | `font-size` |
+| `--mp-section-size-sm-title-size` | `16px` | `font-size` |
 | `--mp-section-size-xl-card-padding` | `24px` | `padding` |
-| `--mp-section-size-xl-header-gap` | `28px` | `margin-block-end` |
-| `--mp-section-size-xl-marker-height` | `24px` | `height` |
+| `--mp-section-size-xl-header-gap` | `24px` | `margin-block-end` |
+| `--mp-section-size-xl-marker-height` | `calc(100% - 1lh + 1em)` | `height` |
 | `--mp-section-size-xl-title-line-height` | `32px` | `line-height` |
-| `--mp-section-size-xl-title-size` | `24px` | `font-size` |
+| `--mp-section-size-xl-title-size` | `16px` | `font-size` |
 | `--mp-section-size-xs-card-padding` | `8px` | `padding` |
 | `--mp-section-size-xs-header-gap` | `8px` | `margin-block-end` |
-| `--mp-section-size-xs-marker-height` | `12px` | `height` |
+| `--mp-section-size-xs-marker-height` | `calc(100% - 1lh + 1em)` | `height` |
 | `--mp-section-size-xs-title-line-height` | `18px` | `line-height` |
-| `--mp-section-size-xs-title-size` | `14px` | `font-size` |
+| `--mp-section-size-xs-title-size` | `16px` | `font-size` |
 | `--mp-section-title-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-section-title-line-height` | `24px` | `line-height` |
 | `--mp-section-title-size` | `16px` | `font-size` |

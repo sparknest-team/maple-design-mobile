@@ -1,89 +1,105 @@
 import {
-  defineComponent,
   h,
   mergeProps,
   Transition,
   vShow,
   withDirectives,
-  type CSSProperties,
-  type PropType,
-  type VNodeRef,
+  type ComponentPublicInstance,
+  type ExtractPropTypes,
+  type Ref,
+  type VNode,
 } from 'vue'
 import { useThemeScope } from '../theme-provider/context'
-import { createNamespace } from '../utils/components'
-import type { TriggerPlacement } from './contract'
+import type { useTriggerInteraction } from './interaction'
+import type { TriggerPositioner } from './positioner'
+import type { triggerProps } from './props'
+import type { useTriggerRender } from './render'
 
-export interface TriggerPopupOptions {
-  rendered: boolean
-  displayed: boolean
-  visible: boolean
-  animating: boolean
-  placement: TriggerPlacement
-  setPopup: VNodeRef
-  popupClass?: any
-  wrapperClass?: any
-  contentClass?: any
-  arrowClass?: any
-  popupStyle?: CSSProperties
-  wrapperStyle?: CSSProperties
-  contentStyle?: CSSProperties
-  arrowStyle?: CSSProperties
-  showArrow?: boolean
-  animationName?: string
-  duration?: number | { enter: number; leave: number }
-  hooks: Record<string, () => void>
-  handlers?: Record<string, (event: any) => void>
-  attrs?: Record<string, unknown>
+interface PopupContext {
+  n: (suffix?: string) => string
+  visible: Readonly<Ref<boolean>>
+  renderState: ReturnType<typeof useTriggerRender>
+  popupAttrs: Readonly<Ref<Record<string, unknown>>>
+  positioner: TriggerPositioner
+  zIndex: Readonly<Ref<number>>
+  popup: Ref<HTMLElement | undefined>
+  interaction: ReturnType<typeof useTriggerInteraction>
 }
 
-// Independent copies share the DOM contract; platform adapters only supply local infrastructure.
-export default defineComponent({
-  name: createNamespace('trigger-popup').name,
-  inheritAttrs: false,
-  props: { options: { type: Object as PropType<TriggerPopupOptions>, required: true } },
-  setup(props, { slots }) {
-    const themeScope = useThemeScope()
-    return () => {
-      const o = props.options
-      if (!o.rendered) {
-        return null
+export function useTriggerPopup(
+  props: Readonly<ExtractPropTypes<typeof triggerProps>>,
+  { n, visible, renderState, popupAttrs, positioner, zIndex, popup, interaction }: PopupContext,
+) {
+  const themeScope = useThemeScope()
+  const setPopup = (element: Element | ComponentPublicInstance | null) => {
+    popup.value = element ? (element as HTMLElement) : undefined
+  }
+  const handlers = {
+    onMouseenter: interaction.popupEnter,
+    onMouseleave: interaction.popupLeave,
+    onFocusin: interaction.popupFocus,
+    onFocusout: interaction.popupBlur,
+    onMousedown: (event: MouseEvent) => {
+      if (props.preventFocus) {
+        event.preventDefault()
       }
-      return h(
-        'div',
-        mergeProps(
-          themeScope.value,
-          o.attrs ?? {},
-          {
-            ref: o.setPopup,
-            class: o.popupClass,
-            style: [
-              o.popupStyle,
-              {
-                display: o.displayed ? undefined : 'none',
-                pointerEvents: o.animating ? 'none' : o.popupStyle?.pointerEvents,
-              },
-            ],
-            'trigger-placement': o.placement,
-          },
-          o.handlers ?? {},
-        ),
-        [
-          h(
-            Transition,
-            { name: o.animationName, duration: o.duration, appear: true, ...o.hooks },
-            {
-              default: () =>
-                withDirectives(
-                  h('div', { class: o.wrapperClass, style: [{ position: 'relative' }, o.wrapperStyle] }, [
-                    h('div', { class: o.contentClass, style: o.contentStyle }, slots.content?.()),
-                    o.showArrow ? h('div', { class: o.arrowClass, style: o.arrowStyle, 'aria-hidden': 'true' }) : null,
-                  ]),
-                  [[vShow, o.visible]],
-                ),
-            },
-          ),
-        ],
-      )
+    },
+  }
+
+  // Position and transition changes belong to the popup's render effect.
+  return function TriggerPopup({ content, hiddenByEmpty }: { content: VNode[]; hiddenByEmpty?: boolean }) {
+    if (!renderState.rendered.value || hiddenByEmpty) {
+      return null
     }
-  },
-})
+    const placement = positioner.actualPlacement.value
+    const style = positioner.popupStyle.value
+    return h(
+      'div',
+      mergeProps(
+        themeScope.value,
+        popupAttrs.value,
+        {
+          ref: setPopup,
+          class: [n('popup'), n(`--placement-${placement}`), props.popupClass],
+          style: {
+            ...style,
+            zIndex: zIndex.value,
+            display: renderState.displayed.value ? undefined : 'none',
+            pointerEvents: renderState.animating.value ? 'none' : style.pointerEvents,
+          },
+          'trigger-placement': placement,
+        },
+        handlers,
+      ),
+      [
+        h(
+          Transition,
+          { name: props.animationName, duration: props.duration, appear: true, ...renderState.hooks },
+          {
+            default: () =>
+              withDirectives(
+                h(
+                  'div',
+                  {
+                    class: n('popup-wrapper'),
+                    style: [{ position: 'relative' }, positioner.wrapperStyle.value],
+                  },
+                  [
+                    h('div', { class: [n('content'), props.contentClass], style: props.contentStyle }, content),
+                    props.showArrow
+                      ? h('div', {
+                          class: [n('arrow'), props.arrowClass],
+                          style: positioner.arrowStyle.value,
+                          'aria-hidden': 'true',
+                        })
+                      : null,
+                  ],
+                ),
+                [[vShow, visible.value]],
+              ),
+          },
+        ),
+      ],
+    )
+  }
+}

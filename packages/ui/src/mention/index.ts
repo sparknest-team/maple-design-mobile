@@ -1,13 +1,8 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import _Mention from './presentation'
 import { mentionProps } from './props'
 
-withPropsDefaultsSetter(_Mention, mentionProps)
-const Mention: import('../utils/components').ComponentWithInstall<typeof _Mention> = withInstall(
-  _Mention,
-  Object.assign(_Mention, {}),
-  { components: [_Mention] },
-)
+const Mention: import('../utils/components').ComponentWithInstall<typeof _Mention> = withInstall(_Mention)
 
 export type MentionInstance = InstanceType<typeof _Mention> & import('./types').MentionExpose
 

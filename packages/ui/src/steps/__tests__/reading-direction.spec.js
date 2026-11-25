@@ -1,4 +1,5 @@
-import { h, nextTick } from 'vue'
+import { h, nextTick, ref } from 'vue'
+import { readingDirectionKey } from '@maple-design/use-vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, expect, test } from 'vitest'
 import Steps, { Step } from '..'
@@ -45,7 +46,6 @@ test('switches horizontal keyboard direction live, skips disabled steps, and sep
   await buttons[2].trigger('keydown', { key: 'Enter' })
   expect(wrapper.emitted('update:modelValue')).toEqual([[3]])
   hosts[0].dir = 'ltr'
-  await settled()
   await buttons[2].trigger('keydown', { key: 'ArrowLeft' })
   expect(document.activeElement).toBe(buttons[0].element)
   await wrapper.setProps({ orientation: 'vertical' })
@@ -67,4 +67,24 @@ test('native nested LTR overrides RTL and read-only steps cannot activate', asyn
   await wrapper.setProps({ changeable: false })
   await wrapper.findAll('[role="listitem"]')[1].trigger('click')
   expect(wrapper.emitted('change')).toBeUndefined()
+})
+
+test('uses the current provided direction when the DOM supplies none', async () => {
+  const direction = ref('rtl')
+  const wrapper = setup(
+    Steps,
+    {
+      props: { changeable: true },
+      global: { provide: { [readingDirectionKey]: direction } },
+      slots: { default: () => [h(Step, { title: 'one' }), h(Step, { title: 'two' })] },
+    },
+    '',
+  )
+  const [first, second] = wrapper.findAll('[role="button"]')
+  first.element.focus()
+  await first.trigger('keydown', { key: 'ArrowLeft' })
+  expect(document.activeElement).toBe(second.element)
+  direction.value = 'ltr'
+  await second.trigger('keydown', { key: 'ArrowLeft' })
+  expect(document.activeElement).toBe(first.element)
 })

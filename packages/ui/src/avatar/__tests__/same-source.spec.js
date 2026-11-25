@@ -2,6 +2,7 @@ import { createSSRApp, Fragment, h, nextTick, ref } from 'vue'
 import { renderToString } from '@vue/server-renderer'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
+import Popover, { popoverProps } from '../../popover'
 import { Avatar, AvatarGroup } from '../index'
 
 describe('Avatar same source', () => {
@@ -134,4 +135,37 @@ test('tracks controls inserted by a component inside the trigger slot', async ()
   await nextTick()
   expect(wrapper.attributes('role')).toBe('button')
   wrapper.unmount()
+})
+
+test('respects cancelled keyboard activation on the avatar button', async () => {
+  const click = vi.fn()
+  const avatar = mount(Avatar, {
+    attrs: { onKeydown: (event) => event.preventDefault() },
+    props: { onClick: click },
+    slots: { 'trigger-icon': () => '+' },
+  })
+  try {
+    for (const key of ['Enter', ' ']) {
+      await avatar.trigger('keydown', { key })
+    }
+    expect(click).not.toHaveBeenCalled()
+  } finally {
+    avatar.unmount()
+  }
+})
+
+test('overflow uses the public Popover defaults', () => {
+  const trigger = popoverProps.trigger.default
+  let group
+  try {
+    Popover.setPropsDefaults({ trigger: 'focus' })
+    group = mount(AvatarGroup, {
+      props: { maxCount: 1 },
+      slots: { default: () => [h(Avatar, null, () => 'A'), h(Avatar, null, () => 'B')] },
+    })
+    expect(group.getComponent(Popover).props('trigger')).toBe('focus')
+  } finally {
+    group?.unmount()
+    Popover.setPropsDefaults({ trigger })
+  }
 })

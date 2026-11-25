@@ -1,4 +1,4 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import _Avatar from './Avatar.vue'
 import AvatarGroup from './AvatarGroup.vue'
 import { avatarGroupProps, avatarProps } from './props'
@@ -11,9 +11,6 @@ const Avatar: import('../utils/components').ComponentWithInstall<typeof _Avatar 
     }),
     { components: [_Avatar, AvatarGroup] },
   )
-
-withPropsDefaultsSetter(Avatar, avatarProps)
-withPropsDefaultsSetter(AvatarGroup, avatarGroupProps)
 
 export { avatarProps, avatarGroupProps, Avatar, AvatarGroup }
 export type { AvatarGroupProps, AvatarObjectFit, AvatarProps, AvatarShape, AvatarTriggerType } from './props'

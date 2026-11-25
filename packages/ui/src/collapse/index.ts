@@ -1,4 +1,4 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import _Collapse from './Collapse.vue'
 import CollapseItem from './CollapseItem.vue'
 import { collapseItemProps, collapseProps } from './props'
@@ -11,9 +11,6 @@ const Collapse: import('../utils/components').ComponentWithInstall<typeof _Colla
     }),
     { components: [_Collapse, CollapseItem] },
   )
-
-withPropsDefaultsSetter(Collapse, collapseProps)
-withPropsDefaultsSetter(CollapseItem, collapseItemProps)
 
 export { collapseProps, collapseItemProps, CollapseItem }
 

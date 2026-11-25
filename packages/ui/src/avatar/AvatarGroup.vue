@@ -1,6 +1,6 @@
 <script lang="ts">
 import { cloneVNode, computed, defineComponent, h, provide } from 'vue'
-import Popover from '../popover'
+import Popover from '../popover/Popover.vue'
 import { createNamespace } from '../utils/components'
 import Avatar from './Avatar.vue'
 import { avatarGroupInjectionKey } from './context'

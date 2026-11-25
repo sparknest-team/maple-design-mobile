@@ -7,7 +7,7 @@
     :overlay-class="overlayClass"
     :overlay-style="overlayStyle"
     :lock-scroll="lockScroll"
-    :overlay-closable="effectiveCloseOnClickOverlay"
+    :overlay-closable="hideOnClickOutside ? (overlayClosable ?? true) : false"
     :esc-to-close="escToClose"
     :popup-container="popupContainer"
     :safe-area-inset-bottom="safeArea"
@@ -144,15 +144,13 @@ export default defineComponent({
   setup(props, { emit }) {
     const attrs = useAttrs()
     const { describe: describeError } = useFormErrorDescription()
-    const { t: localT } = injectLocaleProvider()
+    const translate = injectLocaleProvider().t ?? t
     const titleId = `number-keyboard-title-${useId()}`
-    const deleteLabel = computed(() => (localT || t)('numberKeyboard.delete') ?? 'Delete')
-    const closeLabel = computed(() => (localT || t)('numberKeyboard.done') ?? 'Done')
+    const deleteLabel = computed(() => translate('numberKeyboard.delete') ?? 'Delete')
+    const closeLabel = computed(() => translate('numberKeyboard.done') ?? 'Done')
     const dialogLabel = () =>
       attrs['aria-label'] ??
-      (!attrs['aria-labelledby'] && !props.title
-        ? ((localT || t)('numberKeyboard.label') ?? 'Number keyboard')
-        : undefined)
+      (!attrs['aria-labelledby'] && !props.title ? (translate('numberKeyboard.label') ?? 'Number keyboard') : undefined)
     const dialogLabelledby = () =>
       attrs['aria-labelledby'] ?? (!attrs['aria-label'] && props.title ? titleId : undefined)
     const contentAttrs = () =>
@@ -164,85 +162,40 @@ export default defineComponent({
       defaultValue: props.defaultValue,
     }) as Ref<string>
 
-    const effectiveCloseOnClickOverlay = computed(() => {
-      if (!props.hideOnClickOutside) {
-        return false
-      }
-
-      return props.overlayClosable ?? true
-    })
-
-    const closeText = computed(() => props.closeButtonText ?? (localT || t)('cascaderPickerDoneButtonText'))
-
-    const extraKeys = computed(() => {
-      const { extraKey } = props
-
-      if (!extraKey || extraKey === '') {
-        return []
-      }
-
-      return Array.isArray(extraKey) ? extraKey : [extraKey]
-    })
+    const closeText = computed(() => props.closeButtonText ?? translate('cascaderPickerDoneButtonText'))
 
     const numberKeys = computed(() => {
       const keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
       return props.randomKeyOrder ? shuffle(keys) : keys
     })
 
-    const defaultBodyKeys = computed(() => {
+    const bodyKeys = computed(() => {
       const rows: KeyConfig[][] = []
-      const nums = numberKeys.value
-
-      for (let i = 0; i < 3; i++) {
-        rows.push(nums.slice(i * 3, i * 3 + 3).map((text) => ({ text, type: 'number' as const })))
+      const numbers = numberKeys.value
+      for (let i = 0; i < numbers.length; i += 3) {
+        rows.push(numbers.slice(i, i + 3).map((text) => ({ text, type: 'number' })))
       }
 
-      const bottomRow: KeyConfig[] = []
-
-      extraKeys.value.forEach((text) => {
-        bottomRow.push({ text, type: 'extra' })
-      })
-      bottomRow.push({ text: '0', type: 'number' })
-
-      if (props.showDeleteKey) {
-        bottomRow.push({ type: 'delete' })
+      const custom = props.theme === 'custom'
+      const extra = props.extraKey
+      const extras = Array.isArray(extra) ? extra : extra ? [extra] : []
+      const bottom: KeyConfig[] = extras.map((text) => ({ text, type: 'extra' }))
+      if (custom && extras.length === 0) {
+        bottom.push({ type: 'blank' })
       }
-
-      rows.push(bottomRow)
+      if (custom && extras.length === 1) {
+        bottom[0].wider = true
+      }
+      bottom.push({ text: '0', type: 'number' })
+      if (custom && extras.length <= 1) {
+        bottom.push({ type: 'blank' })
+      }
+      if (!custom && props.showDeleteKey) {
+        bottom.push({ type: 'delete' })
+      }
+      rows.push(bottom)
       return rows
     })
-
-    const customBodyKeys = computed(() => {
-      const rows: KeyConfig[][] = []
-      const nums = numberKeys.value
-
-      for (let i = 0; i < 3; i++) {
-        rows.push(nums.slice(i * 3, i * 3 + 3).map((text) => ({ text, type: 'number' as const })))
-      }
-
-      const bottomRow: KeyConfig[] = []
-
-      if (extraKeys.value.length === 0) {
-        bottomRow.push({ type: 'blank' })
-      } else if (extraKeys.value.length === 1) {
-        bottomRow.push({ text: extraKeys.value[0], type: 'extra', wider: true })
-      } else {
-        extraKeys.value.forEach((text) => {
-          bottomRow.push({ text, type: 'extra' })
-        })
-      }
-
-      bottomRow.push({ text: '0', type: 'number' })
-
-      if (extraKeys.value.length <= 1) {
-        bottomRow.push({ type: 'blank' })
-      }
-
-      rows.push(bottomRow)
-      return rows
-    })
-
-    const bodyKeys = computed(() => (props.theme === 'custom' ? customBodyKeys.value : defaultBodyKeys.value))
 
     function getMaxLength() {
       const { maxLength } = props
@@ -315,7 +268,6 @@ export default defineComponent({
       closeLabel,
       n,
       classes,
-      effectiveCloseOnClickOverlay,
       closeText,
       bodyKeys,
       handleKeyPress,

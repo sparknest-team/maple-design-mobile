@@ -1,4 +1,4 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import { stepProps, stepsProps } from './props'
 import _StepsStep from './Step.vue'
 import _Steps from './Steps'
@@ -11,9 +11,6 @@ const Steps: import('../utils/components').ComponentWithInstall<typeof _Steps & 
     }),
     { components: [_Steps, _StepsStep] },
   )
-
-withPropsDefaultsSetter(Steps, stepsProps)
-withPropsDefaultsSetter(_StepsStep, stepProps)
 
 export type StepsInstance = InstanceType<typeof _Steps>
 export type StepInstance = InstanceType<typeof _StepsStep>

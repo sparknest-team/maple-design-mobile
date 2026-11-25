@@ -77,7 +77,8 @@ import {
   type CSSProperties,
   type TextareaHTMLAttributes,
 } from 'vue'
-import FieldDecorator, { fieldDecoratorProps } from '../field-decorator'
+import FieldDecorator from '../field-decorator/FieldDecorator.vue'
+import { fieldDecoratorProps } from '../field-decorator/props'
 import { useFormErrorDescription } from '../form/error-description'
 import InputFeedback from '../input/InputFeedback.vue'
 import { captureInputSelection, splitInputAttrs } from '../input/native-attrs'

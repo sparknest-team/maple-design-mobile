@@ -71,3 +71,38 @@ test('fixed positioning measures the transformed containing block before style a
   expect(getPositioningSpace(popup, 'fixed')).toEqual({ x: 0, y: 0, scaleX: 1, scaleY: 1 })
   parent.remove()
 })
+
+test.each(['shadow', 'slot', 'individual scale'])('fixed popup uses its %s containing block', (kind) => {
+  const host = document.createElement('div')
+  const popup = document.createElement('div')
+  const container = document.createElement('div')
+  const root = host.attachShadow({ mode: 'open' })
+  root.append(container)
+  let block = host
+  if (kind === 'slot') {
+    container.append(document.createElement('slot'))
+    host.append(popup)
+    block = container
+  } else {
+    container.append(popup)
+    if (kind === 'individual scale') {
+      block = container
+    }
+  }
+  if (kind === 'individual scale') {
+    block.style.scale = '2'
+  } else {
+    block.style.transform = 'scale(2)'
+  }
+  Object.defineProperties(block, {
+    offsetWidth: { value: 100 },
+    offsetHeight: { value: 50 },
+    getBoundingClientRect: { value: () => ({ left: 30, top: 50, width: 200, height: 100 }) },
+  })
+  document.body.append(host)
+  try {
+    expect(getPositioningSpace(popup, 'fixed')).toEqual({ x: 30, y: 50, scaleX: 2, scaleY: 2 })
+  } finally {
+    host.remove()
+  }
+})

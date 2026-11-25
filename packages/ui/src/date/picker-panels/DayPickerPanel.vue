@@ -54,8 +54,6 @@ import {
 } from 'vue'
 import { toNumber } from '@maple-design/shared-vue'
 import dayjs from 'dayjs'
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter.js'
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore.js'
 import { navigateTemporalGrid } from '../../_utils/temporal-keyboard'
 import type { ButtonVariant, SemanticStatus } from '../../button'
 import MpButton from '../../button/base'
@@ -73,10 +71,8 @@ import {
 } from '../picker-props'
 import { isRangeHighlighted } from '../range-highlight'
 import { useCalendarRangeStyle } from '../use-calendar-range-style'
+import { withinCalendarBounds } from './calendar-bounds'
 import PanelHeader from './PanelHeader.vue'
-
-dayjs.extend(isSameOrBefore)
-dayjs.extend(isSameOrAfter)
 
 const { n, classes } = createNamespace('day-picker')
 const { n: nDate } = createNamespace('date-picker')
@@ -175,8 +171,8 @@ export default defineComponent({
       const { previewYear, previewMonth } = props.preview
       const { max, min } = props.componentProps
       return {
-        right: !!max && !dayjs(`${previewYear}-${toNumber(previewMonth) + 1}`).isSameOrBefore(dayjs(max), 'month'),
-        left: !!min && !dayjs(`${previewYear}-${toNumber(previewMonth) - 1}`).isSameOrAfter(dayjs(min), 'month'),
+        right: !withinCalendarBounds(`${previewYear}-${toNumber(previewMonth) + 1}`, 'month', undefined, max),
+        left: !withinCalendarBounds(`${previewYear}-${toNumber(previewMonth) - 1}`, 'month', min),
       }
     })
 
@@ -186,18 +182,7 @@ export default defineComponent({
         componentProps: { min, max },
       }: { preview: Preview; componentProps: ComponentProps } = props
 
-      let isBeforeMax = true
-      let isAfterMin = true
-      const previewDate = `${previewYear}-${previewMonth}-${day}`
-
-      if (max) {
-        isBeforeMax = dayjs(previewDate).isSameOrBefore(dayjs(max), 'day')
-      }
-      if (min) {
-        isAfterMin = dayjs(previewDate).isSameOrAfter(dayjs(min), 'day')
-      }
-
-      return isBeforeMax && isAfterMin
+      return withinCalendarBounds(`${previewYear}-${previewMonth}-${day}`, 'day', min, max)
     }
 
     const shouldChoose = (val: string): boolean => {

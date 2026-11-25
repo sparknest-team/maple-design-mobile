@@ -561,7 +561,7 @@ Form / FormItem 通过 `empty-values` 提供空值识别策略；字段自己的
 | `disabled`          | 是否禁用；未传时继承 Form                                                                               | _boolean_                                              | `-`              |
 | `readonly`          | 是否只读；未传时继承 Form                                                                               | _boolean_                                              | `-`              |
 | `size`              | 控件尺寸；未传时继承 Form                                                                               | _'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'_                 | `-`              |
-| `no-style`          | 去除标签与错误信息样式，仅保留校验能力                                                                  | _boolean_                                              | `false`          |
+| `no-style`          | 隐藏本项的标签和反馈区域，保留布局容器与字段注册。单独切换此属性时，默认插槽中的字段保持挂载。                                                                  | _boolean_                                              | `false`          |
 | `rules`             | 校验规则（函数 / Zod / 数组）                                                                           | `FormRule \| FormRule[]`                                                  | `-`              |
 | `validate-trigger`  | 触发校验的时机；`clear` 仅由控件清空动作触发，不等同于 `change`                                         | _FormItemValidateTrigger \| FormItemValidateTrigger[]_<br>`FormItemValidateTrigger: 'input' \| 'change' \| 'focus' \| 'blur' \| 'clear'` | `'change'`       |
 

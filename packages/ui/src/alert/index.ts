@@ -1,9 +1,8 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import AlertSource from './Alert.vue'
 import { alertProps } from './props'
 
 const Alert = withInstall(AlertSource)
-withPropsDefaultsSetter(Alert, alertProps)
 
 export type AlertInstance = InstanceType<typeof Alert>
 export type { AlertProps, AlertStatus, AlertVariant } from './props'

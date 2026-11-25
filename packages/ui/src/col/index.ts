@@ -1,4 +1,4 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import Component from './Col.vue'
 import { colProps } from './props'
 
@@ -8,5 +8,3 @@ export type { ColProps, ColBreakpoint, ColSizeDescriptor, FlexType } from './pro
 export type ColInstance = InstanceType<typeof Component>
 export const _ColComponent: typeof Col = Col
 export default Col
-
-withPropsDefaultsSetter(Col, colProps)

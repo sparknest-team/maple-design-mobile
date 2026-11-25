@@ -1,10 +1,13 @@
 import { computed, onBeforeUnmount, onDeactivated, onMounted, ref, watch, type Ref } from 'vue'
 
-export function useTriggerRender(
-  visible: Ref<boolean>,
-  unmountOnClose: () => boolean,
-  emit: (event: 'open' | 'close' | 'opened' | 'closed') => void,
-) {
+interface TriggerRenderEmit {
+  (event: 'open'): void
+  (event: 'close'): void
+  (event: 'opened'): void
+  (event: 'closed'): void
+}
+
+export function useTriggerRender(visible: Ref<boolean>, unmountOnClose: () => boolean, emit: TriggerRenderEmit) {
   const retained = ref(visible.value)
   const phase = ref<'idle' | 'enter' | 'leave'>('idle')
   let alive = true
@@ -16,7 +19,11 @@ export function useTriggerRender(
         retained.value = true
       }
       if (mounted) {
-        emit(value ? 'open' : 'close')
+        if (value) {
+          emit('open')
+        } else {
+          emit('close')
+        }
       }
     },
     { flush: 'sync' },
@@ -43,7 +50,11 @@ export function useTriggerRender(
     if (direction === 'leave') {
       retained.value = false
     }
-    emit(direction === 'enter' ? 'opened' : 'closed')
+    if (direction === 'enter') {
+      emit('opened')
+    } else {
+      emit('closed')
+    }
   }
   return {
     rendered: computed(() => !unmountOnClose() || visible.value || retained.value),

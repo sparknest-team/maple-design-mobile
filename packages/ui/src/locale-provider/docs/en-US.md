@@ -34,6 +34,8 @@ Set locale and messages for a subtree without changing the rest of the page.
 
 `<mp-locale-provider dir="rtl">` supplies a reading-direction scope independently of locale. Omit dir to inherit; nested `dir="ltr"` and native DOM dir containers provide local overrides. Popup content retains the source scope after teleporting. Physical left/right API values and media content keep their original semantics.
 
+Inside a native `dir="auto"` or `<bdi>` scope, controls follow the text direction computed by the browser. For an input used as a popup reference, typing updates the popup direction. Direct assignments to `input.value` or `textarea.value` are detected on a shared timer, so the update can occur later. If a closed shadow root sets the direction on an internal slot, mirror that direction on the element passed into the slot.
+
 ### Language fallback and scope
 
 `messages` maps language names to packs, and `locale` must match a pack in the current scope. Each key resolves to its own value in the selected local pack, then the nearest parent LocaleProvider, then the current global Locale. Missing packs or keys and `null`/`undefined` fall through; explicit empty strings are preserved. `Message` contains text and dictionaries such as calendar months and weekdays, so it is not a plain string map. Import `Message` from `@maple-design/ui-vue/locale`.

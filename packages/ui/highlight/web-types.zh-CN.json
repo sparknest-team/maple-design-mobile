@@ -8831,7 +8831,7 @@
             },
             {
               "name": "lock-scroll",
-              "description": "是否禁止滚动穿透，禁止时滚动背景层不会引发 body 的滚动",
+              "description": "打开时锁定挂载容器的滚动。原地渲染时锁定所在文档的 body。",
               "default": "true",
               "value": {
                 "type": "boolean",

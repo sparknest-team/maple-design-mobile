@@ -590,14 +590,14 @@
 | `--mp-card-content-row-margin` | 公开 | `16px 0 0 0` | 本组件 CSS<br>`margin` |
 | `--mp-card-description-color` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`color` |
 | `--mp-card-description-font-size` | 公开 | `15px` | 本组件 CSS<br>`font-size` |
-| `--mp-card-description-margin` | 公开 | `20px 0 0 0` | 本组件 CSS<br>`margin` |
+| `--mp-card-description-margin` | 公开 | `6px 0 0 0` | 本组件 CSS<br>`margin` |
 | `--mp-card-description-padding` | 公开 | `0 16px` | 本组件 CSS<br>`padding` |
 | `--mp-card-filled-background` | 公开 | `var(--mp-sys-color-surface-muted)` | 本组件 CSS<br>`background-color` |
 | `--mp-card-floating-buttons-bottom` | 公开 | `16px` | 本组件 CSS<br>`bottom` |
 | `--mp-card-floating-buttons-color` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
 | `--mp-card-floating-buttons-right` | 公开 | `16px` | 本组件 CSS<br>`inset-inline-end` |
 | `--mp-card-footer-bottom` | 公开 | `9px` | 本组件 CSS<br>`bottom` |
-| `--mp-card-footer-margin` | 公开 | `30px 0 0 0` | 本组件 CSS<br>`margin` |
+| `--mp-card-footer-margin` | 公开 | `16px 0 0 0` | 本组件 CSS<br>`margin` |
 | `--mp-card-footer-padding` | 公开 | `0 16px` | 本组件 CSS<br>`padding` |
 | `--mp-card-footer-right` | 公开 | `13px` | 本组件 CSS<br>`inset-inline-end`, `inset-inline-start` |
 | `--mp-card-heading-size-step` | 公开 | `1px` | 本组件 CSS<br>`font-size` |
@@ -612,16 +612,16 @@
 | `--mp-card-row-line-height` | 公开 | `1.5` | 本组件 CSS<br>`line-height` |
 | `--mp-card-size-lg-section-margin` | 公开 | `20px 0 0` | 本组件 CSS<br>`margin` |
 | `--mp-card-size-lg-section-padding` | 公开 | `0 20px` | 本组件 CSS<br>`padding` |
-| `--mp-card-size-lg-title-font-size` | 公开 | `24px` | 本组件 CSS<br>`font-size` |
-| `--mp-card-size-sm-section-margin` | 公开 | `8px 0 0` | 本组件 CSS<br>`margin` |
+| `--mp-card-size-lg-title-font-size` | 公开 | `20px` | 本组件 CSS<br>`font-size` |
+| `--mp-card-size-sm-section-margin` | 公开 | `12px 0 0` | 本组件 CSS<br>`margin` |
 | `--mp-card-size-sm-section-padding` | 公开 | `0 12px` | 本组件 CSS<br>`padding` |
-| `--mp-card-size-sm-title-font-size` | 公开 | `16px` | 本组件 CSS<br>`font-size` |
+| `--mp-card-size-sm-title-font-size` | 公开 | `20px` | 本组件 CSS<br>`font-size` |
 | `--mp-card-size-xl-section-margin` | 公开 | `24px 0 0` | 本组件 CSS<br>`margin` |
 | `--mp-card-size-xl-section-padding` | 公开 | `0 24px` | 本组件 CSS<br>`padding` |
-| `--mp-card-size-xl-title-font-size` | 公开 | `28px` | 本组件 CSS<br>`font-size` |
-| `--mp-card-size-xs-section-margin` | 公开 | `6px 0 0` | 本组件 CSS<br>`margin` |
+| `--mp-card-size-xl-title-font-size` | 公开 | `20px` | 本组件 CSS<br>`font-size` |
+| `--mp-card-size-xs-section-margin` | 公开 | `8px 0 0` | 本组件 CSS<br>`margin` |
 | `--mp-card-size-xs-section-padding` | 公开 | `0 8px` | 本组件 CSS<br>`padding` |
-| `--mp-card-size-xs-title-font-size` | 公开 | `15px` | 本组件 CSS<br>`font-size` |
+| `--mp-card-size-xs-title-font-size` | 公开 | `20px` | 本组件 CSS<br>`font-size` |
 | `--mp-card-subtitle-color` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`color` |
 | `--mp-card-subtitle-font-size` | 公开 | `15px` | 本组件 CSS<br>`font-size` |
 | `--mp-card-subtitle-margin` | 公开 | `10px 0 0 0` | 本组件 CSS<br>`margin` |
@@ -629,9 +629,9 @@
 | `--mp-card-subtitle-row-margin` | 公开 | `-8px 0 0 0` | 本组件 CSS<br>`margin` |
 | `--mp-card-title-color` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
 | `--mp-card-title-font-size` | 公开 | `20px` | 本组件 CSS<br>`font-size` |
-| `--mp-card-title-margin` | 公开 | `15px 0 0 0` | 本组件 CSS<br>`margin` |
+| `--mp-card-title-margin` | 公开 | `16px 0 0 0` | 本组件 CSS<br>`margin` |
 | `--mp-card-title-padding` | 公开 | `0 16px` | 本组件 CSS<br>`padding` |
-| `--mp-card-title-row-margin` | 公开 | `12px 0` | 本组件 CSS<br>`margin` |
+| `--mp-card-title-row-margin` | 公开 | `16px 0 12px` | 本组件 CSS<br>`margin` |
 
 </div>
 
@@ -2260,34 +2260,34 @@ expand-duration／fade-duration 消费到 transform／opacity 过渡；运行时
 | `--mp-section-description-size` | 公开 | `13px` | 本组件 CSS<br>`font-size` |
 | `--mp-section-divider-color` | 公开 | `var(--mp-sys-color-border-default)` | 本组件 CSS<br>`border-block-start` |
 | `--mp-section-divider-width` | 公开 | `1px` | 本组件 CSS<br>`border`, `border-block-start`, `border-radius` |
-| `--mp-section-header-gap` | 公开 | `20px` | 本组件 CSS<br>`margin-block-start` |
+| `--mp-section-header-gap` | 公开 | `16px` | 本组件 CSS<br>`margin-block-start` |
 | `--mp-section-heading-gap` | 公开 | `16px` | 本组件 CSS<br>`margin-inline-start` |
 | `--mp-section-heading-size-step` | 公开 | `1px` | 本组件 CSS<br>`font-size`, `line-height` |
 | `--mp-section-marker-gap` | 公开 | `12px` | 本组件 CSS<br>`padding-inline-end`, `padding-inline-start`, `row-gap` |
-| `--mp-section-marker-height` | 公开 | `16px` | 本组件 CSS<br>`height` |
+| `--mp-section-marker-height` | 公开 | `calc(100% - 1lh + 1em)` | 本组件 CSS<br>`height` |
 | `--mp-section-marker-radius` | 公开 | `2px` | 本组件 CSS<br>`border-radius` |
 | `--mp-section-marker-width` | 公开 | `3px` | 本组件 CSS<br>`border-inline-start`, `padding-inline-start`, `width` |
 | `--mp-section-outline-color` | 公开 | `var(--mp-sys-color-border-default)` | 本组件 CSS<br>`border` |
 | `--mp-section-size-lg-card-padding` | 公开 | `20px` | 本组件 CSS<br>`padding` |
-| `--mp-section-size-lg-header-gap` | 公开 | `24px` | 本组件 CSS<br>`margin-block-start` |
-| `--mp-section-size-lg-marker-height` | 公开 | `20px` | 本组件 CSS<br>`height` |
+| `--mp-section-size-lg-header-gap` | 公开 | `20px` | 本组件 CSS<br>`margin-block-start` |
+| `--mp-section-size-lg-marker-height` | 公开 | `calc(100% - 1lh + 1em)` | 本组件 CSS<br>`height` |
 | `--mp-section-size-lg-title-line-height` | 公开 | `28px` | 本组件 CSS<br>`line-height` |
-| `--mp-section-size-lg-title-size` | 公开 | `20px` | 本组件 CSS<br>`font-size` |
+| `--mp-section-size-lg-title-size` | 公开 | `16px` | 本组件 CSS<br>`font-size` |
 | `--mp-section-size-sm-card-padding` | 公开 | `12px` | 本组件 CSS<br>`padding` |
 | `--mp-section-size-sm-header-gap` | 公开 | `12px` | 本组件 CSS<br>`margin-block-start` |
-| `--mp-section-size-sm-marker-height` | 公开 | `14px` | 本组件 CSS<br>`height` |
+| `--mp-section-size-sm-marker-height` | 公开 | `calc(100% - 1lh + 1em)` | 本组件 CSS<br>`height` |
 | `--mp-section-size-sm-title-line-height` | 公开 | `20px` | 本组件 CSS<br>`line-height` |
-| `--mp-section-size-sm-title-size` | 公开 | `14px` | 本组件 CSS<br>`font-size` |
+| `--mp-section-size-sm-title-size` | 公开 | `16px` | 本组件 CSS<br>`font-size` |
 | `--mp-section-size-xl-card-padding` | 公开 | `24px` | 本组件 CSS<br>`padding` |
-| `--mp-section-size-xl-header-gap` | 公开 | `28px` | 本组件 CSS<br>`margin-block-start` |
-| `--mp-section-size-xl-marker-height` | 公开 | `24px` | 本组件 CSS<br>`height` |
+| `--mp-section-size-xl-header-gap` | 公开 | `24px` | 本组件 CSS<br>`margin-block-start` |
+| `--mp-section-size-xl-marker-height` | 公开 | `calc(100% - 1lh + 1em)` | 本组件 CSS<br>`height` |
 | `--mp-section-size-xl-title-line-height` | 公开 | `32px` | 本组件 CSS<br>`line-height` |
-| `--mp-section-size-xl-title-size` | 公开 | `24px` | 本组件 CSS<br>`font-size` |
+| `--mp-section-size-xl-title-size` | 公开 | `16px` | 本组件 CSS<br>`font-size` |
 | `--mp-section-size-xs-card-padding` | 公开 | `8px` | 本组件 CSS<br>`padding` |
 | `--mp-section-size-xs-header-gap` | 公开 | `8px` | 本组件 CSS<br>`margin-block-start` |
-| `--mp-section-size-xs-marker-height` | 公开 | `12px` | 本组件 CSS<br>`height` |
+| `--mp-section-size-xs-marker-height` | 公开 | `calc(100% - 1lh + 1em)` | 本组件 CSS<br>`height` |
 | `--mp-section-size-xs-title-line-height` | 公开 | `18px` | 本组件 CSS<br>`line-height` |
-| `--mp-section-size-xs-title-size` | 公开 | `14px` | 本组件 CSS<br>`font-size` |
+| `--mp-section-size-xs-title-size` | 公开 | `16px` | 本组件 CSS<br>`font-size` |
 | `--mp-section-title-color` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
 | `--mp-section-title-line-height` | 公开 | `24px` | 本组件 CSS<br>`line-height` |
 | `--mp-section-title-size` | 公开 | `16px` | 本组件 CSS<br>`font-size` |

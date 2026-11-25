@@ -31,9 +31,9 @@
               { [n('wrapper--closable')]: closable },
             ]"
           >
-            <span v-if="showIcon && (status !== 'default' || $slots.icon || icon)" :class="n('icon')">
+            <span v-if="showIcon && (status !== 'default' || $slots.icon || icon || icon === 0)" :class="n('icon')">
               <slot name="icon">
-                <dynamic-content v-if="icon" :value="icon" />
+                <dynamic-content v-if="icon || icon === 0" :value="icon" />
                 <m-icon-info-circle-fill v-else-if="status === 'info'" />
                 <m-icon-checkbox-marked-circle-fill v-else-if="status === 'success'" />
                 <m-icon-warning v-else-if="status === 'warning'" />
@@ -44,7 +44,7 @@
             <span :class="n('content')"
               ><slot><dynamic-content :value="content" /></slot
             ></span>
-            <span v-if="$slots.action || action" :class="n('action')"
+            <span v-if="$slots.action || action || action === 0" :class="n('action')"
               ><slot name="action"><dynamic-content :value="action" /></slot
             ></span>
             <button
@@ -65,16 +65,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-  defineComponent,
-  getCurrentInstance,
-  onMounted,
-  shallowRef,
-  Transition,
-  useAttrs,
-  watch,
-  type PropType,
-} from 'vue'
+import { getCurrentInstance, onMounted, shallowRef, Transition, useAttrs, watch } from 'vue'
 import {
   IconCheckboxMarkedCircleFill as MIconCheckboxMarkedCircleFill,
   IconClose as MIconClose,
@@ -98,13 +89,13 @@ const hydrating = !!getCurrentInstance()?.vnode.el
 
 const { n } = createNamespace('message')
 defineOptions({ name: createNamespace('message').name, inheritAttrs: false })
-const DynamicContent = defineComponent({
-  props: { value: [String, Number, Boolean, Object, Array, Function] as PropType<MessageContent> },
-  setup: (props) => () => (typeof props.value === 'function' ? props.value() : props.value),
-})
+const DynamicContent = ({ value }: { value?: MessageContent }) => (typeof value === 'function' ? value() : value)
 const props = defineProps(messageProps)
 const attrs = useAttrs()
-const regionAttrs = () => Object.fromEntries(Object.entries(attrs).filter(([key]) => key !== 'dir'))
+function regionAttrs() {
+  const { dir, ...region } = attrs
+  return region
+}
 const { dir: readingDirection } = useDirection(undefined, () => attrs.dir)
 const emit = defineEmits<{
   (event: 'update:open', value: boolean): void

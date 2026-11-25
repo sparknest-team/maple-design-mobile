@@ -8,6 +8,10 @@ Cedar / Maple 以 Vue 3.3 及以上版本作为持续兼容验证目标，开发
 
 Cedar Table 在 SSR 首屏需要应用默认筛选时，请通过 `:columns` 数组传入列，并设置 `filterable.defaultFilteredValue`。使用 `<c-table-column>` 子组件声明列时，不保证服务端输出已筛选的行。
 
+## 弹层的服务端渲染
+
+Dialog、Message 或 Cedar Drawer 在首屏打开并使用默认挂载目标 `body` 时，请将渲染上下文传给 `renderToString(app, context)`。如果由应用自行拼接 HTML，请在 `<body>` 开始标签之后、应用根节点之前插入 `context.teleports?.body ?? ''`，保留其中的 HTML 和注释锚点。把这段内容追加到应用根节点之后，接管时可能生成第二份弹层，原遮罩会继续拦截点击。
+
 ## 构建工具兼容范围
 
 Cedar / Maple 暂不承诺兼容 Webpack 4，也不提供该工具链的持续兼容验证。ESM 产物保留 `import` / `export`，其中也可能包含可选链（`?.`）和空值合并（`??`）等现代 JavaScript 语法；ESM 模块格式不等于 ES5 语法兼容。

@@ -1,9 +1,8 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import CellSource from './Cell.vue'
 import { props as cellProps } from './props'
 
 const Cell = withInstall(CellSource)
-withPropsDefaultsSetter(Cell, cellProps)
 
 export { cellProps }
 

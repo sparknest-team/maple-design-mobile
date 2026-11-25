@@ -172,7 +172,12 @@ function detectTriggerControl() {
 
 function handleKeydown(event: KeyboardEvent) {
   const role = attrs.role ?? (hasTriggerIcon.value && !triggerHasControl.value ? 'button' : undefined)
-  if (event.target !== event.currentTarget || role !== 'button' || (event.key !== 'Enter' && event.key !== ' ')) {
+  if (
+    event.defaultPrevented ||
+    event.target !== event.currentTarget ||
+    role !== 'button' ||
+    (event.key !== 'Enter' && event.key !== ' ')
+  ) {
     return
   }
   event.preventDefault()

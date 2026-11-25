@@ -67,7 +67,8 @@ import {
   type ComponentPublicInstance,
 } from 'vue'
 import { provideFormErrorDescriptionBoundary, useFormErrorDescription } from '../form/error-description'
-import Input, { type InputInstance } from '../input'
+import type { InputInstance } from '../input'
+import Input from '../input/base'
 import { oneTimeCodeKey } from '../input/context'
 import { createNamespace } from '../utils/components'
 import { useVerificationForm } from './form-adapter'

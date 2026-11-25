@@ -1,4 +1,4 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import _Button from './base'
 import ButtonGroup from './ButtonGroup.vue'
 import { buttonGroupProps } from './group-props'
@@ -12,9 +12,6 @@ const Button: import('../utils/components').ComponentWithInstall<typeof _Button 
     }),
     { components: [_Button, ButtonGroup] },
   )
-
-withPropsDefaultsSetter(Button, buttonProps)
-withPropsDefaultsSetter(ButtonGroup, buttonGroupProps)
 
 export { buttonProps, buttonGroupProps, Button, ButtonGroup }
 export { componentSizes, semanticStatuses } from '../utils/constants'

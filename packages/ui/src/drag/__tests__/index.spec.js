@@ -9,6 +9,28 @@ test('drag plugin', () => {
   expect(app.component(Drag.name)).toBeTruthy()
 })
 
+test('preserves inline CSS through dragging and restores the original inset on reset', async () => {
+  const container = document.createElement('div')
+  const wrapper = mount(Drag, {
+    props: { popupContainer: container },
+    attrs: { style: 'left: 12px; color: red; --handle-size: 8px' },
+  })
+  try {
+    await delay()
+    const handle = container.querySelector('.mp-drag')
+    expect(handle.style.left).toBe('12px')
+    await triggerDrag(handle, 10, 10)
+    expect(handle.style.transform).toContain('translate(')
+    expect(handle.style.color).toBe('red')
+    wrapper.vm.reset()
+    await delay()
+    expect(handle.style.left).toBe('12px')
+    expect(handle.style.getPropertyValue('--handle-size')).toBe('8px')
+  } finally {
+    wrapper.unmount()
+  }
+})
+
 test('drag direction', async () => {
   const container = document.createElement('div')
   const wrapper = mount(Drag, {

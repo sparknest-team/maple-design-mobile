@@ -45,3 +45,33 @@ test('hiding a focused panel restores focus to the newly active tab', async () =
     wrapper.unmount()
   }
 })
+
+test('keyboard navigation and deletion keep focus inside a shadow root', async () => {
+  const host = document.body.appendChild(document.createElement('div'))
+  const root = host.attachShadow({ mode: 'closed' })
+  const target = root.appendChild(document.createElement('div'))
+  const names = ref(['A', 'B', 'C'])
+  const wrapper = mount(Tabs, {
+    attachTo: target,
+    props: {
+      editable: true,
+      onDelete: (key: string | number) => {
+        names.value = names.value.filter((name) => name !== key)
+      },
+    },
+    slots: { default: () => names.value.map((name) => h(TabPane, { name, key: name, closable: true, title: name })) },
+  })
+  try {
+    const tabs = wrapper.findAll('[role=tab]')
+    ;(tabs[0].element as HTMLElement).focus()
+    await tabs[0].trigger('keydown', { key: 'ArrowRight' })
+    expect(root.activeElement).toBe(tabs[1].element)
+    await tabs[1].trigger('keydown', { key: 'Delete' })
+    await nextTick()
+    await nextTick()
+    expect(root.activeElement?.textContent).toBe('C')
+  } finally {
+    wrapper.unmount()
+    host.remove()
+  }
+})

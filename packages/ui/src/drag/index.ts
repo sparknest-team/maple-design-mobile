@@ -1,9 +1,8 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import DragSource from './Drag.vue'
 import { props as dragProps } from './props'
 
 const Drag = withInstall(DragSource)
-withPropsDefaultsSetter(Drag, dragProps)
 
 export { Drag, dragProps }
 

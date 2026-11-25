@@ -7,7 +7,7 @@
       :dir="readingDirection"
       :class="classes(n(), [safeArea, n('--safe-area')], formatElevation(elevation, 3))"
       :style="{
-        height: `${toSizeUnit(maxAnchor)}`,
+        height: toSizeUnit(maxAnchor),
         transform: `translateY(calc(100% - ${toSizeUnit(visibleHeight)}))`,
         transition: touching
           ? 'none'
@@ -31,15 +31,15 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, mergeProps, onActivated, onBeforeUnmount, onDeactivated, ref, watch } from 'vue'
+import { computed, defineComponent, mergeProps, ref, shallowRef, watch } from 'vue'
 import { preventDefault } from '@maple-design/shared-vue'
-import { useTouch, useWindowSize } from '@maple-design/use-vue'
+import { useTouch } from '@maple-design/use-vue'
 import { useDirection } from '../_utils/direction'
-import { useLock } from '../context/lock'
 import { useThemeScope } from '../theme-provider/context'
 import { createNamespace, formatElevation, useTeleport } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
 import { usePopupContainer } from '../utils/popup-container'
+import { useScrollLock } from '../utils/scroll-lock'
 import { nearestPanelAnchor, panelAnchors, panelDuration } from './normalize'
 import { props } from './props'
 
@@ -57,10 +57,10 @@ export default defineComponent({
     const { dir: readingDirection } = useDirection(undefined, () => attrs.dir)
     const draftHeight = ref(0)
     const innerAnchor = ref(props.defaultValue)
-    let active = true
     const contentRef = ref<HTMLElement | null>(null)
-    const { height: windowHeight } = useWindowSize()
-    const anchors = computed(() => panelAnchors(props.anchors, windowHeight.value))
+    const windowHeight = ref(0)
+    const panelDocument = shallowRef<Document>()
+    const anchors = computed(() => panelAnchors(props.anchors, () => windowHeight.value))
     const anchor = computed(() => nearestPanelAnchor(props.modelValue ?? innerAnchor.value, anchors.value))
     const normalizedDuration = computed(() => panelDuration(props.duration))
     const minAnchor = computed<number>(() => Math.min(...anchors.value))
@@ -71,28 +71,43 @@ export default defineComponent({
 
     let startVisibleHeight: number
 
-    useLock(() => touching.value)
+    // A Teleport can move the same content node between documents.
+    watch(
+      [contentRef, teleportTarget, teleportDisabled, () => props.popupContainer],
+      (_, __, cleanup) => {
+        const doc = teleportDisabled.value ? undefined : contentRef.value?.ownerDocument
+        panelDocument.value = doc
+        const view = doc?.defaultView
+        if (!view) {
+          return
+        }
+        const resize = () => {
+          windowHeight.value = view.innerHeight
+        }
+        resize()
+        view.addEventListener('resize', resize)
+        view.addEventListener('orientationchange', resize)
+        cleanup(() => {
+          view.removeEventListener('resize', resize)
+          view.removeEventListener('orientationchange', resize)
+        })
+      },
+      { flush: 'post' },
+    )
+    useScrollLock(
+      () => panelDocument.value?.body,
+      () => touching.value,
+      { className: n('$--lock'), reserveScrollBar: true },
+    )
 
     const visibleHeight = computed(() => (touching.value ? draftHeight.value : anchor.value))
-    watch(
-      () => [props.modelValue, ...anchors.value],
-      () => resetTouch(),
-      { flush: 'sync' },
-    )
-    onDeactivated(() => {
-      active = false
-      resetTouch()
-    })
-    onActivated(() => {
-      active = true
-    })
-    onBeforeUnmount(() => {
-      active = false
-      resetTouch()
-    })
-
+    watch(() => [props.modelValue, ...anchors.value], resetTouch, { flush: 'sync' })
     function handleTouchstart(event: TouchEvent) {
-      if (!active || (!props.contentDraggable && contentRef.value?.contains(event.target as Node))) {
+      if (
+        !contentRef.value ||
+        teleportDisabled.value ||
+        (!props.contentDraggable && contentRef.value?.contains(event.target as Node))
+      ) {
         return
       }
       startVisibleHeight = anchor.value
@@ -101,37 +116,32 @@ export default defineComponent({
     }
 
     function handleTouchmove(event: TouchEvent) {
-      if (!active || !touching.value) {
+      if (!touching.value) {
         return
       }
       moveTouch(event)
 
-      const target = event.target as Element
-      const eventFromContent = contentRef.value === target || contentRef.value?.contains(target)
-
-      if (eventFromContent && !props.contentDraggable) {
-        return
-      }
-
-      if (
-        eventFromContent &&
-        props.contentDraggable &&
-        visibleHeight.value >= maxAnchor.value &&
-        !isReachTop(contentRef.value!)
-      ) {
-        if (isReachBottom(contentRef.value!)) {
-          preventDefault(event)
+      const content = contentRef.value
+      if (content?.contains(event.target as Node)) {
+        if (!props.contentDraggable) {
+          return
         }
-        return
+        if (visibleHeight.value >= maxAnchor.value && !isReachTop(content)) {
+          if (isReachBottom(content)) {
+            preventDefault(event)
+          }
+          return
+        }
       }
 
-      const targetVisibleHeight = startVisibleHeight - deltaY.value
-      draftHeight.value = clampVisibleHeight(targetVisibleHeight)
+      const height = startVisibleHeight - deltaY.value
+      const limit = Math.max(minAnchor.value, Math.min(maxAnchor.value, height))
+      draftHeight.value = limit + (height - limit) * OVERFLOW_REDUCE_RATIO
       preventDefault(event)
     }
 
     function handleTouchend() {
-      if (!active || !touching.value) {
+      if (!touching.value) {
         return
       }
       const next = nearestPanelAnchor(draftHeight.value, anchors.value)
@@ -144,26 +154,6 @@ export default defineComponent({
         emit('update:modelValue', next)
         emit('height-change', next)
       }
-    }
-
-    function handleTouchcancel() {
-      resetTouch()
-    }
-
-    function clampVisibleHeight(visibleHeight: number): number {
-      if (visibleHeight > maxAnchor.value) {
-        // overflow top
-        const overflowHeight = visibleHeight - maxAnchor.value
-        return maxAnchor.value + overflowHeight * OVERFLOW_REDUCE_RATIO
-      }
-
-      if (visibleHeight < minAnchor.value) {
-        // overflow bottom
-        const overflowHeight = minAnchor.value - visibleHeight
-        return minAnchor.value - overflowHeight * OVERFLOW_REDUCE_RATIO
-      }
-
-      return visibleHeight
     }
 
     return {
@@ -185,7 +175,7 @@ export default defineComponent({
       handleTouchstart,
       handleTouchmove,
       handleTouchend,
-      handleTouchcancel,
+      handleTouchcancel: resetTouch,
     }
   },
 })

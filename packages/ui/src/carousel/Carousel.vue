@@ -22,7 +22,7 @@ import {
 import { useDirection } from '../_utils/direction'
 import { createNamespace } from '../utils/components'
 import { carouselInjectionKey } from './context'
-import { DownIcon, NextIcon, PreviousIcon, UpIcon } from './icons'
+import { renderArrowIcon } from './icons'
 import { carouselLayout, normalizeIndex, requiresSlideClone, slideOffset, visibleSlides } from './layout'
 import { carouselProps } from './props'
 import type { CarouselEmits, CarouselExpose, CarouselSlots, CarouselToOptions } from './types'
@@ -35,6 +35,7 @@ const slots = defineSlots<CarouselSlots>()
 const attrs = useAttrs()
 const text = useCarouselLocale()
 const { n, classes } = createNamespace('carousel')
+const carouselItemName = createNamespace('carousel-item').name
 const root = ref<HTMLElement>()
 const { isRtl } = useDirection(
   () => root.value,
@@ -113,7 +114,7 @@ let animationFrame = 0
 let observer: ResizeObserver | undefined
 let visibilityObserver: MutationObserver | undefined
 let owner: Document | undefined
-let pointer: { id: number; start: number; cross: number; last: number; time: number; target: HTMLElement } | undefined
+let pointer: { id: number; start: number; cross: number; time: number; target: HTMLElement } | undefined
 let suppressClick = false
 const autoConfig = computed(() => {
   const config = props.autoPlay
@@ -335,9 +336,15 @@ function cancelPointer(clearClick = true) {
   }
   schedule()
 }
+function pointerCancel(event: PointerEvent) {
+  if (pointer && pointer.id === event.pointerId) {
+    cancelPointer()
+  }
+}
 function pointerDown(event: PointerEvent) {
   if (
     !active ||
+    pointer ||
     keys.value.length < 2 ||
     event.isPrimary === false ||
     event.button > 0 ||
@@ -351,7 +358,6 @@ function pointerDown(event: PointerEvent) {
     id: event.pointerId,
     start: vertical.value ? event.clientY : event.clientX,
     cross: vertical.value ? event.clientX : event.clientY,
-    last: 0,
     time: Date.now(),
     target,
   }
@@ -370,7 +376,6 @@ function pointerMove(event: PointerEvent) {
     cancelPointer()
     return
   }
-  pointer.last = delta
   if (Math.abs(delta) > 5) {
     suppressClick = true
     if (event.cancelable) {
@@ -390,8 +395,6 @@ function pointerUp(event: PointerEvent) {
   cancelPointer(false)
   if (shouldMove) {
     suppressClick = true
-  }
-  if (shouldMove) {
     toIndex(current.value + (delta * axisSign.value < 0 ? 1 : -1))
   }
 }
@@ -449,6 +452,17 @@ function focusout(event: FocusEvent) {
     schedule()
   }
 }
+function observeSlides() {
+  if (!observer) {
+    return
+  }
+  if (viewportEl.value) {
+    observer.observe(viewportEl.value)
+  }
+  for (const slide of Array.from(track.value?.children ?? [])) {
+    observer.observe(slide)
+  }
+}
 function attach() {
   if (disposed || active) {
     return
@@ -469,12 +483,7 @@ function attach() {
   }
   if (typeof ResizeObserver !== 'undefined') {
     observer = new ResizeObserver(measure)
-    if (viewportEl.value) {
-      observer.observe(viewportEl.value)
-    }
-    for (const el of Array.from(track.value?.children ?? [])) {
-      observer.observe(el)
-    }
+    observeSlides()
   }
   if (typeof MutationObserver !== 'undefined') {
     visibilityObserver = new MutationObserver(measure)
@@ -665,9 +674,7 @@ function flatten(nodes: unknown): VNode[] {
   )
 }
 const Render = () => {
-  const nodes = flatten(slots.default?.()).filter(
-    (node) => (node.type as { name?: string }).name === createNamespace('carousel-item').name,
-  )
+  const nodes = flatten(slots.default?.()).filter((node) => (node.type as { name?: string }).name === carouselItemName)
   const items = nodes.map((node, index) => cloneVNode(node, { key: node.key ?? '__carousel_' + index }))
   const nextKeys = items.map((node) => node.key!)
   if (nextKeys.length !== keys.value.length || nextKeys.some((key, index) => key !== keys.value[index])) {
@@ -681,12 +688,7 @@ const Render = () => {
         (binding === bindingGeneration || (binding === 0 && bindingGeneration === 1))
       ) {
         observer?.disconnect()
-        if (viewportEl.value) {
-          observer?.observe(viewportEl.value)
-        }
-        for (const el of Array.from(track.value?.children ?? [])) {
-          observer?.observe(el)
-        }
+        observeSlides()
         resize()
       }
     })
@@ -710,7 +712,22 @@ const Render = () => {
   return h(
     'div',
     {
-      ...attrs,
+      ...mergeProps(
+        {
+          onMouseenter: () => {
+            hovering.value = true
+            schedule()
+          },
+          onMouseleave: () => {
+            hovering.value = false
+            schedule()
+          },
+          onFocusin: focusin,
+          onFocusout: focusout,
+          onKeydown: keydown,
+        },
+        attrs,
+      ),
       ref: root,
       role: 'region',
       'aria-roledescription': 'carousel',
@@ -727,26 +744,6 @@ const Render = () => {
         attrs.class,
       ],
       style: [duration, { height: toSize(props.height) }, attrs.style as CSSProperties],
-      ...mergeProps(
-        {
-          onMouseenter: () => {
-            hovering.value = true
-            schedule()
-          },
-          onMouseleave: () => {
-            hovering.value = false
-            schedule()
-          },
-          onFocusin: focusin,
-          onFocusout: focusout,
-          onKeydown: keydown,
-        },
-        Object.fromEntries(
-          Object.entries(attrs).filter(([key]) =>
-            ['onMouseenter', 'onMouseleave', 'onFocusin', 'onFocusout', 'onKeydown'].includes(key),
-          ),
-        ),
-      ),
     },
     [
       h(
@@ -758,12 +755,8 @@ const Render = () => {
           onPointerdown: pointerDown,
           onPointermove: pointerMove,
           onPointerup: pointerUp,
-          onPointercancel: () => cancelPointer(),
-          onLostpointercapture: () => {
-            if (pointer) {
-              cancelPointer()
-            }
-          },
+          onPointercancel: pointerCancel,
+          onLostpointercapture: pointerCancel,
           onClickCapture: (event: MouseEvent) => {
             if (suppressClick) {
               event.preventDefault()
@@ -801,32 +794,26 @@ const Render = () => {
         ],
       ),
       ...(props.showArrow !== 'never' && (props.showArrow === 'always' || hovering.value || focused.value)
-        ? [
-            slots.prev?.(scope) ??
+        ? (['prev', 'next'] as const).map((direction) => {
+            const previous = direction === 'prev'
+            return (
+              slots[direction]?.(scope) ??
               h(
                 'button',
                 {
                   type: 'button',
-                  class: [n('arrow'), n('arrow-prev'), props.arrowClass],
-                  'aria-label': props.previousButtonAriaLabel ?? text.value.previous,
-                  disabled: !keys.value.length || (!props.loop && current.value === 0),
-                  onClick: () => prev(),
+                  class: [n('arrow'), n('arrow-' + direction), props.arrowClass],
+                  'aria-label': previous
+                    ? (props.previousButtonAriaLabel ?? text.value.previous)
+                    : (props.nextButtonAriaLabel ?? text.value.next),
+                  disabled:
+                    !keys.value.length || (!props.loop && current.value === (previous ? 0 : keys.value.length - 1)),
+                  onClick: () => (previous ? prev() : next()),
                 },
-                [h(vertical.value ? UpIcon : isRtl.value ? NextIcon : PreviousIcon)],
-              ),
-            slots.next?.(scope) ??
-              h(
-                'button',
-                {
-                  type: 'button',
-                  class: [n('arrow'), n('arrow-next'), props.arrowClass],
-                  'aria-label': props.nextButtonAriaLabel ?? text.value.next,
-                  disabled: !keys.value.length || (!props.loop && current.value === keys.value.length - 1),
-                  onClick: () => next(),
-                },
-                [h(vertical.value ? DownIcon : isRtl.value ? PreviousIcon : NextIcon)],
-              ),
-          ]
+                [renderArrowIcon(vertical.value, previous, isRtl.value)],
+              )
+            )
+          })
         : []),
       slots.indicator?.(scope) ??
         (props.indicator && keys.value.length > 1

@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'vue'
 import type { ReadingDirection } from '../_utils/direction'
-import type { TriggerPlacement } from './contract'
-import { getPlacementOffset } from './geometry'
+import { oppositeSide, type PlacementSide, type TriggerPlacement } from './contract'
+import { containingFrame, getPlacementOffset, layoutParent, parentShadowRoot } from './geometry'
 import type { TriggerPopupTranslate, TriggerStrategy } from './types'
 
 interface RelativeRect {
@@ -16,8 +16,6 @@ interface PositionOffset {
   top: number
 }
 
-type BasePlacement = 'top' | 'bottom' | 'left' | 'right'
-
 function getViewport(view: Window | null | undefined) {
   const viewport = view?.visualViewport
   return {
@@ -28,101 +26,6 @@ function getViewport(view: Window | null | undefined) {
     left: view && viewport?.pageLeft != null ? viewport.pageLeft - view.scrollX : (viewport?.offsetLeft ?? 0),
     top: view && viewport?.pageTop != null ? viewport.pageTop - view.scrollY : (viewport?.offsetTop ?? 0),
   }
-}
-
-function basePlacement(placement: TriggerPlacement): BasePlacement {
-  return placement.split('-')[0] as BasePlacement
-}
-
-function oppositePlacement(placement: TriggerPlacement): TriggerPlacement {
-  const [side, align] = placement.split('-')
-  const opposite = { top: 'bottom', bottom: 'top', left: 'right', right: 'left' }[side]!
-  return `${opposite}${align ? `-${align}` : ''}` as TriggerPlacement
-}
-
-function resolveTranslate(placement: TriggerPlacement, translate?: TriggerPopupTranslate) {
-  if (!translate) {
-    return [0, 0] as const
-  }
-  if (Array.isArray(translate)) {
-    return translate as readonly [number, number]
-  }
-  return (translate as Partial<Record<TriggerPlacement, readonly [number, number]>>)[placement] ?? [0, 0]
-}
-
-function popupOffset(
-  placement: TriggerPlacement,
-  reference: RelativeRect,
-  popup: RelativeRect,
-  distance: number,
-  translate?: TriggerPopupTranslate,
-  direction?: ReadingDirection,
-) {
-  return getPlacementOffset(placement, reference, popup, distance, resolveTranslate(placement, translate), direction)
-}
-
-function fitPosition(
-  placement: TriggerPlacement,
-  initial: PositionOffset,
-  reference: RelativeRect,
-  popup: RelativeRect,
-  context: PositionContext,
-) {
-  const viewport = getViewport(context.view)
-  const width = viewport.width / context.scaleX
-  const height = viewport.height / context.scaleY
-  const originLeft = context.origin.left - viewport.left / context.scaleX
-  const originTop = context.origin.top - viewport.top / context.scaleY
-  let position = placement
-  let offset = initial
-
-  const boundaries = (value: PositionOffset) => ({
-    top: originTop + value.top,
-    bottom: height - (originTop + value.top + popup.height),
-    left: originLeft + value.left,
-    right: width - (originLeft + value.left + popup.width),
-  })
-  const current = boundaries(offset)
-  const side = basePlacement(placement)
-  const overflowsMain = current[side] < 0
-
-  if (overflowsMain) {
-    const opposite = oppositePlacement(placement)
-    const candidate = popupOffset(opposite, reference, popup, context.distance, context.translate, context.direction)
-    const candidateBoundary = boundaries(candidate)
-    const candidateSide = basePlacement(opposite)
-    const candidateFits = candidateBoundary[candidateSide] >= 0
-    if (candidateFits) {
-      position = opposite
-      offset = candidate
-    }
-  }
-
-  const finalBoundary = boundaries(offset)
-  const finalSide = basePlacement(position)
-  if (finalSide === 'top' || finalSide === 'bottom') {
-    if (finalBoundary.left < 0) {
-      offset.left -= finalBoundary.left
-    } else if (finalBoundary.right < 0) {
-      offset.left += finalBoundary.right
-    }
-  } else {
-    if (finalBoundary.top < 0) {
-      offset.top -= finalBoundary.top
-    } else if (finalBoundary.bottom < 0) {
-      offset.top += finalBoundary.bottom
-    }
-  }
-  // When neither side fits, keep the main axis inside the visual viewport too.
-  // Oversized popups are pinned to its start; their content owns scrolling.
-  if (finalSide === 'top' || finalSide === 'bottom') {
-    if (!context.keepVerticalAnchor) {
-      offset.top = Math.max(-originTop, Math.min(offset.top, height - popup.height - originTop))
-    }
-  } else {
-    offset.left = Math.max(-originLeft, Math.min(offset.left, width - popup.width - originLeft))
-  }
-  return { offset, placement: position }
 }
 
 export interface PositionContext {
@@ -145,89 +48,100 @@ export function calculatePopupPosition(
   popup: RelativeRect,
   context: PositionContext,
 ) {
-  const initial = popupOffset(placement, reference, popup, context.distance, context.translate, context.direction)
-  const result = context.autoFitPosition
-    ? fitPosition(placement, initial, reference, popup, context)
-    : { offset: initial, placement }
+  const offsetFor = (value: TriggerPlacement) => {
+    const translate = context.translate
+    const adjustment = Array.isArray(translate)
+      ? translate
+      : (translate as Partial<Record<TriggerPlacement, readonly [number, number]>> | undefined)?.[value]
+    return getPlacementOffset(value, reference, popup, context.distance, adjustment, context.direction)
+  }
+  let offset = offsetFor(placement)
+  if (context.autoFitPosition) {
+    const viewport = getViewport(context.view)
+    const width = viewport.width / context.scaleX
+    const height = viewport.height / context.scaleY
+    const originLeft = context.origin.left - viewport.left / context.scaleX
+    const originTop = context.origin.top - viewport.top / context.scaleY
+    function available(side: PlacementSide, point: PositionOffset) {
+      const left = originLeft + point.left
+      const top = originTop + point.top
+      switch (side) {
+        case 'top':
+          return top
+        case 'bottom':
+          return height - (top + popup.height)
+        case 'left':
+          return left
+        case 'right':
+          return width - (left + popup.width)
+      }
+    }
+    const side = placement.split('-')[0] as PlacementSide
+    if (available(side, offset) < 0) {
+      const opposite = oppositeSide[side]
+      const candidate = (opposite + placement.slice(side.length)) as TriggerPlacement
+      const flipped = offsetFor(candidate)
+      if (available(opposite, flipped) >= 0) {
+        placement = candidate
+        offset = flipped
+      }
+    }
+    // Pin oversized axes to the visible start so the beginning of the content stays reachable.
+    offset.left = Math.max(-originLeft, Math.min(offset.left, width - popup.width - originLeft))
+    if (!context.keepVerticalAnchor || side === 'left' || side === 'right') {
+      offset.top = Math.max(-originTop, Math.min(offset.top, height - popup.height - originTop))
+    }
+  }
   return {
-    placement: result.placement,
+    placement,
     style: {
       ...context.customStyle,
       position: context.strategy,
-      left: `${result.offset.left}px`,
-      top: `${result.offset.top}px`,
+      left: `${offset.left}px`,
+      top: `${offset.top}px`,
     } as CSSProperties,
   }
 }
 
-function containingFrame(document: Document) {
-  try {
-    return document.defaultView?.frameElement ?? null
-  } catch {
-    return null
-  }
-}
-
-function parentShadowRoot(element: Element) {
-  const parent = element.parentNode
-  return parent?.nodeType === 11 && 'host' in parent ? (parent as ShadowRoot) : undefined
-}
-
 export function positionParent(element: Element): Element | null {
-  return (
-    element.assignedSlot ??
-    element.parentElement ??
-    parentShadowRoot(element)?.host ??
-    containingFrame(element.ownerDocument)
-  )
+  return layoutParent(element) ?? containingFrame(element.ownerDocument)
 }
 
-export function getScrollElements(element: HTMLElement | SVGElement | undefined) {
-  const result: HTMLElement[] = []
+/** Walk the shared layout ancestry once, including slot hosts and containing frames. */
+export function positionAncestors(elements: Array<Element | undefined>, includeScroll: boolean) {
+  const targets = new Set<HTMLElement | Window>()
+  const roots = new Set<ShadowRoot>()
+  const documents = new Set<Document>()
   const visited = new Set<Element>()
-  let current: Element | null | undefined = element
-  while (current && !visited.has(current)) {
-    visited.add(current)
-    const parent = positionParent(current)
-    // The document scrolls through its window. On crossing a frame, begin
-    // with the frame's parent as with the original reference.
-    if (parent && parent.ownerDocument === current.ownerDocument && parent !== parent.ownerDocument.documentElement) {
-      const style = parent.ownerDocument.defaultView?.getComputedStyle(parent)
-      const overflow = `${style?.overflow ?? ''}${style?.overflowX ?? ''}${style?.overflowY ?? ''}`
-      if (/(auto|scroll|overlay)/.test(overflow)) {
-        result.push(parent as HTMLElement)
+  for (const element of elements) {
+    let current: Element | null | undefined = element
+    while (current && !visited.has(current)) {
+      visited.add(current)
+      const document: Document = current.ownerDocument
+      if (document.defaultView) {
+        documents.add(document)
       }
+      const root = current.parentElement?.shadowRoot ?? parentShadowRoot(current)
+      if (root) {
+        roots.add(root)
+      }
+      const parent = positionParent(current)
+      if (
+        includeScroll &&
+        parent?.ownerDocument === document &&
+        parent !== document.documentElement &&
+        !targets.has(parent as HTMLElement)
+      ) {
+        const style = document.defaultView?.getComputedStyle(parent)
+        if (style && /(auto|scroll|overlay)/.test(style.overflow + style.overflowX + style.overflowY)) {
+          targets.add(parent as HTMLElement)
+        }
+      }
+      current = parent
     }
-    current = parent
   }
-  return result
-}
-
-export function getSlotChangeRoots(element: Element | undefined) {
-  const roots: ShadowRoot[] = []
-  const visited = new Set<Element>()
-  let current: Element | null | undefined = element
-  while (current && !visited.has(current)) {
-    visited.add(current)
-    const root = current.parentElement?.shadowRoot ?? parentShadowRoot(current)
-    if (root) {
-      roots.push(root)
-    }
-    current = positionParent(current)
+  for (const document of documents) {
+    targets.add(document.defaultView!)
   }
-  return roots
-}
-
-export function getScrollViews(element: Element | undefined) {
-  const result: Window[] = []
-  let document = element?.ownerDocument
-  const visited = new Set<Document>()
-  while (document && !visited.has(document)) {
-    visited.add(document)
-    if (document.defaultView) {
-      result.push(document.defaultView)
-    }
-    document = containingFrame(document)?.ownerDocument
-  }
-  return result
+  return { targets: [...targets], roots: [...roots], documents }
 }

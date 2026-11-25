@@ -1,5 +1,5 @@
 import type { Ref } from 'vue'
-import { onBeforeUnmount, onDeactivated, ref } from 'vue'
+import { onBeforeUnmount, onDeactivated, reactive, toRefs } from 'vue'
 import { getScrollTop } from '@maple-design/shared-vue'
 
 export type TouchDirection = 'horizontal' | 'vertical'
@@ -12,6 +12,24 @@ function getDirection(x: number, y: number) {
   if (y > x) {
     return 'vertical'
   }
+}
+
+const initialTouch = {
+  startX: 0,
+  startY: 0,
+  deltaX: 0,
+  deltaY: 0,
+  offsetX: 0,
+  offsetY: 0,
+  prevX: 0,
+  prevY: 0,
+  moveX: 0,
+  moveY: 0,
+  direction: undefined as TouchDirection | undefined,
+  touching: false,
+  dragging: false,
+  startTime: 0,
+  distance: 0,
 }
 
 export function useTouch(): {
@@ -37,22 +55,7 @@ export function useTouch(): {
   isReachTop: (element: Element | Window) => boolean
   isReachBottom: (element: Element, offset?: number) => boolean
 } {
-  const startX = ref(0)
-  const startY = ref(0)
-  const deltaX = ref(0)
-  const deltaY = ref(0)
-  const offsetX = ref(0)
-  const offsetY = ref(0)
-  const prevX = ref(0)
-  const prevY = ref(0)
-  const moveX = ref(0)
-  const moveY = ref(0)
-  const direction = ref<TouchDirection | undefined>()
-  const touching = ref(false)
-  const dragging = ref(false)
-  const startTime = ref(0)
-  const distance = ref(0)
-
+  const state = reactive({ ...initialTouch })
   let draggingAnimationFrame: number | null = null
 
   const cancelFrame = () => {
@@ -63,21 +66,7 @@ export function useTouch(): {
   }
   const resetTouch = () => {
     cancelFrame()
-    startX.value = 0
-    startY.value = 0
-    deltaX.value = 0
-    deltaY.value = 0
-    offsetX.value = 0
-    offsetY.value = 0
-    prevX.value = 0
-    prevY.value = 0
-    moveX.value = 0
-    moveY.value = 0
-    direction.value = undefined
-    touching.value = false
-    dragging.value = false
-    startTime.value = 0
-    distance.value = 0
+    Object.assign(state, initialTouch)
   }
 
   const startTouch = (event: TouchEvent) => {
@@ -88,17 +77,12 @@ export function useTouch(): {
     }
     const { clientX: x, clientY: y } = event.touches[0]
 
-    startX.value = x
-    startY.value = y
-    prevX.value = x
-    prevY.value = y
-    touching.value = true
-    startTime.value = performance.now()
-    dragging.value = false
-
-    if (draggingAnimationFrame) {
-      window.cancelAnimationFrame(draggingAnimationFrame)
-    }
+    state.startX = x
+    state.startY = y
+    state.prevX = x
+    state.prevY = y
+    state.touching = true
+    state.startTime = performance.now()
   }
 
   const moveTouch = (event: TouchEvent) => {
@@ -107,68 +91,58 @@ export function useTouch(): {
     }
     const { clientX: x, clientY: y } = event.touches[0]
 
-    dragging.value = true
-    deltaX.value = x - startX.value
-    deltaY.value = y - startY.value
-    offsetX.value = Math.abs(deltaX.value)
-    offsetY.value = Math.abs(deltaY.value)
-    distance.value = Math.sqrt(offsetX.value ** 2 + offsetY.value ** 2)
-    moveX.value = x - prevX.value
-    moveY.value = y - prevY.value
+    state.dragging = true
+    state.deltaX = x - state.startX
+    state.deltaY = y - state.startY
+    state.offsetX = Math.abs(state.deltaX)
+    state.offsetY = Math.abs(state.deltaY)
+    state.distance = Math.sqrt(state.offsetX ** 2 + state.offsetY ** 2)
+    state.moveX = x - state.prevX
+    state.moveY = y - state.prevY
 
-    if (!direction.value) {
-      direction.value = getDirection(offsetX.value, offsetY.value)
+    if (!state.direction) {
+      state.direction = getDirection(state.offsetX, state.offsetY)
     }
 
-    prevX.value = x
-    prevY.value = y
+    state.prevX = x
+    state.prevY = y
   }
 
   const endTouch = () => {
-    touching.value = false
+    state.touching = false
 
     cancelFrame()
     if (typeof window === 'undefined') {
-      dragging.value = false
+      state.dragging = false
       return
     }
-    draggingAnimationFrame = window.requestAnimationFrame(() => {
+    const frame = window.requestAnimationFrame(() => {
+      if (frame !== draggingAnimationFrame) {
+        return
+      }
       draggingAnimationFrame = null
-      dragging.value = false
+      state.dragging = false
     })
+    draggingAnimationFrame = frame
   }
 
   const isReachTop = (element: Element | Window) => {
     const scrollTop = getScrollTop(element)
 
-    return scrollTop === 0 && deltaY.value > 0
+    return scrollTop === 0 && state.deltaY > 0
   }
 
   const isReachBottom = (element: Element, offset = 1) => {
     const { scrollHeight, clientHeight, scrollTop } = element
     const offsetBottom = Math.abs(scrollHeight - scrollTop - clientHeight)
-    return deltaY.value < 0 && offsetBottom <= offset
+    return state.deltaY < 0 && offsetBottom <= offset
   }
 
   onBeforeUnmount(resetTouch)
   onDeactivated(resetTouch)
 
   return {
-    startX,
-    startY,
-    deltaX,
-    deltaY,
-    offsetX,
-    offsetY,
-    prevX,
-    prevY,
-    moveX,
-    moveY,
-    direction,
-    touching,
-    dragging,
-    startTime,
-    distance,
+    ...toRefs(state),
     resetTouch,
     startTouch,
     moveTouch,

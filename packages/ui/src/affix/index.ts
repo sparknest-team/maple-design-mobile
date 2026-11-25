@@ -1,9 +1,8 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import AffixSource from './Affix.vue'
 import { affixProps } from './props'
 
 const Affix = withInstall(AffixSource)
-withPropsDefaultsSetter(Affix, affixProps)
 
 export { Affix, affixProps }
 

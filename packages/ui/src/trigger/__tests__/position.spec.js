@@ -129,3 +129,11 @@ test('keeps a fixed-height combobox menu attached and flips only if the opposite
   expect(upper.placement).toBe('top-start')
   expect(upper.style.top).toBe('236px')
 })
+
+test('pins an oversized cross axis to the visible start even for start-aligned popups', () => {
+  const anchor = rect(100, 100, 40, 20)
+  const wide = calculatePopupPosition('bottom-start', anchor, rect(0, 0, 400, 40), context)
+  const tall = calculatePopupPosition('right-start', anchor, rect(0, 0, 40, 800), context)
+  expect(wide.style.left).toBe('0px')
+  expect(tall.style.top).toBe('0px')
+})

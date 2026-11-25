@@ -2,10 +2,10 @@
 
 <script setup lang="ts">
 import { computed, h, nextTick, onBeforeUnmount, provide, ref, useAttrs, watch, type VNode } from 'vue'
-import { useDirection } from '../_utils/direction'
+import { resolveDirection, useDirection } from '../_utils/direction'
 import { createNamespace } from '../utils/components'
 import { useId } from '../utils/vue-compat'
-import { flatten, tabsInjectionKey, type TabEntry } from './context'
+import { flatten, focusScope, tabsInjectionKey, type TabEntry } from './context'
 import { tabsProps, type TabsName } from './props'
 import TabNav from './TabNav.vue'
 import TabsItems from './TabsItems.vue'
@@ -24,20 +24,21 @@ const { isRtl: rtl } = useDirection(undefined, () => attrs.dir)
 const uid = useId()
 const local = ref(props.defaultValue)
 const focused = ref<TabsName>()
-const entriesState = ref<TabEntry[]>([])
-const entries = computed(() => entriesState.value)
+const entries = ref<TabEntry[]>([])
+const enabled = computed(() => entries.value.filter((tab) => !tab.disabled).map((tab) => tab.name))
 const active = computed(() => {
   if (props.modelValue !== undefined) {
     return props.modelValue
   }
-  return (
-    entries.value.find((tab) => tab.name === local.value && !tab.disabled)?.name ??
-    entries.value.find((tab) => !tab.disabled)?.name
-  )
+  return local.value !== undefined && enabled.value.includes(local.value) ? local.value : enabled.value[0]
 })
+const tabStop = computed(
+  () =>
+    [focused.value, active.value].find((key) => key !== undefined && enabled.value.includes(key)) ?? enabled.value[0],
+)
 
 function select(key: TabsName) {
-  if (key === active.value || !entries.value.some((tab) => tab.name === key && !tab.disabled)) {
+  if (key === active.value || !enabled.value.includes(key)) {
     return
   }
   if (props.modelValue === undefined) {
@@ -47,7 +48,7 @@ function select(key: TabsName) {
   emit('change', key)
 }
 function click(key: TabsName, event: Event) {
-  if (!entries.value.some((tab) => tab.name === key && !tab.disabled)) {
+  if (!enabled.value.includes(key)) {
     return
   }
   select(key)
@@ -57,13 +58,24 @@ async function add(event: Event) {
   emit('add', event)
   if (props.autoSwitch) {
     await nextTick()
-    const last = entries.value.filter((tab) => !tab.disabled).at(-1)
-    if (last) {
-      select(last.name)
+    const last = enabled.value.at(-1)
+    if (last !== undefined) {
+      select(last)
     }
   }
 }
-type PendingClose = { key: TabsName; index: number; origin: Element; document: Document; cleanup: () => void }
+function id(key: TabsName, part: string) {
+  return `${uid}-${part}-${typeof key}-${encodeURIComponent(key)}`
+}
+function focusTab(key: TabsName, scope: Document | ShadowRoot) {
+  const button = scope.getElementById(id(key, 'tab')) as HTMLButtonElement | null
+  if (button?.disabled) {
+    return
+  }
+  focused.value = key
+  button?.focus()
+}
+type PendingClose = { key: TabsName; index: number; origin: Element; scope: Document | ShadowRoot; cleanup: () => void }
 let pendingClose: PendingClose | undefined
 function clearPendingClose() {
   pendingClose?.cleanup()
@@ -73,26 +85,25 @@ function remove(key: TabsName, event: Event) {
   clearPendingClose()
   const source = event.currentTarget as HTMLElement | null
   const document = source?.ownerDocument
-  const origin = document?.activeElement
-  const enabled = entries.value.filter((tab) => !tab.disabled)
-  const index = enabled.findIndex((tab) => tab.name === key)
-  if (source && document && origin && source.parentElement?.contains(origin) && index >= 0) {
-    const cancelOnFocus = (next: FocusEvent) => {
-      if (next.target !== origin) {
+  const scope = source && focusScope(source)
+  const origin = scope?.activeElement
+  const index = enabled.value.indexOf(key)
+  if (source && document && scope && origin && source.parentElement?.contains(origin) && index >= 0) {
+    const cancelOnFocus = () => {
+      if (scope.activeElement !== origin) {
         clearPendingClose()
       }
     }
-    const cancelOnPointer = () => clearPendingClose()
     document.addEventListener('focusin', cancelOnFocus, true)
-    document.addEventListener('pointerdown', cancelOnPointer, true)
+    document.addEventListener('pointerdown', clearPendingClose, true)
     pendingClose = {
       key,
       index,
       origin,
-      document,
+      scope,
       cleanup: () => {
         document.removeEventListener('focusin', cancelOnFocus, true)
-        document.removeEventListener('pointerdown', cancelOnPointer, true)
+        document.removeEventListener('pointerdown', clearPendingClose, true)
       },
     }
   }
@@ -109,16 +120,15 @@ watch(
       if (pendingClose !== pending) {
         return
       }
-      const { document, origin, index } = pending
-      const activeElement = document.activeElement
-      const enabled = entries.value.filter((tab) => !tab.disabled)
-      const target = enabled[Math.min(index, enabled.length - 1)]
+      const { scope, origin, index } = pending
+      const document = origin.ownerDocument
+      const activeElement = scope.activeElement ?? document.activeElement
+      const target = enabled.value[Math.min(index, enabled.value.length - 1)]
       clearPendingClose()
-      if (!target || (activeElement && activeElement !== document.body && activeElement !== origin)) {
+      if (target === undefined || (activeElement && activeElement !== document.body && activeElement !== origin)) {
         return
       }
-      focused.value = target.name
-      document.getElementById(`${uid}-tab-${typeof target.name}-${encodeURIComponent(String(target.name))}`)?.focus()
+      focusTab(target, scope)
     })
   },
   { flush: 'post' },
@@ -128,40 +138,53 @@ onBeforeUnmount(clearPendingClose)
 provide(tabsInjectionKey, {
   props,
   entries,
+  enabled,
+  tabStop,
   active,
   focused,
   rtl,
+  rtlAt: (element) => resolveDirection(element, rtl.value ? 'rtl' : 'ltr') === 'rtl',
   select,
   click,
   add,
   remove,
-  id: (key, part) => `${uid}-${part}-${typeof key}-${encodeURIComponent(String(key))}`,
+  id,
+  focusTab,
 })
 
-function collect(nodes: VNode[] | VNode, component: string): VNode[] {
-  return flatten(nodes).flatMap((node) => {
-    const nodeName = (node.type as { name?: string })?.name
-    if (
-      ['tabs', 'tab-nav', 'tab-item', 'tab-pane', component === 'tabs-navs' ? 'tabs-items' : 'tabs-navs'].some(
-        (name) => nodeName === createNamespace(name).name,
-      )
-    ) {
-      return []
+const paneName = createNamespace('tab-pane').name
+const leaves = new Set([createNamespace('tabs').name, TabNav.name, createNamespace('tab-item').name, paneName])
+
+function componentName(node: VNode) {
+  return (node.type as { name?: string }).name
+}
+function named(node: VNode) {
+  return typeof node.props?.name === 'string' || typeof node.props?.name === 'number'
+}
+function collect(nodes: VNode[], navs: VNode[], panels: VNode[]) {
+  for (const node of nodes) {
+    const name = componentName(node)
+    if (name && leaves.has(name)) {
+      continue
     }
     const children = node.children as { default?: () => VNode[] | VNode } | null
-    const nested = Array.isArray(node.children) ? (node.children as VNode[]) : (children?.default?.() ?? [])
-    return (node.type as { name?: string })?.name === createNamespace(component).name
-      ? flatten(nested)
-      : collect(nested, component)
-  })
+    const nested = flatten(Array.isArray(node.children) ? (node.children as VNode[]) : (children?.default?.() ?? []))
+    if (name === TabsNavs.name) {
+      navs.push(...nested.filter((child) => componentName(child) === TabNav.name && named(child)))
+    } else if (name === TabsItems.name) {
+      panels.push(...nested)
+    } else {
+      collect(nested, navs, panels)
+    }
+  }
 }
 const Render = () => {
   const nodes = slots.default?.() ?? []
   const rootNodes = flatten(nodes)
-  const panes = rootNodes
-    .filter((node) => (node.type as { name?: string })?.name === createNamespace('tab-pane').name)
-    .filter((node) => typeof node.props?.name === 'string' || typeof node.props?.name === 'number')
-  const explicitPanels = collect(nodes, 'tabs-items')
+  const panes = rootNodes.filter((node) => componentName(node) === paneName && named(node))
+  const navs: VNode[] = []
+  const panels: VNode[] = []
+  collect(rootNodes, navs, panels)
   const implicitNavs = panes.map((pane) => {
     const children = pane.children as { title?: () => VNode[] | VNode } | null
     return h(
@@ -169,7 +192,7 @@ const Render = () => {
       {
         key: pane.key ?? pane.props?.name,
         name: pane.props?.name as TabsName,
-        title: pane.props?.title ?? String(pane.props?.name),
+        title: pane.props?.title,
         disabled: pane.props?.disabled,
         closable: pane.props?.closable,
         itemVertical: pane.props?.itemVertical,
@@ -177,20 +200,15 @@ const Render = () => {
       children?.title ? { title: children.title } : undefined,
     )
   })
-  const navs = [
-    ...collect(nodes, 'tabs-navs')
-      .filter((node) => (node.type as { name?: string })?.name === createNamespace('tab-nav').name)
-      .filter((node) => typeof node.props?.name === 'string' || typeof node.props?.name === 'number'),
-    ...implicitNavs,
-  ]
-  const panels = [...explicitPanels, ...panes]
+  navs.push(...implicitNavs)
+  panels.push(...panes)
   const next = navs.map((node) => ({
     name: node.props?.name as TabsName,
     disabled: node.props?.disabled === '' || !!node.props?.disabled,
     hasPanel: panels.some((panel) => panel.props?.name === node.props?.name),
   }))
-  if (JSON.stringify(next) !== JSON.stringify(entriesState.value)) {
-    entriesState.value = next
+  if (JSON.stringify(next) !== JSON.stringify(entries.value)) {
+    entries.value = next
   }
   return h(
     'div',
@@ -207,7 +225,6 @@ const Render = () => {
         ),
         attrs.class,
       ],
-      dir: attrs.dir,
     },
     panes.length
       ? [

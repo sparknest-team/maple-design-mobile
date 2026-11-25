@@ -1,38 +1,24 @@
-import {
-  getCurrentInstance,
-  inject,
-  onActivated,
-  onBeforeUnmount,
-  onDeactivated,
-  onMounted,
-  provide,
-  shallowReactive,
-  watch,
-  type Ref,
-} from 'vue'
+import { getCurrentInstance, inject, provide, shallowReactive, watch, type Ref } from 'vue'
+import { onActiveLifecycle } from './active-target'
 
 interface Layer {
   id: symbol
   zIndex: Readonly<Ref<number>>
-  order: number
-  depth: number
   ancestors: readonly symbol[]
   yieldToDescendants: boolean
   modal: boolean
 }
 interface Registry {
-  layers: Map<symbol, Layer>
+  layers: Set<Layer>
   events: WeakMap<Event, symbol | null>
-  sequence: number
 }
-const depthKey = Symbol('popup-layer-depth')
 const ancestryKey = Symbol('popup-layer-ancestry')
 const registries = new WeakMap<Document, Registry>()
 
 function registryFor(document: Document) {
   let registry = registries.get(document)
   if (!registry) {
-    registry = { layers: shallowReactive(new Map<symbol, Layer>()), events: new WeakMap(), sequence: 0 }
+    registry = { layers: shallowReactive(new Set<Layer>()), events: new WeakMap() }
     registries.set(document, registry)
   }
   return registry
@@ -44,7 +30,7 @@ export function getHighestPopupZIndex(ownerDocument: Document | undefined): numb
     return 0
   }
   let highest = 0
-  for (const layer of registryFor(ownerDocument).layers.values()) {
+  for (const layer of registryFor(ownerDocument).layers) {
     if (Number.isFinite(layer.zIndex.value)) {
       highest = Math.max(highest, layer.zIndex.value)
     }
@@ -62,21 +48,19 @@ export function usePopupLayer(
 ) {
   const instance = getCurrentInstance()
   const id = Symbol('popup-layer')
-  const depth = inject(depthKey, 0) + 1
   const ancestors = inject<readonly symbol[]>(ancestryKey, [])
-  provide(depthKey, depth)
+  const layer: Layer = { id, zIndex, ancestors, yieldToDescendants, modal }
   provide(ancestryKey, [...ancestors, id])
   let registry: Registry | undefined
-  let mounted = false
-  let suspended = false
+  let enabled = false
 
   const resolveOwnerDocument = () =>
     ownerDocument?.() ??
     (instance?.vnode.el as Node | undefined)?.ownerDocument ??
     (typeof document === 'undefined' ? undefined : document)
-  const remove = () => registry?.layers.delete(id)
+  const remove = () => registry?.layers.delete(layer)
   const sync = () => {
-    if (!mounted || suspended) {
+    if (!enabled) {
       return
     }
     const owner = resolveOwnerDocument()
@@ -85,64 +69,64 @@ export function usePopupLayer(
       remove()
       registry = nextRegistry
     }
-    if (!registry) {
-      return
-    }
-    if (!active()) {
-      registry.layers.delete(id)
-    } else if (!registry.layers.has(id)) {
-      registry.layers.set(id, { id, zIndex, depth, ancestors, yieldToDescendants, modal, order: ++registry.sequence })
+    if (active()) {
+      registry?.layers.add(layer)
+    } else {
+      remove()
     }
   }
   watch(active, sync, { flush: 'sync' })
   if (ownerDocument) {
     watch(ownerDocument, sync, { flush: 'post' })
   }
-  onMounted(() => {
-    mounted = true
+  function enable() {
+    enabled = true
     sync()
-  })
-  onActivated(() => {
-    suspended = false
-    sync()
-  })
-  onDeactivated(() => {
-    suspended = true
+  }
+  function disable() {
+    enabled = false
     remove()
-  })
-  onBeforeUnmount(() => {
-    mounted = false
-    remove()
-  })
+  }
+  onActiveLifecycle(enable, disable)
 
-  function onStackTop(event?: Event) {
-    if (!registry || !active() || suspended || !registry.layers.has(id)) {
+  function isTop(modalsOnly: boolean, event?: Event) {
+    if (!registry?.layers.has(layer) || !active()) {
       return false
     }
     if (event && registry.events.has(event)) {
       return registry.events.get(event) === id
     }
-    const layers = [...registry.layers.values()]
-    const top =
-      layers
-        .filter((layer) => !layer.yieldToDescendants || !layers.some((other) => other.ancestors.includes(layer.id)))
-        .sort((a, b) => a.zIndex.value - b.zIndex.value || a.depth - b.depth || a.order - b.order)
-        .at(-1)?.id ?? null
+    const ancestorsWithChildren = new Set<symbol>()
+    if (!modalsOnly) {
+      for (const candidate of registry.layers) {
+        for (const ancestor of candidate.ancestors) {
+          ancestorsWithChildren.add(ancestor)
+        }
+      }
+    }
+    // Set iteration follows registration order, so the newest equal-ranked layer wins.
+    let highest: Layer | undefined
+    for (const candidate of registry.layers) {
+      if (modalsOnly ? !candidate.modal : candidate.yieldToDescendants && ancestorsWithChildren.has(candidate.id)) {
+        continue
+      }
+      if (
+        !highest ||
+        (candidate.zIndex.value - highest.zIndex.value || candidate.ancestors.length - highest.ancestors.length) >= 0
+      ) {
+        highest = candidate
+      }
+    }
+    const top = highest?.id ?? null
     // Snapshot the recipient for the whole dispatch, even if it synchronously unmounts.
     if (event) {
       registry.events.set(event, top)
     }
     return top === id
   }
-  function onModalStackTop() {
-    if (!registry || !active() || suspended || !registry.layers.has(id)) {
-      return false
-    }
-    const top = [...registry.layers.values()]
-      .filter((layer) => layer.modal)
-      .sort((a, b) => a.zIndex.value - b.zIndex.value || a.depth - b.depth || a.order - b.order)
-      .at(-1)
-    return top?.id === id
+  return {
+    onStackTop: (event?: Event) => isTop(false, event),
+    onModalStackTop: () => isTop(true),
+    syncOwner: sync,
   }
-  return { onStackTop, onModalStackTop, syncOwner: sync }
 }

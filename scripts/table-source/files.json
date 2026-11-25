@@ -201,7 +201,7 @@
   },
   "table/render/cell-layout.ts": {
     "target": "table/render/cell-layout.ts",
-    "sha256": "3ccf95fb1bcd5e88d104812d6214c6cffd6d128525c4ddbda561925bfa2d3b70"
+    "sha256": "5a3699458e8b7919f39156678520eabe7ff1608cc99a19bb1dc5e8b017e0dca5"
   },
   "table/render/cells.tsx": {
     "target": "table/render/cells.tsx",
@@ -209,7 +209,7 @@
   },
   "table/render/columns.ts": {
     "target": "table/render/columns.ts",
-    "sha256": "5236f328868054a2d991f1cd15f3c172b67b2f925f9a06f4f6bcc8668c6cfbcc"
+    "sha256": "3c213faaec335fc5ceead2b4db2eafcbe3344a1a8c6e7d8a0eeddea6e8acb6bd"
   },
   "table/structural-slot.ts": {
     "target": "table/structural-slot.ts",
@@ -237,11 +237,11 @@
   },
   "table/table-operation-td.tsx": {
     "target": "table/table-operation-td.tsx",
-    "sha256": "1815e7ed4c11d4fe638e2620b264ea1b32bc6ef4c52b35d22fe71584bfafbf55"
+    "sha256": "f6b1c4de970718879302590cc4b244916b56c2613ebb0d4d91380166ecb06ecc"
   },
   "table/table-operation-th.tsx": {
     "target": "table/table-operation-th.tsx",
-    "sha256": "263befb7b74ff3f3e33622320cb084688a62f7e938cf70c408118c589e30141c"
+    "sha256": "2d4201cfa349f66659bd4b3748b056642e52536aa1f21f74b13f020f3d3ec4b1"
   },
   "table/table-tbody.tsx": {
     "target": "table/table-tbody.tsx",

@@ -1,7 +1,7 @@
 import { nextTick, reactive, type TeleportProps } from 'vue'
 import { call, inBrowser } from '@maple-design/shared-vue'
 import type { PopupCloseReason, PopupProps } from '../popup'
-import { mountInstance, withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { mountInstance, withInstall } from '../utils/components'
 import VarActionSheetSource from './ActionSheet.vue'
 import { props as actionSheetProps } from './props'
 
@@ -136,7 +136,6 @@ ActionSheet.close = function () {
 const VarActionSheet = withInstall(VarActionSheetSource)
 ActionSheet.Component = VarActionSheet
 const InstalledActionSheet = withInstall(VarActionSheet, ActionSheet)
-withPropsDefaultsSetter(ActionSheet, actionSheetProps)
 
 export { actionSheetProps }
 

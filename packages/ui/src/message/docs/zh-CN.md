@@ -73,7 +73,7 @@ duration 控制展示时长，0 表示常驻；只有有限正数会自动关闭
 ## 行为说明
 
 - `duration` 单位为毫秒，`0` 表示常驻；`Message.loading(...)` 默认常驻。
-- 同一挂载容器和位置内，相同 `id` 更新原实例，不创建重复 DOM。
+- 同一挂载容器和位置内，相同 `id` 更新原实例，不创建重复 DOM。 省略 ID 时在该队列中分配尚未占用的 ID，并创建新消息。
 - 仅当 `resetOnUpdate` 为 `true` 时，相同 id 更新会重新计算完整显示时长。
 - `pauseOnHover` 保存剩余时间，鼠标离开后从剩余时间继续。
 - 展示期限独立于 CSS 动效；重启、hover 暂停、清理或卸载使旧计时回调失效，执行时再次检查 open。
@@ -126,6 +126,8 @@ close/closed 通知回调抛错不会保留已关闭项目或空管理器宿主�
 
 `update:open`、`open`、`opened`、`close`、`closed`；每次开关周期各触发一次。 服务端渲染的消息初始为打开时，激活阶段跳过首次入场动画，并在挂载时按 `open`、`opened` 的顺序触发事件。
 
+消息重新打开时，`opened` 在 Vue 的 `after-enter` 钩子中触发。如果浏览器延迟绘制动画帧，最终画面可能在事件触发之后才显示。
+
 ### Message Methods
 
 | 方法                                              | 说明                     |
@@ -146,7 +148,7 @@ close/closed 通知回调抛错不会保留已关闭项目或空管理器宿主�
 | ---- | ---- |
 | restartTimer() | 按当前 duration 重置计时；受 active、open、resetOnUpdate 与 hover 暂停约束 |
 
-`MessageContent` 为 `VNodeChild | (() => VNodeChild)`：支持文字、数字、布尔空内容、VNode、嵌套子节点数组及同步渲染函数。任意普通对象和异步任务不是内容协议。content、icon、action 使用相同规则，本地插槽优先。
+`MessageContent` 为 `VNodeChild | (() => VNodeChild)`：支持文字、数字、布尔空内容、VNode、嵌套子节点数组及同步渲染函数。任意普通对象和异步任务不是内容协议。content、icon、action 使用相同规则，本地插槽优先。 数字 0 在正文、图标和操作区域均按文本显示。
 
 duration 应为有限非负数；负数、NaN、Infinity 等非法值不调度自动关闭，并在开发环境触发属性校验提示。0 表示常驻，restartTimer 仍遵守相同规则。
 

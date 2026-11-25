@@ -5,13 +5,17 @@ import {
   defineComponent,
   Fragment,
   h,
+  inject,
   isVNode,
   nextTick,
   ref,
+  ssrContextKey,
   Teleport,
   Text,
+  type ComponentInternalInstance,
   type VNode,
 } from 'vue'
+import { renderReference } from '@maple-design/ui-vue/trigger/server'
 import { useDirection } from '../_utils/direction'
 import { createNamespace } from '../utils/components'
 import { useModalScrollBranch } from '../utils/modal-focus'
@@ -19,11 +23,11 @@ import { usePopupContainer } from '../utils/popup-container'
 import { useVisualSurface } from '../utils/visual-surface'
 import { useTriggerInteraction } from './interaction'
 import { useTriggerPlatform } from './platform'
-import TriggerPopup from './popup'
+import { useTriggerPopup } from './popup'
 import { usePopupMoveFocus } from './popup-move-focus'
 import { useTriggerPositioner } from './positioner'
 import { triggerProps } from './props'
-import { useTriggerReference, useTriggerReferenceAttrs, useTriggerTarget } from './reference'
+import { referenceSsrMarker, useTriggerReference, useTriggerReferenceAttrs, useTriggerTarget } from './reference'
 import { isTriggerReferenceListener, useTriggerReferenceListeners } from './reference-listeners'
 import { useTriggerRender } from './render'
 import { useTriggerState } from './state'
@@ -45,7 +49,7 @@ function bindFirstReference(nodes: VNode[], value: unknown, bindAttrs?: (node: V
       if (typeof node.type === 'string' || typeof node.type === 'object' || typeof node.type === 'function') {
         merged = true
         const reference = value ? cloneVNode(node, { class: value }, true) : node
-        return bindAttrs && typeof node.type === 'string' ? bindAttrs(reference) : reference
+        return bindAttrs ? bindAttrs(reference) : reference
       }
       return node
     })
@@ -84,6 +88,21 @@ export default defineComponent({
     resize: () => true,
   },
   setup(props, { attrs, emit, expose, slots }) {
+    const serverRendering = !!inject(ssrContextKey, null)
+    const ReferenceSlot = {
+      props: ['children'],
+      ssrRender(
+        ctx: { children: VNode[] },
+        push: (value: Promise<string[]>) => void,
+        parent: ComponentInternalInstance,
+      ) {
+        push(
+          Promise.all([
+            renderReference(h(Fragment, null, ctx.children), parent, referenceAttrs.value, referenceSsrMarker),
+          ]),
+        )
+      },
+    }
     const popup = ref<HTMLElement>()
     const point = ref<{ x: number; y: number }>()
     const { nodes, element: slotElement } = useTriggerReference()
@@ -93,39 +112,19 @@ export default defineComponent({
       () => props.dir ?? attrs.dir,
     )
     useTriggerReferenceListeners(reference, attrs)
-    const { visible, request } = useTriggerState(props, (event, value) => {
-      if (event === 'update:open') {
-        emit('update:open', value)
-      } else {
-        emit('open-change', value)
-      }
-    })
+    const { visible, request } = useTriggerState(props, emit)
     const referenceAttrs = computed(() => {
       const value =
         typeof props.referenceAttrs === 'function' ? props.referenceAttrs(visible.value) : props.referenceAttrs
       return value ?? {}
     })
-    const bindReferenceAttrs = useTriggerReferenceAttrs(reference, referenceAttrs)
+    const bindReferenceAttrs = useTriggerReferenceAttrs(reference, slotElement, referenceAttrs)
     const platform = useTriggerPlatform(visible, () => popup.value?.ownerDocument ?? reference.value?.ownerDocument)
     useModalScrollBranch(() => (visible.value ? popup.value : undefined))
     const popupTarget = usePopupContainer(() => props.popupContainer)
     const positionContainer = computed(() => (props.popupContainer === false ? false : popupTarget.value))
     const isMovingBlur = usePopupMoveFocus(popupTarget, () => props.popupContainer === false, popup, visible)
-    const renderState = useTriggerRender(
-      visible,
-      () => props.unmountOnClose,
-      (event) => {
-        if (event === 'open') {
-          emit('open')
-        } else if (event === 'opened') {
-          emit('opened')
-        } else if (event === 'close') {
-          emit('close')
-        } else {
-          emit('closed')
-        }
-      },
-    )
+    const renderState = useTriggerRender(visible, () => props.unmountOnClose, emit)
 
     useVisualSurface(
       () => (renderState.displayed.value ? popup.value : undefined),
@@ -162,11 +161,23 @@ export default defineComponent({
       dir: dir.value,
     }))
 
+    const TriggerPopup = useTriggerPopup(props, {
+      n,
+      visible,
+      renderState,
+      popupAttrs,
+      positioner,
+      zIndex: platform.zIndex,
+      popup,
+      interaction,
+    })
+
     expose({
       open: interaction.open,
       close: interaction.close,
       resize: positioner.update,
-      allowClose: interaction.allowClose,
+      // Kept for existing instance callers. Dismissal is already enabled.
+      allowClose() {},
       getReference,
       setReference,
       focusReference: interaction.focusReference,
@@ -176,56 +187,29 @@ export default defineComponent({
     return () => {
       const contentNodes = renderState.rendered.value ? (slots.content?.() ?? []) : []
       const hiddenByEmpty = props.hideEmpty && isEmptyContent(contentNodes)
+      let componentReference = false
       const referenceNodes = bindFirstReference(
         slots.default?.() ?? [],
         visible.value ? props.openedClass : undefined,
-        props.reference == null && Object.keys(referenceAttrs.value).length ? bindReferenceAttrs : undefined,
+        props.reference == null && Object.keys(referenceAttrs.value).length
+          ? (node) => {
+              if (typeof node.type === 'string') {
+                return bindReferenceAttrs(node)
+              }
+              componentReference = true
+              return node
+            }
+          : undefined,
       )
       nodes.value = referenceNodes
 
       return (
         <>
-          {referenceNodes}
+          {serverRendering && componentReference ? h(ReferenceSlot, { children: referenceNodes }) : referenceNodes}
           <Teleport to={popupTarget.value} disabled={props.popupContainer === false}>
             {/* Keep the Teleport child boundary stable during Vue 3.2 hydration. */}
             <>
-              <TriggerPopup
-                options={{
-                  rendered: renderState.rendered.value && !hiddenByEmpty,
-                  displayed: renderState.displayed.value,
-                  visible: visible.value,
-                  animating: renderState.animating.value,
-                  placement: positioner.actualPlacement.value,
-                  setPopup: (element: any) => {
-                    popup.value = element ?? undefined
-                  },
-                  popupClass: [n('popup'), n(`--placement-${positioner.actualPlacement.value}`), props.popupClass],
-                  wrapperClass: n('popup-wrapper'),
-                  contentClass: [n('content'), props.contentClass],
-                  arrowClass: [n('arrow'), props.arrowClass],
-                  popupStyle: { ...positioner.popupStyle.value, zIndex: platform.zIndex.value },
-                  wrapperStyle: positioner.wrapperStyle.value,
-                  contentStyle: props.contentStyle,
-                  arrowStyle: positioner.arrowStyle.value,
-                  showArrow: props.showArrow,
-                  animationName: props.animationName,
-                  duration: props.duration,
-                  hooks: renderState.hooks,
-                  attrs: popupAttrs.value,
-                  handlers: {
-                    onMouseenter: interaction.popupEnter,
-                    onMouseleave: interaction.popupLeave,
-                    onFocusin: interaction.popupFocus,
-                    onFocusout: interaction.popupBlur,
-                    onMousedown: (event: MouseEvent) => {
-                      if (props.preventFocus) {
-                        event.preventDefault()
-                      }
-                    },
-                  },
-                }}
-                v-slots={{ content: () => contentNodes }}
-              />
+              <TriggerPopup content={contentNodes} hiddenByEmpty={hiddenByEmpty} />
             </>
           </Teleport>
         </>

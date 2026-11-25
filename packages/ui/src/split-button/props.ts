@@ -1,7 +1,7 @@
 import type { ButtonHTMLAttributes, PropType } from 'vue'
 import type { CompatiblePublicProps as ExtractPublicPropTypes } from '../_utils/public-props'
-import { buttonGroupProps, buttonProps, type ButtonProps } from '../button'
-import { menuProps } from '../menu'
+import { buttonGroupProps, buttonProps, type ButtonProps } from '../button/props'
+import { props as menuProps } from '../menu/props'
 import { popupContainerProp } from '../utils/popup-container'
 
 /** Props and native attributes forwarded to either nested button. */

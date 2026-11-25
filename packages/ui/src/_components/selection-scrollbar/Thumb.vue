@@ -69,7 +69,6 @@ export default defineComponent({
     const offset = ref(0)
 
     const isDragging = ref(false)
-    const mouseOffset = ref(0)
 
     const thumbStyle = computed(() => {
       return {
@@ -86,11 +85,7 @@ export default defineComponent({
       view: Window
       track: HTMLElement
       thumb: HTMLElement
-      start: number
-      map: ThumbMap
-      move: (event: MouseEvent) => void
-      end: (event?: Event) => void
-      pointerId?: number
+      listeners: (method: 'addEventListener' | 'removeEventListener') => void
     }
     let drag: DragSession | undefined
     const available = () => active && !disposed
@@ -107,18 +102,9 @@ export default defineComponent({
       const previous = drag
       drag = undefined
       const token = ++generation
-      if (previous) {
-        previous.view.removeEventListener(previous.pointerId === undefined ? 'mousemove' : 'pointermove', previous.move)
-        previous.view.removeEventListener(previous.pointerId === undefined ? 'mouseup' : 'pointerup', previous.end)
-        if (previous.pointerId !== undefined) {
-          previous.view.removeEventListener('pointercancel', previous.end)
-        }
-        previous.view.removeEventListener('contextmenu', previous.end)
-        previous.view.removeEventListener('blur', previous.end)
-      }
+      previous?.listeners('removeEventListener')
       // Listener removal or reactive notification can synchronously start new work.
       if (token === generation) {
-        mouseOffset.value = 0
         isDragging.value = false
       }
     }
@@ -159,13 +145,13 @@ export default defineComponent({
       ) {
         return
       }
-      const session: DragSession = { token, view, track, thumb, start, map, pointerId, move: () => {}, end: () => {} }
-      session.move = (event: MouseEvent) => {
+      const session: DragSession = { token, view, track, thumb, listeners }
+      function move(event: Event) {
         if (!valid(session) || (pointerId !== undefined && (event as PointerEvent).pointerId !== pointerId)) {
           return
         }
         const next = getLegalOffset(
-          event[session.map.client] - session.track.getBoundingClientRect()[session.map.direction] - session.start,
+          (event as MouseEvent)[map.client] - session.track.getBoundingClientRect()[map.direction] - start,
         )
         if (!valid(session)) {
           return
@@ -177,7 +163,7 @@ export default defineComponent({
           }
         }
       }
-      session.end = (event) => {
+      function end(event?: Event) {
         if (
           event &&
           (event.type === 'pointerup' || event.type === 'pointercancel') &&
@@ -185,23 +171,28 @@ export default defineComponent({
         ) {
           return
         }
-        if (valid(session)) {
+        if (drag === session) {
           cancelDrag()
         }
       }
       drag = session
-      mouseOffset.value = start
       isDragging.value = true
       if (!valid(session)) {
         return
       }
-      view.addEventListener(pointerId === undefined ? 'mousemove' : 'pointermove', session.move)
-      view.addEventListener(pointerId === undefined ? 'mouseup' : 'pointerup', session.end)
-      if (pointerId !== undefined) {
-        view.addEventListener('pointercancel', session.end)
+      listeners('addEventListener')
+      if (drag !== session) {
+        listeners('removeEventListener')
       }
-      view.addEventListener('contextmenu', session.end)
-      view.addEventListener('blur', session.end)
+      function listeners(method: 'addEventListener' | 'removeEventListener') {
+        session.view[method](pointerId === undefined ? 'mousemove' : 'pointermove', move)
+        session.view[method](pointerId === undefined ? 'mouseup' : 'pointerup', end)
+        if (pointerId !== undefined) {
+          session.view[method]('pointercancel', end)
+        }
+        session.view[method]('contextmenu', end)
+        session.view[method]('blur', end)
+      }
     }
     const handleThumbPointerDown = (event: PointerEvent) => {
       if (event.pointerType !== 'mouse' && event.isPrimary) {

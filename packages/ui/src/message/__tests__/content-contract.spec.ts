@@ -44,3 +44,15 @@ test('duration diagnostics agree with finite nonnegative values and documented z
     expect(messageProps.duration.validator(duration)).toBe(false)
   }
 })
+
+test('numeric zero renders in the icon and action regions', () => {
+  const wrapper = mount(Message.Component, {
+    props: { open: true, duration: 0, popupContainer: false, icon: 0, action: 0 },
+  })
+  try {
+    expect(wrapper.get('.mp-message__icon').text()).toBe('0')
+    expect(wrapper.get('.mp-message__action').text()).toBe('0')
+  } finally {
+    wrapper.unmount()
+  }
+})

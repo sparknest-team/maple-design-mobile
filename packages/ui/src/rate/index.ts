@@ -1,9 +1,8 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import RateSource from './presentation'
 import { rateProps } from './props'
 
 const Rate = withInstall(RateSource)
-withPropsDefaultsSetter(Rate, rateProps)
 
 export { rateProps }
 export type {

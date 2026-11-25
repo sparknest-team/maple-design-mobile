@@ -1,9 +1,8 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import { statisticProps } from './props'
 import StatisticSource from './Statistic.vue'
 
 const Statistic = withInstall(StatisticSource)
-withPropsDefaultsSetter(Statistic, statisticProps)
 
 export { statisticProps }
 

@@ -39,9 +39,6 @@
 import { computed, defineComponent, ref } from 'vue'
 import type { ComputedRef, PropType, Ref, RendererNode } from 'vue'
 import { toNumber } from '@maple-design/shared-vue'
-import dayjs from 'dayjs'
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter.js'
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore.js'
 import { navigateTemporalGrid } from '../../_utils/temporal-keyboard'
 import type { ButtonVariant, SemanticStatus } from '../../button'
 import MpButton from '../../button/base'
@@ -53,10 +50,9 @@ import { MONTH_LIST } from '../picker-props'
 import type { Choose, ComponentProps, Month, PanelBtnDisabled, Preview } from '../picker-props'
 import { isRangeHighlighted } from '../range-highlight'
 import { useCalendarRangeStyle } from '../use-calendar-range-style'
+import { withinCalendarBounds } from './calendar-bounds'
 import PanelHeader from './PanelHeader.vue'
 
-dayjs.extend(isSameOrBefore)
-dayjs.extend(isSameOrAfter)
 const { n, classes } = createNamespace('month-picker')
 const { n: nDate } = createNamespace('date-picker')
 
@@ -125,16 +121,7 @@ export default defineComponent({
         preview: { previewYear },
         componentProps: { min, max },
       }: { preview: Preview; componentProps: ComponentProps } = props
-      let isBeforeMax = true
-      let isAfterMin = true
-      const previewDate = `${previewYear}-${key}`
-      if (max) {
-        isBeforeMax = dayjs(previewDate).isSameOrBefore(dayjs(max), 'month')
-      }
-      if (min) {
-        isAfterMin = dayjs(previewDate).isSameOrAfter(dayjs(min), 'month')
-      }
-      return isBeforeMax && isAfterMin
+      return withinCalendarBounds(`${previewYear}-${key}`, 'month', min, max)
     }
 
     const shouldChoose = (val: string): boolean => {
@@ -282,8 +269,8 @@ export default defineComponent({
       const year = toNumber(props.preview.previewYear)
       const { max, min } = props.componentProps
       return {
-        right: !!max && !dayjs(`${year + 1}`).isSameOrBefore(dayjs(max), 'year'),
-        left: !!min && !dayjs(`${year - 1}`).isSameOrAfter(dayjs(min), 'year'),
+        right: !withinCalendarBounds(`${year + 1}`, 'year', undefined, max),
+        left: !withinCalendarBounds(`${year - 1}`, 'year', min),
       }
     })
 

@@ -1,4 +1,4 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import { skeletonLineProps, skeletonProps, skeletonShapeProps } from './props'
 import _Skeleton from './Skeleton.vue'
 import SkeletonLine from './SkeletonLine.vue'
@@ -9,7 +9,6 @@ const Skeleton: typeof _Skeleton & { Line: typeof SkeletonLine; Shape: typeof Sk
   { Line: SkeletonLine, Shape: SkeletonShape },
 )
 const InstalledSkeleton = withInstall(Skeleton, undefined, { components: [Skeleton, SkeletonLine, SkeletonShape] })
-withPropsDefaultsSetter(Skeleton, skeletonProps)
 
 export { skeletonLineProps, skeletonProps, skeletonShapeProps }
 

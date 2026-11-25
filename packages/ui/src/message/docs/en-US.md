@@ -73,7 +73,7 @@ Use this example for immediate feedback after an action. Adjust variant, status 
 ## Behavior
 
 - `duration` is milliseconds; `0` stays open. `Message.loading(...)` stays open by default.
-- Within one mount container/position, the same `id` updates the instance without duplicate DOM.
+- Within one mount container/position, the same `id` updates the instance without duplicate DOM. Omitting the ID creates a new message with an unused ID in that queue.
 - Only `resetOnUpdate`=`true` restarts the full duration on same-id updates.
 - `pauseOnHover` saves remaining time and resumes it on pointer leave.
 - Display deadlines are independent of CSS motion. Restarting, hover pause, cleanup/unmount invalidate old timer callbacks, which recheck open before running.
@@ -126,6 +126,8 @@ Function options additionally accept `onOpen / onOpened / onClose / onClosed`. C
 
 `update:open`, `open`, `opened`, `close`, and `closed`, emitted once per visibility cycle. When an initially open message hydrates, it skips the initial enter animation and emits `opened` after `open` on mount.
 
+When the message reopens, it emits `opened` from Vue’s `after-enter` hook. If the browser delays animation frames, the final visual state can appear after this event.
+
 ### Message Methods
 
 | Method | Description |
@@ -146,7 +148,7 @@ The optional second appContext argument applies to each message: injections, reg
 | ---- | ---- |
 | restartTimer() | Reset the current duration, subject to active, open, resetOnUpdate and hover-pause state |
 
-`MessageContent` is `VNodeChild | (() => VNodeChild)`: text, numbers, empty boolean children, VNodes, nested child arrays and synchronous render functions. Arbitrary plain objects and asynchronous tasks are not renderable content. content, icon and action share this protocol; local slots take precedence.
+`MessageContent` is `VNodeChild | (() => VNodeChild)`: text, numbers, empty boolean children, VNodes, nested child arrays and synchronous render functions. Arbitrary plain objects and asynchronous tasks are not renderable content. content, icon and action share this protocol; local slots take precedence. Numeric zero renders as text in the content, icon and action regions.
 
 duration must be finite and nonnegative. Negative values, NaN and Infinity do not schedule automatic closure and trigger development prop validation. Zero stays open; restartTimer follows the same rules.
 

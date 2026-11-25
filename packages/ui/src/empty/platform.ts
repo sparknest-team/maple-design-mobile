@@ -1,4 +1,4 @@
-import { computed, type Ref } from 'vue'
+import { computed } from 'vue'
 import { IconEmpty as DefaultEmptyIcon } from '@maple-design/icons-vue'
 import { injectLocaleProvider } from '../locale-provider/provide'
 import { defaultLocaleReady, t } from '../locale/state'
@@ -17,8 +17,8 @@ export function useDefaultDescription() {
   })
 }
 
-export function useConfigEmpty(_hasCustomContent: Readonly<Ref<boolean>>) {
-  return computed(() => null as unknown)
+// Maple renders its local empty state; global empty slots belong to Cedar's ConfigProvider.
+export const ConfigEmptyNodes = undefined
+export function useConfigEmpty(_props: { imageUrl?: string; description?: string }) {
+  return null
 }
-
-export function provideSkipConfigEmpty() {}

@@ -1,9 +1,8 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import SwitchSource from './presentation'
 import { props as switchProps } from './props'
 
 const Switch = withInstall(SwitchSource)
-withPropsDefaultsSetter(Switch, switchProps)
 
 export { switchProps }
 export type { SwitchVariant, SwitchSize, SwitchValue, SwitchBeforeChange } from './props'

@@ -1,119 +1,82 @@
-import { onActivated, onBeforeUnmount, onDeactivated, onMounted, ref, watch } from 'vue'
+import { getCurrentInstance, ref, watch } from 'vue'
+import { createFrame } from '../_utils/animation-frame'
 import type { CompatiblePublicProps as ExtractPublicPropTypes } from '../_utils/public-props'
+import { onActiveLifecycle } from '../utils/active-target'
 import type { BackTopEasing, backTopProps } from './props'
 
 export function useBackTop(props: ExtractPublicPropTypes<typeof backTopProps>) {
   const visible = ref(false)
   const mounted = ref(false)
-  let active = false
+  const instance = getCurrentInstance()!
   let target: HTMLElement | undefined
-  let listener: HTMLElement | Window | undefined
-  let scrollFrame: number | undefined
-  let animationFrame: number | undefined
+  const scrollFrame = createFrame()
+  const animationFrame = createFrame()
   let animationGeneration = 0
-  let animationFrameGeneration = 0
-  let scrollGeneration = 0
-  let bindingGeneration = 0
-  let scrollOwner: Window | undefined
-  let animationOwner: Window | undefined
-  let scrollListener: (() => void) | undefined
 
   function cancelAnimation() {
-    animationGeneration += 1
-    animationFrameGeneration += 1
-    if (animationFrame !== undefined) {
-      animationOwner?.cancelAnimationFrame(animationFrame)
-    }
-    animationFrame = undefined
-    animationOwner = undefined
+    animationGeneration++
+    animationFrame.cancel()
   }
   function update() {
     const height = Number(props.visibleHeight ?? 200)
     visible.value = !!target && target.scrollTop >= (Number.isFinite(height) ? Math.max(0, height) : 200)
   }
-  function onScroll() {
-    if (!active || !target || scrollFrame !== undefined) {
-      return
-    }
-    const element = target
-    const view = element.ownerDocument.defaultView
-    if (!view) {
-      return
-    }
-    const generation = ++scrollGeneration
-    scrollOwner = view
-    scrollFrame = view.requestAnimationFrame(() => {
-      if (!active || target !== element || generation !== scrollGeneration) {
-        return
-      }
-      scrollGeneration++
-      scrollFrame = undefined
-      scrollOwner = undefined
-      update()
-    })
-  }
-  function cleanup() {
-    bindingGeneration++
-    scrollGeneration++
-    if (scrollListener) {
-      listener?.removeEventListener('scroll', scrollListener)
-    }
-    scrollListener = undefined
-    listener = undefined
-    cancelAnimation()
-    if (scrollFrame !== undefined) {
-      scrollOwner?.cancelAnimationFrame(scrollFrame)
-    }
-    scrollFrame = undefined
-    scrollOwner = undefined
-    target = undefined
-    visible.value = false
-  }
-  function bind() {
-    if (!active) {
-      return
-    }
-    let nextTarget: HTMLElement | undefined
-    let nextListener: HTMLElement | Window | undefined
+  function resolveContainer(): HTMLElement | Document | undefined {
+    const doc: Document = instance.vnode.el!.ownerDocument
     const source = props.targetContainer
     if (source == null) {
-      nextTarget = (document.scrollingElement ?? document.documentElement) as HTMLElement
-      nextListener = window
-    } else {
-      try {
-        const value = typeof source === 'function' ? source() : source
-        nextTarget = (typeof value === 'string' ? document.querySelector<HTMLElement>(value) : value) ?? undefined
-      } catch {
-        nextTarget = undefined
-      }
-      nextListener = nextTarget
+      return doc
     }
-    if (target === nextTarget && listener === nextListener) {
-      update()
+    try {
+      if (typeof source === 'string') {
+        return doc.querySelector<HTMLElement>(source) ?? undefined
+      }
+      return typeof source === 'function' ? (source() ?? undefined) : source
+    } catch {
+      return undefined
+    }
+  }
+
+  function bind(container: HTMLElement | Document | undefined, _: unknown, cleanup: (fn: () => void) => void) {
+    if (!container) {
       return
     }
-    cleanup()
-    target = nextTarget
-    listener = nextListener
-    const generation = bindingGeneration
-    scrollListener = () => {
-      if (generation === bindingGeneration) {
-        onScroll()
+    const doc = container.nodeType === 9 ? (container as Document) : undefined
+    const element = doc ? ((doc.scrollingElement ?? doc.documentElement) as HTMLElement) : (container as HTMLElement)
+    const listener = doc?.defaultView ?? container
+    let bound = true
+    const onScroll = () => {
+      const view = element.ownerDocument.defaultView
+      if (bound && view) {
+        scrollFrame.request(view, update)
       }
     }
-    listener?.addEventListener('scroll', scrollListener, { passive: true })
+    target = element
+    listener.addEventListener('scroll', onScroll, { passive: true })
+    cleanup(() => {
+      bound = false
+      listener.removeEventListener('scroll', onScroll)
+      cancelAnimation()
+      scrollFrame.cancel()
+      target = undefined
+      visible.value = false
+    })
     update()
   }
   function scrollToTop() {
-    if (!active || !target) {
+    if (!target) {
       return
     }
     cancelAnimation()
     const element = target
     const generation = animationGeneration
+    const isCurrent = () => generation === animationGeneration
     const start = element.scrollTop
     const duration = Number(props.duration ?? 200)
     const reduced = prefersReducedMotion(element)
+    if (!isCurrent()) {
+      return
+    }
     if (reduced || !Number.isFinite(duration) || duration <= 0 || start <= 0) {
       element.scrollTop = 0
       update()
@@ -125,22 +88,6 @@ export function useBackTop(props: ExtractPublicPropTypes<typeof backTopProps>) {
     }
     const easing = props.easing ?? 'quartOut'
     const begin = view.performance.now()
-    const isCurrent = () => active && target === element && generation === animationGeneration
-    const schedule = () => {
-      if (!isCurrent()) {
-        return
-      }
-      const frameGeneration = ++animationFrameGeneration
-      animationOwner = view
-      animationFrame = view.requestAnimationFrame((now) => {
-        if (!isCurrent() || frameGeneration !== animationFrameGeneration) {
-          return
-        }
-        animationFrameGeneration++
-        animationFrame = undefined
-        step(now)
-      })
-    }
     const step = (now: number) => {
       if (!isCurrent()) {
         return
@@ -160,41 +107,23 @@ export function useBackTop(props: ExtractPublicPropTypes<typeof backTopProps>) {
         return
       }
       update()
-      if (!reduced && progress < 1) {
-        schedule()
-      } else {
-        animationOwner = undefined
+      if (!reduced && progress < 1 && isCurrent()) {
+        animationFrame.request(view, step)
       }
     }
-    schedule()
+    animationFrame.request(view, step)
   }
 
-  function activate() {
-    active = true
-    bind()
-  }
-  onMounted(() => {
-    mounted.value = true
-    activate()
-  })
-  onActivated(activate)
-  onDeactivated(() => {
-    active = false
-    cleanup()
-  })
-  onBeforeUnmount(() => {
-    active = false
-    cleanup()
-  })
-  watch(
-    () =>
-      !mounted.value
-        ? undefined
-        : typeof props.targetContainer === 'function'
-          ? props.targetContainer()
-          : props.targetContainer,
-    bind,
-    { flush: 'post' },
+  let stopWatching: (() => void) | undefined
+  onActiveLifecycle(
+    () => {
+      mounted.value = true
+      stopWatching ??= watch(resolveContainer, bind, { immediate: true, flush: 'post' })
+    },
+    () => {
+      stopWatching?.()
+      stopWatching = undefined
+    },
   )
   watch(() => props.visibleHeight, update)
   return { visible, mounted, scrollToTop }

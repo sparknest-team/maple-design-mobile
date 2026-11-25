@@ -264,6 +264,18 @@ onMounted(() => {
 })
 
 let returnFocus: HTMLElement | null = null
+function rememberExternalFocus(target: EventTarget | null, document: Document | undefined) {
+  const element = target as HTMLElement | null
+  if (
+    element &&
+    typeof element.focus === 'function' &&
+    element !== document?.body &&
+    element !== document?.documentElement &&
+    !composedContains(card.value, element)
+  ) {
+    returnFocus = element
+  }
+}
 function onCardFocus(event: FocusEvent) {
   // A child may focus itself while the opening animation is still waiting.
   // Reveal that content immediately so focus is not left in a clipped, transparent area.
@@ -278,18 +290,8 @@ function onCardFocus(event: FocusEvent) {
     floaterOverflow.value =
       openingWaiting && composedContains(floatingButtons.value, event.target as Element | null) ? 'visible' : 'auto'
   }
-  const related = event.relatedTarget as HTMLElement | null
-  const document = card.value?.ownerDocument
-  if (
-    !active &&
-    wantsFloating() &&
-    related &&
-    typeof related.focus === 'function' &&
-    !composedContains(card.value, related) &&
-    related !== document?.body &&
-    related !== document?.documentElement
-  ) {
-    returnFocus = related
+  if (!active && wantsFloating()) {
+    rememberExternalFocus(event.relatedTarget, card.value?.ownerDocument)
   }
   focusedCardContext()
 }
@@ -300,20 +302,8 @@ function trackInactiveFocus() {
   if (!document) {
     return
   }
-  const remember = (target: EventTarget | null) => {
-    const element = target as HTMLElement | null
-    if (
-      element &&
-      typeof element.focus === 'function' &&
-      !composedContains(card.value, element) &&
-      element !== document.body &&
-      element !== document.documentElement
-    ) {
-      returnFocus = element
-    }
-  }
-  remember(focusedCardContext())
-  const onFocus = () => remember(focusedCardContext())
+  const onFocus = () => rememberExternalFocus(focusedCardContext(), document)
+  onFocus()
   document.addEventListener('focusin', onFocus, true)
   stopInactiveFocusTracking = () => document.removeEventListener('focusin', onFocus, true)
 }
@@ -462,8 +452,7 @@ function trackMotion(element: HTMLElement | null) {
     return
   }
   const query = view.matchMedia('(prefers-reduced-motion: reduce)')
-  reducedMotion = query.matches
-  const change = (event: MediaQueryListEvent) => {
+  const applyPreference = (event: Pick<MediaQueryList, 'matches'>) => {
     reducedMotion = event.matches
     if (!reducedMotion || !available()) {
       return
@@ -475,19 +464,13 @@ function trackMotion(element: HTMLElement | null) {
     }
   }
   if (typeof query.addEventListener === 'function') {
-    query.addEventListener('change', change)
-    stopMotionTracking = () => query.removeEventListener('change', change)
+    query.addEventListener('change', applyPreference)
+    stopMotionTracking = () => query.removeEventListener('change', applyPreference)
   } else if (typeof query.addListener === 'function') {
-    query.addListener(change)
-    stopMotionTracking = () => query.removeListener(change)
+    query.addListener(applyPreference)
+    stopMotionTracking = () => query.removeListener(applyPreference)
   }
-  if (reducedMotion && available()) {
-    if (wantsFloating() && openingWaiting) {
-      floating()
-    } else if (!wantsFloating() && dropper !== undefined) {
-      dropdown()
-    }
-  }
+  applyPreference(query)
 }
 watch(
   card,

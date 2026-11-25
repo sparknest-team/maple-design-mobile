@@ -1,8 +1,28 @@
 import { h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expect, it, vi } from 'vitest'
-import { getScrollElements } from '../position'
+import { positionAncestors } from '../position'
 import Trigger from '../trigger'
+
+it('shares scroll discovery between anchors and skips style reads for motion listeners', () => {
+  const scroll = document.createElement('div')
+  const anchor = document.createElement('button')
+  const popup = document.createElement('div')
+  scroll.style.overflow = 'auto'
+  scroll.append(anchor, popup)
+  document.body.append(scroll)
+  const style = vi.spyOn(window, 'getComputedStyle')
+  try {
+    const motion = positionAncestors([anchor], false)
+    expect([...motion.documents]).toEqual([document])
+    expect(style).not.toHaveBeenCalled()
+    expect(positionAncestors([anchor, popup], true).targets).toEqual([scroll, window])
+    expect(style.mock.calls.filter(([element]) => element === scroll)).toHaveLength(1)
+  } finally {
+    style.mockRestore()
+    scroll.remove()
+  }
+})
 
 it('finds scroll ancestors across nested shadow roots', () => {
   const outside = document.createElement('div')
@@ -18,7 +38,7 @@ it('finds scroll ancestors across nested shadow roots', () => {
   innerScroll.append(nestedHost)
   nestedHost.attachShadow({ mode: 'closed' }).append(reference)
   try {
-    expect(getScrollElements(reference)).toEqual([innerScroll, outside])
+    expect(positionAncestors([reference], true).targets).toEqual([innerScroll, outside, window])
   } finally {
     outside.remove()
   }
@@ -60,7 +80,7 @@ it('follows the assigned slot through the rendered scroll container', () => {
   host.append(reference)
   document.body.append(host)
   try {
-    expect(getScrollElements(reference)).toEqual([scroll])
+    expect(positionAncestors([reference], true).targets).toEqual([scroll, window])
   } finally {
     host.remove()
   }

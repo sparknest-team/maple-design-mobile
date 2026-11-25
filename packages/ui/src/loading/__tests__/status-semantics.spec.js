@@ -72,3 +72,35 @@ test('status fallback follows the nearest reactive locale provider', async () =>
   await nextTick()
   expect(w.get('.mp-loading__sr-only').text()).toBe('加载记录')
 })
+
+test('updates the graphic and status tip when only the slot set changes', async () => {
+  const wrapped = ref(true)
+  const hideIcon = ref(false)
+  const hasTip = ref(false)
+  const wrapper = mount({
+    render: () =>
+      h(
+        Loading,
+        { type: 'wave', hideIcon: hideIcon.value },
+        {
+          ...(wrapped.value ? { default: () => 'Content' } : {}),
+          ...(hasTip.value ? { tip: () => 'Receiving' } : {}),
+        },
+      ),
+  })
+  owners.push(wrapper)
+  expect(wrapper.find('.mp-loading__wave').exists()).toBe(false)
+  wrapped.value = false
+  await nextTick()
+  expect(wrapper.findAll('.mp-loading__wave-item')).toHaveLength(5)
+  hideIcon.value = true
+  await nextTick()
+  hasTip.value = true
+  await nextTick()
+  expect(wrapper.get('.mp-loading__tip').text()).toBe('Receiving')
+  expect(wrapper.find('.mp-loading__sr-only').exists()).toBe(false)
+  hasTip.value = false
+  await nextTick()
+  expect(wrapper.find('.mp-loading__body').exists()).toBe(false)
+  expect(wrapper.get('.mp-loading__sr-only').text()).toBeTruthy()
+})

@@ -136,7 +136,7 @@ async function requestClose(reason: PopupCloseReason = 'close', event?: Event): 
   if (props.beforeClose || props.open === undefined) {
     visible.value = false
   }
-  mergedOpen.value = false
+  emit('update:open', false)
   if (reason === 'swipe' && event) {
     emit('swipe-close', event as PointerEvent)
   }
@@ -154,17 +154,7 @@ const surface = useModalSurface({
   popupContainer: () => props.popupContainer,
   zIndex: () => props.zIndex,
   root: popupRoot,
-  emit: (event, ...args) => {
-    if (event === 'update:open' && args[0] === false && props.beforeClose && visible.value) {
-      void requestClose('close')
-    } else {
-      // Guarded state is independent of a parent temporarily holding the old model.
-      if (event === 'update:open' && args[0] === true) {
-        visible.value = true
-      }
-      ;(emit as (...args: any[]) => void)(event, ...args)
-    }
-  },
+  emit,
   onRequestClose: ({ reason, event }) => {
     void requestClose(reason, event)
   },

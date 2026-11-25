@@ -12,7 +12,10 @@
       <div v-if="loading" :class="n('content-overlay')" />
     </div>
 
-    <div v-if="showBody" :class="classes(n('body'), [$slots.default, n('inside')])">
+    <div
+      v-if="(!$slots.default || loading) && (!hideIcon || $slots.tip || tip)"
+      :class="classes(n('body'), [$slots.default, n('inside')])"
+    >
       <div
         v-if="!hideIcon && ($slots.icon || customLoading)"
         :class="n('indicator')"
@@ -29,21 +32,20 @@
           </svg>
         </span>
       </div>
-      <template v-for="(count, animationType) in loadingTypeDict" :key="animationType">
-        <div
-          v-if="!hideIcon && !$slots.icon && !customLoading && type === animationType"
-          :class="classes(n(animationType), sizeClass(animationType))"
-          :style="sizeStyle"
-          aria-hidden="true"
-        >
-          <span
-            v-for="index in count"
-            :key="index"
-            :class="classes(n(`${animationType}-item`), sizeClass(`${animationType}-item`))"
-            :style="{ backgroundColor: color }"
-          />
-        </div>
-      </template>
+      <div
+        v-else-if="!hideIcon && animationCount"
+        :key="type"
+        :class="classes(n(type), sizeClass(type))"
+        :style="sizeStyle"
+        aria-hidden="true"
+      >
+        <span
+          v-for="index in animationCount"
+          :key="index"
+          :class="classes(n(`${type}-item`), sizeClass(`${type}-item`))"
+          :style="{ backgroundColor: color }"
+        />
+      </div>
 
       <div v-if="$slots.tip || tip" :class="classes(n('tip'), sizeClass('tip'))" :style="{ color }">
         <slot name="tip">{{ tip }}</slot>
@@ -52,35 +54,39 @@
   </div>
 </template>
 
+<script lang="ts"></script>
+
 <script lang="ts" setup>
-import { computed, useSlots } from 'vue'
+import { computed } from 'vue'
 import { createNamespace } from '../utils/components'
 import { multiplySizeUnit, toSizeUnit } from '../utils/elements'
 import { useLoadingPlatform } from './platform'
 import { loadingProps } from './props'
+
+const animationCounts = new Map<string, number>([
+  ['wave', 5],
+  ['cube', 4],
+  ['rect', 8],
+  ['disappear', 3],
+])
 
 defineOptions({
   name: createNamespace('loading').name,
 })
 
 const props = defineProps(loadingProps)
-const slots = useSlots()
 const { n, classes } = createNamespace('loading')
 const { customLoading, loadingText } = useLoadingPlatform()
-const isShow = computed(() => !slots.default || props.loading)
-const showBody = computed(() => isShow.value && (!props.hideIcon || Boolean(slots.tip || props.tip)))
-const loadingTypeDict = { wave: 5, cube: 4, rect: 8, disappear: 3 } as const
+const animationCount = computed(() => animationCounts.get(props.type))
 const indicatorStyle = computed(() => ({
   color: props.color,
   fontSize: typeof props.size === 'number' ? `${props.size}px` : undefined,
 }))
-const circleStyle = computed(() => ({
-  width:
-    props.radius == null && typeof props.size === 'number' ? toSizeUnit(props.size) : multiplySizeUnit(props.radius, 2),
-  height:
-    props.radius == null && typeof props.size === 'number' ? toSizeUnit(props.size) : multiplySizeUnit(props.radius, 2),
-  color: props.color,
-}))
+const circleStyle = computed(() => {
+  const diameter =
+    props.radius == null && typeof props.size === 'number' ? toSizeUnit(props.size) : multiplySizeUnit(props.radius, 2)
+  return { width: diameter, height: diameter, color: props.color }
+})
 const sizeStyle = computed(() => {
   if (typeof props.size !== 'number') {
     return undefined

@@ -11,7 +11,6 @@
 </template>
 <script setup lang="ts">
 import { inject } from 'vue'
-import { resolveDirection } from '../_utils/direction'
 import { createNamespace } from '../utils/components'
 import { tabsInjectionKey } from './context'
 import { tabsItemsProps } from './props'
@@ -22,7 +21,7 @@ defineOptions({ name: createNamespace('tabs-items').name })
 defineProps(tabsItemsProps)
 const ctx = inject(tabsInjectionKey)!
 const { n, classes } = createNamespace('tabs')
-let origin: { x: number; y: number; target: EventTarget | null } | undefined
+let origin: Touch | undefined
 function start(event: TouchEvent) {
   origin = undefined
   if (!ctx.props.swipeable || event.touches.length !== 1) {
@@ -35,7 +34,7 @@ function start(event: TouchEvent) {
   ) {
     return
   }
-  origin = { x: event.touches[0].clientX, y: event.touches[0].clientY, target: event.currentTarget }
+  origin = event.touches[0]
 }
 function end(event: TouchEvent) {
   const point = origin
@@ -43,21 +42,21 @@ function end(event: TouchEvent) {
   if (!point || !ctx.props.swipeable || event.touches.length || !event.changedTouches.length) {
     return
   }
-  const dx = event.changedTouches[0].clientX - point.x
-  const dy = event.changedTouches[0].clientY - point.y
+  const dx = event.changedTouches[0].clientX - point.clientX
+  const dy = event.changedTouches[0].clientY - point.clientY
   if (Math.abs(dx) < 50 || Math.abs(dx) <= Math.abs(dy)) {
     return
   }
-  const enabled = ctx.entries.value.filter((tab) => !tab.disabled)
-  const index = enabled.findIndex((tab) => tab.name === ctx.active.value)
+  const enabled = ctx.enabled.value
+  const index = ctx.active.value === undefined ? -1 : enabled.indexOf(ctx.active.value)
   if (index < 0) {
     return
   }
-  const rtl = resolveDirection(point.target as Element, ctx.rtl.value ? 'rtl' : 'ltr') === 'rtl'
+  const rtl = ctx.rtlAt(event.currentTarget as Element)
   const direction = (dx < 0 ? 1 : -1) * (rtl ? -1 : 1)
   const target = enabled[index + direction]
-  if (target) {
-    ctx.select(target.name)
+  if (target !== undefined) {
+    ctx.select(target)
   }
 }
 </script>

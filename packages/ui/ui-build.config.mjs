@@ -13,7 +13,13 @@ export default {
   vueSfcStyles: false,
   cssVariables: 'style/theme/css-variables.less',
   umdExternal: ['vue', 'vue/server-renderer'],
-  external: ['vue', 'vue/server-renderer', '@vue/shared', ...Object.keys(pkg.dependencies ?? {})],
+  external: [
+    '@maple-design/ui-vue/trigger/server',
+    'vue',
+    'vue/server-renderer',
+    '@vue/shared',
+    ...Object.keys(pkg.dependencies ?? {}),
+  ],
   globals: {
     vue: 'Vue',
     '@vue/shared': 'VueShared',

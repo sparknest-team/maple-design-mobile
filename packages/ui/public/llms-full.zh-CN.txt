@@ -6897,92 +6897,65 @@ html[lang='en-US'] .demo-config-comparison-hint > [lang='zh-CN'] {
 </style>
 ```
 
-### 尺寸与标题层级
+### 卡片尺寸与标题层级
 
-切换 Card 尺寸、标题层级和页脚对齐，或调整内嵌 Section 的变体，实时查看组合效果。Card 说明文字保持 15px，Section 说明文字保持 13px。Card 尺寸会改变说明文字周围的间距。
-
-| 尺寸 | h1 | h2 | h3 | h4 | h5 | h6 | 正文水平内边距 | 说明上方间距 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `xs` | 25px | 21px | 19px | 17px | 15px | 13px | 8px | 6px |
-| `sm` | 26px | 22px | 20px | 18px | 16px | 14px | 12px | 8px |
-| `md` | 30px | 26px | 24px | 22px | 20px | 18px | 16px | 20px |
-| `lg` | 34px | 30px | 28px | 26px | 24px | 22px | 20px | 20px |
-| `xl` | 38px | 34px | 32px | 30px | 28px | 26px | 24px | 24px |
+尺寸控制布局间距，标题层级控制标题字号。预览会显示当前组合，以及标题和说明各自的字号与上方间距。关闭「显示正文」后，默认插槽只剩注释，正文容器和它的间距会一起移除。标题与下方说明同属卡片头部。从 `xs` 到 `xl`，两者间距依次为 2、4、6、8、10px。
 
 Example source: src/card/example/demos/sizes-and-headings.vue
 
 ```vue
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { ref, watch } from 'vue'
 
-const footerAlignments = ['start', 'center', 'end'] as const
-const sectionVariants = ['heading-line', 'plain', 'tonal', 'outline'] as const
-const headingLevels = [1, 2, 3, 4, 5, 6] as const
-const model = reactive<{
-  size: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-  headingLevel: (typeof headingLevels)[number]
-  footerAlign: (typeof footerAlignments)[number]
-  sectionVariant: (typeof sectionVariants)[number]
-}>({
-  size: 'md',
-  headingLevel: 4,
-  footerAlign: 'end',
-  sectionVariant: 'heading-line',
-})
+const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
+const size = ref<(typeof sizes)[number]>('md')
+const levels = [1, 2, 3, 4, 5, 6] as const
+const level = ref<(typeof levels)[number]>(1)
+const showContent = ref(true)
+const preview = ref<HTMLElement | null>(null)
+const titleMetrics = ref('')
+const descriptionMetrics = ref('')
+
+function measureText() {
+  const container = preview.value?.querySelector<HTMLElement>('.mp-card__container')
+  const title = container?.querySelector(`h${level.value}`)
+  const description = container?.querySelector('.mp-card__description')
+  if (!container || !title?.parentElement || !description) return
+
+  titleMetrics.value = formatMetrics(title, getComputedStyle(title.parentElement).marginTop)
+  descriptionMetrics.value = formatMetrics(description, getComputedStyle(description).marginTop)
+}
+
+function formatMetrics(element: Element, gap: string) {
+  const fontSize = getComputedStyle(element).fontSize
+  return `字号 ${fontSize} · 上方间距 ${gap}`
+}
+
+watch([preview, size, level], measureText, { flush: 'post' })
 </script>
 
 <template>
   <mp-space direction="column" align="stretch">
-    <mp-form :model="model" layout="vertical" edit-mode="direct">
-      <mp-form-item field="size" label="卡片尺寸">
-        <mp-radio-group v-model="model.size" aria-label="卡片尺寸">
-          <mp-radio value="xs">超紧凑 (xs)</mp-radio>
-          <mp-radio value="sm">紧凑 (sm)</mp-radio>
-          <mp-radio value="md">默认 (md)</mp-radio>
-          <mp-radio value="lg">宽松 (lg)</mp-radio>
-          <mp-radio value="xl">超宽松 (xl)</mp-radio>
-        </mp-radio-group>
-      </mp-form-item>
-      <mp-form-item field="headingLevel" label="标题层级">
-        <mp-radio-group v-model="model.headingLevel" aria-label="标题层级">
-          <mp-radio v-for="level in headingLevels" :key="level" :value="level">h{{ level }}</mp-radio>
-        </mp-radio-group>
-      </mp-form-item>
-      <mp-form-item field="footerAlign" label="页脚对齐">
-        <mp-radio-group v-model="model.footerAlign" aria-label="页脚对齐">
-          <mp-radio v-for="value in footerAlignments" :key="value" :value="value">{{ value }}</mp-radio>
-        </mp-radio-group>
-      </mp-form-item>
-      <mp-form-item field="sectionVariant" label="分区变体">
-        <mp-radio-group v-model="model.sectionVariant" aria-label="分区变体">
-          <mp-radio v-for="value in sectionVariants" :key="value" :value="value">{{ value }}</mp-radio>
-        </mp-radio-group>
-      </mp-form-item>
-    </mp-form>
-    <output
-      >渲染标签 <code>&lt;h{{ model.headingLevel }}&gt;</code></output
-    >
-
-    <mp-card
-      :size="model.size"
-      :heading-level="model.headingLevel"
-      :footer-align="model.footerAlign"
-      title="项目概览"
-      description="项目设置适用于整个团队。"
-      top-divider
-      bottom-divider
-    >
-      <mp-section
-        :size="model.size"
-        :heading-level="model.headingLevel"
-        :variant="model.sectionVariant"
-        title="成员权限"
-        description="权限按成员角色分组。"
-      >
-        管理员可邀请成员。
-      </mp-section>
-      <template #footer>最近更新于今天</template>
-    </mp-card>
+    <span>卡片尺寸</span>
+    <mp-radio-group v-model="size" aria-label="卡片尺寸">
+      <mp-radio v-for="value in sizes" :key="value" :value="value">{{ value }}</mp-radio>
+    </mp-radio-group>
+    <span>标题层级</span>
+    <mp-radio-group v-model="level" aria-label="标题层级">
+      <mp-radio v-for="value in levels" :key="value" :value="value">h{{ value }}</mp-radio>
+    </mp-radio-group>
+    <mp-checkbox v-model="showContent">显示正文</mp-checkbox>
+    <output>
+      尺寸 {{ size }} · 标题层级 h{{ level }}<br>
+      标题 · {{ titleMetrics }}<br>
+      说明 · {{ descriptionMetrics }}
+    </output>
+    <div ref="preview" @transitionend="measureText">
+      <mp-card :size="size" :heading-level="level" title="项目概览" description="项目设置适用于整个团队。">
+        <!-- 隐藏正文后，插槽中只剩注释。 -->
+        <span v-if="showContent">管理员可以邀请成员。</span>
+      </mp-card>
+    </div>
   </mp-space>
 </template>
 ```
@@ -7437,14 +7410,14 @@ Card 通过 Loading 指令组合加载遮罩。
 | `--mp-card-content-row-margin` | `16px 0 0 0` | `margin` |
 | `--mp-card-description-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-card-description-font-size` | `15px` | `font-size` |
-| `--mp-card-description-margin` | `20px 0 0 0` | `margin` |
+| `--mp-card-description-margin` | `6px 0 0 0` | `margin` |
 | `--mp-card-description-padding` | `0 16px` | `padding` |
 | `--mp-card-filled-background` | `var(--mp-sys-color-surface-muted)` | `background-color` |
 | `--mp-card-floating-buttons-bottom` | `16px` | `bottom` |
 | `--mp-card-floating-buttons-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-card-floating-buttons-right` | `16px` | `inset-inline-end` |
 | `--mp-card-footer-bottom` | `9px` | `bottom` |
-| `--mp-card-footer-margin` | `30px 0 0 0` | `margin` |
+| `--mp-card-footer-margin` | `16px 0 0 0` | `margin` |
 | `--mp-card-footer-padding` | `0 16px` | `padding` |
 | `--mp-card-footer-right` | `13px` | `inset-inline-end`, `inset-inline-start` |
 | `--mp-card-heading-size-step` | `1px` | `font-size` |
@@ -7459,16 +7432,16 @@ Card 通过 Loading 指令组合加载遮罩。
 | `--mp-card-row-line-height` | `1.5` | `line-height` |
 | `--mp-card-size-lg-section-margin` | `20px 0 0` | `margin` |
 | `--mp-card-size-lg-section-padding` | `0 20px` | `padding` |
-| `--mp-card-size-lg-title-font-size` | `24px` | `font-size` |
-| `--mp-card-size-sm-section-margin` | `8px 0 0` | `margin` |
+| `--mp-card-size-lg-title-font-size` | `20px` | `font-size` |
+| `--mp-card-size-sm-section-margin` | `12px 0 0` | `margin` |
 | `--mp-card-size-sm-section-padding` | `0 12px` | `padding` |
-| `--mp-card-size-sm-title-font-size` | `16px` | `font-size` |
+| `--mp-card-size-sm-title-font-size` | `20px` | `font-size` |
 | `--mp-card-size-xl-section-margin` | `24px 0 0` | `margin` |
 | `--mp-card-size-xl-section-padding` | `0 24px` | `padding` |
-| `--mp-card-size-xl-title-font-size` | `28px` | `font-size` |
-| `--mp-card-size-xs-section-margin` | `6px 0 0` | `margin` |
+| `--mp-card-size-xl-title-font-size` | `20px` | `font-size` |
+| `--mp-card-size-xs-section-margin` | `8px 0 0` | `margin` |
 | `--mp-card-size-xs-section-padding` | `0 8px` | `padding` |
-| `--mp-card-size-xs-title-font-size` | `15px` | `font-size` |
+| `--mp-card-size-xs-title-font-size` | `20px` | `font-size` |
 | `--mp-card-subtitle-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-card-subtitle-font-size` | `15px` | `font-size` |
 | `--mp-card-subtitle-margin` | `10px 0 0 0` | `margin` |
@@ -7476,9 +7449,9 @@ Card 通过 Loading 指令组合加载遮罩。
 | `--mp-card-subtitle-row-margin` | `-8px 0 0 0` | `margin` |
 | `--mp-card-title-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-card-title-font-size` | `20px` | `font-size` |
-| `--mp-card-title-margin` | `15px 0 0 0` | `margin` |
+| `--mp-card-title-margin` | `16px 0 0 0` | `margin` |
 | `--mp-card-title-padding` | `0 16px` | `padding` |
-| `--mp-card-title-row-margin` | `12px 0` | `margin` |
+| `--mp-card-title-row-margin` | `16px 0 12px` | `margin` |
 
 </div>
 
@@ -19743,14 +19716,14 @@ Document: llms/zh-CN/designTokenReference.md
 | `--mp-card-content-row-margin` | 公开 | `16px 0 0 0` | 本组件 CSS<br>`margin` |
 | `--mp-card-description-color` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`color` |
 | `--mp-card-description-font-size` | 公开 | `15px` | 本组件 CSS<br>`font-size` |
-| `--mp-card-description-margin` | 公开 | `20px 0 0 0` | 本组件 CSS<br>`margin` |
+| `--mp-card-description-margin` | 公开 | `6px 0 0 0` | 本组件 CSS<br>`margin` |
 | `--mp-card-description-padding` | 公开 | `0 16px` | 本组件 CSS<br>`padding` |
 | `--mp-card-filled-background` | 公开 | `var(--mp-sys-color-surface-muted)` | 本组件 CSS<br>`background-color` |
 | `--mp-card-floating-buttons-bottom` | 公开 | `16px` | 本组件 CSS<br>`bottom` |
 | `--mp-card-floating-buttons-color` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
 | `--mp-card-floating-buttons-right` | 公开 | `16px` | 本组件 CSS<br>`inset-inline-end` |
 | `--mp-card-footer-bottom` | 公开 | `9px` | 本组件 CSS<br>`bottom` |
-| `--mp-card-footer-margin` | 公开 | `30px 0 0 0` | 本组件 CSS<br>`margin` |
+| `--mp-card-footer-margin` | 公开 | `16px 0 0 0` | 本组件 CSS<br>`margin` |
 | `--mp-card-footer-padding` | 公开 | `0 16px` | 本组件 CSS<br>`padding` |
 | `--mp-card-footer-right` | 公开 | `13px` | 本组件 CSS<br>`inset-inline-end`, `inset-inline-start` |
 | `--mp-card-heading-size-step` | 公开 | `1px` | 本组件 CSS<br>`font-size` |
@@ -19765,16 +19738,16 @@ Document: llms/zh-CN/designTokenReference.md
 | `--mp-card-row-line-height` | 公开 | `1.5` | 本组件 CSS<br>`line-height` |
 | `--mp-card-size-lg-section-margin` | 公开 | `20px 0 0` | 本组件 CSS<br>`margin` |
 | `--mp-card-size-lg-section-padding` | 公开 | `0 20px` | 本组件 CSS<br>`padding` |
-| `--mp-card-size-lg-title-font-size` | 公开 | `24px` | 本组件 CSS<br>`font-size` |
-| `--mp-card-size-sm-section-margin` | 公开 | `8px 0 0` | 本组件 CSS<br>`margin` |
+| `--mp-card-size-lg-title-font-size` | 公开 | `20px` | 本组件 CSS<br>`font-size` |
+| `--mp-card-size-sm-section-margin` | 公开 | `12px 0 0` | 本组件 CSS<br>`margin` |
 | `--mp-card-size-sm-section-padding` | 公开 | `0 12px` | 本组件 CSS<br>`padding` |
-| `--mp-card-size-sm-title-font-size` | 公开 | `16px` | 本组件 CSS<br>`font-size` |
+| `--mp-card-size-sm-title-font-size` | 公开 | `20px` | 本组件 CSS<br>`font-size` |
 | `--mp-card-size-xl-section-margin` | 公开 | `24px 0 0` | 本组件 CSS<br>`margin` |
 | `--mp-card-size-xl-section-padding` | 公开 | `0 24px` | 本组件 CSS<br>`padding` |
-| `--mp-card-size-xl-title-font-size` | 公开 | `28px` | 本组件 CSS<br>`font-size` |
-| `--mp-card-size-xs-section-margin` | 公开 | `6px 0 0` | 本组件 CSS<br>`margin` |
+| `--mp-card-size-xl-title-font-size` | 公开 | `20px` | 本组件 CSS<br>`font-size` |
+| `--mp-card-size-xs-section-margin` | 公开 | `8px 0 0` | 本组件 CSS<br>`margin` |
 | `--mp-card-size-xs-section-padding` | 公开 | `0 8px` | 本组件 CSS<br>`padding` |
-| `--mp-card-size-xs-title-font-size` | 公开 | `15px` | 本组件 CSS<br>`font-size` |
+| `--mp-card-size-xs-title-font-size` | 公开 | `20px` | 本组件 CSS<br>`font-size` |
 | `--mp-card-subtitle-color` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`color` |
 | `--mp-card-subtitle-font-size` | 公开 | `15px` | 本组件 CSS<br>`font-size` |
 | `--mp-card-subtitle-margin` | 公开 | `10px 0 0 0` | 本组件 CSS<br>`margin` |
@@ -19782,9 +19755,9 @@ Document: llms/zh-CN/designTokenReference.md
 | `--mp-card-subtitle-row-margin` | 公开 | `-8px 0 0 0` | 本组件 CSS<br>`margin` |
 | `--mp-card-title-color` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
 | `--mp-card-title-font-size` | 公开 | `20px` | 本组件 CSS<br>`font-size` |
-| `--mp-card-title-margin` | 公开 | `15px 0 0 0` | 本组件 CSS<br>`margin` |
+| `--mp-card-title-margin` | 公开 | `16px 0 0 0` | 本组件 CSS<br>`margin` |
 | `--mp-card-title-padding` | 公开 | `0 16px` | 本组件 CSS<br>`padding` |
-| `--mp-card-title-row-margin` | 公开 | `12px 0` | 本组件 CSS<br>`margin` |
+| `--mp-card-title-row-margin` | 公开 | `16px 0 12px` | 本组件 CSS<br>`margin` |
 
 </div>
 
@@ -21413,34 +21386,34 @@ expand-duration／fade-duration 消费到 transform／opacity 过渡；运行时
 | `--mp-section-description-size` | 公开 | `13px` | 本组件 CSS<br>`font-size` |
 | `--mp-section-divider-color` | 公开 | `var(--mp-sys-color-border-default)` | 本组件 CSS<br>`border-block-start` |
 | `--mp-section-divider-width` | 公开 | `1px` | 本组件 CSS<br>`border`, `border-block-start` |
-| `--mp-section-header-gap` | 公开 | `20px` | 本组件 CSS<br>`margin-block-end` |
+| `--mp-section-header-gap` | 公开 | `16px` | 本组件 CSS<br>`margin-block-end` |
 | `--mp-section-heading-gap` | 公开 | `16px` | 本组件 CSS<br>`margin-inline-start` |
 | `--mp-section-heading-size-step` | 公开 | `1px` | 本组件 CSS<br>`font-size`, `line-height` |
 | `--mp-section-marker-gap` | 公开 | `12px` | 本组件 CSS<br>`padding-inline-end`, `padding-inline-start`, `row-gap` |
-| `--mp-section-marker-height` | 公开 | `16px` | 本组件 CSS<br>`height` |
+| `--mp-section-marker-height` | 公开 | `calc(100% - 1lh + 1em)` | 本组件 CSS<br>`height` |
 | `--mp-section-marker-radius` | 公开 | `2px` | 本组件 CSS<br>`border-radius` |
 | `--mp-section-marker-width` | 公开 | `3px` | 本组件 CSS<br>`padding-inline-start`, `width` |
 | `--mp-section-outline-color` | 公开 | `var(--mp-sys-color-border-default)` | 本组件 CSS<br>`border` |
 | `--mp-section-size-lg-card-padding` | 公开 | `20px` | 本组件 CSS<br>`padding` |
-| `--mp-section-size-lg-header-gap` | 公开 | `24px` | 本组件 CSS<br>`margin-block-end` |
-| `--mp-section-size-lg-marker-height` | 公开 | `20px` | 本组件 CSS<br>`height` |
+| `--mp-section-size-lg-header-gap` | 公开 | `20px` | 本组件 CSS<br>`margin-block-end` |
+| `--mp-section-size-lg-marker-height` | 公开 | `calc(100% - 1lh + 1em)` | 本组件 CSS<br>`height` |
 | `--mp-section-size-lg-title-line-height` | 公开 | `28px` | 本组件 CSS<br>`line-height` |
-| `--mp-section-size-lg-title-size` | 公开 | `20px` | 本组件 CSS<br>`font-size` |
+| `--mp-section-size-lg-title-size` | 公开 | `16px` | 本组件 CSS<br>`font-size` |
 | `--mp-section-size-sm-card-padding` | 公开 | `12px` | 本组件 CSS<br>`padding` |
 | `--mp-section-size-sm-header-gap` | 公开 | `12px` | 本组件 CSS<br>`margin-block-end` |
-| `--mp-section-size-sm-marker-height` | 公开 | `14px` | 本组件 CSS<br>`height` |
+| `--mp-section-size-sm-marker-height` | 公开 | `calc(100% - 1lh + 1em)` | 本组件 CSS<br>`height` |
 | `--mp-section-size-sm-title-line-height` | 公开 | `20px` | 本组件 CSS<br>`line-height` |
-| `--mp-section-size-sm-title-size` | 公开 | `14px` | 本组件 CSS<br>`font-size` |
+| `--mp-section-size-sm-title-size` | 公开 | `16px` | 本组件 CSS<br>`font-size` |
 | `--mp-section-size-xl-card-padding` | 公开 | `24px` | 本组件 CSS<br>`padding` |
-| `--mp-section-size-xl-header-gap` | 公开 | `28px` | 本组件 CSS<br>`margin-block-end` |
-| `--mp-section-size-xl-marker-height` | 公开 | `24px` | 本组件 CSS<br>`height` |
+| `--mp-section-size-xl-header-gap` | 公开 | `24px` | 本组件 CSS<br>`margin-block-end` |
+| `--mp-section-size-xl-marker-height` | 公开 | `calc(100% - 1lh + 1em)` | 本组件 CSS<br>`height` |
 | `--mp-section-size-xl-title-line-height` | 公开 | `32px` | 本组件 CSS<br>`line-height` |
-| `--mp-section-size-xl-title-size` | 公开 | `24px` | 本组件 CSS<br>`font-size` |
+| `--mp-section-size-xl-title-size` | 公开 | `16px` | 本组件 CSS<br>`font-size` |
 | `--mp-section-size-xs-card-padding` | 公开 | `8px` | 本组件 CSS<br>`padding` |
 | `--mp-section-size-xs-header-gap` | 公开 | `8px` | 本组件 CSS<br>`margin-block-end` |
-| `--mp-section-size-xs-marker-height` | 公开 | `12px` | 本组件 CSS<br>`height` |
+| `--mp-section-size-xs-marker-height` | 公开 | `calc(100% - 1lh + 1em)` | 本组件 CSS<br>`height` |
 | `--mp-section-size-xs-title-line-height` | 公开 | `18px` | 本组件 CSS<br>`line-height` |
-| `--mp-section-size-xs-title-size` | 公开 | `14px` | 本组件 CSS<br>`font-size` |
+| `--mp-section-size-xs-title-size` | 公开 | `16px` | 本组件 CSS<br>`font-size` |
 | `--mp-section-title-color` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
 | `--mp-section-title-line-height` | 公开 | `24px` | 本组件 CSS<br>`line-height` |
 | `--mp-section-title-size` | 公开 | `16px` | 本组件 CSS<br>`font-size` |
@@ -53295,65 +53268,71 @@ Example source: src/section/example/demos/outline.vue
 </template>
 ```
 
-### 分区尺寸
+### 分区尺寸与标题层级
 
-切换尺寸和标题层级即可实时预览。表中 h1 到 h6 各列是默认标题字号，虚线框标出内容区域。
-
-| 尺寸 | h1 | h2 | h3 | h4 | h5 | h6 | 卡片内边距 | 标题与内容间距 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `xs` | 24px | 20px | 18px | 16px | 14px | 12px | 8px | 8px |
-| `sm` | 24px | 20px | 18px | 16px | 14px | 12px | 12px | 12px |
-| `md` | 26px | 22px | 20px | 18px | 16px | 14px | 16px | 20px |
-| `lg` | 30px | 26px | 24px | 22px | 20px | 18px | 20px | 24px |
-| `xl` | 34px | 30px | 28px | 26px | 24px | 22px | 24px | 28px |
+尺寸控制布局间距，标题层级控制标题字号。预览会显示当前组合，以及标题和说明各自的字号与上方间距。关闭「显示正文」后，默认插槽只剩注释，正文容器和它的间距会一起移除。单行标题旁的色条与字号等高，并垂直居中。标题换行时，色条每多一行增加一个行高。
 
 Example source: src/section/example/demos/sizes.vue
 
 ```vue
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { ref, watch } from 'vue'
 
-const headingLevels = [1, 2, 3, 4, 5, 6] as const
-const model = reactive<{ size: 'xs' | 'sm' | 'md' | 'lg' | 'xl'; headingLevel: (typeof headingLevels)[number] }>({
-  size: 'md',
-  headingLevel: 4,
-})
+const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
+const size = ref<(typeof sizes)[number]>('md')
+const levels = [1, 2, 3, 4, 5, 6] as const
+const level = ref<(typeof levels)[number]>(1)
+const showContent = ref(true)
+const preview = ref<HTMLElement | null>(null)
+const titleMetrics = ref('')
+const descriptionMetrics = ref('')
+
+function measureText() {
+  const container = preview.value?.querySelector<HTMLElement>('.mp-section__surface')
+  const title = container?.querySelector(`h${level.value}`)
+  const description = container?.querySelector('.mp-section__description')
+  if (!container || !title || !description) return
+
+  titleMetrics.value = formatMetrics(title, getComputedStyle(container).paddingTop)
+  descriptionMetrics.value = formatMetrics(description, getComputedStyle(description).marginTop)
+}
+
+function formatMetrics(element: Element, gap: string) {
+  const fontSize = getComputedStyle(element).fontSize
+  return `字号 ${fontSize} · 上方间距 ${gap}`
+}
+
+watch([preview, size, level], () => {
+  measureText()
+  const view = preview.value?.ownerDocument.defaultView
+  view?.requestAnimationFrame?.(measureText)
+}, { flush: 'post' })
 </script>
 
 <template>
   <mp-space direction="column" align="stretch">
-    <mp-form :model="model" layout="vertical" edit-mode="direct">
-      <mp-form-item field="size" label="分区尺寸">
-        <mp-radio-group v-model="model.size" aria-label="分区尺寸">
-          <mp-radio value="xs">超紧凑 (xs)</mp-radio>
-          <mp-radio value="sm">紧凑 (sm)</mp-radio>
-          <mp-radio value="md">默认 (md)</mp-radio>
-          <mp-radio value="lg">宽松 (lg)</mp-radio>
-          <mp-radio value="xl">超宽松 (xl)</mp-radio>
-        </mp-radio-group>
-      </mp-form-item>
-      <mp-form-item field="headingLevel" label="标题层级">
-        <mp-radio-group v-model="model.headingLevel" aria-label="标题层级">
-          <mp-radio v-for="level in headingLevels" :key="level" :value="level">h{{ level }}</mp-radio>
-        </mp-radio-group>
-      </mp-form-item>
-    </mp-form>
-    <output
-      >渲染标签 <code>&lt;h{{ model.headingLevel }}&gt;</code></output
-    >
-
-    <mp-section :size="model.size" variant="outline" show-marker :heading-level="model.headingLevel" title="成员权限">
-      <div class="section-size-content">管理员可邀请成员并修改项目设置。</div>
-    </mp-section>
+    <span>分区尺寸</span>
+    <mp-radio-group v-model="size" aria-label="分区尺寸">
+      <mp-radio v-for="value in sizes" :key="value" :value="value">{{ value }}</mp-radio>
+    </mp-radio-group>
+    <span>标题层级</span>
+    <mp-radio-group v-model="level" aria-label="标题层级">
+      <mp-radio v-for="value in levels" :key="value" :value="value">h{{ value }}</mp-radio>
+    </mp-radio-group>
+    <mp-checkbox v-model="showContent">显示正文</mp-checkbox>
+    <output>
+      尺寸 {{ size }} · 标题层级 h{{ level }}<br>
+      标题 · {{ titleMetrics }}<br>
+      说明 · {{ descriptionMetrics }}
+    </output>
+    <div ref="preview" @transitionend="measureText">
+      <mp-section :size="size" :heading-level="level" variant="outline" show-marker title="成员权限" description="权限按成员角色分组。">
+        <!-- 隐藏正文后，插槽中只剩注释。 -->
+        <span v-if="showContent">管理员可以邀请成员。</span>
+      </mp-section>
+    </div>
   </mp-space>
 </template>
-
-<style scoped>
-.section-size-content {
-  border: 1px dashed currentColor;
-  padding: 8px;
-}
-</style>
 ```
 
 ### 有标题、仅说明与纯正文
@@ -53496,34 +53475,34 @@ const model = reactive({ name: '', department: '' })
 | `--mp-section-description-size` | `13px` | `font-size` |
 | `--mp-section-divider-color` | `var(--mp-sys-color-border-default)` | `border-block-start` |
 | `--mp-section-divider-width` | `1px` | `border`, `border-block-start` |
-| `--mp-section-header-gap` | `20px` | `margin-block-end` |
+| `--mp-section-header-gap` | `16px` | `margin-block-end` |
 | `--mp-section-heading-gap` | `16px` | `margin-inline-start` |
 | `--mp-section-heading-size-step` | `1px` | `font-size`, `line-height` |
 | `--mp-section-marker-gap` | `12px` | `padding-inline-end`, `padding-inline-start`, `row-gap` |
-| `--mp-section-marker-height` | `16px` | `height` |
+| `--mp-section-marker-height` | `calc(100% - 1lh + 1em)` | `height` |
 | `--mp-section-marker-radius` | `2px` | `border-radius` |
 | `--mp-section-marker-width` | `3px` | `padding-inline-start`, `width` |
 | `--mp-section-outline-color` | `var(--mp-sys-color-border-default)` | `border` |
 | `--mp-section-size-lg-card-padding` | `20px` | `padding` |
-| `--mp-section-size-lg-header-gap` | `24px` | `margin-block-end` |
-| `--mp-section-size-lg-marker-height` | `20px` | `height` |
+| `--mp-section-size-lg-header-gap` | `20px` | `margin-block-end` |
+| `--mp-section-size-lg-marker-height` | `calc(100% - 1lh + 1em)` | `height` |
 | `--mp-section-size-lg-title-line-height` | `28px` | `line-height` |
-| `--mp-section-size-lg-title-size` | `20px` | `font-size` |
+| `--mp-section-size-lg-title-size` | `16px` | `font-size` |
 | `--mp-section-size-sm-card-padding` | `12px` | `padding` |
 | `--mp-section-size-sm-header-gap` | `12px` | `margin-block-end` |
-| `--mp-section-size-sm-marker-height` | `14px` | `height` |
+| `--mp-section-size-sm-marker-height` | `calc(100% - 1lh + 1em)` | `height` |
 | `--mp-section-size-sm-title-line-height` | `20px` | `line-height` |
-| `--mp-section-size-sm-title-size` | `14px` | `font-size` |
+| `--mp-section-size-sm-title-size` | `16px` | `font-size` |
 | `--mp-section-size-xl-card-padding` | `24px` | `padding` |
-| `--mp-section-size-xl-header-gap` | `28px` | `margin-block-end` |
-| `--mp-section-size-xl-marker-height` | `24px` | `height` |
+| `--mp-section-size-xl-header-gap` | `24px` | `margin-block-end` |
+| `--mp-section-size-xl-marker-height` | `calc(100% - 1lh + 1em)` | `height` |
 | `--mp-section-size-xl-title-line-height` | `32px` | `line-height` |
-| `--mp-section-size-xl-title-size` | `24px` | `font-size` |
+| `--mp-section-size-xl-title-size` | `16px` | `font-size` |
 | `--mp-section-size-xs-card-padding` | `8px` | `padding` |
 | `--mp-section-size-xs-header-gap` | `8px` | `margin-block-end` |
-| `--mp-section-size-xs-marker-height` | `12px` | `height` |
+| `--mp-section-size-xs-marker-height` | `calc(100% - 1lh + 1em)` | `height` |
 | `--mp-section-size-xs-title-line-height` | `18px` | `line-height` |
-| `--mp-section-size-xs-title-size` | `14px` | `font-size` |
+| `--mp-section-size-xs-title-size` | `16px` | `font-size` |
 | `--mp-section-title-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-section-title-line-height` | `24px` | `line-height` |
 | `--mp-section-title-size` | `16px` | `font-size` |

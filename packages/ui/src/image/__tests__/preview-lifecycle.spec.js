@@ -85,3 +85,17 @@ test('a preview opened reentrantly by onClosed remains the sole latest instance'
   expect(nestedClosed).toHaveBeenCalledTimes(1)
   expect(nodes()).toHaveLength(0)
 })
+
+test('inherits default images for an options-only call and prioritizes an explicit source', () => {
+  previewImage.setDefaultOptions({ images: ['default-a', 'default-b'] })
+  try {
+    previewImage({ closable: true })
+    expect(nodes().map((node) => node.textContent)).toEqual(['default-a'])
+    previewImage({ src: 'local' })
+    expect(nodes().map((node) => node.textContent)).toEqual(['local'])
+    previewImage({ src: 'ignored', images: ['first', 'second'] })
+    expect(nodes().map((node) => node.textContent)).toEqual(['first'])
+  } finally {
+    previewImage.resetDefaultOptions()
+  }
+})
