@@ -1,4 +1,5 @@
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
+import { readFile } from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import { dirname, relative, resolve } from 'node:path'
 import { beforeAll, expect, it } from 'vitest'
@@ -6,12 +7,16 @@ import Themes from '../../themes'
 
 const root = resolve(process.cwd(), 'src')
 const less = createRequire(resolve(process.cwd(), '../cli/package.json'))('less')
+const excludedDirectories = new Set(['example', 'docs', '__tests__', 'themes'])
 const walk = (directory) =>
   readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
     const filename = resolve(directory, entry.name)
-    return entry.isDirectory() ? walk(filename) : [filename]
+    if (!entry.isDirectory()) {
+      return [filename]
+    }
+    return excludedDirectories.has(entry.name) ? [] : walk(filename)
   })
-const files = walk(root).filter((file) => !/\/(example|docs|__tests__|themes)\//.test(file))
+const files = walk(root)
 const references = (value) =>
   [...value.matchAll(/var\(\s*(--[\w-]+)\s*([,)])/g)].map(([, name, delimiter]) => ({
     name,
@@ -74,14 +79,19 @@ it('resolves required variables in every public component stylesheet', () => {
   expect([...new Set(missing)]).toEqual([])
 })
 
-it('resolves literal variables used by component scripts and templates', () => {
-  const missing = files
-    .filter((file) => /\.(vue|tsx?)$/.test(file))
-    .flatMap((file) =>
-      references(readFileSync(file, 'utf8'))
-        .filter(({ name, fallback }) => !fallback && !declarations.has(name) && !runtimeVariables.has(name))
-        .map(({ name }) => `${relative(root, file)}: ${name}`),
-    )
+it('resolves literal variables used by component scripts and templates', async () => {
+  const scripts = files.filter((file) => /\.(vue|tsx?)$/.test(file))
+  const missing = []
+  const batchSize = 16
+  const unresolved = async (file) =>
+    references(await readFile(file, 'utf8'))
+      .filter(({ name, fallback }) => !fallback && !declarations.has(name) && !runtimeVariables.has(name))
+      .map(({ name }) => `${relative(root, file)}: ${name}`)
+  for (let index = 0; index < scripts.length; index += batchSize) {
+    const batch = scripts.slice(index, index + batchSize)
+    const results = await Promise.all(batch.map(unresolved))
+    missing.push(...results.flat())
+  }
   expect([...new Set(missing)]).toEqual([])
 })
 

@@ -418,6 +418,9 @@ importers:
 
   packages/ui:
     dependencies:
+      parse5:
+        specifier: ^7.3.0
+        version: 7.3.0
       '@maple-design/icons-vue':
         specifier: workspace:*
         version: link:../icons

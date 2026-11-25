@@ -1,9 +1,8 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import InfiniteScrollSource from './InfiniteScroll.vue'
 import { infiniteScrollProps } from './props'
 
 const InfiniteScroll = withInstall(InfiniteScrollSource)
-withPropsDefaultsSetter(InfiniteScroll, infiniteScrollProps)
 
 export { infiniteScrollProps }
 export type { InfiniteScrollProps, InfiniteScrollStatus } from './props'

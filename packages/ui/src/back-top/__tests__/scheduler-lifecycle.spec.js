@@ -82,6 +82,33 @@ function fixture(options = {}) {
   return { element, active, owner, child, command }
 }
 describe('BackTop scheduler lifecycle', () => {
+  test('disposal during the initial motion check leaves the scroll target untouched', () => {
+    const f = fixture()
+    patch(f.element.value.ownerDocument.defaultView, 'matchMedia', () => {
+      f.owner.unmount()
+      return { matches: true }
+    })
+    f.command.scrollToTop()
+    expect(f.element.value.scrollTop).toBe(400)
+    expect(frames).toHaveLength(0)
+  })
+  test('resolves a reactive target once per change and recovers when it becomes available', async () => {
+    const current = shallowRef()
+    const resolve = vi.fn(() => {
+      if (!current.value) {
+        throw new Error('Target is not mounted')
+      }
+      return current.value
+    })
+    const f = fixture({ targetContainer: resolve, duration: 0 })
+    await flush()
+    expect(resolve).toHaveBeenCalledTimes(1)
+    current.value = target()
+    await flush()
+    expect(resolve).toHaveBeenCalledTimes(2)
+    f.command.scrollToTop()
+    expect(current.value.scrollTop).toBe(0)
+  })
   test('current measurement coalesces scroll and updates visibility', async () => {
     const f = fixture()
     f.element.value.scrollTop = 0

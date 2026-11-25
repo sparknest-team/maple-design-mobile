@@ -41,6 +41,7 @@ test('shared field text keeps defaults and tracks a later public locale', async 
         h(Inspector),
       ]),
   })
+  const clearLabel = () => wrapper.getComponent(Input).get('button[class$="__clear-btn"]').attributes('aria-label')
   const labels = () => JSON.parse(wrapper.get('output').text())
   try {
     expect(labels()).toEqual({
@@ -60,6 +61,7 @@ test('shared field text keeps defaults and tracks a later public locale', async 
     locale.add('en-US', locale.enUS)
     locale.use('en-US')
     await nextTick()
+    expect(clearLabel()).toBe(locale.enUS['common.clear'])
     expect(wrapper.getComponent(FieldReference).get('button').attributes('aria-label')).toBe(locale.enUS.pickerTitle)
     expect(wrapper.getComponent(EditorPanel).text()).toContain(locale.enUS.pickerConfirmButtonText)
     expect(labels()).toMatchObject({
@@ -71,6 +73,7 @@ test('shared field text keeps defaults and tracks a later public locale', async 
     locale.add('fields-partial', {})
     locale.use('fields-partial')
     await nextTick()
+    expect(clearLabel()).toBe('common.clear')
     expect(labels()).toEqual({ increase: 'common.increase', unknown: 'not-a-key', inherited: 'toString' })
     locale.merge('fields-partial', {
       'common.clear': '',
@@ -78,6 +81,7 @@ test('shared field text keeps defaults and tracks a later public locale', async 
       'fieldPresentation.edit': 'Edit custom',
     })
     await nextTick()
+    expect(clearLabel()).toBe('')
     expect(labels()).toMatchObject({ clear: '', increase: 'Custom' })
     locale.use('zh-CN')
     await nextTick()

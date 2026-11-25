@@ -1,9 +1,8 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import CountToSource from './CountTo.vue'
 import { countToProps } from './props'
 
 const CountTo = withInstall(CountToSource)
-withPropsDefaultsSetter(CountTo, countToProps)
 
 export { countToProps }
 

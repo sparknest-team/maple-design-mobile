@@ -591,14 +591,14 @@
 | `--mp-card-content-row-margin` | 公开 | `16px 0 0 0` | 本组件 CSS<br>`margin` |
 | `--mp-card-description-color` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`color` |
 | `--mp-card-description-font-size` | 公开 | `14px` | 本组件 CSS<br>`font-size` |
-| `--mp-card-description-margin` | 公开 | `20px 0 0 0` | 本组件 CSS<br>`margin` |
+| `--mp-card-description-margin` | 公开 | `6px 0 0 0` | 本组件 CSS<br>`margin` |
 | `--mp-card-description-padding` | 公开 | `0 13px` | 本组件 CSS<br>`padding` |
 | `--mp-card-filled-background` | 公开 | `var(--mp-sys-color-surface-muted)` | 本组件 CSS<br>`background-color` |
 | `--mp-card-floating-buttons-bottom` | 公开 | `16px` | 本组件 CSS<br>`bottom` |
 | `--mp-card-floating-buttons-color` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
 | `--mp-card-floating-buttons-right` | 公开 | `16px` | 本组件 CSS<br>`inset-inline-end` |
 | `--mp-card-footer-bottom` | 公开 | `9px` | 本组件 CSS<br>`bottom` |
-| `--mp-card-footer-margin` | 公开 | `30px 0 0 0` | 本组件 CSS<br>`margin` |
+| `--mp-card-footer-margin` | 公开 | `16px 0 0 0` | 本组件 CSS<br>`margin` |
 | `--mp-card-footer-padding` | 公开 | `0 12px` | 本组件 CSS<br>`padding` |
 | `--mp-card-footer-right` | 公开 | `13px` | 本组件 CSS<br>`inset-inline-end` |
 | `--mp-card-hover-shadow` | 公开 | `0 4px 12px rgb(0 0 0%)` | 本组件 CSS<br>`box-shadow` |
@@ -610,9 +610,9 @@
 | `--mp-card-row-height` | 公开 | `140px` | 本组件 CSS<br>`min-height` |
 | `--mp-card-row-image-width` | 公开 | `140px` | 本组件 CSS<br>`width` |
 | `--mp-card-row-line-height` | 公开 | `1.5` | 本组件 CSS<br>`line-height` |
-| `--mp-card-size-sm-section-margin` | 公开 | `8px 0 0` | 本组件 CSS<br>`margin` |
+| `--mp-card-size-sm-section-margin` | 公开 | `12px 0 0` | 本组件 CSS<br>`margin` |
 | `--mp-card-size-sm-section-padding` | 公开 | `0 12px` | 本组件 CSS<br>`padding` |
-| `--mp-card-size-sm-title-font-size` | 公开 | `16px` | 本组件 CSS<br>`font-size` |
+| `--mp-card-size-sm-title-font-size` | 公开 | `20px` | 本组件 CSS<br>`font-size` |
 | `--mp-card-subtitle-color` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`color` |
 | `--mp-card-subtitle-font-size` | 公开 | `14px` | 本组件 CSS<br>`font-size` |
 | `--mp-card-subtitle-margin` | 公开 | `10px 0 0 0` | 本组件 CSS<br>`margin` |
@@ -620,9 +620,9 @@
 | `--mp-card-subtitle-row-margin` | 公开 | `-8px 0 0 0` | 本组件 CSS<br>`margin` |
 | `--mp-card-title-color` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
 | `--mp-card-title-font-size` | 公开 | `20px` | 本组件 CSS<br>`font-size` |
-| `--mp-card-title-margin` | 公开 | `15px 0 0 0` | 本组件 CSS<br>`margin` |
+| `--mp-card-title-margin` | 公开 | `16px 0 0 0` | 本组件 CSS<br>`margin` |
 | `--mp-card-title-padding` | 公开 | `0 12px` | 本组件 CSS<br>`padding` |
-| `--mp-card-title-row-margin` | 公开 | `12px 0` | 本组件 CSS<br>`margin` |
+| `--mp-card-title-row-margin` | 公开 | `16px 0 12px` | 本组件 CSS<br>`margin` |
 
 </div>
 

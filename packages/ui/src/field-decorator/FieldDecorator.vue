@@ -30,7 +30,7 @@
         <button
           type="button"
           :class="n('clear-btn')"
-          :aria-label="t('common.clear')"
+          :aria-label="clearLabel"
           @mousedown.prevent
           @click.stop="handleClear"
         >
@@ -46,26 +46,18 @@
     </span>
     <span v-if="loading && loadingMode === 'line'" :class="n('loading-line')" aria-hidden="true"><span /></span>
     <template v-if="line">
-      <fieldset
-        v-if="variant === 'outline' && hasHint"
-        :class="classes(n('border'), n('border--notched'))"
-        aria-hidden="true"
-      >
-        <legend :class="classes(n('legend'), [floating, n('legend--open')])">
-          <span>{{ placeholder }}</span>
-        </legend>
-      </fieldset>
-      <span v-else :class="n('border')" aria-hidden="true" />
-      <fieldset
-        v-if="variant === 'outline' && hasHint"
-        :class="classes(n('border-state'), n('border--notched'))"
-        aria-hidden="true"
-      >
-        <legend :class="classes(n('legend'), [floating, n('legend--open')])">
-          <span>{{ placeholder }}</span>
-        </legend>
-      </fieldset>
-      <span v-else :class="n('border-state')" aria-hidden="true" />
+      <template v-for="part in ['border', 'border-state']" :key="part">
+        <fieldset
+          v-if="variant === 'outline' && hasHint"
+          :class="classes(n(part), n('border--notched'))"
+          aria-hidden="true"
+        >
+          <legend :class="classes(n('legend'), [floating, n('legend--open')])">
+            <span>{{ placeholder }}</span>
+          </legend>
+        </fieldset>
+        <span v-else :class="n(part)" aria-hidden="true" />
+      </template>
     </template>
   </component>
 </template>
@@ -77,14 +69,14 @@ import Loading from '../loading/Loading.vue'
 import { createNamespace } from '../utils/components'
 import { fieldDecoratorProps } from './props'
 import { useFieldGeometry } from './use-field-geometry'
-import { useFieldLocale } from './use-field-locale'
+import { useFieldClearLabel } from './use-field-locale'
 
 defineOptions({ name: createNamespace('field-decorator').name })
 const props = defineProps({ ...fieldDecoratorProps, decorativeHint: Boolean })
 const indicatorSize = computed(() => ({ xs: 12, sm: 14, md: 16, lg: 18, xl: 20 })[props.size])
 const emit = defineEmits<{ clear: [event: Event]; mousedown: [event: MouseEvent] }>()
 const { n, classes } = createNamespace('field-decorator')
-const { t } = useFieldLocale()
+const clearLabel = useFieldClearLabel()
 const rootRef = ref<HTMLElement>()
 const middleRef = ref<HTMLElement>()
 const geometry = useFieldGeometry(rootRef, middleRef)

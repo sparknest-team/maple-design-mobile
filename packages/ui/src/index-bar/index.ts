@@ -1,4 +1,4 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import { props as indexAnchorProps } from './anchor-props'
 import IndexAnchor from './IndexAnchor.vue'
 import _IndexBar from './IndexBar.vue'
@@ -12,9 +12,6 @@ const IndexBar: import('../utils/components').ComponentWithInstall<typeof _Index
     }),
     { components: [_IndexBar, IndexAnchor] },
   )
-
-withPropsDefaultsSetter(IndexBar, indexBarProps)
-withPropsDefaultsSetter(IndexAnchor, indexAnchorProps)
 
 export { indexBarProps, indexAnchorProps, IndexBar, IndexAnchor }
 

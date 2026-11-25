@@ -1,6 +1,6 @@
 import { h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { expect, test } from 'vitest'
+import { expect, test, vi } from 'vitest'
 import Trigger from '..'
 
 test.each(['popup', 'sibling', 'host'] as const)('closed shadow popup: %s click ownership', async (origin) => {
@@ -28,6 +28,32 @@ test.each(['popup', 'sibling', 'host'] as const)('closed shadow popup: %s click 
     } else {
       expect(wrapper.emitted('update:open')?.at(-1)).toEqual([false])
     }
+  } finally {
+    wrapper.unmount()
+    host.remove()
+  }
+})
+
+test('respects outside dismissal being disabled before closed-root delivery', async () => {
+  const host = document.createElement('div')
+  document.body.append(host)
+  const shadow = host.attachShadow({ mode: 'closed' })
+  const target = document.createElement('div')
+  const sibling = document.createElement('button')
+  shadow.append(target, sibling)
+  const wrapper = mount(Trigger, {
+    attachTo: document.body,
+    props: { trigger: 'click', defaultOpen: true, popupContainer: target },
+    slots: { default: () => h('button'), content: () => h('button') },
+  })
+  try {
+    await nextTick()
+    await nextTick()
+    sibling.click()
+    await wrapper.setProps({ clickOutsideToClose: false })
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    expect(wrapper.emitted('click-outside')).toBeUndefined()
+    expect(wrapper.emitted('update:open')).toBeUndefined()
   } finally {
     wrapper.unmount()
     host.remove()
@@ -246,5 +272,44 @@ test('separate closed-root peer reference dismisses a lower click trigger', asyn
   } finally {
     wrappers.forEach((wrapper) => wrapper.unmount())
     hosts.forEach((host) => host.remove())
+  }
+})
+
+test('keeps the existing closed-root capture listener when a peer mounts and unmounts', async () => {
+  const host = document.createElement('div')
+  document.body.append(host)
+  const root = host.attachShadow({ mode: 'closed' })
+  const mountTrigger = () => {
+    const point = document.createElement('div')
+    root.append(point)
+    return mount(Trigger, {
+      attachTo: point,
+      props: { popupContainer: false },
+      slots: { default: () => h('button', 'Reference') },
+    })
+  }
+  const add = vi.spyOn(root, 'addEventListener')
+  const first = mountTrigger()
+  try {
+    await nextTick()
+    const original = add.mock.calls.find(([name]) => name === 'click')?.[1]
+    expect(original).toBeTypeOf('function')
+    const remove = vi.spyOn(root, 'removeEventListener')
+    try {
+      const second = mountTrigger()
+      try {
+        await nextTick()
+        expect(remove.mock.calls.some(([, listener]) => listener === original)).toBe(false)
+      } finally {
+        second.unmount()
+      }
+      expect(remove.mock.calls.some(([, listener]) => listener === original)).toBe(false)
+    } finally {
+      remove.mockRestore()
+    }
+  } finally {
+    first.unmount()
+    add.mockRestore()
+    host.remove()
   }
 })

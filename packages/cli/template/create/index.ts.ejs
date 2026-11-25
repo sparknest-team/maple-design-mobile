@@ -1,9 +1,8 @@
 import <%- bigCamelizeName %> from './<%- bigCamelizeName %><%- style === 'vue' ? '.vue' : '' %>'
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import { props as <%- camelizeName %>Props } from './props'
 
 withInstall(<%- bigCamelizeName %>)
-withPropsDefaultsSetter(<%- bigCamelizeName %>, <%- camelizeName %>Props)
 
 export { <%- camelizeName %>Props  }
 

@@ -34,6 +34,8 @@
 
 `<mp-locale-provider dir="rtl">` 提供阅读方向作用域，与 locale 分别配置。省略 dir 时继承，可用嵌套 `dir="ltr"` 或原生 DOM dir 容器局部覆盖。Popup 挂载到外部后仍保留来源作用域的方向。物理 left/right 方位和媒体内容保留原有语义。
 
+原生 `dir="auto"` 或 `<bdi>` 容器中的控件会跟随浏览器计算的文本方向。输入框作为弹层参考元素时，键入文字会更新弹层方向。脚本直接修改 `input.value` 或 `textarea.value` 时，共享定时器会在后续检查中同步方向。封闭 ShadowRoot 的内部插槽设置了方向时，请在传入插槽的元素上同步设置原生 `dir`。
+
 ### 语言回退与作用域
 
 `messages` 的键为语言名称，`locale` 需匹配本层语言包。每个词条依次使用本层选中语言的自有值、最近父级 LocaleProvider、当前全局 Locale；缺包、缺词及 `null`/`undefined` 继续回退，显式空字符串保留。`Message` 包含文字及日期月份、星期等字典，不能简化为纯字符串映射。可从 `@maple-design/ui-vue/locale` 导入 `Message` 类型。

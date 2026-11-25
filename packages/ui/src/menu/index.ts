@@ -1,4 +1,4 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import _Menu from './Menu.vue'
 import _MenuOption from './MenuOption.vue'
 import { props as menuOptionProps } from './option-props'
@@ -11,9 +11,6 @@ const Menu: typeof _Menu & { Option: typeof _MenuOption; install: (app: import('
   }),
   { components: [_Menu, _MenuOption] },
 ) as typeof _Menu & { Option: typeof _MenuOption; install: (app: import('vue').App) => void }
-
-withPropsDefaultsSetter(Menu, menuProps)
-withPropsDefaultsSetter(_MenuOption, menuOptionProps)
 
 export { menuProps, menuOptionProps, Menu, _MenuOption as MenuOption }
 

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, useAttrs } from 'vue'
-import vHover, { HoverOverlay as BaseHoverOverlay, useHoverOverlay } from '../hover'
+import { inMobile } from '@maple-design/shared-vue'
+import BaseHoverOverlay from '../hover/HoverOverlay.vue'
 import BaseLoading from '../loading/Loading.vue'
 import vRipple from '../ripple'
 import { createNamespace } from '../utils/components'
@@ -14,7 +15,7 @@ const rootAttrs = () => Object.fromEntries(Object.entries(attrs).filter(([key]) 
 const emit = defineEmits<{ click: [event: MouseEvent] }>()
 const { n, classes } = createNamespace('button')
 const { states, busy, blocked, computedStyle, handleClick } = useButton(props, emit)
-const { hovering, handleHovering } = useHoverOverlay()
+const hovering = ref(false)
 const focusing = ref(false)
 // Button indicators use a compact square for every animation and icon layout.
 const indicatorSize = computed(() => {
@@ -28,7 +29,6 @@ const indicatorSize = computed(() => {
     :is="component"
     v-bind="rootAttrs()"
     v-ripple="{ disabled: blocked || !ripple }"
-    v-hover:desktop="handleHovering"
     :href="component === 'a' && !blocked ? attrs.href : undefined"
     :role="component === 'a' && blocked ? 'link' : attrs.role"
     :class="[
@@ -56,7 +56,9 @@ const indicatorSize = computed(() => {
     :aria-disabled="component === 'a' && blocked ? true : undefined"
     :aria-busy="busy || undefined"
     :tabindex="!focusable || (component === 'a' && blocked) ? -1 : attrs.tabindex"
+    @mouseenter="hovering = !inMobile()"
     :autofocus="autofocus"
+    @mouseleave="hovering = false"
     @click="handleClick"
     @focus="focusing = true"
     @blur="focusing = false"

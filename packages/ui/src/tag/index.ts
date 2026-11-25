@@ -1,9 +1,8 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import { TAG_COLORS, tagProps, tagVariants } from './props'
 import _TagSource from './Tag.vue'
 
 const _Tag = withInstall(_TagSource)
-withPropsDefaultsSetter(_Tag, tagProps)
 
 export type TagInstance = InstanceType<typeof _Tag>
 export type { TagColor, TagProps, TagVariant } from './props'

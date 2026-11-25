@@ -99,7 +99,7 @@ export const tabsProps = {
   /** 内容支持横向触摸滑动切换，默认关闭。 */
   swipeable: Boolean,
 }
-export const tabNavProps = {
+const navigationProps = () => ({
   /** 业务唯一标识，与 modelValue 对应；不使用 Vue key 作为选中值。 */
   name: { type: [String, Number] as PropType<TabsName>, required: true as const },
   /** 标签标题，title 插槽优先。 */
@@ -110,31 +110,18 @@ export const tabNavProps = {
   closable: { type: Boolean, default: true },
   /** 图标与文字垂直排列。 */
   itemVertical: Boolean,
-}
-export const tabItemProps = {
+})
+const panelProps = () => ({
   /** 业务唯一标识，与 modelValue 对应；不使用 Vue key 作为选中值。 */
   name: { type: [String, Number] as PropType<TabsName>, required: true as const },
   /** 覆盖父级首次挂载策略。 */
   lazyLoad: { type: Boolean, default: undefined },
   /** 覆盖父级隐藏销毁策略。 */
   destroyOnHide: { type: Boolean, default: undefined },
-}
-export const tabPaneProps = {
-  /** 业务唯一标识，与 modelValue 对应；不使用 Vue key 作为选中值。 */
-  name: { type: [String, Number] as PropType<TabsName>, required: true as const },
-  /** 导航标签标题。 */
-  title: String,
-  /** 禁止选择与关闭。 */
-  disabled: Boolean,
-  /** editable 模式下允许关闭。 */
-  closable: { type: Boolean, default: true },
-  /** 图标与文字垂直排列。 */
-  itemVertical: Boolean,
-  /** 覆盖父级首次挂载策略。 */
-  lazyLoad: { type: Boolean, default: undefined },
-  /** 覆盖父级隐藏销毁策略。 */
-  destroyOnHide: { type: Boolean, default: undefined },
-}
+})
+export const tabNavProps = navigationProps()
+export const tabItemProps = panelProps()
+export const tabPaneProps = { ...navigationProps(), ...panelProps() }
 export const tabsNavsProps = {}
 export const tabsItemsProps = {}
 export type TabsProps = ExtractPublicPropTypes<typeof tabsProps>

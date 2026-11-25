@@ -1,4 +1,4 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import _List from './List.vue'
 import ListItem from './ListItem.vue'
 import { listProps } from './props'
@@ -10,8 +10,6 @@ const List: import('../utils/components').ComponentWithInstall<typeof _List & { 
   }),
   { components: [_List, ListItem] },
 )
-
-withPropsDefaultsSetter(List, listProps)
 
 export { listProps, List, ListItem }
 export type {

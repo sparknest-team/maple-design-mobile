@@ -8,6 +8,10 @@ Cedar / Maple target Vue 3.3 and later for ongoing compatibility checks; develop
 
 When the initial server render of Cedar Table must apply a default filter, pass the columns through `:columns` and set `filterable.defaultFilteredValue`. Columns declared with `<c-table-column>` do not guarantee filtered rows in the server HTML.
 
+## Server-rendered overlays
+
+When rendering an initially open Dialog, Message or Cedar Drawer into its default `body` target, pass a context to `renderToString(app, context)`. If you assemble the document yourself, insert `context.teleports?.body ?? ''` immediately after the opening `<body>` tag, before the application root. Preserve the HTML and its comment anchors. Appending it after the application root can cause hydration to create a second overlay and leave the original backdrop intercepting clicks.
+
 ## Build tool compatibility
 
 Cedar / Maple do not currently guarantee Webpack 4 compatibility or continuously validate that toolchain. ESM output preserves `import` / `export` and may also contain modern JavaScript syntax such as optional chaining (`?.`) and nullish coalescing (`??`). ESM describes the module format, not ES5 syntax compatibility.

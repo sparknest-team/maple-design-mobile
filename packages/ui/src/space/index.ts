@@ -1,9 +1,8 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import { spaceProps } from './props'
 import SpaceSource from './Space'
 
 const Space = withInstall(SpaceSource)
-withPropsDefaultsSetter(Space, spaceProps)
 
 export type SpaceInstance = InstanceType<typeof Space>
 export type { SpaceProps, SpaceAlign, SpaceDirection, SpaceJustify, SpaceInternalSize, SpaceSize } from './props'

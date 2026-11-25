@@ -1,9 +1,8 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import { searchProps } from './props'
 import SearchSource from './Search.vue'
 
 const Search = withInstall(SearchSource)
-withPropsDefaultsSetter(Search, searchProps)
 
 export { Search, searchProps }
 export type { SearchEditMode, SearchActionType, SearchField, SearchProps, SearchShape } from './props'

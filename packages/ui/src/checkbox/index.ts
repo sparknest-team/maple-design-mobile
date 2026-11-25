@@ -1,4 +1,4 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import _Checkbox from './base'
 import CheckboxGroup from './group-presentation'
 import { checkboxGroupProps, checkboxProps } from './props'
@@ -11,9 +11,6 @@ const Checkbox: typeof _Checkbox & { Group: typeof CheckboxGroup; install: (app:
     }),
     { components: [_Checkbox, CheckboxGroup] },
   ) as typeof _Checkbox & { Group: typeof CheckboxGroup; install: (app: import('vue').App) => void }
-
-withPropsDefaultsSetter(Checkbox, checkboxProps)
-withPropsDefaultsSetter(CheckboxGroup, checkboxGroupProps)
 
 export { checkboxProps, checkboxGroupProps, Checkbox, CheckboxGroup }
 

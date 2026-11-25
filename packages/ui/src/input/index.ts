@@ -1,13 +1,9 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import _Input from './base'
 import _InputGroup from './InputGroup.vue'
 import _InputGroupLabel from './InputGroupLabel.vue'
 import _InputPassword from './InputPassword.vue'
 import { inputGroupProps, inputPasswordProps, inputProps } from './props'
-
-withPropsDefaultsSetter(_Input, inputProps)
-withPropsDefaultsSetter(_InputGroup, inputGroupProps)
-withPropsDefaultsSetter(_InputPassword, inputPasswordProps)
 
 const Input: import('../utils/components').ComponentWithInstall<
   typeof _Input & { Password: typeof _InputPassword; Group: typeof _InputGroup; GroupLabel: typeof _InputGroupLabel }

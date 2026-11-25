@@ -1,4 +1,4 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import _Breadcrumb from './Breadcrumb.vue'
 import BreadcrumbItem from './BreadcrumbItem.vue'
 import { props as breadcrumbItemProps } from './item-props'
@@ -12,9 +12,6 @@ const Breadcrumb: typeof _Breadcrumb & { Item: typeof BreadcrumbItem; install: (
     }),
     { components: [_Breadcrumb, BreadcrumbItem] },
   ) as typeof _Breadcrumb & { Item: typeof BreadcrumbItem; install: (app: import('vue').App) => void }
-
-withPropsDefaultsSetter(Breadcrumb, breadcrumbProps)
-withPropsDefaultsSetter(BreadcrumbItem, breadcrumbItemProps)
 
 export { breadcrumbProps, breadcrumbItemProps, Breadcrumb, BreadcrumbItem }
 export type { BreadcrumbProps, BreadcrumbRoute, BreadcrumbMoreIconSlotData } from './props'

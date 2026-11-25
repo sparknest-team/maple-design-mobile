@@ -8,10 +8,10 @@
       :class="
         classes(n(), n('$--box'), [popupContainer === false, n('--local')], [enableTransition, n('--transition')])
       "
-      :style="{
-        'z-index': zIndex,
-      }"
-      v-bind="mergeProps(themeScope, getAttrs())"
+      v-bind="mergeProps({ style: { zIndex } }, themeScope, $attrs)"
+      :style="
+        dragged ? { top: 0, left: 0, right: 'auto', bottom: 'auto', transform: `translate(${x}px, ${y}px)` } : undefined
+      "
       @touchstart="handleTouchstart"
       @touchmove="handleTouchmove"
       @touchend="handleTouchend"
@@ -24,14 +24,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, mergeProps, onActivated, onBeforeUnmount, onDeactivated, reactive, ref, watch } from 'vue'
+import { defineComponent, mergeProps, onActivated, onBeforeUnmount, onDeactivated, ref, watch } from 'vue'
 import { clamp, getRect, preventDefault } from '@maple-design/shared-vue'
 import { onSmartMounted, onWindowResize, useTouch } from '@maple-design/use-vue'
 import { useDirection } from '../_utils/direction'
 import { useThemeScope } from '../theme-provider/context'
 import { createNamespace, useTeleport } from '../utils/components'
 import { usePopupContainer } from '../utils/popup-container'
-import { dragBoundaryValue, isDragAxis } from './normalize'
+import { boundarySides, dragBoundaryValue, isDragAxis } from './normalize'
 import { props } from './props'
 
 const { name, n, classes } = createNamespace('drag')
@@ -53,12 +53,12 @@ export default defineComponent({
     const { touching, dragging, moveX, moveY, startTouch, moveTouch, endTouch, resetTouch } = useTouch()
     const { disabled: teleportDisabled } = useTeleport()
     const teleportTarget = usePopupContainer(() => props.popupContainer)
-    const boundary = reactive({
+    const boundary = {
       top: 0,
       bottom: 0,
       left: 0,
       right: 0,
-    })
+    }
 
     watch(
       () => props.boundary,
@@ -74,27 +74,23 @@ export default defineComponent({
     watch(() => [props.disabled, props.axis, props.attraction, props.popupContainer], handleTouchcancel, {
       flush: 'sync',
     })
-    onDeactivated(() => {
+    function deactivate() {
       active = false
       handleTouchcancel()
-    })
+    }
+    onDeactivated(deactivate)
+    onBeforeUnmount(deactivate)
     onActivated(() => {
       active = true
     })
-    onBeforeUnmount(() => {
-      active = false
-      handleTouchcancel()
-    })
 
-    onWindowResize(() => {
+    function refreshBoundary() {
       toPxBoundary()
       resize()
-    })
+    }
 
-    onSmartMounted(() => {
-      toPxBoundary()
-      resize()
-    })
+    onWindowResize(refreshBoundary)
+    onSmartMounted(refreshBoundary)
 
     function handleTouchstart(event: TouchEvent) {
       if (!active || props.disabled) {
@@ -151,56 +147,28 @@ export default defineComponent({
     }
 
     function saveXY() {
-      const { left, top } = getOffset()
-      x.value = left
-      y.value = top
+      const offset = getOffset()
+      x.value = offset.left
+      y.value = offset.top
+      return offset
     }
 
     function getOffset() {
       const dragRect = getRect(drag.value!)
       const localRoot = props.popupContainer === false ? (drag.value?.offsetParent as HTMLElement | null) : null
       const rootRect = getRect(localRoot ?? window)
-      const rootScrollTop = localRoot?.scrollTop ?? 0
-      const rootScrollLeft = localRoot?.scrollLeft ?? 0
-      const rootTop = rootRect.top + (localRoot?.clientTop ?? 0) - rootScrollTop
-      const rootLeft = rootRect.left + (localRoot?.clientLeft ?? 0) - rootScrollLeft
-
-      const top = dragRect.top - rootTop
-      const left = dragRect.left - rootLeft
-
-      const { width, height } = dragRect
+      const top = dragRect.top - rootRect.top - (localRoot?.clientTop ?? 0) + (localRoot?.scrollTop ?? 0)
+      const left = dragRect.left - rootRect.left - (localRoot?.clientLeft ?? 0) + (localRoot?.scrollLeft ?? 0)
       const containerWidth = localRoot?.clientWidth ?? rootRect.width
       const containerHeight = localRoot?.clientHeight ?? rootRect.height
-      const bottom = containerHeight - top - height
-      const right = containerWidth - left - width
 
       return {
         top,
-        bottom,
         left,
-        right,
-        width,
-        height,
-        halfWidth: width / 2,
-        halfHeight: height / 2,
-        containerWidth,
-        containerHeight,
-      }
-    }
-
-    function getRange() {
-      const offset = getOffset()
-      const x1 = boundary.left
-      const x2 = offset.containerWidth - boundary.right - offset.width
-      const y1 = boundary.top
-      const y2 = offset.containerHeight - boundary.bottom - offset.height
-
-      return {
-        minX: x1,
-        minY: y1,
-        // fallback the drag element overflows boundary
-        maxX: x1 < x2 ? x2 : x1,
-        maxY: y1 < y2 ? y2 : y1,
+        minX: boundary.left,
+        minY: boundary.top,
+        maxX: Math.max(boundary.left, containerWidth - boundary.right - dragRect.width),
+        maxY: Math.max(boundary.top, containerHeight - boundary.bottom - dragRect.height),
       }
     }
 
@@ -209,55 +177,24 @@ export default defineComponent({
         return
       }
 
-      const { halfWidth, halfHeight, top, bottom, left, right } = getOffset()
-      const { minX, minY, maxX, maxY } = getRange()
-
-      const leftDistance = left + halfWidth - boundary.left
-      const rightDistance = right + halfWidth - boundary.right
-      const topDistance = top + halfHeight - boundary.top
-      const bottomDistance = bottom + halfHeight - boundary.bottom
-
-      const nearLeft = leftDistance <= rightDistance
-      const nearTop = topDistance <= bottomDistance
-
+      const { top, left, minX, minY, maxX, maxY } = getOffset()
       if (props.attraction.includes('x')) {
-        x.value = nearLeft ? minX : maxX
+        x.value = left - minX <= maxX - left ? minX : maxX
       }
 
       if (props.attraction.includes('y')) {
-        y.value = nearTop ? minY : maxY
+        y.value = top - minY <= maxY - top ? minY : maxY
       }
     }
 
-    function clampToBoundary() {
-      const { minX, minY, maxX, maxY } = getRange()
+    function clampToBoundary({ minX, minY, maxX, maxY } = getOffset()) {
       x.value = clamp(x.value, minX, maxX)
       y.value = clamp(y.value, minY, maxY)
     }
 
     function toPxBoundary() {
-      const { top = 0, bottom = 0, left = 0, right = 0 } = props.boundary ?? {}
-
-      boundary.top = dragBoundaryValue(top)
-      boundary.bottom = dragBoundaryValue(bottom)
-      boundary.left = dragBoundaryValue(left)
-      boundary.right = dragBoundaryValue(right)
-    }
-
-    function getAttrs() {
-      const style = (attrs.style as Record<string, any>) ?? {}
-
-      return {
-        ...attrs,
-        style: {
-          ...style,
-          // when the drag element is dragged for the first time, the inset should be cleared to avoid affecting translateX and translateY.
-          top: dragged.value ? 0 : style.top,
-          left: dragged.value ? 0 : style.left,
-          right: dragged.value ? 'auto' : style.right,
-          bottom: dragged.value ? 'auto' : style.bottom,
-          transform: dragged.value ? `translate(${x.value}px, ${y.value}px)` : style.transform,
-        },
+      for (const side of boundarySides) {
+        boundary[side] = dragBoundaryValue(props.boundary?.[side])
       }
     }
 
@@ -267,8 +204,7 @@ export default defineComponent({
         return
       }
 
-      saveXY()
-      clampToBoundary()
+      clampToBoundary(saveXY())
     }
 
     // expose
@@ -293,7 +229,7 @@ export default defineComponent({
       teleportDisabled,
       n,
       classes,
-      getAttrs,
+      dragged,
       handleTouchstart,
       handleTouchmove,
       handleTouchend,

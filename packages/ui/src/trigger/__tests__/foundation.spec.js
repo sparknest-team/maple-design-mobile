@@ -34,6 +34,7 @@ describe('Trigger shared state and node contract', () => {
       slots: triggerSlots,
     })
     try {
+      expect(wrapper.vm.allowClose()).toBeUndefined()
       expect(wrapper.emitted('open')).toHaveLength(1)
       await wrapper.get('button').trigger('click')
       expect(wrapper.emitted('update:open')).toEqual([[false]])

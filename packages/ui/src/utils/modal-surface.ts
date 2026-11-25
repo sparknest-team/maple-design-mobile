@@ -1,8 +1,9 @@
-import { computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, ref, watch, type Ref } from 'vue'
+import { computed, nextTick, onActivated, onDeactivated, ref, watch, type Ref } from 'vue'
 import { useZIndex } from '../context/zIndex'
+import { useActiveTarget } from './active-target'
+import { useLayerContainer } from './layer-container'
 import { useModalFocus } from './modal-focus'
 import type { PopupContainer } from './popup-container'
-import { usePopupContainer } from './popup-container'
 import { usePopupLayer } from './popup-layer'
 import { usePopupTransition } from './popup-transition'
 import { useScrollLock } from './scroll-lock'
@@ -50,23 +51,7 @@ export function useModalSurface(options: ModalSurfaceOptions) {
     options.unmountOnClose,
     (event) => options.emit(event),
   )
-  const popupContainerTarget = usePopupContainer(options.popupContainer)
-  const popupDocument = computed(() => {
-    const target = popupContainerTarget.value
-    if (typeof target !== 'string') {
-      return target.ownerDocument
-    }
-    return typeof document === 'undefined' ? undefined : document
-  })
-  // Track the reactive destination: DOM adoption does not change the root ref.
-  const modalDocument = () =>
-    options.popupContainer() === false
-      ? (options.root.value?.ownerDocument ?? popupDocument.value)
-      : popupDocument.value
-  const scrollLockTarget = computed(() => {
-    const target = popupContainerTarget.value
-    return options.popupContainer() === false || typeof target === 'string' ? modalDocument()?.body : target
-  })
+  const { popupContainerTarget, scrollLockTarget, modalDocument } = useLayerContainer(options.popupContainer)
   const layerActive = () => mergedOpen.value && !teleportDisabled.value
   const { zIndex } = useZIndex(layerActive, 3)
   const mergedZIndex = computed(() => options.zIndex() ?? zIndex.value)
@@ -101,11 +86,9 @@ export function useModalSurface(options: ModalSurfaceOptions) {
     { flush: 'post' },
   )
 
-  useScrollLock(
-    () => scrollLockTarget.value,
-    () => (mergedOpen.value || transition.leaving.value) && options.lockScroll(),
-    { reserveScrollBar: true },
-  )
+  useScrollLock(scrollLockTarget, () => (mergedOpen.value || transition.leaving.value) && options.lockScroll(), {
+    reserveScrollBar: true,
+  })
 
   function requestClose(request: ModalSurfaceCloseRequest) {
     if (options.onRequestClose) {
@@ -155,35 +138,24 @@ export function useModalSurface(options: ModalSurfaceOptions) {
     }
   }
 
-  let boundDocument: Document | undefined
-  let boundWindow: Window | undefined
-  function unbind() {
-    boundDocument?.removeEventListener('keydown', handleKeydown)
-    boundWindow?.removeEventListener('hashchange', handleRouteChange)
-    boundWindow?.removeEventListener('popstate', handleRouteChange)
-    boundDocument = undefined
-    boundWindow = undefined
-  }
-  function bind() {
-    unbind()
-    boundDocument = modalDocument()
-    boundWindow = boundDocument?.defaultView ?? undefined
-    boundDocument?.addEventListener('keydown', handleKeydown)
-    boundWindow?.addEventListener('hashchange', handleRouteChange)
-    boundWindow?.addEventListener('popstate', handleRouteChange)
-  }
-  watch(modalDocument, bind, { flush: 'post' })
-  onMounted(bind)
+  useActiveTarget(modalDocument, (doc) => {
+    const view = doc.defaultView
+    doc.addEventListener('keydown', handleKeydown)
+    view?.addEventListener('hashchange', handleRouteChange)
+    view?.addEventListener('popstate', handleRouteChange)
+    return () => {
+      doc.removeEventListener('keydown', handleKeydown)
+      view?.removeEventListener('hashchange', handleRouteChange)
+      view?.removeEventListener('popstate', handleRouteChange)
+    }
+  })
   onActivated(() => {
     teleportDisabled.value = false
-    bind()
   })
   onDeactivated(() => {
     teleportDisabled.value = true
     overlayPointerDown = false
-    unbind()
   })
-  onBeforeUnmount(unbind)
 
   function opened() {
     if (mergedOpen.value) {

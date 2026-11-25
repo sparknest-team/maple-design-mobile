@@ -591,14 +591,14 @@ Source: `src/card/style/token.less`
 | `--mp-card-content-row-margin` | Public | `16px 0 0 0` | Local CSS<br>`margin` |
 | `--mp-card-description-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
 | `--mp-card-description-font-size` | Public | `14px` | Local CSS<br>`font-size` |
-| `--mp-card-description-margin` | Public | `20px 0 0 0` | Local CSS<br>`margin` |
+| `--mp-card-description-margin` | Public | `6px 0 0 0` | Local CSS<br>`margin` |
 | `--mp-card-description-padding` | Public | `0 13px` | Local CSS<br>`padding` |
 | `--mp-card-filled-background` | Public | `var(--mp-sys-color-surface-muted)` | Local CSS<br>`background-color` |
 | `--mp-card-floating-buttons-bottom` | Public | `16px` | Local CSS<br>`bottom` |
 | `--mp-card-floating-buttons-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
 | `--mp-card-floating-buttons-right` | Public | `16px` | Local CSS<br>`inset-inline-end` |
 | `--mp-card-footer-bottom` | Public | `9px` | Local CSS<br>`bottom` |
-| `--mp-card-footer-margin` | Public | `30px 0 0 0` | Local CSS<br>`margin` |
+| `--mp-card-footer-margin` | Public | `16px 0 0 0` | Local CSS<br>`margin` |
 | `--mp-card-footer-padding` | Public | `0 12px` | Local CSS<br>`padding` |
 | `--mp-card-footer-right` | Public | `13px` | Local CSS<br>`inset-inline-end` |
 | `--mp-card-hover-shadow` | Public | `0 4px 12px rgb(0 0 0%)` | Local CSS<br>`box-shadow` |
@@ -610,9 +610,9 @@ Source: `src/card/style/token.less`
 | `--mp-card-row-height` | Public | `140px` | Local CSS<br>`min-height` |
 | `--mp-card-row-image-width` | Public | `140px` | Local CSS<br>`width` |
 | `--mp-card-row-line-height` | Public | `1.5` | Local CSS<br>`line-height` |
-| `--mp-card-size-sm-section-margin` | Public | `8px 0 0` | Local CSS<br>`margin` |
+| `--mp-card-size-sm-section-margin` | Public | `12px 0 0` | Local CSS<br>`margin` |
 | `--mp-card-size-sm-section-padding` | Public | `0 12px` | Local CSS<br>`padding` |
-| `--mp-card-size-sm-title-font-size` | Public | `16px` | Local CSS<br>`font-size` |
+| `--mp-card-size-sm-title-font-size` | Public | `20px` | Local CSS<br>`font-size` |
 | `--mp-card-subtitle-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
 | `--mp-card-subtitle-font-size` | Public | `14px` | Local CSS<br>`font-size` |
 | `--mp-card-subtitle-margin` | Public | `10px 0 0 0` | Local CSS<br>`margin` |
@@ -620,9 +620,9 @@ Source: `src/card/style/token.less`
 | `--mp-card-subtitle-row-margin` | Public | `-8px 0 0 0` | Local CSS<br>`margin` |
 | `--mp-card-title-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
 | `--mp-card-title-font-size` | Public | `20px` | Local CSS<br>`font-size` |
-| `--mp-card-title-margin` | Public | `15px 0 0 0` | Local CSS<br>`margin` |
+| `--mp-card-title-margin` | Public | `16px 0 0 0` | Local CSS<br>`margin` |
 | `--mp-card-title-padding` | Public | `0 12px` | Local CSS<br>`padding` |
-| `--mp-card-title-row-margin` | Public | `12px 0` | Local CSS<br>`margin` |
+| `--mp-card-title-row-margin` | Public | `16px 0 12px` | Local CSS<br>`margin` |
 
 </div>
 

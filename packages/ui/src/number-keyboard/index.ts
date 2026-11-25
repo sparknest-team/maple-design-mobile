@@ -1,9 +1,8 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import NumberKeyboardSource from './NumberKeyboard.vue'
 import { props as numberKeyboardProps } from './props'
 
 const NumberKeyboard = withInstall(NumberKeyboardSource)
-withPropsDefaultsSetter(NumberKeyboard, numberKeyboardProps)
 
 export { numberKeyboardProps }
 export type { NumberKeyboardTheme } from './props'

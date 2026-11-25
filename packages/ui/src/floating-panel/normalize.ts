@@ -5,9 +5,13 @@ export const isPanelDuration = (value: unknown) =>
   Number.isFinite(Number(value)) &&
   Number(value) >= 0
 export const panelDuration = (value: unknown) => (isPanelDuration(value) ? Number(value) : 300)
-export function panelAnchors(values: readonly number[] | undefined, windowHeight: number) {
+export function panelAnchors(values: readonly number[] | undefined, viewportHeight: () => number) {
   const valid = Array.isArray(values) ? values.filter(isPanelHeight) : []
-  return [...new Set(valid.length ? valid : [100, isPanelHeight(windowHeight) ? windowHeight * 0.6 : 100])]
+  if (valid.length) {
+    return [...new Set(valid)]
+  }
+  const height = viewportHeight()
+  return [...new Set([100, isPanelHeight(height) ? height * 0.6 : 100])]
 }
 export function nearestPanelAnchor(value: unknown, anchors: readonly number[]) {
   const target = isPanelHeight(value) ? value : Math.min(...anchors)

@@ -53,9 +53,6 @@ import {
 } from 'vue'
 import { toNumber } from '@maple-design/shared-vue'
 import { onSmartMounted } from '@maple-design/use-vue'
-import dayjs from 'dayjs'
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter.js'
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore.js'
 import { navigateTemporalGrid } from '../../_utils/temporal-keyboard'
 import MpAffix from '../../affix'
 import type { ButtonVariant, SemanticStatus } from '../../button'
@@ -64,10 +61,8 @@ import { createNamespace } from '../../utils/components'
 import { type Choose, type ComponentProps, type PanelBtnDisabled } from '../picker-props'
 import { isRangeHighlighted } from '../range-highlight'
 import { useCalendarRangeStyle } from '../use-calendar-range-style'
+import { withinCalendarBounds } from './calendar-bounds'
 import PanelHeader from './PanelHeader.vue'
-
-dayjs.extend(isSameOrBefore)
-dayjs.extend(isSameOrAfter)
 
 const { n, classes } = createNamespace('year-picker')
 const { n: nDate } = createNamespace('date-picker')
@@ -153,10 +148,7 @@ export default defineComponent({
         componentProps: { min, max },
       }: { componentProps: ComponentProps } = props
 
-      const isBeforeMax = max ? dayjs(year).isSameOrBefore(dayjs(max), 'year') : true
-      const isAfterMin = min ? dayjs(year).isSameOrAfter(dayjs(min), 'year') : true
-
-      return isBeforeMax && isAfterMin
+      return withinCalendarBounds(year, 'year', min, max)
     }
 
     const buttonProps = (year: string) => {
@@ -350,8 +342,8 @@ export default defineComponent({
       const list = yearList.value
       const { max, min } = props.componentProps
       return {
-        right: !!max && !dayjs(`${toNumber(list[list.length - 1])}`).isSameOrBefore(dayjs(max), 'year'),
-        left: list[0] > 0 && !!min && !dayjs(`${toNumber(list[0])}`).isSameOrAfter(dayjs(min), 'year'),
+        right: !withinCalendarBounds(`${toNumber(list[list.length - 1])}`, 'year', undefined, max),
+        left: list[0] > 0 && !withinCalendarBounds(`${toNumber(list[0])}`, 'year', min),
       }
     })
 

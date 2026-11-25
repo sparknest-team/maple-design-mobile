@@ -12,6 +12,10 @@ Select a value or non-crossing interval within finite bounds.
 
 ## Layout and arrangement
 
+In a native `dir="auto"` or `<bdi>` scope, changes to the text direction update the thumb position and arrow keys.
+
+A horizontal slider follows the reading direction of its assigned slot in an open shadow root, including after reassignment. A slider mounted inside a closed shadow root follows its ancestors there. When a slider is passed into that root from outside and the internal slot sets the direction, keep the same native `dir` on the element passed into that slot so the thumb position and arrow keys stay in sync.
+
 ### Vertical
 
 <!-- demo-config-notes:start -->

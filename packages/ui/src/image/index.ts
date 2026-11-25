@@ -1,4 +1,4 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import { imagePreviewGroupProps } from './groupProps'
 import _Image from './Image.vue'
 import _ImagePreview from './ImagePreview.vue'
@@ -30,10 +30,6 @@ const ImageFamily: import('../utils/components').ComponentWithInstall<typeof Ima
     components: [_Image, ImagePreview, ImagePreviewGroup, _ImagePreviewAction],
   },
 )
-
-withPropsDefaultsSetter(ImageFamily, imageProps)
-withPropsDefaultsSetter(ImagePreview, imagePreviewProps)
-withPropsDefaultsSetter(ImagePreviewGroup, imagePreviewGroupProps)
 
 export {
   ImageFamily as Image,

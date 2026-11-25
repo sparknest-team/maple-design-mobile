@@ -12,28 +12,62 @@ export interface PositioningSpace {
   scaleY: number
 }
 
+export function containingFrame(document: Document) {
+  try {
+    return document.defaultView?.frameElement ?? null
+  } catch {
+    return null
+  }
+}
+
+export function parentShadowRoot(element: Element) {
+  const parent = element.parentNode
+  return parent?.nodeType === 11 && 'host' in parent ? (parent as ShadowRoot) : undefined
+}
+
+/** Follow rendered ancestry within the current viewport. */
+export function layoutParent(element: Element): Element | null {
+  return element.assignedSlot ?? element.parentElement ?? parentShadowRoot(element)?.host ?? null
+}
+
+function boxMetrics(element: Element) {
+  const rect = element.getBoundingClientRect()
+  const { offsetWidth, offsetHeight } = element as HTMLElement
+  return {
+    rect,
+    scaleX: offsetWidth ? rect.width / offsetWidth || 1 : 1,
+    scaleY: offsetHeight ? rect.height / offsetHeight || 1 : 1,
+  }
+}
+
+const transformProperties = ['transform', 'translate', 'rotate', 'scale', 'perspective', 'filter', 'backdrop-filter']
+
+function establishesFixedBlock(style?: CSSStyleDeclaration) {
+  if (!style) {
+    return false
+  }
+  return (
+    transformProperties.some((property) => {
+      const value = style.getPropertyValue(property)
+      return value && value !== 'none'
+    }) ||
+    /\b(layout|paint|strict|content)\b/.test(style.contain) ||
+    style.willChange
+      .split(',')
+      .some((value) => transformProperties.includes(value.trim()) || value.trim() === 'contain') ||
+    style.getPropertyValue('content-visibility') === 'auto'
+  )
+}
+
 /** CSS coordinates belong to the actual containing block, not the Teleport target. */
 export function getPositioningSpace(popup: HTMLElement, strategy?: 'absolute' | 'fixed'): PositioningSpace {
   const view = popup.ownerDocument.defaultView
   const fixed = strategy === 'fixed' || (!strategy && view?.getComputedStyle(popup).position === 'fixed')
-  let parent = popup.offsetParent as HTMLElement | null
+  let parent: Element | null = popup.offsetParent
   if (fixed) {
-    parent = popup.parentElement
-    while (parent) {
-      const style = view?.getComputedStyle(parent)
-      const willChange = style?.willChange ?? ''
-      if (
-        (style?.transform && style.transform !== 'none') ||
-        (style?.perspective && style.perspective !== 'none') ||
-        (style?.filter && style.filter !== 'none') ||
-        (style?.backdropFilter && style.backdropFilter !== 'none') ||
-        /\b(layout|paint|strict|content)\b/.test(style?.contain ?? '') ||
-        /\b(transform|perspective|filter|contain)\b/.test(willChange) ||
-        style?.getPropertyValue('content-visibility') === 'auto'
-      ) {
-        break
-      }
-      parent = parent.parentElement
+    parent = layoutParent(popup)
+    while (parent && !establishesFixedBlock(view?.getComputedStyle(parent))) {
+      parent = layoutParent(parent)
     }
   }
   if (
@@ -42,9 +76,7 @@ export function getPositioningSpace(popup: HTMLElement, strategy?: 'absolute' | 
   ) {
     return { x: fixed ? 0 : -(view?.scrollX ?? 0), y: fixed ? 0 : -(view?.scrollY ?? 0), scaleX: 1, scaleY: 1 }
   }
-  const rect = parent.getBoundingClientRect()
-  const scaleX = parent.offsetWidth ? rect.width / parent.offsetWidth || 1 : 1
-  const scaleY = parent.offsetHeight ? rect.height / parent.offsetHeight || 1 : 1
+  const { rect, scaleX, scaleY } = boxMetrics(parent)
   return {
     x: rect.left + (parent.clientLeft - parent.scrollLeft) * scaleX,
     y: rect.top + (parent.clientTop - parent.scrollTop) * scaleY,
@@ -78,18 +110,11 @@ export function translateRectBetweenDocuments(
     let space: PositioningSpace = { x: 0, y: 0, scaleX: 1, scaleY: 1 }
     while (current) {
       result.set(current, space)
-      let frame: HTMLElement | null = null
-      try {
-        frame = current.defaultView?.frameElement as HTMLElement | null
-      } catch {
-        break
-      }
+      const frame = containingFrame(current)
       if (!frame) {
         break
       }
-      const bounds = frame.getBoundingClientRect()
-      const scaleX = frame.offsetWidth ? bounds.width / frame.offsetWidth || 1 : 1
-      const scaleY = frame.offsetHeight ? bounds.height / frame.offsetHeight || 1 : 1
+      const { rect: bounds, scaleX, scaleY } = boxMetrics(frame)
       space = {
         x: bounds.left + (frame.clientLeft + space.x) * scaleX,
         y: bounds.top + (frame.clientTop + space.y) * scaleY,
@@ -166,10 +191,10 @@ export function getPlacementOffset(
 }
 
 export function getTransformOrigin(position: TriggerPlacement, direction: ReadingDirection = 'ltr') {
-  if (direction === 'rtl' && /^(top|bottom)-(start|end)$/.test(position)) {
-    position = position.replace(/(start|end)$/, (align) => (align === 'start' ? 'end' : 'start')) as TriggerPlacement
-  }
-  const x = /^(top|bottom)$/.test(position) ? '50%' : /^(left|top-end|bottom-end)/.test(position) ? '100%' : '0'
-  const y = /^(left|right)$/.test(position) ? '50%' : /^(top|left-end|right-end)/.test(position) ? '100%' : '0'
-  return `${x} ${y}`
+  const [side, align] = position.split('-')
+  const vertical = side === 'top' || side === 'bottom'
+  const end = (align === 'end') !== (vertical && direction === 'rtl')
+  const cross = align ? (end ? '100%' : '0') : '50%'
+  const edge = side === 'top' || side === 'left' ? '100%' : '0'
+  return vertical ? `${cross} ${edge}` : `${edge} ${cross}`
 }

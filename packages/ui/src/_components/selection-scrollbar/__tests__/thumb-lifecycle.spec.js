@@ -112,6 +112,21 @@ async function fixture(Component, foreign = false) {
 describe('selection-thumb', () => {
   const Component = Selection
   const Bar = SelectionBar
+  test('releases the original window when a drag ends after document adoption', async () => {
+    const f = await fixture(Component, true)
+    f.start()
+    const move = f.last('mousemove')
+    const end = f.last('mouseup')
+    document.body.appendChild(f.track)
+    try {
+      f.view.dispatchEvent(new f.view.MouseEvent('mouseup'))
+      expect(f.removed('mousemove', move)).toBe(true)
+      expect(f.removed('mouseup', end)).toBe(true)
+      expect(f.dragging()).toBe(false)
+    } finally {
+      f.view.document.body.appendChild(f.track)
+    }
+  })
   test('current drag moves and ordinary mouseup stops delivery', async () => {
     const f = await fixture(Component)
     f.start()

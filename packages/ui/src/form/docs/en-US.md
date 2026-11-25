@@ -567,7 +567,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | `disabled` | Disabled; inherits Form when omitted | _boolean_ | `-` |
 | `readonly` | Readonly state; inherits from Form when omitted | _boolean_ | `-` |
 | `size` | Control size; inherits Form when omitted | _'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'_ | `-` |
-| `no-style` | Remove label/error UI, keep validation | _boolean_ | `false` |
+| `no-style` | Hide the item’s label and feedback while preserving its layout containers and field registration. Toggling this prop alone keeps fields in the default slot mounted. | _boolean_ | `false` |
 | `rules` | Validation rules: function / Zod / array | `FormRule \| FormRule[]` | `-` |
 | `validate-trigger` | Validation triggers; `clear` fires only for a control's `clear` action, not for `change` | _FormItemValidateTrigger \| FormItemValidateTrigger[]_<br>`FormItemValidateTrigger: 'input' \| 'change' \| 'focus' \| 'blur' \| 'clear'` | `'change'` |
 

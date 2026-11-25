@@ -1,6 +1,6 @@
 import { computed, h, type CSSProperties, type Ref, type Slots } from 'vue'
 import { IconChevronRight } from '@maple-design/icons-vue'
-import Icon from '../icon'
+import Icon from '../icon/Icon.vue'
 import Ripple from '../ripple'
 import { createNamespace, formatElevation, MaybeVNode } from '../utils/components'
 import type { MenuViewOptions } from './render'

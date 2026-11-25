@@ -11,6 +11,39 @@ const tick = async () => {
 }
 
 describe('shared scroll lock contract', () => {
+  test('locking without compensation skips layout measurement', () => {
+    const element = document.createElement('div')
+    let reads = 0
+    Object.defineProperty(element, 'clientWidth', {
+      get() {
+        reads++
+        return 100
+      },
+    })
+    const release = acquireScrollLock(element)
+    try {
+      expect(element.style.overflow).toBe('hidden')
+      expect(reads).toBe(0)
+    } finally {
+      release()
+    }
+  })
+
+  test('SSR never resolves a browser-only target', async () => {
+    const app = createSSRApp({
+      setup() {
+        useScrollLock(
+          () => {
+            throw new Error('client-only container')
+          },
+          () => true,
+        )
+        return () => h('div')
+      },
+    })
+    expect(await renderToString(app)).toContain('<div')
+  })
+
   test.each([
     [true, true],
     [true, false],

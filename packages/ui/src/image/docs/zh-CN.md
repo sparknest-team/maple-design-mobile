@@ -505,7 +505,7 @@ export default defineConfig({
 | rotateLeft() / rotateRight() | 旋转 90 度 |
 | toggleFullscreen() | 切换浏览器全屏，返回浏览器 Promise；不支持时返回 undefined |
 
-`Image.showPreview()` 请求打开当前可预览图片；服务 `imagePreview`、`previewImage` 和 `ImagePreviewFn` 接受 URL、URL 数组或配置对象，返回 `ImagePreviewHandle | undefined`（例如 SSR）。返回的 handle 提供 Group 的 12 项能力，单图中不适用的翻页调用无效果。服务还提供 `close()`、`setDefaultOptions()` 和 `resetDefaultOptions()`。原生 `lazy` 由浏览器调度，不承诺自动重试。
+`Image.showPreview()` 请求打开当前可预览图片；服务 `imagePreview`、`previewImage` 和 `ImagePreviewFn` 接受 URL、URL 数组或配置对象，返回 `ImagePreviewHandle | undefined`（例如 SSR）。返回的 handle 提供 Group 的 12 项能力，单图中不适用的翻页调用无效果。服务还提供 `close()`、`setDefaultOptions()` 和 `resetDefaultOptions()`。调用 `imagePreview({ closable: true })` 时会使用 `setDefaultOptions()` 配置的默认图片。调用时传入的非空 `images` 列表或 `src` 地址会覆盖默认图片，同时传入两者时优先使用列表。原生 `lazy` 由浏览器调度，不承诺自动重试。
 
 缩放参数必须为有限正数；无效的 min/max/default/step 分别回退 0.5/8/1/0.5，若 max 小于 min 则按 min 处理。初始与重置缩放限制在区间内；边界变化会夹紧当前值，`zoomTo` 忽略非有限值。`actionsLayout` 中的 `close` 是工具栏关闭动作，与 `closable` 控制的独立关闭按钮分别配置。
 

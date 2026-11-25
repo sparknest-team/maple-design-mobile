@@ -33,8 +33,8 @@
 
 <script setup lang="ts">
 import { Comment, Fragment, Text, useAttrs, useSlots, type VNode } from 'vue'
-import Trigger from '../trigger'
 import type { TriggerReferenceAttrs } from '../trigger'
+import Trigger from '../trigger/trigger'
 import { useTriggerWrapper } from '../trigger/wrapper'
 import { createNamespace } from '../utils/components'
 import { useId } from '../utils/vue-compat'

@@ -1,4 +1,5 @@
 import { nextTick, onActivated, onBeforeUnmount, onDeactivated, watch, type Ref } from 'vue'
+import { containingFrame } from './geometry'
 
 function deepestActive(element: HTMLElement): HTMLElement {
   while (element.shadowRoot?.activeElement) {
@@ -33,52 +34,46 @@ function mayHideShadow(element: HTMLElement): boolean {
   return !element.shadowRoot && (element.localName.includes('-') || shadowHostNames.has(element.localName))
 }
 
-function documentChain(start: Document): { documents: Document[]; frames: Element[] } {
-  const documents = [start],
-    frames: Element[] = []
-  let current = start
-  try {
-    while (current.defaultView && current.defaultView.parent !== current.defaultView) {
-      const frame = current.defaultView.frameElement
-      if (!frame) {
-        return { documents, frames }
-      }
-      frames.push(frame)
-      current = frame.ownerDocument
-      documents.push(current)
-    }
-  } catch {
-    return { documents, frames }
+function documentChain(start: Document) {
+  const documents = [start]
+  const frames: Element[] = []
+  for (let frame = containingFrame(start); frame; frame = containingFrame(frame.ownerDocument)) {
+    frames.push(frame)
+    documents.push(frame.ownerDocument)
   }
   return { documents, frames }
 }
 
-function canRestore(owner: Document, destination: Document, anchor: HTMLElement, focused: HTMLElement): boolean {
-  if (owner === destination) {
-    const current = owner.activeElement
-    return (
-      (!current || current === owner.body || current === owner.documentElement || current === anchor) &&
-      (current !== anchor || deepestActive(anchor) === focused)
-    )
+function activeControl(doc: Document) {
+  const current = doc.activeElement
+  return current === doc.body || current === doc.documentElement ? null : current
+}
+
+// The consumer may move the focused shadow descendant while Vue moves its host.
+function belongsToAnchor(focused: HTMLElement, anchor: HTMLElement) {
+  let node: Element | undefined = focused
+  while (node && node !== anchor) {
+    node = (node.getRootNode() as ShadowRoot).host
   }
-  // A shared accessible document is sufficient even when an ancestor is cross-origin.
-  const from = documentChain(owner),
-    to = documentChain(destination)
+  return node === anchor
+}
+
+function canRestore(owner: Document, destination: Document, anchor: HTMLElement, focused: HTMLElement): boolean {
+  function available(doc: Document, frames?: Element[]) {
+    const current = activeControl(doc)
+    return !current || frames?.includes(current) || (current === anchor && deepestActive(anchor) === focused)
+  }
+  if (owner === destination) {
+    return available(owner)
+  }
+  const from = documentChain(owner)
+  const to = documentChain(destination)
   const common = from.documents.find((doc) => to.documents.includes(doc))
-  if (!common || !common.hasFocus()) {
+  if (!common?.hasFocus()) {
     return false
   }
-  const frames = new Set([...from.frames, ...to.frames])
-  return [...new Set([...from.documents, ...to.documents])].every((doc) => {
-    const current = doc.activeElement
-    return (
-      !current ||
-      current === doc.body ||
-      current === doc.documentElement ||
-      frames.has(current) ||
-      (current === anchor && deepestActive(anchor) === focused)
-    )
-  })
+  const frames = from.frames.concat(to.frames)
+  return from.documents.concat(to.documents).every((doc) => available(doc, frames))
 }
 
 /** Preserve focus only when Vue moves the same live popup between containers. */
@@ -95,17 +90,15 @@ export function usePopupMoveFocus(
     generation++
     moving = undefined
   }
-  onDeactivated(() => {
+  const suspend = () => {
     active = false
     invalidate()
-  })
+  }
+  onDeactivated(suspend)
   onActivated(() => {
     active = true
   })
-  onBeforeUnmount(() => {
-    active = false
-    invalidate()
-  })
+  onBeforeUnmount(suspend)
   watch(
     [target, inline],
     () => {
@@ -132,7 +125,9 @@ export function usePopupMoveFocus(
           !active ||
           !visible.value ||
           !focused.isConnected ||
-          !popup.value?.contains(anchor) ||
+          popup.value !== root ||
+          !root.contains(anchor) ||
+          !belongsToAnchor(focused, anchor) ||
           !canRestore(owner, focused.ownerDocument, anchor, focused)
         ) {
           return
@@ -152,14 +147,8 @@ export function usePopupMoveFocus(
       return false
     }
     return chain.documents.every((doc) => {
-      const current = doc.activeElement
-      return (
-        !current ||
-        current === doc.body ||
-        current === doc.documentElement ||
-        current === moving ||
-        chain.frames.includes(current)
-      )
+      const current = activeControl(doc)
+      return !current || current === moving || chain.frames.includes(current)
     })
   }
 }

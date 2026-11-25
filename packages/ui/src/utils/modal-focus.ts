@@ -1,5 +1,6 @@
 import type { InjectionKey } from 'vue'
-import { inject, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, provide, watch } from 'vue'
+import { inject, nextTick, onBeforeUnmount, provide, watch } from 'vue'
+import { onActiveLifecycle } from './active-target'
 import { canRestoreFocus, isTabStop } from './focusable'
 
 const selector = 'a[href],button,input,select,textarea,[tabindex], [contenteditable]'
@@ -28,15 +29,15 @@ export function useModalFocus(
   let previous: HTMLElement[] = []
   let element: HTMLElement | undefined
   let owner: Document | undefined
-  let mounted = false
-  let suspended = false
+  let enabled = false
   let captured = false
   let touch: { x: number; y: number } | undefined
   // A modal may live in an iframe while its opener lives in a same-origin
   // ancestor. Follow only accessible DOM focus chains, never global realm types.
-  function outsideFocus() {
+  function readFocusChain() {
     let doc = owner
     let focused = doc?.activeElement as HTMLElement | null
+    let owned = true
     try {
       while (doc) {
         const frame = doc.defaultView?.frameElement
@@ -46,34 +47,19 @@ export function useModalFocus(
         doc = frame.ownerDocument
         if (doc.activeElement !== frame) {
           focused = doc.activeElement as HTMLElement | null
-        }
-      }
-    } catch {
-      /* Cross-origin ancestors are outside this focus contract. */
-    }
-    return focused
-  }
-  function ownsFocusChain() {
-    let doc = owner
-    try {
-      while (doc) {
-        const frame = doc.defaultView?.frameElement
-        if (!frame) {
-          break
-        }
-        doc = frame.ownerDocument
-        if (doc.activeElement !== frame && doc.activeElement !== doc.body) {
-          return false
+          if (focused !== doc.body) {
+            owned = false
+          }
         }
       }
     } catch {
       /* Stop at the accessible document boundary. */
     }
-    return true
+    return { focused, owned }
   }
   function focus() {
     const target = root()
-    if (!mounted || suspended || !active() || !target || !isTop()) {
+    if (!enabled || !active() || !target || !isTop()) {
       return
     }
     element = target
@@ -97,7 +83,7 @@ export function useModalFocus(
   function restore() {
     const focused = owner?.activeElement
     const target = previous.find(canRestoreFocus)
-    if (target && ownsFocusChain() && (!focused || focused === owner?.body || element?.contains(focused))) {
+    if (target && readFocusChain().owned && (!focused || focused === owner?.body || element?.contains(focused))) {
       target.focus({ preventScroll: true })
     }
     if (element) {
@@ -111,7 +97,7 @@ export function useModalFocus(
       return
     }
     if (!captured) {
-      const focused = outsideFocus()
+      const { focused } = readFocusChain()
       // Snapshot ancestor modal origins before a lower layer can close first.
       // Its hidden trigger is skipped later; a still-visible ancestor is kept.
       previous = focused && typeof focused.focus === 'function' ? [focused] : []
@@ -132,7 +118,7 @@ export function useModalFocus(
   }
   function trap(event: KeyboardEvent) {
     const target = root()
-    if (event.key !== 'Tab' || event.defaultPrevented || !active() || suspended || !target || !isTop(event)) {
+    if (event.key !== 'Tab' || event.defaultPrevented || !active() || !enabled || !target || !isTop(event)) {
       return
     }
     const items = Array.from(target.querySelectorAll<HTMLElement>(selector)).filter(isTabStop)
@@ -162,7 +148,7 @@ export function useModalFocus(
     touch = event.touches.length === 1 ? { x: event.touches[0].clientX, y: event.touches[0].clientY } : undefined
   }
   function move(event: TouchEvent) {
-    if (!touch || event.touches.length !== 1 || !active() || suspended || !lockScroll() || !isTopForScroll(event)) {
+    if (!touch || event.touches.length !== 1 || !active() || !enabled || !lockScroll() || !isTopForScroll(event)) {
       return
     }
     const point = event.touches[0],
@@ -215,7 +201,7 @@ export function useModalFocus(
   watch(
     [active, root, () => ownerDocument?.() ?? root()?.ownerDocument],
     ([value]) => {
-      if (!mounted || suspended) {
+      if (!enabled) {
         return
       }
       if (root()?.ownerDocument !== owner) {
@@ -228,30 +214,22 @@ export function useModalFocus(
     },
     { flush: 'post' },
   )
-  onMounted(() => {
-    mounted = true
-    bind()
-    if (active()) {
-      capture()
-    }
-  })
-  onActivated(() => {
-    suspended = false
-    unbind()
-    bind()
-    if (active()) {
-      capture()
-    }
-  })
-  onDeactivated(() => {
-    suspended = true
-    unbind()
-    restore()
-  })
-  onBeforeUnmount(() => {
-    mounted = false
-    unbind()
-    restore()
-  })
+  onActiveLifecycle(
+    () => {
+      if (enabled) {
+        return
+      }
+      enabled = true
+      bind()
+      if (active()) {
+        capture()
+      }
+    },
+    () => {
+      enabled = false
+      unbind()
+      restore()
+    },
+  )
   return { focus, focusAfterEnter, restore, trap }
 }

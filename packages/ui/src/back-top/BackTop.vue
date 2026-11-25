@@ -14,14 +14,31 @@
       :aria-label="ariaLabel"
       @click="handleClick"
     >
-      <slot><IconToTop aria-hidden="true" /></slot>
+      <slot>
+        <svg
+          class="mp-svg-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 48 48"
+          width="1em"
+          height="1em"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="4"
+          stroke-linecap="butt"
+          stroke-linejoin="miter"
+          role="img"
+          aria-hidden="true"
+        >
+          <path d="M43 7H5M24 20v23M24 13.96 30.453 21H17.546zm.736-.804Z" />
+          <path fill="currentColor" stroke="none" d="m24 14-6 7h12z" />
+        </svg>
+      </slot>
     </button>
   </Teleport>
 </template>
 
 <script setup lang="ts">
 import { mergeProps, useAttrs } from 'vue'
-import { IconToTop } from '@maple-design/icons-vue'
 import { useDirection } from '../_utils/direction'
 import { useThemeScope } from '../theme-provider/context'
 import { createNamespace, formatElevation } from '../utils/components'

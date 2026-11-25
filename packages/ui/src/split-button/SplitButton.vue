@@ -51,11 +51,13 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import { IconMenuDown } from '@maple-design/icons-vue'
-import Button, { ButtonGroup } from '../button'
+import Button from '../button/base'
+import ButtonGroup from '../button/ButtonGroup.vue'
 import { injectLocaleProvider } from '../locale-provider/provide'
 import { defaultLocaleReady, t } from '../locale/state'
 import { defaultMoreActions } from '../locale/zh-CN'
-import Menu, { type MenuInstance } from '../menu'
+import type { MenuInstance } from '../menu'
+import Menu from '../menu/Menu.vue'
 import { createNamespace } from '../utils/components'
 import { splitButtonProps } from './props'
 

@@ -23,7 +23,7 @@ export const props = {
   disabled: Boolean,
   boundary: {
     type: Object as PropType<DragBoundary>,
-    validator: isDragBoundary,
+    validator: process.env.NODE_ENV !== 'production' ? isDragBoundary : undefined,
     default: () => ({
       top: 0,
       bottom: 0,

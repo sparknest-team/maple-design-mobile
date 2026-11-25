@@ -5,7 +5,6 @@
   >
     <button
       :id="ctx.id(name, 'tab')"
-      ref="button"
       type="button"
       role="tab"
       :class="classes(n('tab-button'), [itemVertical, n('--item-vertical')])"
@@ -14,7 +13,7 @@
       :aria-disabled="disabled || undefined"
       :aria-controls="hasPanel ? ctx.id(name, 'panel') : undefined"
       :disabled="disabled"
-      :tabindex="tabIndex"
+      :tabindex="!disabled && name === ctx.tabStop.value ? 0 : -1"
       @click="ctx.click(name, $event)"
       @pointerenter="hover"
       @keydown="keydown"
@@ -42,10 +41,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, inject, ref } from 'vue'
-import { resolveDirection } from '../_utils/direction'
+import { computed, inject } from 'vue'
 import { createNamespace } from '../utils/components'
-import { tabsInjectionKey } from './context'
+import { focusScope, tabsInjectionKey } from './context'
 import { tabNavProps } from './props'
 import type { TabNavSlots } from './types'
 import { useTabsLocale } from './use-tabs-configuration'
@@ -56,41 +54,29 @@ const props = defineProps(tabNavProps)
 const ctx = inject(tabsInjectionKey)!
 const { n, classes } = createNamespace('tabs')
 const text = useTabsLocale()
-const button = ref<HTMLButtonElement>()
-const name = computed(() => props.name)
-const selected = computed(() => ctx.active.value === name.value)
-const hasPanel = computed(() => ctx.entries.value.find((tab) => tab.name === name.value)?.hasPanel)
-const tabIndex = computed(() => {
-  if (props.disabled) {
-    return -1
-  }
-  const enabled = ctx.entries.value.filter((tab) => !tab.disabled)
-  const target =
-    enabled.find((tab) => tab.name === ctx.focused.value)?.name ??
-    enabled.find((tab) => tab.name === ctx.active.value)?.name ??
-    enabled[0]?.name
-  return name.value === target ? 0 : -1
-})
+const selected = computed(() => ctx.active.value === props.name)
+const hasPanel = computed(() => ctx.entries.value.find((tab) => tab.name === props.name)?.hasPanel)
 function hover(event: PointerEvent) {
   if (!props.disabled && ctx.props.trigger === 'hover' && event.pointerType === 'mouse') {
-    ctx.select(name.value)
+    ctx.select(props.name)
   }
 }
-async function keydown(event: KeyboardEvent) {
+function keydown(event: KeyboardEvent) {
   if (props.disabled) {
     return
   }
   if (event.key === 'Delete' && ctx.props.editable && props.closable) {
     event.preventDefault()
-    ctx.remove(name.value, event)
+    ctx.remove(props.name, event)
     return
   }
   const vertical = ctx.props.orientation === 'vertical'
-  const rtl = resolveDirection(button.value, ctx.rtl.value ? 'rtl' : 'ltr') === 'rtl'
+  const button = event.currentTarget as HTMLButtonElement
+  const rtl = ctx.rtlAt(button)
   const previous = vertical ? 'ArrowUp' : rtl ? 'ArrowRight' : 'ArrowLeft'
   const next = vertical ? 'ArrowDown' : rtl ? 'ArrowLeft' : 'ArrowRight'
-  const enabled = ctx.entries.value.filter((tab) => !tab.disabled)
-  let index = enabled.findIndex((tab) => tab.name === name.value)
+  const enabled = ctx.enabled.value
+  let index = enabled.indexOf(props.name)
   if (event.key === 'Home') {
     index = 0
   } else if (event.key === 'End') {
@@ -104,13 +90,12 @@ async function keydown(event: KeyboardEvent) {
   }
   event.preventDefault()
   const target = enabled[index]
-  if (!target) {
+  if (target === undefined) {
     return
   }
-  ctx.focused.value = target.name
-  button.value?.ownerDocument.getElementById(ctx.id(target.name, 'tab'))?.focus()
+  ctx.focusTab(target, focusScope(button))
   if (ctx.props.activationMode === 'automatic') {
-    ctx.select(target.name)
+    ctx.select(target)
   }
 }
 </script>

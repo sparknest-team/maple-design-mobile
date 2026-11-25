@@ -1,4 +1,4 @@
-import { createSSRApp, h, nextTick } from 'vue'
+import { createSSRApp, h, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import { renderToString } from 'vue/server-renderer'
@@ -141,4 +141,34 @@ describe('virtual-list alignment foundation', () => {
     expect(w.element.scrollTop).toBe(920)
     w.unmount()
   })
+})
+
+test('adding and removing a manual slot switches the existing list between both viewports', async () => {
+  const manual = ref(false)
+  const options = { height: 100 }
+  const rows = [{ key: 1 }]
+  const owner = mount({
+    render: () =>
+      h(
+        List,
+        { data: rows, virtualListProps: options },
+        {
+          item: () => 'data row',
+          ...(manual.value ? { default: () => 'manual row' } : {}),
+        },
+      ),
+  })
+  try {
+    expect(owner.findComponent(VirtualList).exists()).toBe(true)
+    manual.value = true
+    await nextTick()
+    expect(owner.findComponent(VirtualList).exists()).toBe(false)
+    expect(owner.text()).toContain('manual row')
+    manual.value = false
+    await nextTick()
+    expect(owner.findComponent(VirtualList).exists()).toBe(true)
+    expect(owner.text()).toContain('data row')
+  } finally {
+    owner.unmount()
+  }
 })

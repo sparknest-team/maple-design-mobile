@@ -1,7 +1,8 @@
 import { computed, h, onActivated, onDeactivated, ref, watch, type VNodeChild } from 'vue'
-import { useDirection, useEventListener } from '@maple-design/use-vue'
+import { useDirection } from '@maple-design/use-vue'
 import { useZIndex } from '../context/zIndex'
 import Overlay from '../overlay'
+import { useActiveTarget } from '../utils/active-target'
 import { createNamespace } from '../utils/components'
 import { useElementResize } from '../utils/resize-observer'
 import type { NavMenuProps } from './types'
@@ -44,7 +45,13 @@ export function useNavMenuSurface(
     () => open.value,
     resize,
   )
-  useEventListener(() => reference()?.ownerDocument.defaultView, 'scroll', resize, { capture: true, passive: true })
+  useActiveTarget(
+    () => (open.value ? (reference()?.ownerDocument.defaultView ?? undefined) : undefined),
+    (view) => {
+      view.addEventListener('scroll', resize, { capture: true, passive: true })
+      return () => view.removeEventListener('scroll', resize, true)
+    },
+  )
   watch(
     open,
     (value) => {

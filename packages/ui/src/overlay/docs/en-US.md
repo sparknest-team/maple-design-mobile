@@ -43,7 +43,7 @@ These are actual :root defaults. Prefer component variables for business customi
 | `v-model:open` | Show overlay | _boolean_ | `false` |
 | `default-open` | Whether to display by default in uncontrolled mode | _boolean_ | `false` |
 | `overlay-closable` | Whether clicking the backdrop closes the Overlay | _boolean_ | `true` |
-| `lock-scroll` | Whether to disable scrolling penetration, scrolling the Overlay when disabled will not cause the body to scroll | _boolean_ | `true` |
+| `lock-scroll` | Lock the target container while open. Inline overlays lock the body of their own document. | _boolean_ | `true` |
 | `unmount-on-close` | Whether to unmount slot content after closing | _boolean_ | `true` |
 | `popup-container` | Teleport target; `false` renders in place | _string \| HTMLElement \| false_ | `'body'` |
 | `esc-to-close` | Whether to support keyboard ESC to close the overlay | _boolean_ | `true` |

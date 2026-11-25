@@ -1,4 +1,4 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import { props as timePickerProps } from './picker-props'
 import _Time from './presentation'
 import { props as timeProps } from './props'
@@ -12,9 +12,6 @@ const Time: import('../utils/components').ComponentWithInstall<typeof _Time & { 
     }),
     { components: [_Time, TimePicker] },
   )
-
-withPropsDefaultsSetter(Time, timeProps)
-withPropsDefaultsSetter(TimePicker, timePickerProps)
 
 export { timeProps, timePickerProps, TimePicker, Time }
 

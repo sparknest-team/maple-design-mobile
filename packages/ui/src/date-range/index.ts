@@ -1,4 +1,4 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import _DateRangePicker from './DateRangePicker.vue'
 import { props as dateRangePickerProps } from './picker-props'
 import _DateRange from './presentation'
@@ -16,9 +16,6 @@ const DateRange: import('../utils/components').ComponentWithInstall<
   }),
   { components: [_DateRange, DateRangePicker] },
 )
-
-withPropsDefaultsSetter(DateRange, dateRangeProps)
-withPropsDefaultsSetter(DateRangePicker, dateRangePickerProps)
 
 export { dateRangeProps, dateRangePickerProps, DateRangePicker, DateRange }
 

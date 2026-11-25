@@ -334,3 +334,34 @@ test.each(['open', 'closed'] as const)(
     }
   },
 )
+
+test('does not restore focus to a shadow input moved outside the popup', async () => {
+  const from = document.createElement('div')
+  const to = document.createElement('div')
+  const outside = document.createElement('div')
+  document.body.append(from, to, outside)
+  const wrapper = mount(Trigger, {
+    props: { open: true, popupContainer: from },
+    slots: { default: () => h('button'), content: () => h('div', { 'data-host': '' }) },
+  })
+  try {
+    await nextTick()
+    const host = from.querySelector('[data-host]')!
+    const input = document.createElement('input')
+    host.attachShadow({ mode: 'open' }).append(input)
+    input.focus()
+    const focus = vi.spyOn(input, 'focus')
+    const update = wrapper.setProps({ popupContainer: to })
+    await nextTick()
+    expect(to.querySelector('[data-host]')).toBe(host)
+    outside.append(input)
+    await update
+    await nextTick()
+    expect(focus).not.toHaveBeenCalled()
+  } finally {
+    wrapper.unmount()
+    from.remove()
+    to.remove()
+    outside.remove()
+  }
+})

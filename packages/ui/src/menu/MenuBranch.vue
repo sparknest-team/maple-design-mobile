@@ -6,7 +6,7 @@
 import { computed, h, inject, nextTick, ref, useSlots } from 'vue'
 import { useDirection } from '../_utils/direction'
 import type { TriggerInstance } from '../trigger'
-import Trigger from '../trigger'
+import Trigger from '../trigger/trigger'
 import { createNamespace } from '../utils/components'
 import { menuDefaults, submenuTriggerAppearance } from './appearance'
 import { menuBranchProps } from './branch-props'

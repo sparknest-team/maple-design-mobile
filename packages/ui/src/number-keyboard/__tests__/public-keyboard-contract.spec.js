@@ -31,6 +31,26 @@ test('keys are native non-submit buttons and delete has an accessible name', () 
   ).toBe(true)
 })
 
+test.each([
+  ['default', [], true, ['0', 'delete']],
+  ['default', ['+', '.'], false, ['+', '.', '0']],
+  ['custom', [], true, ['blank', '0', 'blank']],
+  ['custom', ['.'], true, ['.', '0', 'blank']],
+  ['custom', ['+', '.'], true, ['+', '.', '0']],
+])('%s keyboard lays out extra keys %j', (theme, extraKey, showDeleteKey, expected) => {
+  const owner = setup({ theme, extraKey, showDeleteKey })
+  const rows = owner.findAll('.mp-number-keyboard__row')
+  expect(rows.slice(0, 3).map((row) => row.text())).toEqual(['123', '456', '789'])
+  const bottom = rows[3].findAll('button')
+  const labels = bottom.map((key) =>
+    key.classes().includes('mp-number-keyboard__key--delete') ? 'delete' : key.text() || 'blank',
+  )
+  expect(labels).toEqual(expected)
+  expect(bottom.filter((key) => key.classes().includes('mp-number-keyboard__key--wider'))).toHaveLength(
+    theme === 'custom' && extraKey.length === 1 ? 1 : 0,
+  )
+})
+
 test('multi-character keys are accepted only when the entire value fits', async () => {
   const owner = setup({ defaultValue: '1', maxLength: 2, extraKey: 'ABC' })
   await owner.find('.mp-number-keyboard__key--extra').trigger('click')

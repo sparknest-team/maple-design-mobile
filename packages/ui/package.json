@@ -30,6 +30,10 @@
     "*.less"
   ],
   "exports": {
+    "./trigger/server": {
+      "browser": "./trigger-server-browser.mjs",
+      "default": "./trigger-server.cjs"
+    },
     ".": {
       "types": "./types-generated/index.d.ts",
       "import": "./es/index.mjs",
@@ -66,6 +70,9 @@
   "typings": "types-generated/index.d.ts",
   "style": "es/maple.css",
   "files": [
+    "trigger-server.cjs",
+    "trigger-server.mjs",
+    "trigger-server-browser.mjs",
     "ssr-browser.mjs",
     "reset",
     "json",
@@ -98,6 +105,7 @@
     "csstype": "^3.2.3",
     "dayjs": "^1.11.13",
     "decimal.js": "^10.6.0",
+    "parse5": "^7.3.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {

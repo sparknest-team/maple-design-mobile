@@ -86,7 +86,9 @@ With Teleport, variables must be in the actual popup scope, for example through 
 
 ### Reduced motion
 
-`allowClose()` restores the internal closing gate; there is no public counterpart to disable closing, and this method cannot prevent closure.
+For a popup in a closed shadow root, an outside click is delivered after the browser dispatches the event. Setting `click-outside-to-close` to `false` before delivery keeps the popup open.
+
+The instance retains `allowClose()` for existing callers. Dismissal follows the current trigger and close settings.
 
 ## API
 
@@ -151,7 +153,7 @@ Native `click`, `mouseenter`, `mouseleave`, `focusin`, `focusout`, `contextmenu`
 
 `aria-describedby` from `reference-attrs` is merged and deduplicated with existing reference descriptions; cleanup or reference replacement restores the original attribute.
 
-When the first reference in the default slot is a native element, its server-rendered HTML includes the supplied `aria-*` and `data-*` attributes. For an external reference, Trigger applies the attributes to that element after mounting.
+The server-rendered reference element includes the supplied `aria-*` and `data-*` attributes. When the default slot contains a component, Trigger applies these attributes to its first rendered element. Trigger merges its description IDs with existing `aria-describedby` IDs and preserves the component’s own IDs when the reference changes. For an external reference, Trigger applies the attributes to that element after mounting.
 
 When several triggers share an element, their description IDs are combined. Removing one trigger drops the IDs contributed only by that trigger. Removing the last trigger restores the latest value supplied by the application.
 

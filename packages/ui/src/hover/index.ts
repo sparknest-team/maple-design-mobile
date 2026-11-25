@@ -93,16 +93,13 @@ function removeHover(this: HoverHTMLElement) {
   }
 }
 
-function bind(element: HoverHTMLElement, binding: DirectiveBinding<HoverValue>, hovering = false) {
+function bind(element: HoverHTMLElement, binding: DirectiveBinding<HoverValue>) {
   if (shouldDisabled(binding.arg)) {
     return
   }
-  element._hover = { value: binding.value, hovering, rawStyle: {} }
+  element._hover = { value: binding.value, hovering: false, rawStyle: {} }
   element.addEventListener('mouseenter', createHover)
   element.addEventListener('mouseleave', removeHover)
-  if (hovering) {
-    applyStyle(element)
-  }
 }
 
 function unbind(element: HoverHTMLElement) {
@@ -124,17 +121,24 @@ function unmounted(element: HoverHTMLElement) {
 }
 
 function beforeUpdate(element: HoverHTMLElement) {
-  const hovering = element._hover?.hovering ?? false
-  unbind(element)
-  // Preserve hover state across Vue's DOM patch; disabled arguments discard it.
-  pendingHover.set(element, hovering)
+  // Let Vue patch the underlying inline style before applying hover values again.
+  restoreStyle(element)
 }
 
-const pendingHover = new WeakMap<HoverHTMLElement, boolean>()
 function updated(element: HoverHTMLElement, binding: DirectiveBinding<HoverValue>) {
-  const hovering = pendingHover.get(element) ?? false
-  pendingHover.delete(element)
-  bind(element, binding, hovering)
+  if (shouldDisabled(binding.arg)) {
+    unbind(element)
+    return
+  }
+  const state = element._hover
+  if (!state) {
+    bind(element, binding)
+    return
+  }
+  state.value = binding.value
+  if (state.hovering) {
+    applyStyle(element)
+  }
 }
 
 const HoverDirective: Directive & Plugin = {

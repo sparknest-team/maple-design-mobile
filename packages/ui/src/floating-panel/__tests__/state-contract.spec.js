@@ -1,3 +1,4 @@
+import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, expect, test, vi } from 'vitest'
 import FloatingPanel from '..'
@@ -77,4 +78,32 @@ test('invalid runtime values use standard Vue warnings', async () => {
   const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
   fixture({ anchors: [-1], duration: Infinity, modelValue: NaN, defaultValue: -1 })
   expect(warn).toHaveBeenCalled()
+})
+
+test('a teleported panel follows its viewport and locks only its own document', async () => {
+  const frame = document.body.appendChild(document.createElement('iframe'))
+  const view = frame.contentWindow
+  const body = view.document.body
+  Object.defineProperty(view, 'innerHeight', { configurable: true, value: 500 })
+  const w = fixture({ anchors: undefined, popupContainer: body })
+  try {
+    await nextTick()
+    const panel = body.querySelector('.mp-floating-panel')
+    expect(panel.style.height).toBe('300px')
+    await trigger(panel, 'touchstart')
+    expect(body.classList.contains('mp--lock')).toBe(true)
+    expect(document.body.classList.contains('mp--lock')).toBe(false)
+    await trigger(panel, 'touchcancel')
+    expect(body.classList.contains('mp--lock')).toBe(false)
+    Object.defineProperty(view, 'innerHeight', { configurable: true, value: 400 })
+    await trigger(view, 'resize')
+    expect(panel.style.height).toBe('240px')
+    await w.setProps({ popupContainer: document.body })
+    expect(panel.style.height).toBe(window.innerHeight * 0.6 + 'px')
+    await trigger(view, 'orientationchange')
+    expect(panel.style.height).toBe(window.innerHeight * 0.6 + 'px')
+  } finally {
+    owners.pop().unmount()
+    frame.remove()
+  }
 })

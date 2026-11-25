@@ -1,6 +1,6 @@
 import { nextTick, reactive } from 'vue'
 import { call, isArray } from '@maple-design/shared-vue'
-import { mountInstance, withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { mountInstance, withInstall } from '../utils/components'
 import type { PopupContainer } from '../utils/popup-container'
 import VarPicker from './base'
 import { props as pickerProps, type PickerColumnOption } from './props'
@@ -138,7 +138,6 @@ const InstalledPicker: import('../utils/components').ComponentWithInstall<Picker
   VarPicker,
   Picker,
 )
-withPropsDefaultsSetter(Picker, pickerProps)
 
 export { pickerProps }
 export type { PickerColumnOption } from './props'

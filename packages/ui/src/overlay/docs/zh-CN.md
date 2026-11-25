@@ -45,7 +45,7 @@
 | `v-model:open`     | 是否显示背景层                                         | _boolean_                      | `false`  |
 | `default-open`     | 非受控模式下是否默认显示                               | _boolean_                      | `false`  |
 | `overlay-closable` | 点击背景区域是否关闭                                   | _boolean_                      | `true`   |
-| `lock-scroll`      | 是否禁止滚动穿透，禁止时滚动背景层不会引发 body 的滚动 | _boolean_                      | `true`   |
+| `lock-scroll`      | 打开时锁定挂载容器的滚动。原地渲染时锁定所在文档的 body。 | _boolean_                      | `true`   |
 | `unmount-on-close` | 关闭后是否卸载插槽内容                                 | _boolean_                      | `true`   |
 | `popup-container`  | Teleport 挂载位置；`false` 表示原地渲染                | _string \| HTMLElement \| false_ | `'body'` |
 | `esc-to-close`     | 是否支持键盘 ESC 关闭背景层                            | _boolean_                      | `true`   |

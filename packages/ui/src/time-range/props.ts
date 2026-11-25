@@ -3,7 +3,7 @@ import { fieldPresentationProps } from '../_components/field-presentation/props'
 import { timePickerFieldsProp } from '../_components/picker-field/fields'
 import { openTriggerTargetProp } from '../_components/picker-field/open-trigger'
 import { rangeInputAttrsProp } from '../_components/picker-field/props'
-import { fieldDecoratorProps, fieldLoadingProps } from '../field-decorator'
+import { fieldDecoratorProps, fieldLoadingProps } from '../field-decorator/props'
 import { props as pickerPropsSource } from '../picker/props'
 import { timeDisabledProps } from '../time/disabled-props'
 import type {

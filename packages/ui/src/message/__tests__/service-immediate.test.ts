@@ -10,6 +10,20 @@ afterEach(async () => {
 })
 
 describe('Message before component mount', () => {
+  it('allocates an unused id when the next generated id is already in the queue', async () => {
+    const closed = vi.fn()
+    Message({ duration: 0, onClosed: closed }).close()
+    const seed = Number(String(closed.mock.calls[0][0]).split('_').pop())
+    const first = Message({ id: `__message_${seed + 1}`, duration: 0, content: 'explicit' })
+    const second = Message({ duration: 0, content: 'automatic' })
+    await nextTick()
+    expect(Array.from(document.querySelectorAll('[role="alert"]'), (el) => el.textContent)).toEqual([
+      'explicit',
+      'automatic',
+    ])
+    first.close()
+    second.close()
+  })
   it('clears every unmounted item without skipping after synchronous removal', async () => {
     const closed = vi.fn()
     for (let id = 0; id < 3; id += 1) {

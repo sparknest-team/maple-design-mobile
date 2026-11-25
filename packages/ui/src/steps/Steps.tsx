@@ -1,6 +1,6 @@
 import type { VNode } from 'vue'
-import { cloneVNode, computed, defineComponent, h, isVNode, provide, ref, shallowRef } from 'vue'
-import { useDirection } from '@maple-design/use-vue'
+import { cloneVNode, computed, defineComponent, h, inject, isVNode, provide, ref, shallowRef } from 'vue'
+import { readingDirectionKey, resolveDirection } from '@maple-design/use-vue'
 import { createNamespace } from '../utils/components'
 import { flatChildren as flatFragment } from './children'
 import { stepsInjectionKey } from './context'
@@ -17,7 +17,7 @@ export default defineComponent({
   },
   setup(props, { emit, slots }) {
     const root = ref<HTMLElement>()
-    const { isRtl } = useDirection(() => root.value)
+    const inheritedDirection = inject(readingDirectionKey, undefined)
     const focusedStep = ref<number>()
     const icons = shallowRef({ finish: slots['finish-icon'], error: slots['error-icon'] })
     function onKeydown(event: KeyboardEvent) {
@@ -35,8 +35,10 @@ export default defineComponent({
       if (index < 0) {
         return
       }
-      const next = orientation.value === 'vertical' ? 'ArrowDown' : isRtl.value ? 'ArrowLeft' : 'ArrowRight'
-      const previous = orientation.value === 'vertical' ? 'ArrowUp' : isRtl.value ? 'ArrowRight' : 'ArrowLeft'
+      const isRtl =
+        orientation.value === 'horizontal' && resolveDirection(root.value, inheritedDirection?.value) === 'rtl'
+      const next = orientation.value === 'vertical' ? 'ArrowDown' : isRtl ? 'ArrowLeft' : 'ArrowRight'
+      const previous = orientation.value === 'vertical' ? 'ArrowUp' : isRtl ? 'ArrowRight' : 'ArrowLeft'
       if (!['Home', 'End', next, previous].includes(event.key)) {
         return
       }

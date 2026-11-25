@@ -1,4 +1,4 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import _DatePicker from './DatePicker.vue'
 import { props as datePickerProps } from './picker-props'
 import _Date from './presentation'
@@ -14,9 +14,6 @@ const Date: import('../utils/components').ComponentWithInstall<typeof _Date & { 
     }),
     { components: [_Date, DatePicker] },
   )
-
-withPropsDefaultsSetter(Date, dateProps)
-withPropsDefaultsSetter(DatePicker, datePickerProps)
 
 export { dateProps, datePickerProps, DatePicker, Date }
 

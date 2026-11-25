@@ -1,4 +1,4 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import Component from './Grid.vue'
 import ItemComponent from './GridItem.vue'
 import { gridItemProps } from './item-props'
@@ -14,6 +14,3 @@ export type GridItemInstance = InstanceType<typeof GridItem>
 export const _GridComponent: typeof Grid = Grid
 export const _GridItemComponent: typeof GridItem = GridItem
 export default Grid
-
-withPropsDefaultsSetter(Grid, gridProps)
-withPropsDefaultsSetter(GridItem, gridItemProps)

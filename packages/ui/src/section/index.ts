@@ -1,9 +1,8 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import { sectionProps } from './props'
 import SectionSource from './Section.vue'
 
 const Section = withInstall(SectionSource)
-withPropsDefaultsSetter(Section, sectionProps)
 
 export { Section, sectionProps }
 export type {

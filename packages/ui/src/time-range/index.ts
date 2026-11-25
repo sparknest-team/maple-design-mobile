@@ -1,4 +1,4 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import { props as timeRangePickerProps } from './picker-props'
 import _TimeRange from './presentation'
 import { props as timeRangeProps } from './props'
@@ -13,9 +13,6 @@ const TimeRange: import('../utils/components').ComponentWithInstall<
   }),
   { components: [_TimeRange, TimeRangePicker] },
 )
-
-withPropsDefaultsSetter(TimeRange, timeRangeProps)
-withPropsDefaultsSetter(TimeRangePicker, timeRangePickerProps)
 
 export { timeRangeProps, timeRangePickerProps, TimeRangePicker, TimeRange }
 

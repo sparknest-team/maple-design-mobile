@@ -3,7 +3,14 @@ import FieldDecoratorSource from './FieldDecorator.vue'
 import { fieldDecoratorProps } from './props'
 
 const FieldDecorator = withInstall(FieldDecoratorSource)
-withPropsDefaultsSetter(FieldDecorator, fieldDecoratorProps)
+
+// The SFC adds an internal prop, while embedded fields read the public descriptors.
+const setComponentDefaults = FieldDecorator.setPropsDefaults
+const publicDefaults = withPropsDefaultsSetter({}, fieldDecoratorProps)
+FieldDecorator.setPropsDefaults = (defaults) => {
+  setComponentDefaults(defaults)
+  publicDefaults.setPropsDefaults(defaults)
+}
 
 export { FieldDecorator, fieldDecoratorProps }
 

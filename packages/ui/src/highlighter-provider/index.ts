@@ -1,9 +1,8 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import HighlighterProviderSource from './HighlighterProvider.vue'
 import { props as highlighterProviderProps } from './props'
 
 const HighlighterProvider = withInstall(HighlighterProviderSource)
-withPropsDefaultsSetter(HighlighterProvider, highlighterProviderProps)
 
 export type HighlighterProviderInstance = InstanceType<typeof HighlighterProvider>
 export { highlighterProviderProps }

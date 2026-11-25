@@ -93,3 +93,34 @@ test('ID composable renders without document access during SSR', async () => {
     second = await renderToString(createSSRApp(Child))
   expect(first).toBe(second)
 })
+
+test('a previously dequeued frame cannot end a later drag', () => {
+  const frames = []
+  const raf = vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => frames.push(callback))
+  const cancel = vi.spyOn(window, 'cancelAnimationFrame').mockImplementation(() => {})
+  let touch
+  const wrapper = mount({
+    setup() {
+      touch = useTouch()
+      return () => h('div')
+    },
+  })
+  const start = { touches: [{ clientX: 1, clientY: 1 }] }
+  const move = { touches: [{ clientX: 4, clientY: 2 }] }
+  try {
+    touch.startTouch(start)
+    touch.moveTouch(move)
+    touch.endTouch()
+    touch.startTouch(start)
+    touch.moveTouch(move)
+    touch.endTouch()
+    frames[0](0)
+    expect(touch.dragging.value).toBe(true)
+    touch.resetTouch()
+    expect(cancel).toHaveBeenCalledWith(2)
+  } finally {
+    wrapper.unmount()
+    raf.mockRestore()
+    cancel.mockRestore()
+  }
+})

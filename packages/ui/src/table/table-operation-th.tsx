@@ -1,6 +1,6 @@
 import { computed, defineComponent, inject, PropType } from 'vue'
 import { isFunction } from '../_utils/is'
-import Checkbox from '../checkbox'
+import Checkbox from '../checkbox/base'
 import { createNamespace, getPrefixCls } from '../utils/components'
 import { TableContext, tableInjectionKey } from './context'
 import { useI18n } from './mobile-locale'

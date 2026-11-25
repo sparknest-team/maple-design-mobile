@@ -1,9 +1,8 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import TextareaSource from './presentation'
 import { textareaProps } from './props'
 
 const Textarea = withInstall(TextareaSource)
-withPropsDefaultsSetter(Textarea, textareaProps)
 
 export type TextareaInstance = InstanceType<typeof Textarea>
 export type {

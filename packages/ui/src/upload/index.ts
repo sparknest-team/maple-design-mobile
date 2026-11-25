@@ -1,9 +1,8 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import UploadSource from './presentation'
 import { uploadProps } from './props'
 
 const Upload = withInstall(UploadSource)
-withPropsDefaultsSetter(Upload, uploadProps)
 export type UploadInstance = InstanceType<typeof Upload>
 export type * from './interfaces'
 export type { UploadProps } from './props'

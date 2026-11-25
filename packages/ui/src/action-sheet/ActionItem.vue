@@ -1,11 +1,12 @@
 <template>
   <button
     v-ripple="{ disabled }"
-    v-hover:desktop="handleHovering"
     type="button"
     :disabled="disabled"
     :class="classes(n('action-item'), className, [disabled, n('--disabled')])"
     :style="{ color }"
+    @mouseenter="hovering = !inMobile()"
+    @mouseleave="hovering = false"
   >
     <mp-registered-icon v-if="icon" mp-action-sheet-cover :class="n('action-icon')" :name="icon" :size="iconSize" />
     <div :class="n('action-name')">{{ name }}</div>
@@ -15,8 +16,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import Hover, { HoverOverlay as MpHoverOverlay, useHoverOverlay } from '../hover'
+import { defineComponent, ref } from 'vue'
+import { inMobile } from '@maple-design/shared-vue'
+import MpHoverOverlay from '../hover/HoverOverlay.vue'
 import MpRegisteredIcon from '../icon/RegisteredIcon.vue'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'
@@ -29,7 +31,7 @@ export default defineComponent({
     MpHoverOverlay,
     MpRegisteredIcon,
   },
-  directives: { Ripple, Hover },
+  directives: { Ripple },
   props: {
     name: String,
     className: String,
@@ -39,13 +41,13 @@ export default defineComponent({
     icon: String,
   },
   setup() {
-    const { hovering, handleHovering } = useHoverOverlay()
+    const hovering = ref(false)
 
     return {
       hovering,
       n,
       classes,
-      handleHovering,
+      inMobile,
     }
   },
 })

@@ -40,7 +40,7 @@ function previewImage(options: UserImagePreviewOptions): ImagePreviewHandle | un
     return
   }
 
-  const normalized = normalizePreviewOptions(options, defaultOptions) as ImagePreviewOptions
+  const normalized = normalizePreviewOptions(options, defaultOptions)
   let finalized = false
   const finalize = () => {
     if (finalized) {
@@ -49,8 +49,8 @@ function previewImage(options: UserImagePreviewOptions): ImagePreviewHandle | un
     finalized = true
     normalized.onClosed?.()
   }
-  const images = normalized.images?.length ? normalized.images : normalized.src ? [normalized.src] : []
-  const reactiveOptions = reactive({ ...normalized, images, src: images[0], open: true })
+  const { images } = normalized
+  const reactiveOptions = reactive({ ...normalized, src: images[0], open: true })
   singletonOptions = reactiveOptions as unknown as ImagePreviewOptions
   const componentRef = ref<any>()
   const component = images.length > 1 ? ImagePreviewGroup : ImagePreview

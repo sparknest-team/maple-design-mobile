@@ -4,7 +4,7 @@ import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import SplitButton from '..'
 import Button from '../../button'
-import Menu, { MenuOption } from '../../menu'
+import Menu, { MenuOption, menuProps } from '../../menu'
 
 const wrappers = []
 function render(props = {}, slots = {}) {
@@ -253,4 +253,17 @@ describe('SplitButton copied contract', () => {
     })
     expect(wrapper.findAllComponents(Button)[1].vm.$slots.icon).toBeTruthy()
   })
+})
+
+test('embedded menu uses the public Menu defaults', () => {
+  const elevation = menuProps.elevation.default
+  let wrapper
+  try {
+    Menu.setPropsDefaults({ elevation: 5 })
+    wrapper = mount(SplitButton)
+    expect(wrapper.getComponent(Menu).props('elevation')).toBe(5)
+  } finally {
+    wrapper?.unmount()
+    Menu.setPropsDefaults({ elevation })
+  }
 })

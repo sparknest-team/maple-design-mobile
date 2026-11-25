@@ -1,9 +1,8 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import { props as swipeCellProps } from './props'
 import SwipeCellSource from './SwipeCell.vue'
 
 const SwipeCell = withInstall(SwipeCellSource)
-withPropsDefaultsSetter(SwipeCell, swipeCellProps)
 
 export { swipeCellProps }
 export type { SwipeCellBeforeCloseArgs, SwipeCellPosition, SwipeCellSide } from './props'

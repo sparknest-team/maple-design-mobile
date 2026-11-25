@@ -29,6 +29,33 @@ function selected(wrapper) {
 }
 
 describe('Tabs shared behavior', () => {
+  test('discovers panels and navigation from the same wrapper slot snapshot', async () => {
+    const Wrapper = {
+      setup:
+        (_, { slots }) =>
+        () =>
+          slots.default(),
+    }
+    let calls = 0
+    const html = await renderToString(
+      createSSRApp({
+        render: () =>
+          h(Tabs, null, {
+            default: () =>
+              h(Wrapper, null, {
+                default: () => {
+                  calls++
+                  return content()
+                },
+              }),
+          }),
+      }),
+    )
+    expect(html).toContain('role="tabpanel"')
+    // One read for discovery, one for rendering the wrapper itself.
+    expect(calls).toBe(2)
+  })
+
   test('plugin registration renders the TabPane template shorthand', () => {
     const w = mount(
       { template: '<mp-tabs><mp-tab-pane name="a" title="First">panel-a</mp-tab-pane></mp-tabs>' },

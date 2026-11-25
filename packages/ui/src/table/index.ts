@@ -1,4 +1,4 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import { tableProps } from './props'
 import _Column from './table-column'
 import _Table from './table-impl'
@@ -29,8 +29,6 @@ const Table: import('../utils/components').ComponentWithInstall<
   }),
   { components: [_Table, _Thead, _Tbody, _Tr, _Th, _Td, _Column] },
 )
-
-withPropsDefaultsSetter(Table, tableProps)
 
 export type TableInstance = InstanceType<typeof _Table>
 export type TheadInstance = InstanceType<typeof _Thead>
