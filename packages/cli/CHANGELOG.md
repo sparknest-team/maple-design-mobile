@@ -1,5 +1,16 @@
 # @maple-design/cli-vue
 
+## 1.4.8
+
+### Patch Changes
+
+- [#49](https://github.com/sparknest-team/maple-design-mobile/pull/49) [`74e0e9c`](https://github.com/sparknest-team/maple-design-mobile/commit/74e0e9c99aefe0f10157670037a3ca22115c31f2) Thanks [@sparknest-team](https://github.com/sparknest-team)! - 移动端文档站首页显示分区切换条，使组件分区入口可达。
+
+- Updated dependencies []:
+  - @maple-design/resolver-vue@1.4.8
+  - @maple-design/shared-vue@1.4.8
+  - @maple-design/vite-plugins-vue@1.4.8
+
 ## 1.4.7
 
 ### Patch Changes
