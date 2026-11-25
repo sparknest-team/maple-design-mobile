@@ -52,7 +52,7 @@ Switch between plain, heading-line, tonal and outline, then toggle the heading a
 
 ### Grouping inline form fields
 
-Inside Form, Section defaults to heading-line with a heading marker. The fields follow the inline layout and wrap when space is limited. Use Divider between sections when needed.
+Inside Form, Section defaults to heading-line. Pass `show-marker` to display a heading marker. The fields follow the inline layout and wrap when space is limited. Use Divider between sections when needed.
 
 ```demo
 ../example/demos/en-US/inline-form.vue
@@ -71,7 +71,7 @@ Inside Form, Section defaults to heading-line with a heading marker. The fields 
 | variant | Appearance, plain, heading-line, tonal or outline | 'plain' \| 'heading-line' \| 'tonal' \| 'outline' | heading-line |
 | status | Status colors the marker, tonal fill and outline (default / info / success / warning / danger) | SectionStatus | — |
 | heading-level | HTML heading level from 1 to 6 | 1–6 | `4` |
-| show-marker | Show the marker | boolean | Enabled inside Form |
+| show-marker | Show the marker | boolean | Off |
 | marker-placement | Marker placement (`title` or `section`) | string | `title` |
 
 ### Section Slots
@@ -95,7 +95,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 
 | Variable | Default / condition | Affected styles |
 | --- | --- | --- |
-| `--mp-section-accent-color` | `var(--mp-sys-color-action-primary)` | `background`, `background-color`, `border` |
+| `--mp-section-accent-color` | `var(--mp-sys-color-action-primary)` | `background`, `border`, `border-inline-start` |
 | `--mp-section-after-gap` | `24px` | `margin-block`, `padding-block-start` |
 | `--mp-section-before-gap` | `32px` | `padding-block-start` |
 | `--mp-section-card-background` | `var(--mp-sys-color-surface-default)` | `background-color` |
@@ -107,32 +107,32 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-section-description-line-height` | `20px` | `line-height` |
 | `--mp-section-description-size` | `13px` | `font-size` |
 | `--mp-section-divider-color` | `var(--mp-sys-color-border-default)` | `border-block-start` |
-| `--mp-section-divider-width` | `1px` | `border`, `border-block-start` |
-| `--mp-section-header-gap` | `20px` | `margin-block-end` |
+| `--mp-section-divider-width` | `1px` | `border`, `border-block-start`, `border-radius` |
+| `--mp-section-header-gap` | `20px` | `margin-block-start` |
 | `--mp-section-heading-gap` | `16px` | `margin-inline-start` |
 | `--mp-section-heading-size-step` | `1px` | `font-size`, `line-height` |
 | `--mp-section-marker-gap` | `12px` | `padding-inline-end`, `padding-inline-start`, `row-gap` |
 | `--mp-section-marker-height` | `16px` | `height` |
 | `--mp-section-marker-radius` | `2px` | `border-radius` |
-| `--mp-section-marker-width` | `3px` | `padding-inline-start`, `width` |
+| `--mp-section-marker-width` | `3px` | `border-inline-start`, `padding-inline-start`, `width` |
 | `--mp-section-outline-color` | `var(--mp-sys-color-border-default)` | `border` |
 | `--mp-section-size-lg-card-padding` | `20px` | `padding` |
-| `--mp-section-size-lg-header-gap` | `24px` | `margin-block-end` |
+| `--mp-section-size-lg-header-gap` | `24px` | `margin-block-start` |
 | `--mp-section-size-lg-marker-height` | `20px` | `height` |
 | `--mp-section-size-lg-title-line-height` | `28px` | `line-height` |
 | `--mp-section-size-lg-title-size` | `20px` | `font-size` |
 | `--mp-section-size-sm-card-padding` | `12px` | `padding` |
-| `--mp-section-size-sm-header-gap` | `12px` | `margin-block-end` |
+| `--mp-section-size-sm-header-gap` | `12px` | `margin-block-start` |
 | `--mp-section-size-sm-marker-height` | `14px` | `height` |
 | `--mp-section-size-sm-title-line-height` | `20px` | `line-height` |
 | `--mp-section-size-sm-title-size` | `14px` | `font-size` |
 | `--mp-section-size-xl-card-padding` | `24px` | `padding` |
-| `--mp-section-size-xl-header-gap` | `28px` | `margin-block-end` |
+| `--mp-section-size-xl-header-gap` | `28px` | `margin-block-start` |
 | `--mp-section-size-xl-marker-height` | `24px` | `height` |
 | `--mp-section-size-xl-title-line-height` | `32px` | `line-height` |
 | `--mp-section-size-xl-title-size` | `24px` | `font-size` |
 | `--mp-section-size-xs-card-padding` | `8px` | `padding` |
-| `--mp-section-size-xs-header-gap` | `8px` | `margin-block-end` |
+| `--mp-section-size-xs-header-gap` | `8px` | `margin-block-start` |
 | `--mp-section-size-xs-marker-height` | `12px` | `height` |
 | `--mp-section-size-xs-title-line-height` | `18px` | `line-height` |
 | `--mp-section-size-xs-title-size` | `14px` | `font-size` |

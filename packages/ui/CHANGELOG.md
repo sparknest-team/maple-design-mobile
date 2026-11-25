@@ -1,5 +1,46 @@
 # @maple-design/ui-vue
 
+## 1.4.7
+
+### Patch Changes
+
+- [#46](https://github.com/sparknest-team/maple-design-mobile/pull/46) [`d67dcf3`](https://github.com/sparknest-team/maple-design-mobile/commit/d67dcf3ee425e0971f5ae30958637a14d83884bb) Thanks [@sparknest-team](https://github.com/sparknest-team)! - section: `show-marker` 改为显式默认 `false`，去掉按表单上下文推断
+
+  `Section` 原来在未传 `show-marker` 时，会根据祖先是否存在 `Form` 自行决定是否显示标题色条
+  （`props.showMarker ?? !!form`），使同一份调用代码在表单内外视觉不同。现改为
+  `default: false`，需要色条时显式传入。`form` 上下文仍用于 `--form` 类名与 inline 布局。
+
+- Updated dependencies []:
+  - @maple-design/icons-vue@1.4.7
+  - @maple-design/shared-vue@1.4.7
+  - @maple-design/use-vue@1.4.7
+
+## 1.4.6
+
+### Patch Changes
+
+- [#43](https://github.com/sparknest-team/maple-design-mobile/pull/43) [`f497e87`](https://github.com/sparknest-team/maple-design-mobile/commit/f497e87368cd8d58ead9b31a88f291ef635b5304) Thanks [@sparknest-team](https://github.com/sparknest-team)! - Section 标题默认使用 h4，调整正文间距、状态底色和整段色条圆角。Card 的长标题示例支持点按查看全文。缩小 Tag 各档高度与默认字号。
+
+- Updated dependencies []:
+  - @maple-design/icons-vue@1.4.6
+  - @maple-design/shared-vue@1.4.6
+  - @maple-design/use-vue@1.4.6
+
+## 1.4.5
+
+### Patch Changes
+
+- [#41](https://github.com/sparknest-team/maple-design-mobile/pull/41) [`603eb83`](https://github.com/sparknest-team/maple-design-mobile/commit/603eb83c5401663fc9bb3f9594238c1c7b1a520f) Thanks [@sparknest-team](https://github.com/sparknest-team)! - card: 补 `sizes-and-headings` demo 的中英文 locale 文案
+
+  `sizes-and-headings` demo 新增后未在 `card/example/messages.json` 的 `zh-CN` /
+  `en-US` 下登记站点标签，导致 `same-source-demos` 门禁报
+  `card/sizes-and-headings: missing locale`。文案取文档章节标题原文。
+
+- Updated dependencies []:
+  - @maple-design/icons-vue@1.4.5
+  - @maple-design/shared-vue@1.4.5
+  - @maple-design/use-vue@1.4.5
+
 ## 1.4.4
 
 ### Patch Changes

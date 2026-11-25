@@ -1,6 +1,6 @@
 {
   "name": "@maple-design/cli-vue",
-  "version": "1.4.4",
+  "version": "1.4.7",
   "description": "cli of maple",
   "keywords": [
     "cli",
@@ -40,19 +40,19 @@
   ],
   "scripts": {
     "build": "rimraf ./lib && tsc",
+    "build:node": "tsc -p tsconfig.node.json",
     "dev": "tsc --watch",
-    "test": "vitest run --config vitest.config.ts",
-    "build:node": "tsc -p tsconfig.node.json"
+    "test": "vitest run --config vitest.config.ts"
   },
   "dependencies": {
     "@babel/core": "^7.28.0",
     "@babel/preset-typescript": "^7.27.1",
     "@inquirer/prompts": "^6.0.1",
-    "@sparknest/ui-build-vue": "^1.0.0",
-    "@sparknest/ui-doc-preview-vue": "^1.0.0",
+    "@maple-design/resolver-vue": "workspace:*",
     "@maple-design/shared-vue": "workspace:*",
     "@maple-design/vite-plugins-vue": "workspace:*",
-    "@maple-design/resolver-vue": "workspace:*",
+    "@sparknest/ui-build-vue": "^1.0.0",
+    "@sparknest/ui-doc-preview-vue": "^1.0.0",
     "@vitejs/plugin-vue": "catalog:",
     "@vitejs/plugin-vue-jsx": "catalog:",
     "@vue/babel-plugin-jsx": "catalog:",

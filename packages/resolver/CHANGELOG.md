@@ -1,5 +1,29 @@
 # @maple-design/resolver-vue
 
+## 1.4.7
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @maple-design/icons-vue@1.4.7
+  - @maple-design/shared-vue@1.4.7
+
+## 1.4.6
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @maple-design/icons-vue@1.4.6
+  - @maple-design/shared-vue@1.4.6
+
+## 1.4.5
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @maple-design/icons-vue@1.4.5
+  - @maple-design/shared-vue@1.4.5
+
 ## 1.4.4
 
 ### Patch Changes

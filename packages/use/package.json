@@ -1,6 +1,6 @@
 {
   "name": "@maple-design/use-vue",
-  "version": "1.4.4",
+  "version": "1.4.7",
   "description": "composable utils of maple",
   "keywords": [
     "composable",
@@ -21,9 +21,9 @@
   "type": "module",
   "exports": {
     ".": {
+      "types": "./lib/index.d.ts",
       "import": "./lib/index.js",
-      "require": "./lib/index.cjs",
-      "types": "./lib/index.d.ts"
+      "require": "./lib/index.cjs"
     }
   },
   "main": "lib/index.cjs",

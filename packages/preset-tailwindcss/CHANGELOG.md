@@ -1,5 +1,11 @@
 # @maple-design/preset-tailwindcss-vue
 
+## 1.4.7
+
+## 1.4.6
+
+## 1.4.5
+
 ## 1.4.4
 
 ## 1.4.3

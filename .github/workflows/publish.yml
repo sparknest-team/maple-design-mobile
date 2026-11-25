@@ -71,4 +71,25 @@ jobs:
               const url = check?.html_url ? ` ${check.html_url}` : '';
               core.warning(`Quality 未通过（${check?.conclusion ?? '无记录'}）→ 已临时放行${url}\n临时放宽（2026-11-24）：Quality 的红来自判定口径问题（浏览器用例超时阈值 / ResizeObserver 良性告警被误判为 pageerror / demo 元数据漂移），非代码缺陷。本 job 内 spec:check / lint:check / build:lib / test / package:check 仍全部强制执行，任一失败仍会中断发布。上述问题修好后请删除 continue-on-error 恢复硬门禁。`);
             }
+      - name: Snapshot existing git tags
+        run: git tag --list | sort > "$RUNNER_TEMP/tags-before.txt"
       - run: pnpm exec changeset publish
+      - name: Push release tags and create GitHub Releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git tag --list | sort > "$RUNNER_TEMP/tags-after.txt"
+          comm -13 "$RUNNER_TEMP/tags-before.txt" "$RUNNER_TEMP/tags-after.txt" > "$RUNNER_TEMP/tags-new.txt"
+          if [ ! -s "$RUNNER_TEMP/tags-new.txt" ]; then
+            echo "No new tags; skipping tag push and GitHub Releases."
+            exit 0
+          fi
+          new_tags=()
+          while IFS= read -r tag; do
+            new_tags+=("$tag")
+          done < "$RUNNER_TEMP/tags-new.txt"
+          printf 'New tags: %s\n' "${new_tags[*]}"
+          # --tags 而不是逐个 tag：远端已存在的同名 tag 会被跳过，重复执行不会失败
+          git push origin --tags
+          node scripts/github-releases.mjs "${new_tags[@]}"

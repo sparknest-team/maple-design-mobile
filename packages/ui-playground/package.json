@@ -1,6 +1,6 @@
 {
   "name": "@maple-design/ui-playground-vue",
-  "version": "1.4.4",
+  "version": "1.4.7",
   "private": true,
   "description": "maple ui playground",
   "keywords": [
@@ -24,9 +24,9 @@
     "vue": "catalog:"
   },
   "devDependencies": {
+    "@maple-design/cli-vue": "workspace:*",
     "@types/file-saver": "^2.0.7",
     "@types/node": "catalog:",
-    "@maple-design/cli-vue": "workspace:*",
     "live-server": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:"

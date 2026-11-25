@@ -30,8 +30,8 @@ export const sectionProps = {
   },
   /** 分区的语义状态，用于色条、浅色底和描边。 */
   status: String as PropType<SectionStatus>,
-  /** 显示色条，默认随表单上下文开启。 */
-  showMarker: { type: Boolean, default: undefined },
+  /** 显示色条，默认关闭。 */
+  showMarker: { type: Boolean, default: false },
   /** 色条标记标题或整个分区。 */
   markerPlacement: { type: String as PropType<SectionMarkerPlacement>, default: 'title' },
 }

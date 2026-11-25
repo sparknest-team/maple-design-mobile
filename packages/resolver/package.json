@@ -1,6 +1,6 @@
 {
   "name": "@maple-design/resolver-vue",
-  "version": "1.4.4",
+  "version": "1.4.7",
   "description": "Maple resolver for unplugin-vue-components and unplugin-auto-import",
   "keywords": [
     "maple",
@@ -22,9 +22,9 @@
   "type": "module",
   "exports": {
     ".": {
+      "types": "./lib/index.d.ts",
       "import": "./lib/index.js",
-      "require": "./lib/index.cjs",
-      "types": "./lib/index.d.ts"
+      "require": "./lib/index.cjs"
     },
     "./*": "./*"
   },

@@ -3,7 +3,6 @@
 > 此文件是 AI 编码代理（GitHub Copilot / Claude / Cursor 等）在本仓库工作的统一入口。
 > 仓库定位：基于 Vue 3 + TypeScript + Less 的移动端组件库（pnpm monorepo），注册前缀 `Mp`，CSS 前缀 `mp-`。
 
-
 **前置依赖**：读取并执行全局 `/Users/jiaming.wu/AGENTS.md` 的要求。
 
 ## 必读文档（按优先级）
@@ -49,37 +48,37 @@ packages/
 - `classes([cond, truthy, falsy])` **不会自动 unwrap Vue Ref**，写 `block.value` 不要写 `block`。
 - **所有 CSS 自定义属性必须以 `--mp-` 开头**（`--mp-button-padding`、`--mp-space-size-md-row-gap`），声明在 `:root` 或主题文件。
 - **不要把 BEM 修饰符 `--xxx` 当成 token 加 `mp-` 前缀**（`&--ghost` ✅ vs `&--mp-ghost` ❌）。
-- 模板字符串里也是同理：`n(\`${direction}--error\`)` ✅，不要写成 `--mp-error`。
+- 模板字符串里也是同理：`n(\`${direction}--error\`)`✅，不要写成`--mp-error`。
 - icon 字体激活类是固定字面量 `${namespace}--set`，不要改。
 - `index.ts` 必须导出：`default`、`CompInstance`、`CompProps`、`compProps`、`_CompComponent`。
 - 公共枚举统一复用 `utils/constants.ts` 的 `ComponentSize` / `SemanticStatus` / `Orientation`，禁止组件自行复制。
 
 ## 开发命令
 
-| 用途 | 命令 |
-| --- | --- |
-| 安装依赖 | `pnpm i` |
-| 构建 npm 包（根目录含依赖包） | `pnpm build:lib` |
-| 构建文档 | `pnpm build:doc` |
-| 仅检查示例脚本和模板语法 | `pnpm docs:check` |
-| 构建 npm 包及文档 | `pnpm build` |
-| 完整质量检查 | `pnpm quality`，用于本地和 merge queue；先按同级目录安装 Cedar、Maple、design-ui，使用 pnpm 10.23.0 |
-| PR 快通道与分片 | `pnpm quality:fast` 和 `SHARD=1/4 pnpm test:shard` |
-| 定时全量回归 | `pnpm quality:slow`，含全量单测、组件浏览器回归和三引擎兼容性 |
-| 全组件按需 JS 依赖与共享包构建回归 | `pnpm check:component-bundle` |
-| Icon 按需 JS 依赖与体积回归 | `pnpm check:icon-bundle` |
-| 静态检查（不自动修改） | `pnpm lint:check` |
-| 全库运行时依赖与 HMR 兜底门禁 | `pnpm check:runtime-dependencies`（公共契约见 `design-ui/standards/component-anatomy.md`） |
-| shared 发布运行时、类型和体积回归 | `pnpm check:shared`（公共契约见 `design-ui/standards/shared-foundation.md`） |
-| 开发流程不覆盖发布产物的回归 | `pnpm check:dev-boundary` |
-| 跑指定包单测 | `pnpm --dir packages/ui exec vitest run --config ../cli/lib/node/config/vitest.config.js` |
-| 跑指定组件 | `... vitest run src/<component>` |
-| CLI 文档站与编译器回归 | `pnpm check:cli` |
-| 手机宽度文档与示例主题回归（先构建文档，首次运行需 `pnpm exec playwright install chromium`） | `pnpm check:docs-theme` |
-| 全组件生产文档与手机示例回归 | 构建后运行 `pnpm check:docs-components`；显式覆盖清单见 `design-ui/browser/contracts.mjs`，新增组件必须补行为契约；输出 `artifacts/docs-components/maple/coverage.json` |
-| 测试收集边界回归 | `pnpm check:test-collection` |
-| 同源检查格式归一化回归 | `pnpm check:source-normalization` |
-| 更新快照 | 上述命令加 `-u` |
+| 用途                                                                                         | 命令                                                                                                                                                                    |
+| -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 安装依赖                                                                                     | `pnpm i`                                                                                                                                                                |
+| 构建 npm 包（根目录含依赖包）                                                                | `pnpm build:lib`                                                                                                                                                        |
+| 构建文档                                                                                     | `pnpm build:doc`                                                                                                                                                        |
+| 仅检查示例脚本和模板语法                                                                     | `pnpm docs:check`                                                                                                                                                       |
+| 构建 npm 包及文档                                                                            | `pnpm build`                                                                                                                                                            |
+| 完整质量检查                                                                                 | `pnpm quality`，用于本地和 merge queue；先按同级目录安装 Cedar、Maple、design-ui，使用 pnpm 10.23.0                                                                     |
+| PR 快通道与分片                                                                              | `pnpm quality:fast` 和 `SHARD=1/4 pnpm test:shard`                                                                                                                      |
+| 定时全量回归                                                                                 | `pnpm quality:slow`，含全量单测、组件浏览器回归和三引擎兼容性                                                                                                           |
+| 全组件按需 JS 依赖与共享包构建回归                                                           | `pnpm check:component-bundle`                                                                                                                                           |
+| Icon 按需 JS 依赖与体积回归                                                                  | `pnpm check:icon-bundle`                                                                                                                                                |
+| 静态检查（不自动修改）                                                                       | `pnpm lint:check`                                                                                                                                                       |
+| 全库运行时依赖与 HMR 兜底门禁                                                                | `pnpm check:runtime-dependencies`（公共契约见 `design-ui/standards/component-anatomy.md`）                                                                              |
+| shared 发布运行时、类型和体积回归                                                            | `pnpm check:shared`（公共契约见 `design-ui/standards/shared-foundation.md`）                                                                                            |
+| 开发流程不覆盖发布产物的回归                                                                 | `pnpm check:dev-boundary`                                                                                                                                               |
+| 跑指定包单测                                                                                 | `pnpm --dir packages/ui exec vitest run --config ../cli/lib/node/config/vitest.config.js`                                                                               |
+| 跑指定组件                                                                                   | `... vitest run src/<component>`                                                                                                                                        |
+| CLI 文档站与编译器回归                                                                       | `pnpm check:cli`                                                                                                                                                        |
+| 手机宽度文档与示例主题回归（先构建文档，首次运行需 `pnpm exec playwright install chromium`） | `pnpm check:docs-theme`                                                                                                                                                 |
+| 全组件生产文档与手机示例回归                                                                 | 构建后运行 `pnpm check:docs-components`；显式覆盖清单见 `design-ui/browser/contracts.mjs`，新增组件必须补行为契约；输出 `artifacts/docs-components/maple/coverage.json` |
+| 测试收集边界回归                                                                             | `pnpm check:test-collection`                                                                                                                                            |
+| 同源检查格式归一化回归                                                                       | `pnpm check:source-normalization`                                                                                                                                       |
+| 更新快照                                                                                     | 上述命令加 `-u`                                                                                                                                                         |
 
 ## 与 PC 版（Cedar Design Web）的关系
 
@@ -116,7 +115,7 @@ PC 端见 `/Users/shuaimeng/github/cedar-design-web/AGENTS.md`。
 ### 测试
 
 - 测试文件显式从 `vitest` 导入 `describe` / `it` / `test` / `expect` / `vi` / 生命周期函数；Vitest 的 `globals: true` 不代表 ESLint 识别这些全局变量。
-- 本地 commit 仅执行 `.githooks` 的轻量暂存内容与提交信息检查。完整 lint、类型、测试、构建及浏览器校验由 PR Quality 执行；针对性开发验证按改动运行，报告实际结果。提交推送任务不重复运行完整 quality，不绕过钩子；合并使用 `pnpm pr:merge <PR编号>`。详见 `PR_WORKFLOW.md`。
+- 本地 commit 仅对**暂存的文件**执行格式化（`nano-staged`：`eslint --fix` + `prettier --write`）与提交信息检查，不重排未暂存内容、不跑全仓格式化。`.prettierignore` 覆盖的生成产物（`lib/ es/ dist/ site/ template/ docs/ artifacts/`、`pnpm-lock.yaml`）不会被改写。完整 lint、类型、测试、构建及浏览器校验由 PR Quality 执行；针对性开发验证按改动运行，报告实际结果。提交推送任务不重复运行完整 quality，不绕过钩子；合并使用 `pnpm pr:merge <PR编号>`。详见 `PR_WORKFLOW.md`。
 - 预存在失败：`result/imageSize`、`form/zod`（与本人改动无关）。
 - vitest 必须显式指定 `--config` 指向 `cli/lib/node/config/vitest.config.js`，否则没有默认配置。
 - `--isolate=false` 的 Vue/jsdom 生命周期与批次要求见 `docs/practices/component-spec.md` §10；不要通过放宽 DOM 类型判断修复跨 realm 查询失败。

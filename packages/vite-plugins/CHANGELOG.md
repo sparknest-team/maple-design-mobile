@@ -1,5 +1,26 @@
 # @maple-design/vite-plugins-vue
 
+## 1.4.7
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @maple-design/shared-vue@1.4.7
+
+## 1.4.6
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @maple-design/shared-vue@1.4.6
+
+## 1.4.5
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @maple-design/shared-vue@1.4.5
+
 ## 1.4.4
 
 ### Patch Changes

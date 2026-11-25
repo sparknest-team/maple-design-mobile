@@ -2247,7 +2247,7 @@ Source: `src/section/style/token.less`
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
-| `--mp-section-accent-color` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`background`, `background-color`, `border` |
+| `--mp-section-accent-color` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`background`, `border`, `border-inline-start` |
 | `--mp-section-after-gap` | Public | `24px` | Local CSS<br>`margin-block`, `padding-block-start` |
 | `--mp-section-before-gap` | Public | `32px` | Local CSS<br>`padding-block-start` |
 | `--mp-section-card-background` | Public | `var(--mp-sys-color-surface-default)` | Local CSS<br>`background-color` |
@@ -2259,32 +2259,32 @@ Source: `src/section/style/token.less`
 | `--mp-section-description-line-height` | Public | `20px` | Local CSS<br>`line-height` |
 | `--mp-section-description-size` | Public | `13px` | Local CSS<br>`font-size` |
 | `--mp-section-divider-color` | Public | `var(--mp-sys-color-border-default)` | Local CSS<br>`border-block-start` |
-| `--mp-section-divider-width` | Public | `1px` | Local CSS<br>`border`, `border-block-start` |
-| `--mp-section-header-gap` | Public | `20px` | Local CSS<br>`margin-block-end` |
+| `--mp-section-divider-width` | Public | `1px` | Local CSS<br>`border`, `border-block-start`, `border-radius` |
+| `--mp-section-header-gap` | Public | `20px` | Local CSS<br>`margin-block-start` |
 | `--mp-section-heading-gap` | Public | `16px` | Local CSS<br>`margin-inline-start` |
 | `--mp-section-heading-size-step` | Public | `1px` | Local CSS<br>`font-size`, `line-height` |
 | `--mp-section-marker-gap` | Public | `12px` | Local CSS<br>`padding-inline-end`, `padding-inline-start`, `row-gap` |
 | `--mp-section-marker-height` | Public | `16px` | Local CSS<br>`height` |
 | `--mp-section-marker-radius` | Public | `2px` | Local CSS<br>`border-radius` |
-| `--mp-section-marker-width` | Public | `3px` | Local CSS<br>`padding-inline-start`, `width` |
+| `--mp-section-marker-width` | Public | `3px` | Local CSS<br>`border-inline-start`, `padding-inline-start`, `width` |
 | `--mp-section-outline-color` | Public | `var(--mp-sys-color-border-default)` | Local CSS<br>`border` |
 | `--mp-section-size-lg-card-padding` | Public | `20px` | Local CSS<br>`padding` |
-| `--mp-section-size-lg-header-gap` | Public | `24px` | Local CSS<br>`margin-block-end` |
+| `--mp-section-size-lg-header-gap` | Public | `24px` | Local CSS<br>`margin-block-start` |
 | `--mp-section-size-lg-marker-height` | Public | `20px` | Local CSS<br>`height` |
 | `--mp-section-size-lg-title-line-height` | Public | `28px` | Local CSS<br>`line-height` |
 | `--mp-section-size-lg-title-size` | Public | `20px` | Local CSS<br>`font-size` |
 | `--mp-section-size-sm-card-padding` | Public | `12px` | Local CSS<br>`padding` |
-| `--mp-section-size-sm-header-gap` | Public | `12px` | Local CSS<br>`margin-block-end` |
+| `--mp-section-size-sm-header-gap` | Public | `12px` | Local CSS<br>`margin-block-start` |
 | `--mp-section-size-sm-marker-height` | Public | `14px` | Local CSS<br>`height` |
 | `--mp-section-size-sm-title-line-height` | Public | `20px` | Local CSS<br>`line-height` |
 | `--mp-section-size-sm-title-size` | Public | `14px` | Local CSS<br>`font-size` |
 | `--mp-section-size-xl-card-padding` | Public | `24px` | Local CSS<br>`padding` |
-| `--mp-section-size-xl-header-gap` | Public | `28px` | Local CSS<br>`margin-block-end` |
+| `--mp-section-size-xl-header-gap` | Public | `28px` | Local CSS<br>`margin-block-start` |
 | `--mp-section-size-xl-marker-height` | Public | `24px` | Local CSS<br>`height` |
 | `--mp-section-size-xl-title-line-height` | Public | `32px` | Local CSS<br>`line-height` |
 | `--mp-section-size-xl-title-size` | Public | `24px` | Local CSS<br>`font-size` |
 | `--mp-section-size-xs-card-padding` | Public | `8px` | Local CSS<br>`padding` |
-| `--mp-section-size-xs-header-gap` | Public | `8px` | Local CSS<br>`margin-block-end` |
+| `--mp-section-size-xs-header-gap` | Public | `8px` | Local CSS<br>`margin-block-start` |
 | `--mp-section-size-xs-marker-height` | Public | `12px` | Local CSS<br>`height` |
 | `--mp-section-size-xs-title-line-height` | Public | `18px` | Local CSS<br>`line-height` |
 | `--mp-section-size-xs-title-size` | Public | `14px` | Local CSS<br>`font-size` |
@@ -2939,7 +2939,7 @@ Source: `src/tag/style/token.less`
 | `--mp-tag-orangered-border-color-hover` | Public | `transparent` | Local CSS<br>`border-color` |
 | `--mp-tag-orangered-icon-color` | Public | `rgb(var(--mp-orangered-6))` | Local CSS<br>`color` |
 | `--mp-tag-orangered-text-color` | Public | `rgb(var(--mp-orangered-6))` | Local CSS<br>`border-color`, `color` |
-| `--mp-tag-padding-horizontal` | Public | `10px` | Local CSS<br>`padding` |
+| `--mp-tag-padding-horizontal` | Public | `8px` | Local CSS<br>`padding` |
 | `--mp-tag-padding-vertical` | Public | `0` | Local CSS<br>`line-height`, `padding` |
 | `--mp-tag-pinkpurple-bg` | Public | `rgb(var(--mp-pinkpurple-1))`<br>`rgba(var(--mp-pinkpurple-6), 0.2)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
 | `--mp-tag-pinkpurple-bg-hover` | Public | `rgb(var(--mp-pinkpurple-2))`<br>`rgba(var(--mp-pinkpurple-6), 0.35)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
@@ -2960,15 +2960,15 @@ Source: `src/tag/style/token.less`
 | `--mp-tag-red-icon-color` | Public | `rgb(var(--mp-red-6))` | Local CSS<br>`color` |
 | `--mp-tag-red-text-color` | Public | `rgb(var(--mp-red-6))` | Local CSS<br>`border-color`, `color` |
 | `--mp-tag-round-radius` | Public | `100px` | Local CSS<br>`border-radius` |
-| `--mp-tag-size-lg` | Public | `36px` | Local CSS<br>`height`, `line-height` |
+| `--mp-tag-size-lg` | Public | `30px` | Local CSS<br>`height`, `line-height` |
 | `--mp-tag-size-lg-font-size` | Public | `var(--mp-sys-font-size-md)` | Local CSS<br>`font-size` |
-| `--mp-tag-size-md` | Public | `32px` | Local CSS<br>`height`, `line-height` |
-| `--mp-tag-size-md-font-size` | Public | `var(--mp-sys-font-size-md)` | Local CSS<br>`font-size` |
-| `--mp-tag-size-sm` | Public | `28px` | Local CSS<br>`height`, `line-height` |
+| `--mp-tag-size-md` | Public | `26px` | Local CSS<br>`height`, `line-height` |
+| `--mp-tag-size-md-font-size` | Public | `var(--mp-sys-font-size-sm)` | Local CSS<br>`font-size` |
+| `--mp-tag-size-sm` | Public | `22px` | Local CSS<br>`height`, `line-height` |
 | `--mp-tag-size-sm-font-size` | Public | `var(--mp-sys-font-size-xs)` | Local CSS<br>`font-size` |
-| `--mp-tag-size-xl` | Public | `40px` | Local CSS<br>`height`, `line-height` |
+| `--mp-tag-size-xl` | Public | `34px` | Local CSS<br>`height`, `line-height` |
 | `--mp-tag-size-xl-font-size` | Public | `var(--mp-sys-font-size-lg)` | Local CSS<br>`font-size` |
-| `--mp-tag-size-xs` | Public | `24px` | Local CSS<br>`height`, `line-height` |
+| `--mp-tag-size-xs` | Public | `18px` | Local CSS<br>`height`, `line-height` |
 | `--mp-tag-size-xs-font-size` | Public | `var(--mp-sys-font-size-xs)` | Local CSS<br>`font-size` |
 | `--mp-tag-status-danger-bg-color` | Public | `rgb(var(--mp-danger-1))` | Local CSS<br>`background-color` |
 | `--mp-tag-status-danger-text-color` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`color` |

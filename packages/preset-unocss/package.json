@@ -1,6 +1,6 @@
 {
   "name": "@maple-design/preset-unocss-vue",
-  "version": "1.4.4",
+  "version": "1.4.7",
   "description": "unocss preset of maple",
   "keywords": [
     "unocss",
@@ -21,9 +21,9 @@
   "type": "module",
   "exports": {
     ".": {
+      "types": "./lib/index.d.ts",
       "import": "./lib/index.js",
-      "require": "./lib/index.cjs",
-      "types": "./lib/index.d.ts"
+      "require": "./lib/index.cjs"
     },
     "./*": "./*"
   },

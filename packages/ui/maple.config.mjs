@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs'
 import { defineConfig } from '@maple-design/cli-vue'
 
 const componentReuse = JSON.parse(readFileSync(new URL('./component-reuse.json', import.meta.url), 'utf8'))
+const { version: packageVersion } = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'))
 const markReuse = (item) => {
   const reuse = componentReuse[item.doc]
   if (!reuse || item.type !== 2) {
@@ -26,6 +27,8 @@ export default defineConfig({
   },
   pc: {
     header: {
+      // Read from package.json so the docs always show the version that was actually published.
+      currentVersion: `v${packageVersion}`,
       // Updates live under Getting started; the legacy playground is not published.
       versions: [],
       changelog: '',
