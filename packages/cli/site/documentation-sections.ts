@@ -7,6 +7,10 @@ export interface DocumentationSection {
   mobileEntry?: string
   docs?: string[]
 }
+export function isHomePath(path: string) {
+  const doc = path.split('?')[0].split('/').filter(Boolean).at(-1) ?? ''
+  return doc === '' || doc === 'home'
+}
 export function getDocumentationSection(path: string, sections: DocumentationSection[], requested?: unknown) {
   const doc = path.split('?')[0].split('/').filter(Boolean).at(-1) ?? ''
   if (doc === 'home' && typeof requested === 'string') {
