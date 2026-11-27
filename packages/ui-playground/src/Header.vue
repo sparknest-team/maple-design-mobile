@@ -10,6 +10,7 @@ import Share from './icons/Share.vue'
 import { normalizeTheme } from './themes'
 import { usePreviewVersion } from './utils/env'
 
+const siteLogo = import.meta.env.BASE_URL + 'maple_icon.png'
 const props = defineProps(['store', 'theme'])
 const emit = defineEmits(['update:theme'])
 const inIframe = ref(window.self !== window.top)
@@ -148,7 +149,7 @@ async function setMapleVersion(v: string) {
   <nav>
     <Close v-if="inIframe" class="close" @click="handleClose" />
     <h1 v-else>
-      <img alt="logo" src="./logo.svg" />
+      <img alt="logo" :src="siteLogo" />
       <span>Maple UI Playground</span>
     </h1>
     <mp-space align="center">

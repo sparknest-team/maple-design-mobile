@@ -57,7 +57,6 @@
         :line="false"
         :clearable="false"
         :disabled="searchDisabled"
-        placement="bottom-start"
         @change="handleFieldChange"
       />
 
@@ -78,7 +77,7 @@
         :input-attrs="getReferenceAttrs()"
         :error="error"
         :type="type"
-        :aria-label="getLabel()"
+        :ariaLabel="getLabel()"
         :placeholder="searchPlaceholder"
         :max-length="maxLength"
         :readonly="mergedReadonly || popupActive"

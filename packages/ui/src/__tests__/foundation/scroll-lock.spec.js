@@ -248,6 +248,7 @@ describe('shared scroll lock contract', () => {
   })
   test('scrollbar compensation restores original padding', () => {
     const element = document.createElement('div')
+    element.style.boxSizing = 'border-box'
     document.body.appendChild(element)
     element.style.paddingRight = '4px'
     Object.defineProperty(element, 'offsetWidth', { value: 100 })
@@ -279,6 +280,7 @@ describe('shared scroll lock contract', () => {
     'released RTL scrollbar space is reserved on its physical side (clientLeft tracks gutter=%s)',
     (reportsLeft) => {
       const element = document.createElement('div')
+      element.style.boxSizing = 'border-box'
       document.body.appendChild(element)
       element.style.direction = 'rtl'
       element.style.setProperty('padding-left', '4px', 'important')
@@ -305,6 +307,7 @@ describe('shared scroll lock contract', () => {
     'released both-edge gutters reserve both sides (clientLeft tracks gutter=%s)',
     (reportsLeft) => {
       const element = document.createElement('div')
+      element.style.boxSizing = 'border-box'
       document.body.appendChild(element)
       element.style.setProperty('scrollbar-gutter', 'stable both-edges')
       element.style.setProperty('padding-left', '4px', 'important')

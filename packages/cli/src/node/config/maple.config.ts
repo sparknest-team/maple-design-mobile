@@ -2,7 +2,8 @@ import { pathToFileURL } from 'url'
 import { isArray, mergeWith } from '@maple-design/shared-vue'
 import { type CopyOptions } from '@maple-design/vite-plugins-vue'
 import fse from 'fs-extra'
-import { Plugin, ProxyOptions } from 'vite'
+import type { ProxyOptions } from 'vite'
+import type { DocumentationSection } from '../documentation-sections.js'
 import { COMPONENT_REUSE_JSON, MAPLE_CONFIG, SITE_CONFIG } from '../shared/constant.js'
 import { outputFileSyncOnChange } from '../shared/fsUtils.js'
 
@@ -13,10 +14,6 @@ export interface MapleConfigIcons {
   entry?: string
   /** Generated Vue source directory. */
   output?: string
-}
-
-export interface MapleConfigEsbuild {
-  target?: string | string[]
 }
 
 export interface MapleConfigHtmlInjectPoint {
@@ -115,7 +112,7 @@ export interface MapleConfigPcIndexPage {
 
 export interface MapleConfigPc {
   /** Independent documentation areas with scoped menus. */
-  sections?: { id: string; text: Record<string, string>; entry: string; mobileEntry?: string; docs?: string[] }[]
+  sections?: DocumentationSection[]
 
   title?: Record<string, string>
   redirect?: string
@@ -176,11 +173,6 @@ export interface MapleConfig {
   }
   defaultLanguage?: 'zh-CN' | 'en-US'
   alias?: Record<string, string>
-  /**
-   * @default `false`
-   * Show mobile component on the right.
-   */
-  useMobile?: boolean
   lightTheme?: Record<string, string>
   darkTheme?: Record<string, string>
   mapleLightTheme?: Record<string, string>
@@ -197,24 +189,15 @@ export interface MapleConfig {
   mobile?: MapleConfigMobile
   copy?: CopyOptions['paths']
   icons?: MapleConfigIcons
-  esbuild?: MapleConfigEsbuild
   bundle?: {
     external?: string[]
     globals?: Record<string, string>
   }
   /**
-   *  @vitePlugins
-   * @default `[]`
-   * Vite plugins
-   */
-  vitePlugins?: Plugin[] | ((plugins: Plugin[]) => Plugin[])
-
-  /**
    * @default `[]`
    * Directive folder name for component library.
    */
   directives?: string[]
-  _cf?: string[]
 }
 
 export function defineConfig(config: MapleConfig) {
@@ -224,7 +207,7 @@ export function defineConfig(config: MapleConfig) {
 export function mergeStrategy(_: any, srcValue: any, key: any) {
   // Arrays merged by index would pollute items across reloads when length/order changes
   // (e.g. menu titles picking up the next component's `doc`).
-  const keys = ['features', 'members', 'versions', 'themes', '_cf', 'menu']
+  const keys = ['features', 'members', 'versions', 'themes', 'menu']
 
   if (keys.includes(key) && isArray(srcValue)) {
     return srcValue

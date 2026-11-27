@@ -1,8 +1,4 @@
 <script setup>
-import { onThemeChange } from '@maple-design/cli-vue/client'
-
-onThemeChange()
-
 const hues = [
   { name: 'primary', label: 'Primary' },
   { name: 'success', label: 'Success' },

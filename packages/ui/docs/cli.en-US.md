@@ -36,39 +36,32 @@ maple-cli gen
 ### Configuration file
 
 The `maple.config.mjs` in the project root directory is used to manage the specific details of the entire component library project.
-The default configuration can be viewed [maple.default.config.ts](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.default.config.ts?ref_type=heads).
-Also refer to `@maple-design/ui-vue` [maple.config.mjs](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/ui/maple.config.mjs?ref_type=heads).
+The default configuration can be viewed [maple.default.config.ts](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/cli/src/node/config/maple.default.config.ts).
+Also refer to `@maple-design/ui-vue` [maple.config.mjs](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/ui/maple.config.mjs).
+
+Configure documentation Vite plugins and proxies in `docs/.vuepress/config.ts`. Configure the library entry points, external dependencies and outputs in `ui-build.config.mjs`.
 
 | Parameter | Description | Type | Default |
 | --- | -------------- | -------- | ---------- |
 | `name` | The full name of the component library, which will be used as the package name | _string_ | `Maple` |
-| `namespace` | Component library namespace, will be used as component prefix | _string_ | `var` |
-| `host` | Development server host | _number_ | `localhost` |
+| `namespace` | Component library namespace, will be used as component prefix | _string_ | `mp` |
 | `port` | Development server port | _number_ | `8080` |
-| `proxy` | Development server proxy | _Record<string, string \| ProxyOptions>_ | `-` |
 | `title` | The title of the component library in the document | _string_ | `Maple` |
 | `logo` | The logo of the component library in the document | _string_ | `-` |
 | `alias` | Path alias (root is src folder when use mp-relative path) | _Record<string, string>_ | `-` |
 | `defaultLanguage` | Document default language | _string_ | `zh-CN` |
 | `defaultLightTheme` | Default light-mode selection | _string_ | `lightTheme` |
 | `defaultDarkTheme` | Default dark-mode selection | _string_ | `darkTheme` |
-| `useMobile` | Whether to display the mobile phone preview on the right | _boolean_ | `false` |
 | `themeKey` | The key of the theme in local storage | _string_ | `MAPLE_THEME` |
 | `lightTheme` | Default brand light document theme | _Record<string, any>_ | `-` |
 | `darkTheme` | Default brand dark document theme | _Record<string, any>_ | `-` |
 | `mapleLightTheme` | Maple brand light document theme | _Record<string, any>_ | `-` |
 | `mapleDarkTheme` | Maple brand dark document theme | _Record<string, any>_ | `-` |
-| `highlight` | Document code snippet style related | _{ style: string }_ | `-` |
-| `analysis` | Document statistics related | _{ baidu: string }_ | `-` |
-| `pc` | PC side document structure configuration | _[MapleConfigPc](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.config.ts?ref_type=heads)_ | `-` |
-| `mobile` | Mobile document structure configuration | _[MapleConfigMobile](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.config.ts?ref_type=heads)_ | `-` |
-| `bundle` | Bundle output options | _{ external: string[], globals: Record<string, string> }_ | `-` |
-| `vitePlugins` | vite plugins | _[Plugin](https://vite.dev/guide/using-plugins.html)[]_ \| `(plugins: Plugin[]) => Plugin[])` | `-` |
+| `pc` | PC side document structure configuration | _[MapleConfigPc](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/cli/src/node/config/maple.config.ts)_ | `-` |
+| `mobile` | Mobile document structure configuration | _[MapleConfigMobile](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/cli/src/node/config/maple.config.ts)_ | `-` |
 | `directives` | Component library directive folder name | _string[]_ | `[]` |
-| `copy` | Copy file configuration | _[CopyPath[]](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/vite-plugins/src/copy.ts)_ | `- ` |
-| `icons` | Font icon packaging related configurations | _[MapleConfigIcons](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.config.ts?ref_type=heads) _ | `-` |
-| `esbuild` | esbuild configuration | _[MapleConfigEsbuild](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.config.ts?ref_type=heads)_ | ` -` |
-| `seo` | seo options | _[MapleConfigSeo](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.config.ts?ref_type=heads)_ | ` -` |
+| `icons` | Font icon packaging related configurations | _[MapleConfigIcons](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/cli/src/node/config/maple.config.ts) _ | `-` |
+| `seo` | seo options | _[MapleConfigSeo](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/cli/src/node/config/maple.config.ts)_ | ` -` |
 
 #### Menu
 
@@ -77,42 +70,10 @@ Also refer to `@maple-design/ui-vue` [maple.config.mjs](https://xxx/pe.frontend/
 | `doc` | The document page corresponds to the matching file name, required | _string_ | `-` |
 | `type` | The type of menu, when the type is `1`, it means the category menu, when the type is `2`, the doc field matches the component file under src, when the type is `3`, the doc field matches the md file under docs, required | _MenuTypes_ | `-` |
 | `text` | The text displayed in the menu, English display text can be configured when internationalization is set, required | _Record<string, string>_ | `-` |
-| `useMobile` | Whether to display the mobile phone preview on the right side on the current document page, if not filled, the default value is useMobile in config  | _boolean_ | `-` |
 
 ### Custom pages
 
-If you want to insert other pages into the component library, you can create a `pages` folder in the project root directory to write a vue component to generate other pages.
-The directory structure is as follows:
-
-```text
-// playground-ignore
-|-- maple-ui
-  |-- src
-  |-- docs
-  |-- pages
-    |-- sponsor
-      |-- index.vue
-    |-- contributor
-      |-- locale
-        |-- en-US.ts
-      |-- index.vue
-    |-- changelog
-      |-- locale
-        |-- zh-CN.ts
-        |-- en-US.ts
-      |-- index.vue
-      
-```
-
-The resulting route is as follows:
-
-```text
-// playground-ignore
-/zh-CN/sponsor
-/en-US/contributor
-/zh-CN/changelog
-/en-US/changelog
-```
+The Maple documentation site maps `docs/sponsor.zh-CN.md` and `docs/sponsor.en-US.md` to `/zh-CN/sponsor/` and `/en-US/sponsor/`. To include the page in the sidebar, add its `doc` to `pc.menu` in `maple.config.mjs`. The page patterns and route mapping live in `docs/.vuepress/config.ts`.
 
 ### Command related
 
@@ -123,8 +84,6 @@ The resulting route is as follows:
 maple-cli dev
 # force mode
 maple-cli dev -f
-# draft mode
-maple-cli dev -d
 ```
 
 #### Build a documentation site

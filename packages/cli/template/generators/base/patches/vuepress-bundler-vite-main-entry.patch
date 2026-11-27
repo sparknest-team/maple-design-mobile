@@ -1,0 +1,12 @@
+diff --git a/dist/index.js b/dist/index.js
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -203,5 +203,4 @@
+ 		clearScreen: false,
+ 		configFile: false,
+ 		logLevel: !isBuild || app.env.isDebug ? "info" : "warn",
+-		esbuild: { charset: "utf8" },
+ 		plugins: [
+@@ -344,1 +343,1 @@
+-		const clientEntryChunk = clientOutput.output.find((item) => item.type === "chunk" && item.isEntry);
++		const clientEntryChunk = clientOutput.output.find((item) => item.type === "chunk" && item.isEntry && item.name === "app");

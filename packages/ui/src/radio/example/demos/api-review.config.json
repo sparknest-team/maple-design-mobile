@@ -3,14 +3,14 @@
     {
       "name": "model-value",
       "description": "受控值",
-      "type": "RadioModel",
+      "type": "string | number | boolean | null",
       "defaultValue": "undefined",
       "kind": "scenario"
     },
     {
       "name": "default-value",
       "description": "非受控初始值",
-      "type": "RadioModel",
+      "type": "string | number | boolean | null",
       "defaultValue": "null",
       "kind": "scenario"
     },
@@ -72,7 +72,7 @@
     {
       "name": "options",
       "description": "选项；传入时替代默认插槽",
-      "type": "Array<ChoiceValue | RadioOption | Record<string, unknown>>",
+      "type": "Array<string | number | boolean | RadioOption | Record<string, unknown>>",
       "defaultValue": "undefined",
       "kind": "json",
       "initial": "{}"

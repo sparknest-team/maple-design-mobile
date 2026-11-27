@@ -427,11 +427,6 @@
       "type": "Angular 交互参考"
     },
     {
-      "id": "varlet",
-      "name": "Varlet",
-      "type": "Vue 移动"
-    },
-    {
       "id": "chakra-ui",
       "name": "Chakra UI",
       "type": "React 组合参考"
@@ -551,23 +546,6 @@
               "title": "Loop debug",
               "file": "src/code/demos/zhCN/loop-debug.demo.vue",
               "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/code/demos/zhCN/loop-debug.demo.vue"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 1194,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/code/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/code/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/code/example/index.vue"
             }
           ]
         },
@@ -1535,23 +1513,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 10828,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/button/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/button/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/button/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -1768,13 +1729,6 @@
               "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/icons/basic-doc.ts"
             },
             {
-              "library": "varlet",
-              "name": "Varlet",
-              "title": "index",
-              "file": "packages/varlet-ui/src/icon/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/icon/example/index.vue"
-            },
-            {
               "library": "chakra-ui",
               "name": "Chakra UI",
               "title": "icon-basic",
@@ -1916,23 +1870,6 @@
               "title": "color",
               "file": "apps/showcase/doc/icons/color-doc.ts",
               "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/icons/color-doc.ts"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 3856,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/icon/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/icon/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/icon/example/index.vue"
             }
           ]
         },
@@ -2309,23 +2246,6 @@
               "title": "Links",
               "file": "docs/data/material/components/links/Links.tsx",
               "url": "https://github.com/mui/material-ui/blob/a5faab53e647b92b5efb8ea26ce1ae758778736e/docs/data/material/components/links/Links.tsx"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 1829,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/link/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/link/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/link/example/index.vue"
             }
           ]
         },
@@ -3212,23 +3132,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 2479,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/list/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/list/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/list/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -3718,23 +3621,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 1696,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/space/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/space/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/space/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -3770,6 +3656,85 @@
           ]
         }
       ]
+    },
+    {
+      "coreStrengths": [],
+      "id": "section",
+      "group": "layout",
+      "route": "/components/section/",
+      "name": "Section 内容分区",
+      "feature": "通过标题、说明和操作组织内容分区，自动适配表单布局。",
+      "members": [],
+      "topics": [],
+      "demos": [
+        {
+          "title": "普通分区",
+          "source": "src/section/example/demos/plain.vue",
+          "anchor": ""
+        },
+        {
+          "title": "带线分区",
+          "source": "src/section/example/demos/line.vue",
+          "anchor": ""
+        },
+        {
+          "title": "描边分区与自定义标题",
+          "source": "src/section/example/demos/outline.vue",
+          "anchor": ""
+        },
+        {
+          "title": "分区尺寸、标题层级与内容",
+          "source": "src/section/example/demos/sizes.vue",
+          "anchor": ""
+        },
+        {
+          "title": "行内表单分组",
+          "source": "src/section/example/demos/inline-form.vue",
+          "anchor": ""
+        }
+      ],
+      "featurePoints": [
+        {
+          "id": "size",
+          "label": "尺寸与密度",
+          "status": "demo",
+          "demos": [
+            {
+              "title": "分区尺寸、标题层级与内容",
+              "source": "src/section/example/demos/sizes.vue",
+              "anchor": ""
+            }
+          ],
+          "evidence": []
+        },
+        {
+          "id": "variant",
+          "label": "变体与视觉层次",
+          "status": "demo",
+          "demos": [
+            {
+              "title": "描边分区与自定义标题",
+              "source": "src/section/example/demos/outline.vue",
+              "anchor": ""
+            }
+          ],
+          "evidence": []
+        },
+        {
+          "id": "custom",
+          "label": "插槽与自定义内容",
+          "status": "demo",
+          "demos": [
+            {
+              "title": "描边分区与自定义标题",
+              "source": "src/section/example/demos/outline.vue",
+              "anchor": ""
+            }
+          ],
+          "evidence": []
+        }
+      ],
+      "references": []
     },
     {
       "coreStrengths": [],
@@ -4003,23 +3968,6 @@
               "title": "PTComponent",
               "file": "apps/showcase/doc/divider/pt/PTComponent.ts",
               "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/divider/pt/PTComponent.ts"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 1260,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/divider/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/divider/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/divider/example/index.vue"
             }
           ]
         }
@@ -5572,28 +5520,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "相关组合",
-          "exampleCount": 2,
-          "readBytes": 4972,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/paper/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/paper/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/paper/example/index.vue"
-            },
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/card/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/card/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -5651,6 +5577,11 @@
           "anchor": ""
         },
         {
+          "title": "卡片尺寸与标题层级",
+          "source": "src/card/example/demos/sizes-and-headings.vue",
+          "anchor": ""
+        },
+        {
           "title": "悬浮样式",
           "source": "src/card/example/demos/hoverable.vue",
           "anchor": ""
@@ -5658,6 +5589,11 @@
         {
           "title": "本组配置对照",
           "source": "src/card/example/demos/image.vue",
+          "anchor": ""
+        },
+        {
+          "title": "组合 Tabs 与嵌套卡片",
+          "source": "src/card/example/demos/nested-tabs.vue",
           "anchor": ""
         },
         {
@@ -5681,7 +5617,7 @@
           "anchor": ""
         },
         {
-          "title": "全屏展开与关闭",
+          "title": "浮动展开与关闭",
           "source": "src/card/example/demos/floating.vue",
           "anchor": ""
         },
@@ -5695,8 +5631,14 @@
         {
           "id": "size",
           "label": "尺寸与密度",
-          "status": "candidate",
-          "demos": [],
+          "status": "demo",
+          "demos": [
+            {
+              "title": "卡片尺寸与标题层级",
+              "source": "src/card/example/demos/sizes-and-headings.vue",
+              "anchor": ""
+            }
+          ],
           "evidence": [
             {
               "library": "naive-ui",
@@ -5766,8 +5708,14 @@
         {
           "id": "alignment",
           "label": "对齐、间距与嵌套",
-          "status": "candidate",
-          "demos": [],
+          "status": "demo",
+          "demos": [
+            {
+              "title": "组合 Tabs 与嵌套卡片",
+              "source": "src/card/example/demos/nested-tabs.vue",
+              "anchor": ""
+            }
+          ],
           "evidence": [
             {
               "library": "quasar",
@@ -6011,23 +5959,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 3230,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/card/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/card/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/card/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -6091,25 +6022,7 @@
         }
       ],
       "featurePoints": [],
-      "references": [
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 1133,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/index-bar/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/index-bar/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/index-bar/example/index.vue"
-            }
-          ]
-        }
-      ]
+      "references": []
     },
     {
       "coreStrengths": [
@@ -6674,23 +6587,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 5341,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/tabs/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/tabs/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/tabs/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -6818,7 +6714,7 @@
               "anchor": ""
             }
           ],
-          "documentation": "| model-value / default-value   | 受控 / 初始选中 key，支持字符串、数字和 null                                                                                 | undefined / null  |",
+          "documentation": "| model-value | 受控选中 key，支持字符串、数字和 null，支持 v-model | `undefined` |",
           "evidence": [
             {
               "library": "chakra-ui",
@@ -7160,23 +7056,6 @@
               "title": "popup",
               "file": "apps/showcase/doc/menu/popup-doc.ts",
               "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/menu/popup-doc.ts"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 4243,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/menu/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/menu/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/menu/example/index.vue"
             }
           ]
         },
@@ -7867,23 +7746,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 4243,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/menu/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/menu/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/menu/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -8360,23 +8222,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 1856,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/breadcrumbs/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/breadcrumbs/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/breadcrumbs/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -8650,23 +8495,6 @@
               "title": "PTViewer",
               "file": "apps/showcase/doc/toolbar/pt/PTViewer.ts",
               "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/toolbar/pt/PTViewer.ts"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "相关组合",
-          "exampleCount": 1,
-          "readBytes": 4087,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/app-bar/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/app-bar/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/app-bar/example/index.vue"
             }
           ]
         }
@@ -9291,23 +9119,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 5341,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/tabs/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/tabs/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/tabs/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -9687,23 +9498,6 @@
               "title": "Dark",
               "file": "docs/src/examples/QStepper/Dark.vue",
               "url": "https://github.com/quasarframework/quasar/blob/6d531cf190aa6c2fa0c5990ecbe1349bc801c718/docs/src/examples/QStepper/Dark.vue"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 1541,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/steps/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/steps/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/steps/example/index.vue"
             }
           ]
         },
@@ -10293,23 +10087,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 1527,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/pagination/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/pagination/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/pagination/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -10670,23 +10447,6 @@
               "title": "自定义按钮",
               "file": "packages/web-vue/components/back-top/__demo__/custom.md",
               "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/back-top/__demo__/custom.md"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 410,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/back-top/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/back-top/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/back-top/example/index.vue"
             }
           ]
         }
@@ -11485,23 +11245,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 7076,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/input/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/input/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/input/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -11600,25 +11343,7 @@
           "evidence": []
         }
       ],
-      "references": [
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 1759,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/signature/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/signature/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/signature/example/index.vue"
-            }
-          ]
-        }
-      ]
+      "references": []
     },
     {
       "coreStrengths": [
@@ -12533,23 +12258,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 7076,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/input/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/input/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/input/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -13372,23 +13080,6 @@
               "title": "disabled",
               "file": "apps/showcase/doc/textarea/disabled-doc.ts",
               "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/textarea/disabled-doc.ts"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 7076,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/input/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/input/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/input/example/index.vue"
             }
           ]
         },
@@ -14288,6 +13979,751 @@
     },
     {
       "coreStrengths": [],
+      "id": "input-tag",
+      "group": "text",
+      "route": "/components/input-tag/",
+      "name": "InputTag 标签输入",
+      "feature": "标签输入、展示数量及字段状态。",
+      "members": [],
+      "topics": [],
+      "demos": [
+        {
+          "title": "基础用法",
+          "source": "src/input-tag/example/demos/basic.vue",
+          "anchor": ""
+        },
+        {
+          "title": "输入框尺寸",
+          "source": "src/input-tag/example/demos/appearance-state-comparison.vue",
+          "anchor": ""
+        },
+        {
+          "title": "本组配置对照",
+          "source": "src/input-tag/example/demos/max.vue",
+          "anchor": ""
+        },
+        {
+          "title": "搜索并选择标签",
+          "source": "src/input-tag/example/demos/search-options.vue",
+          "anchor": ""
+        },
+        {
+          "title": "自定义已选内容",
+          "source": "src/input-tag/example/demos/format-label.vue",
+          "anchor": ""
+        },
+        {
+          "title": "受控加载",
+          "source": "src/input-tag/example/demos/loading.vue",
+          "anchor": ""
+        },
+        {
+          "title": "粘贴链接并获取标题",
+          "source": "src/input-tag/example/demos/link-title.vue",
+          "anchor": ""
+        },
+        {
+          "title": "原始值反显",
+          "source": "src/input-tag/example/demos/fallback-option.vue",
+          "anchor": ""
+        },
+        {
+          "title": "保存后异步反显",
+          "source": "src/input-tag/example/demos/async-fallback-restore.vue",
+          "anchor": ""
+        }
+      ],
+      "featurePoints": [
+        {
+          "id": "size",
+          "label": "尺寸与密度",
+          "status": "demo",
+          "demos": [
+            {
+              "title": "输入框尺寸",
+              "source": "src/input-tag/example/demos/appearance-state-comparison.vue",
+              "anchor": ""
+            }
+          ],
+          "evidence": [
+            {
+              "library": "element-plus",
+              "name": "Element Plus",
+              "title": "size",
+              "file": "docs/examples/input-tag/size.vue",
+              "url": "https://github.com/element-plus/element-plus/blob/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/examples/input-tag/size.vue"
+            },
+            {
+              "library": "arco-design-vue",
+              "name": "Arco Design Vue",
+              "title": "输入框尺寸",
+              "file": "packages/web-vue/components/input-tag/__demo__/size.md",
+              "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/input-tag/__demo__/size.md"
+            },
+            {
+              "library": "vuetify",
+              "name": "Vuetify",
+              "title": "prop-density",
+              "file": "packages/docs/src/examples/v-combobox/prop-density.vue",
+              "url": "https://github.com/vuetifyjs/vuetify/blob/54a2b6a7dcb84a9894368f2ebd8bf52c3108f266/packages/docs/src/examples/v-combobox/prop-density.vue"
+            },
+            {
+              "library": "material-ui",
+              "name": "MUI",
+              "title": "SizesChips",
+              "file": "docs/data/material/components/chips/SizesChips.js",
+              "url": "https://github.com/mui/material-ui/blob/a5faab53e647b92b5efb8ea26ce1ae758778736e/docs/data/material/components/chips/SizesChips.js"
+            },
+            {
+              "library": "chakra-ui",
+              "name": "Chakra UI",
+              "title": "tags-input-with-sizes",
+              "file": "apps/compositions/src/examples/tags-input-with-sizes.tsx",
+              "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/tags-input-with-sizes.tsx"
+            }
+          ]
+        },
+        {
+          "id": "variant",
+          "label": "变体与视觉层次",
+          "status": "demo",
+          "demos": [
+            {
+              "title": "输入框尺寸",
+              "source": "src/input-tag/example/demos/appearance-state-comparison.vue",
+              "anchor": ""
+            }
+          ],
+          "evidence": [
+            {
+              "library": "chakra-ui",
+              "name": "Chakra UI",
+              "title": "tags-input-with-variants",
+              "file": "apps/compositions/src/examples/tags-input-with-variants.tsx",
+              "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/tags-input-with-variants.tsx"
+            }
+          ]
+        },
+        {
+          "id": "disabled",
+          "label": "禁用与只读",
+          "status": "documented",
+          "demos": [],
+          "documentation": "| `disabled`      | 是否禁用             | 标签输入尺寸与状态 |",
+          "evidence": [
+            {
+              "library": "element-plus",
+              "name": "Element Plus",
+              "title": "disabled",
+              "file": "docs/examples/input-tag/disabled.vue",
+              "url": "https://github.com/element-plus/element-plus/blob/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/examples/input-tag/disabled.vue"
+            },
+            {
+              "library": "quasar",
+              "name": "Quasar",
+              "title": "DisableReadonly",
+              "file": "docs/src/examples/QSelect/DisableReadonly.vue",
+              "url": "https://github.com/quasarframework/quasar/blob/6d531cf190aa6c2fa0c5990ecbe1349bc801c718/docs/src/examples/QSelect/DisableReadonly.vue"
+            },
+            {
+              "library": "material-ui",
+              "name": "MUI",
+              "title": "DisabledOptions",
+              "file": "docs/data/material/components/autocomplete/DisabledOptions.js",
+              "url": "https://github.com/mui/material-ui/blob/a5faab53e647b92b5efb8ea26ce1ae758778736e/docs/data/material/components/autocomplete/DisabledOptions.js"
+            },
+            {
+              "library": "chakra-ui",
+              "name": "Chakra UI",
+              "title": "tags-input-disabled",
+              "file": "apps/compositions/src/examples/tags-input-disabled.tsx",
+              "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/tags-input-disabled.tsx"
+            }
+          ]
+        },
+        {
+          "id": "controlled",
+          "label": "受控值与默认值",
+          "status": "demo",
+          "demos": [
+            {
+              "title": "受控加载",
+              "source": "src/input-tag/example/demos/loading.vue",
+              "anchor": ""
+            }
+          ],
+          "documentation": "| `default-value` | 默认值（非受控状态） | 标签输入尺寸与状态 |",
+          "evidence": [
+            {
+              "library": "quasar",
+              "name": "Quasar",
+              "title": "ModelMultipleCounter",
+              "file": "docs/src/examples/QSelect/ModelMultipleCounter.vue",
+              "url": "https://github.com/quasarframework/quasar/blob/6d531cf190aa6c2fa0c5990ecbe1349bc801c718/docs/src/examples/QSelect/ModelMultipleCounter.vue"
+            },
+            {
+              "library": "chakra-ui",
+              "name": "Chakra UI",
+              "title": "tags-input-controlled",
+              "file": "apps/compositions/src/examples/tags-input-controlled.tsx",
+              "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/tags-input-controlled.tsx"
+            }
+          ]
+        },
+        {
+          "id": "custom",
+          "label": "插槽与自定义内容",
+          "status": "demo",
+          "demos": [
+            {
+              "title": "自定义已选内容",
+              "source": "src/input-tag/example/demos/format-label.vue",
+              "anchor": ""
+            }
+          ],
+          "evidence": [
+            {
+              "library": "naive-ui",
+              "name": "Naive UI",
+              "title": "自定义创建逻辑",
+              "file": "src/dynamic-tags/demos/zhCN/on-create.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/dynamic-tags/demos/zhCN/on-create.demo.vue"
+            },
+            {
+              "library": "vuetify",
+              "name": "Vuetify",
+              "title": "slot-custom-chip",
+              "file": "packages/docs/src/examples/v-combobox/slot-custom-chip.vue",
+              "url": "https://github.com/vuetifyjs/vuetify/blob/54a2b6a7dcb84a9894368f2ebd8bf52c3108f266/packages/docs/src/examples/v-combobox/slot-custom-chip.vue"
+            },
+            {
+              "library": "quasar",
+              "name": "Quasar",
+              "title": "DisplayCustomValue",
+              "file": "docs/src/examples/QSelect/DisplayCustomValue.vue",
+              "url": "https://github.com/quasarframework/quasar/blob/6d531cf190aa6c2fa0c5990ecbe1349bc801c718/docs/src/examples/QSelect/DisplayCustomValue.vue"
+            },
+            {
+              "library": "material-ui",
+              "name": "MUI",
+              "title": "CustomDeleteIconChips",
+              "file": "docs/data/material/components/chips/CustomDeleteIconChips.js",
+              "url": "https://github.com/mui/material-ui/blob/a5faab53e647b92b5efb8ea26ce1ae758778736e/docs/data/material/components/chips/CustomDeleteIconChips.js"
+            }
+          ]
+        },
+        {
+          "id": "loading",
+          "label": "加载状态与重复操作",
+          "status": "demo",
+          "demos": [
+            {
+              "title": "受控加载",
+              "source": "src/input-tag/example/demos/loading.vue",
+              "anchor": ""
+            }
+          ],
+          "evidence": [
+            {
+              "library": "material-ui",
+              "name": "MUI",
+              "title": "InfiniteLoading",
+              "file": "docs/data/material/components/autocomplete/InfiniteLoading.js",
+              "url": "https://github.com/mui/material-ui/blob/a5faab53e647b92b5efb8ea26ce1ae758778736e/docs/data/material/components/autocomplete/InfiniteLoading.js"
+            }
+          ]
+        },
+        {
+          "id": "icons",
+          "label": "图标与图文组合",
+          "status": "candidate",
+          "demos": [],
+          "evidence": [
+            {
+              "library": "element-plus",
+              "name": "Element Plus",
+              "title": "clear-icon",
+              "file": "docs/examples/input-tag/clear-icon.vue",
+              "url": "https://github.com/element-plus/element-plus/blob/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/examples/input-tag/clear-icon.vue"
+            },
+            {
+              "library": "material-ui",
+              "name": "MUI",
+              "title": "CustomDeleteIconChips",
+              "file": "docs/data/material/components/chips/CustomDeleteIconChips.js",
+              "url": "https://github.com/mui/material-ui/blob/a5faab53e647b92b5efb8ea26ce1ae758778736e/docs/data/material/components/chips/CustomDeleteIconChips.js"
+            }
+          ]
+        },
+        {
+          "id": "input-clear",
+          "label": "清空、前后缀与计数",
+          "status": "candidate",
+          "demos": [],
+          "evidence": [
+            {
+              "library": "element-plus",
+              "name": "Element Plus",
+              "title": "clear-icon",
+              "file": "docs/examples/input-tag/clear-icon.vue",
+              "url": "https://github.com/element-plus/element-plus/blob/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/examples/input-tag/clear-icon.vue"
+            },
+            {
+              "library": "quasar",
+              "name": "Quasar",
+              "title": "Clearable",
+              "file": "docs/src/examples/QSelect/Clearable.vue",
+              "url": "https://github.com/quasarframework/quasar/blob/6d531cf190aa6c2fa0c5990ecbe1349bc801c718/docs/src/examples/QSelect/Clearable.vue"
+            },
+            {
+              "library": "material-ui",
+              "name": "MUI",
+              "title": "CountrySelect",
+              "file": "docs/data/material/components/autocomplete/CountrySelect.js",
+              "url": "https://github.com/mui/material-ui/blob/a5faab53e647b92b5efb8ea26ce1ae758778736e/docs/data/material/components/autocomplete/CountrySelect.js"
+            },
+            {
+              "library": "chakra-ui",
+              "name": "Chakra UI",
+              "title": "tags-input-with-clear",
+              "file": "apps/compositions/src/examples/tags-input-with-clear.tsx",
+              "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/tags-input-with-clear.tsx"
+            }
+          ]
+        },
+        {
+          "id": "input-compose",
+          "label": "输入法与原生事件",
+          "status": "candidate",
+          "demos": [],
+          "evidence": [
+            {
+              "library": "chakra-ui",
+              "name": "Chakra UI",
+              "title": "tags-input-basic",
+              "file": "apps/compositions/src/examples/tags-input-basic.tsx",
+              "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/tags-input-basic.tsx"
+            }
+          ]
+        },
+        {
+          "id": "search",
+          "label": "搜索、匹配与过滤",
+          "status": "demo",
+          "demos": [
+            {
+              "title": "搜索并选择标签",
+              "source": "src/input-tag/example/demos/search-options.vue",
+              "anchor": ""
+            }
+          ],
+          "evidence": [
+            {
+              "library": "quasar",
+              "name": "Quasar",
+              "title": "BasicFiltering",
+              "file": "docs/src/examples/QSelect/BasicFiltering.vue",
+              "url": "https://github.com/quasarframework/quasar/blob/6d531cf190aa6c2fa0c5990ecbe1349bc801c718/docs/src/examples/QSelect/BasicFiltering.vue"
+            },
+            {
+              "library": "material-ui",
+              "name": "MUI",
+              "title": "Filter",
+              "file": "docs/data/material/components/autocomplete/Filter.js",
+              "url": "https://github.com/mui/material-ui/blob/a5faab53e647b92b5efb8ea26ce1ae758778736e/docs/data/material/components/autocomplete/Filter.js"
+            }
+          ]
+        },
+        {
+          "id": "multiple",
+          "label": "多选、标签与数量限制",
+          "status": "demo",
+          "demos": [
+            {
+              "title": "基础用法",
+              "source": "src/input-tag/example/demos/basic.vue",
+              "anchor": ""
+            },
+            {
+              "title": "输入框尺寸",
+              "source": "src/input-tag/example/demos/appearance-state-comparison.vue",
+              "anchor": ""
+            }
+          ],
+          "evidence": [
+            {
+              "library": "element-plus",
+              "name": "Element Plus",
+              "title": "basic",
+              "file": "docs/examples/input-tag/basic.vue",
+              "url": "https://github.com/element-plus/element-plus/blob/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/examples/input-tag/basic.vue"
+            },
+            {
+              "library": "naive-ui",
+              "name": "Naive UI",
+              "title": "基础用法",
+              "file": "src/dynamic-tags/demos/zhCN/basic.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/dynamic-tags/demos/zhCN/basic.demo.vue"
+            },
+            {
+              "library": "arco-design-vue",
+              "name": "Arco Design Vue",
+              "title": "基本用法",
+              "file": "packages/web-vue/components/input-tag/__demo__/basic.md",
+              "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/input-tag/__demo__/basic.md"
+            },
+            {
+              "library": "vuetify",
+              "name": "Vuetify",
+              "title": "prop-multiple",
+              "file": "packages/docs/src/examples/v-combobox/prop-multiple.vue",
+              "url": "https://github.com/vuetifyjs/vuetify/blob/54a2b6a7dcb84a9894368f2ebd8bf52c3108f266/packages/docs/src/examples/v-combobox/prop-multiple.vue"
+            },
+            {
+              "library": "quasar",
+              "name": "Quasar",
+              "title": "FilteringAddMultiple",
+              "file": "docs/src/examples/QSelect/FilteringAddMultiple.vue",
+              "url": "https://github.com/quasarframework/quasar/blob/6d531cf190aa6c2fa0c5990ecbe1349bc801c718/docs/src/examples/QSelect/FilteringAddMultiple.vue"
+            },
+            {
+              "library": "shadcn-vue",
+              "name": "shadcn-vue",
+              "title": "TagsInputBasic",
+              "file": "apps/v4/registry/bases/reka/examples/tags-input/TagsInputBasic.vue",
+              "url": "https://github.com/unovue/shadcn-vue/blob/dd3ff4ccbb46a15081e841570e51a5a2ace095cf/apps/v4/registry/bases/reka/examples/tags-input/TagsInputBasic.vue"
+            },
+            {
+              "library": "material-ui",
+              "name": "MUI",
+              "title": "CheckboxesTags",
+              "file": "docs/data/material/components/autocomplete/CheckboxesTags.js",
+              "url": "https://github.com/mui/material-ui/blob/a5faab53e647b92b5efb8ea26ce1ae758778736e/docs/data/material/components/autocomplete/CheckboxesTags.js"
+            },
+            {
+              "library": "chakra-ui",
+              "name": "Chakra UI",
+              "title": "tags-input-basic",
+              "file": "apps/compositions/src/examples/tags-input-basic.tsx",
+              "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/tags-input-basic.tsx"
+            }
+          ]
+        },
+        {
+          "id": "creation",
+          "label": "创建候选与自定义值",
+          "status": "candidate",
+          "demos": [],
+          "evidence": [
+            {
+              "library": "naive-ui",
+              "name": "Naive UI",
+              "title": "自定义创建逻辑",
+              "file": "src/dynamic-tags/demos/zhCN/on-create.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/dynamic-tags/demos/zhCN/on-create.demo.vue"
+            },
+            {
+              "library": "quasar",
+              "name": "Quasar",
+              "title": "CreateListener",
+              "file": "docs/src/examples/QSelect/CreateListener.vue",
+              "url": "https://github.com/quasarframework/quasar/blob/6d531cf190aa6c2fa0c5990ecbe1349bc801c718/docs/src/examples/QSelect/CreateListener.vue"
+            },
+            {
+              "library": "material-ui",
+              "name": "MUI",
+              "title": "FreeSoloCreateOption",
+              "file": "docs/data/material/components/autocomplete/FreeSoloCreateOption.js",
+              "url": "https://github.com/mui/material-ui/blob/a5faab53e647b92b5efb8ea26ce1ae758778736e/docs/data/material/components/autocomplete/FreeSoloCreateOption.js"
+            }
+          ]
+        }
+      ],
+      "references": [
+        {
+          "library": "element-plus",
+          "name": "Element Plus",
+          "type": "Vue 桌面",
+          "relation": "同类组件",
+          "exampleCount": 12,
+          "readBytes": 4699,
+          "topics": [
+            "尺寸",
+            "禁用与只读",
+            "拖动与排序"
+          ],
+          "url": "https://github.com/element-plus/element-plus/tree/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/en-US/component/input-tag.md",
+          "samples": [
+            {
+              "title": "basic",
+              "file": "docs/examples/input-tag/basic.vue",
+              "url": "https://github.com/element-plus/element-plus/blob/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/examples/input-tag/basic.vue"
+            },
+            {
+              "title": "size",
+              "file": "docs/examples/input-tag/size.vue",
+              "url": "https://github.com/element-plus/element-plus/blob/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/examples/input-tag/size.vue"
+            },
+            {
+              "title": "clear-icon",
+              "file": "docs/examples/input-tag/clear-icon.vue",
+              "url": "https://github.com/element-plus/element-plus/blob/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/examples/input-tag/clear-icon.vue"
+            },
+            {
+              "title": "disabled",
+              "file": "docs/examples/input-tag/disabled.vue",
+              "url": "https://github.com/element-plus/element-plus/blob/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/examples/input-tag/disabled.vue"
+            }
+          ]
+        },
+        {
+          "library": "naive-ui",
+          "name": "Naive UI",
+          "type": "Vue 桌面",
+          "relation": "同类组件",
+          "exampleCount": 7,
+          "readBytes": 4440,
+          "topics": [
+            "定制与组合"
+          ],
+          "url": "https://github.com/tusen-ai/naive-ui/tree/fe69c62663f7648c249a9786dea3565979526a38/src/dynamic-tags/demos/zhCN/index.demo-entry.md",
+          "samples": [
+            {
+              "title": "基础用法",
+              "file": "src/dynamic-tags/demos/zhCN/basic.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/dynamic-tags/demos/zhCN/basic.demo.vue"
+            },
+            {
+              "title": "在表单中使用",
+              "file": "src/dynamic-tags/demos/zhCN/form.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/dynamic-tags/demos/zhCN/form.demo.vue"
+            },
+            {
+              "title": "最大标签数量",
+              "file": "src/dynamic-tags/demos/zhCN/max.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/dynamic-tags/demos/zhCN/max.demo.vue"
+            },
+            {
+              "title": "自定义创建逻辑",
+              "file": "src/dynamic-tags/demos/zhCN/on-create.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/dynamic-tags/demos/zhCN/on-create.demo.vue"
+            }
+          ]
+        },
+        {
+          "library": "arco-design-vue",
+          "name": "Arco Design Vue",
+          "type": "Vue 桌面",
+          "relation": "同类组件",
+          "exampleCount": 4,
+          "readBytes": 2271,
+          "topics": [
+            "尺寸"
+          ],
+          "url": "https://github.com/arco-design/arco-design-vue/tree/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/input-tag/README.zh-CN.md",
+          "samples": [
+            {
+              "title": "基本用法",
+              "file": "packages/web-vue/components/input-tag/__demo__/basic.md",
+              "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/input-tag/__demo__/basic.md"
+            },
+            {
+              "title": "输入框尺寸",
+              "file": "packages/web-vue/components/input-tag/__demo__/size.md",
+              "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/input-tag/__demo__/size.md"
+            },
+            {
+              "title": "输入框状态",
+              "file": "packages/web-vue/components/input-tag/__demo__/status.md",
+              "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/input-tag/__demo__/status.md"
+            },
+            {
+              "title": "最多展示标签数量",
+              "file": "packages/web-vue/components/input-tag/__demo__/max.md",
+              "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/input-tag/__demo__/max.md"
+            }
+          ]
+        },
+        {
+          "library": "vuetify",
+          "name": "Vuetify",
+          "type": "Vue 多端",
+          "relation": "同类组件",
+          "exampleCount": 8,
+          "readBytes": 17593,
+          "topics": [
+            "多选与范围",
+            "定制与组合"
+          ],
+          "url": "https://github.com/vuetifyjs/vuetify/tree/54a2b6a7dcb84a9894368f2ebd8bf52c3108f266/packages/docs/src/examples/v-combobox",
+          "samples": [
+            {
+              "title": "usage",
+              "file": "packages/docs/src/examples/v-combobox/usage.vue",
+              "url": "https://github.com/vuetifyjs/vuetify/blob/54a2b6a7dcb84a9894368f2ebd8bf52c3108f266/packages/docs/src/examples/v-combobox/usage.vue"
+            },
+            {
+              "title": "misc-advanced",
+              "file": "packages/docs/src/examples/v-combobox/misc-advanced.vue",
+              "url": "https://github.com/vuetifyjs/vuetify/blob/54a2b6a7dcb84a9894368f2ebd8bf52c3108f266/packages/docs/src/examples/v-combobox/misc-advanced.vue"
+            },
+            {
+              "title": "prop-density",
+              "file": "packages/docs/src/examples/v-combobox/prop-density.vue",
+              "url": "https://github.com/vuetifyjs/vuetify/blob/54a2b6a7dcb84a9894368f2ebd8bf52c3108f266/packages/docs/src/examples/v-combobox/prop-density.vue"
+            },
+            {
+              "title": "prop-multiple",
+              "file": "packages/docs/src/examples/v-combobox/prop-multiple.vue",
+              "url": "https://github.com/vuetifyjs/vuetify/blob/54a2b6a7dcb84a9894368f2ebd8bf52c3108f266/packages/docs/src/examples/v-combobox/prop-multiple.vue"
+            }
+          ]
+        },
+        {
+          "library": "quasar",
+          "name": "Quasar",
+          "type": "Vue 多端",
+          "relation": "同类组件",
+          "exampleCount": 41,
+          "readBytes": 56925,
+          "topics": [
+            "禁用与只读",
+            "受控值",
+            "搜索与过滤",
+            "多选与范围",
+            "定制与组合"
+          ],
+          "url": "https://github.com/quasarframework/quasar/tree/6d531cf190aa6c2fa0c5990ecbe1349bc801c718/docs/src/examples/QSelect",
+          "samples": [
+            {
+              "title": "BasicFiltering",
+              "file": "docs/src/examples/QSelect/BasicFiltering.vue",
+              "url": "https://github.com/quasarframework/quasar/blob/6d531cf190aa6c2fa0c5990ecbe1349bc801c718/docs/src/examples/QSelect/BasicFiltering.vue"
+            },
+            {
+              "title": "BehaviorDialog",
+              "file": "docs/src/examples/QSelect/BehaviorDialog.vue",
+              "url": "https://github.com/quasarframework/quasar/blob/6d531cf190aa6c2fa0c5990ecbe1349bc801c718/docs/src/examples/QSelect/BehaviorDialog.vue"
+            },
+            {
+              "title": "BehaviorMenu",
+              "file": "docs/src/examples/QSelect/BehaviorMenu.vue",
+              "url": "https://github.com/quasarframework/quasar/blob/6d531cf190aa6c2fa0c5990ecbe1349bc801c718/docs/src/examples/QSelect/BehaviorMenu.vue"
+            },
+            {
+              "title": "Clearable",
+              "file": "docs/src/examples/QSelect/Clearable.vue",
+              "url": "https://github.com/quasarframework/quasar/blob/6d531cf190aa6c2fa0c5990ecbe1349bc801c718/docs/src/examples/QSelect/Clearable.vue"
+            }
+          ]
+        },
+        {
+          "library": "shadcn-vue",
+          "name": "shadcn-vue",
+          "type": "Vue 组合式",
+          "relation": "同类组件",
+          "exampleCount": 3,
+          "readBytes": 2450,
+          "topics": [],
+          "url": "https://github.com/unovue/shadcn-vue/tree/dd3ff4ccbb46a15081e841570e51a5a2ace095cf/apps/v4/content/docs/components/tags-input.md",
+          "samples": [
+            {
+              "title": "TagsInputBasic",
+              "file": "apps/v4/registry/bases/reka/examples/tags-input/TagsInputBasic.vue",
+              "url": "https://github.com/unovue/shadcn-vue/blob/dd3ff4ccbb46a15081e841570e51a5a2ace095cf/apps/v4/registry/bases/reka/examples/tags-input/TagsInputBasic.vue"
+            },
+            {
+              "title": "TagsInputExample",
+              "file": "apps/v4/registry/bases/reka/examples/tags-input/TagsInputExample.vue",
+              "url": "https://github.com/unovue/shadcn-vue/blob/dd3ff4ccbb46a15081e841570e51a5a2ace095cf/apps/v4/registry/bases/reka/examples/tags-input/TagsInputExample.vue"
+            },
+            {
+              "title": "TagsInputWithLabel",
+              "file": "apps/v4/registry/bases/reka/examples/tags-input/TagsInputWithLabel.vue",
+              "url": "https://github.com/unovue/shadcn-vue/blob/dd3ff4ccbb46a15081e841570e51a5a2ace095cf/apps/v4/registry/bases/reka/examples/tags-input/TagsInputWithLabel.vue"
+            }
+          ]
+        },
+        {
+          "library": "material-ui",
+          "name": "MUI",
+          "type": "React 设计参考",
+          "relation": "同类组件",
+          "exampleCount": 87,
+          "readBytes": 957173,
+          "topics": [
+            "尺寸",
+            "禁用与只读",
+            "加载与异步",
+            "搜索与过滤",
+            "定制与组合",
+            "大数据"
+          ],
+          "url": "https://github.com/mui/material-ui/tree/a5faab53e647b92b5efb8ea26ce1ae758778736e/docs/data/material/components/chips",
+          "samples": [
+            {
+              "title": "BasicChips",
+              "file": "docs/data/material/components/chips/BasicChips.js",
+              "url": "https://github.com/mui/material-ui/blob/a5faab53e647b92b5efb8ea26ce1ae758778736e/docs/data/material/components/chips/BasicChips.js"
+            },
+            {
+              "title": "BasicChips",
+              "file": "docs/data/material/components/chips/BasicChips.tsx",
+              "url": "https://github.com/mui/material-ui/blob/a5faab53e647b92b5efb8ea26ce1ae758778736e/docs/data/material/components/chips/BasicChips.tsx"
+            },
+            {
+              "title": "SizesChips",
+              "file": "docs/data/material/components/chips/SizesChips.js",
+              "url": "https://github.com/mui/material-ui/blob/a5faab53e647b92b5efb8ea26ce1ae758778736e/docs/data/material/components/chips/SizesChips.js"
+            },
+            {
+              "title": "SizesChips",
+              "file": "docs/data/material/components/chips/SizesChips.tsx",
+              "url": "https://github.com/mui/material-ui/blob/a5faab53e647b92b5efb8ea26ce1ae758778736e/docs/data/material/components/chips/SizesChips.tsx"
+            }
+          ]
+        },
+        {
+          "library": "chakra-ui",
+          "name": "Chakra UI",
+          "type": "React 组合参考",
+          "relation": "同类组件",
+          "exampleCount": 22,
+          "readBytes": 16445,
+          "topics": [
+            "尺寸",
+            "变体与外观",
+            "禁用与只读",
+            "受控值"
+          ],
+          "url": "https://github.com/chakra-ui/chakra-ui/tree/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/.",
+          "samples": [
+            {
+              "title": "tags-input-basic",
+              "file": "apps/compositions/src/examples/tags-input-basic.tsx",
+              "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/tags-input-basic.tsx"
+            },
+            {
+              "title": "tags-input-with-sizes",
+              "file": "apps/compositions/src/examples/tags-input-with-sizes.tsx",
+              "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/tags-input-with-sizes.tsx"
+            },
+            {
+              "title": "tags-input-with-variants",
+              "file": "apps/compositions/src/examples/tags-input-with-variants.tsx",
+              "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/tags-input-with-variants.tsx"
+            },
+            {
+              "title": "tags-input-disabled",
+              "file": "apps/compositions/src/examples/tags-input-disabled.tsx",
+              "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/tags-input-disabled.tsx"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "coreStrengths": [],
       "id": "verification-code",
       "group": "text",
       "route": "/components/verification-code/",
@@ -14551,13 +14987,6 @@
               "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/inputotp/basic-doc.ts"
             },
             {
-              "library": "varlet",
-              "name": "Varlet",
-              "title": "index",
-              "file": "packages/varlet-ui/src/otp-input/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/otp-input/example/index.vue"
-            },
-            {
               "library": "chakra-ui",
               "name": "Chakra UI",
               "title": "pin-input-with-otp",
@@ -14744,23 +15173,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 3589,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/otp-input/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/otp-input/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/otp-input/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -14822,6 +15234,11 @@
           "anchor": ""
         },
         {
+          "title": "自定义文本提交",
+          "source": "src/auto-complete/example/demos/zh-CN/custom-draft.vue",
+          "anchor": ""
+        },
+        {
           "title": "外观组合",
           "source": "src/auto-complete/example/demos/appearance-lab.vue",
           "anchor": ""
@@ -14852,7 +15269,7 @@
           "anchor": ""
         },
         {
-          "title": "外观与浮动提示",
+          "title": "外观与颜色",
           "source": "src/auto-complete/example/demos/zh-CN/decorator.vue",
           "anchor": ""
         },
@@ -14925,7 +15342,7 @@
               "anchor": ""
             },
             {
-              "title": "外观与浮动提示",
+              "title": "外观与颜色",
               "source": "src/auto-complete/example/demos/zh-CN/decorator.vue",
               "anchor": ""
             }
@@ -15002,8 +15419,14 @@
         {
           "id": "custom",
           "label": "插槽与自定义内容",
-          "status": "candidate",
-          "demos": [],
+          "status": "demo",
+          "demos": [
+            {
+              "title": "自定义文本提交",
+              "source": "src/auto-complete/example/demos/zh-CN/custom-draft.vue",
+              "anchor": ""
+            }
+          ],
           "evidence": [
             {
               "library": "element-plus",
@@ -15530,21 +15953,295 @@
               "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/autocomplete/clear-icon-doc.ts"
             }
           ]
+        }
+      ]
+    },
+    {
+      "coreStrengths": [],
+      "id": "mention",
+      "group": "text",
+      "route": "/components/mention/",
+      "name": "Mention 提及",
+      "feature": "自定义触发字符、候选选择与输入定位。",
+      "members": [],
+      "topics": [],
+      "demos": [
+        {
+          "title": "基础用法",
+          "source": "src/mention/example/demos/basic.vue",
+          "anchor": ""
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
+          "title": "原子提及与值反显",
+          "source": "src/mention/example/demos/atomic-mention.vue",
+          "anchor": ""
+        },
+        {
+          "title": "候选筛选与异步搜索",
+          "source": "src/mention/example/demos/search-options.vue",
+          "anchor": ""
+        },
+        {
+          "title": "异步搜索与阅读态反显",
+          "source": "src/mention/example/demos/async-read-pretty.vue",
+          "anchor": ""
+        },
+        {
+          "title": "保存后异步反显",
+          "source": "src/mention/example/demos/async-fallback-restore.vue",
+          "anchor": ""
+        },
+        {
+          "title": "本组配置对照",
+          "source": "src/mention/example/demos/prefix.vue",
+          "anchor": ""
+        },
+        {
+          "title": "镜像重定位生命周期",
+          "source": "src/mention/example/demos/mirror-lifecycle.vue",
+          "anchor": ""
+        },
+        {
+          "title": "受控加载",
+          "source": "src/mention/example/demos/loading.vue",
+          "anchor": ""
+        }
+      ],
+      "featurePoints": [
+        {
+          "id": "disabled",
+          "label": "禁用与只读",
+          "status": "documented",
+          "demos": [],
+          "documentation": "| empty-values | readonly unknown[] | 字段 > FormItem > Form > 组件族默认；完整覆盖，不合并 |",
+          "evidence": []
+        },
+        {
+          "id": "controlled",
+          "label": "受控值与默认值",
+          "status": "demo",
+          "demos": [
+            {
+              "title": "受控加载",
+              "source": "src/mention/example/demos/loading.vue",
+              "anchor": ""
+            }
+          ],
+          "documentation": "| model-value (v-model) | 受控文本；null 显示为空 | string \\| null | undefined |",
+          "evidence": []
+        },
+        {
+          "id": "keyboard",
+          "label": "键盘操作与焦点",
+          "status": "candidate",
+          "demos": [],
+          "evidence": [
+            {
+              "library": "naive-ui",
+              "name": "Naive UI",
+              "title": "手动 Focus & Blur",
+              "file": "src/mention/demos/zhCN/manual-trigger.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/mention/demos/zhCN/manual-trigger.demo.vue"
+            }
+          ]
+        },
+        {
+          "id": "custom",
+          "label": "插槽与自定义内容",
+          "status": "candidate",
+          "demos": [],
+          "evidence": [
+            {
+              "library": "naive-ui",
+              "name": "Naive UI",
+              "title": "自定义触发字符",
+              "file": "src/mention/demos/zhCN/custom-prefix.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/mention/demos/zhCN/custom-prefix.demo.vue"
+            },
+            {
+              "library": "arco-design-vue",
+              "name": "Arco Design Vue",
+              "title": "自定义触发字符",
+              "file": "packages/web-vue/components/mention/__demo__/prefix.md",
+              "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/mention/__demo__/prefix.md"
+            }
+          ]
+        },
+        {
+          "id": "loading",
+          "label": "加载状态与重复操作",
+          "status": "demo",
+          "demos": [
+            {
+              "title": "受控加载",
+              "source": "src/mention/example/demos/loading.vue",
+              "anchor": ""
+            }
+          ],
+          "evidence": [
+            {
+              "library": "element-plus",
+              "name": "Element Plus",
+              "title": "loading",
+              "file": "docs/examples/mention/loading.vue",
+              "url": "https://github.com/element-plus/element-plus/blob/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/examples/mention/loading.vue"
+            },
+            {
+              "library": "naive-ui",
+              "name": "Naive UI",
+              "title": "远程加载",
+              "file": "src/mention/demos/zhCN/async.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/mention/demos/zhCN/async.demo.vue"
+            }
+          ]
+        },
+        {
+          "id": "input-clear",
+          "label": "清空、前后缀与计数",
+          "status": "demo",
+          "demos": [
+            {
+              "title": "本组配置对照",
+              "source": "src/mention/example/demos/prefix.vue",
+              "anchor": ""
+            }
+          ],
+          "evidence": [
+            {
+              "library": "element-plus",
+              "name": "Element Plus",
+              "title": "prefix",
+              "file": "docs/examples/mention/prefix.vue",
+              "url": "https://github.com/element-plus/element-plus/blob/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/examples/mention/prefix.vue"
+            },
+            {
+              "library": "naive-ui",
+              "name": "Naive UI",
+              "title": "自定义触发字符",
+              "file": "src/mention/demos/zhCN/custom-prefix.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/mention/demos/zhCN/custom-prefix.demo.vue"
+            },
+            {
+              "library": "arco-design-vue",
+              "name": "Arco Design Vue",
+              "title": "自定义触发字符",
+              "file": "packages/web-vue/components/mention/__demo__/prefix.md",
+              "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/mention/__demo__/prefix.md"
+            }
+          ]
+        },
+        {
+          "id": "search",
+          "label": "搜索、匹配与过滤",
+          "status": "demo",
+          "demos": [
+            {
+              "title": "候选筛选与异步搜索",
+              "source": "src/mention/example/demos/search-options.vue",
+              "anchor": ""
+            },
+            {
+              "title": "异步搜索与阅读态反显",
+              "source": "src/mention/example/demos/async-read-pretty.vue",
+              "anchor": ""
+            }
+          ],
+          "evidence": []
+        }
+      ],
+      "references": [
+        {
+          "library": "element-plus",
+          "name": "Element Plus",
+          "type": "Vue 桌面",
           "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 10252,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/auto-complete/docs/zh-CN.md",
+          "exampleCount": 8,
+          "readBytes": 6761,
+          "topics": [
+            "加载与异步"
+          ],
+          "url": "https://github.com/element-plus/element-plus/tree/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/en-US/component/mention.md",
           "samples": [
             {
-              "title": "index",
-              "file": "packages/varlet-ui/src/auto-complete/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/auto-complete/example/index.vue"
+              "title": "basic",
+              "file": "docs/examples/mention/basic.vue",
+              "url": "https://github.com/element-plus/element-plus/blob/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/examples/mention/basic.vue"
+            },
+            {
+              "title": "loading",
+              "file": "docs/examples/mention/loading.vue",
+              "url": "https://github.com/element-plus/element-plus/blob/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/examples/mention/loading.vue"
+            },
+            {
+              "title": "form",
+              "file": "docs/examples/mention/form.vue",
+              "url": "https://github.com/element-plus/element-plus/blob/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/examples/mention/form.vue"
+            },
+            {
+              "title": "label",
+              "file": "docs/examples/mention/label.vue",
+              "url": "https://github.com/element-plus/element-plus/blob/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/examples/mention/label.vue"
+            }
+          ]
+        },
+        {
+          "library": "naive-ui",
+          "name": "Naive UI",
+          "type": "Vue 桌面",
+          "relation": "同类组件",
+          "exampleCount": 9,
+          "readBytes": 7435,
+          "topics": [
+            "尺寸",
+            "加载与异步",
+            "键盘与焦点",
+            "定制与组合"
+          ],
+          "url": "https://github.com/tusen-ai/naive-ui/tree/fe69c62663f7648c249a9786dea3565979526a38/src/mention/demos/zhCN/index.demo-entry.md",
+          "samples": [
+            {
+              "title": "基本用法",
+              "file": "src/mention/demos/zhCN/basic.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/mention/demos/zhCN/basic.demo.vue"
+            },
+            {
+              "title": "自动换行",
+              "file": "src/mention/demos/zhCN/autosize.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/mention/demos/zhCN/autosize.demo.vue"
+            },
+            {
+              "title": "验证状态",
+              "file": "src/mention/demos/zhCN/status.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/mention/demos/zhCN/status.demo.vue"
+            },
+            {
+              "title": "远程加载",
+              "file": "src/mention/demos/zhCN/async.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/mention/demos/zhCN/async.demo.vue"
+            }
+          ]
+        },
+        {
+          "library": "arco-design-vue",
+          "name": "Arco Design Vue",
+          "type": "Vue 桌面",
+          "relation": "同类组件",
+          "exampleCount": 2,
+          "readBytes": 1573,
+          "topics": [
+            "定制与组合"
+          ],
+          "url": "https://github.com/arco-design/arco-design-vue/tree/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/mention/README.zh-CN.md",
+          "samples": [
+            {
+              "title": "基本使用",
+              "file": "packages/web-vue/components/mention/__demo__/basic.md",
+              "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/mention/__demo__/basic.md"
+            },
+            {
+              "title": "自定义触发字符",
+              "file": "packages/web-vue/components/mention/__demo__/prefix.md",
+              "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/mention/__demo__/prefix.md"
             }
           ]
         }
@@ -16115,23 +16812,6 @@
               "title": "icons",
               "file": "apps/showcase/doc/inputtext/icons-doc.ts",
               "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/inputtext/icons-doc.ts"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "相关组合",
-          "exampleCount": 1,
-          "readBytes": 7076,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/input/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/input/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/input/example/index.vue"
             }
           ]
         },
@@ -17016,23 +17696,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 19810,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/select/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/select/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/select/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -17140,6 +17803,11 @@
         {
           "title": "本组配置对照",
           "source": "src/select/example/demos/multiple.vue",
+          "anchor": ""
+        },
+        {
+          "title": "单选确认方式",
+          "source": "src/select/example/demos/confirmation.vue",
           "anchor": ""
         },
         {
@@ -17411,7 +18079,7 @@
           "label": "受控值与默认值",
           "status": "documented",
           "demos": [],
-          "documentation": "| `model-value / default-value` | 受控值 / 非受控初始值 | `Value` | `单选 ''，多选 []` |",
+          "documentation": "| `model-value` | 受控选中值，支持 v-model | `Value \\| null` | `undefined` |",
           "evidence": [
             {
               "library": "quasar",
@@ -18382,23 +19050,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 19810,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/select/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/select/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/select/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -18611,7 +19262,7 @@
           "label": "受控值与默认值",
           "status": "documented",
           "demos": [],
-          "documentation": "| model-value / v-model | string / null | undefined | 受控人员标识；显式 null 保持为空。 |",
+          "documentation": "| model-value | PeopleSelectValue | `undefined` | 单选为人员 ID，多选为 ID 数组；显式 null 保持为空。 支持 `v-model`。 |",
           "evidence": [
             {
               "library": "quasar",
@@ -19318,28 +19969,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "相关组合",
-          "exampleCount": 2,
-          "readBytes": 30062,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/select/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/select/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/select/example/index.vue"
-            },
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/auto-complete/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/auto-complete/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -19539,7 +20168,7 @@
           "label": "受控值与默认值",
           "status": "documented",
           "demos": [],
-          "documentation": "| `model-value / default-value` | 受控值 / 非受控初始值 | `CascaderBaseValue` | `单选 ''，多选 []` |",
+          "documentation": "| `model-value` | 受控选中值，支持 v-model | `CascaderBaseValue` | `undefined` |",
           "evidence": [
             {
               "library": "naive-ui",
@@ -21185,13 +21814,6 @@
               "title": "group",
               "file": "apps/showcase/doc/radiobutton/group-doc.ts",
               "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/radiobutton/group-doc.ts"
-            },
-            {
-              "library": "varlet",
-              "name": "Varlet",
-              "title": "index",
-              "file": "packages/varlet-ui/src/radio-group/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/radio-group/example/index.vue"
             }
           ]
         }
@@ -21447,25 +22069,6 @@
               "title": "filled",
               "file": "apps/showcase/doc/radiobutton/filled-doc.ts",
               "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/radiobutton/filled-doc.ts"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 4256,
-          "topics": [
-            "定制与组合"
-          ],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/radio-group/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/radio-group/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/radio-group/example/index.vue"
             }
           ]
         },
@@ -22181,23 +22784,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 1995,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/switch/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/switch/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/switch/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -22876,23 +23462,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 2859,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/slider/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/slider/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/slider/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -23476,23 +24045,6 @@
               "title": "PTComponent",
               "file": "apps/showcase/doc/rating/pt/PTComponent.ts",
               "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/rating/pt/PTComponent.ts"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 2154,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/rate/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/rate/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/rate/example/index.vue"
             }
           ]
         },
@@ -24169,13 +24721,6 @@
               "url": "https://github.com/quasarframework/quasar/blob/6d531cf190aa6c2fa0c5990ecbe1349bc801c718/docs/src/examples/QDate/Input.vue"
             },
             {
-              "library": "varlet",
-              "name": "Varlet",
-              "title": "index",
-              "file": "packages/varlet-ui/src/date-input/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/date-input/example/index.vue"
-            },
-            {
               "library": "chakra-ui",
               "name": "Chakra UI",
               "title": "date-picker-with-input-group",
@@ -24464,28 +25009,6 @@
               "title": "disabled",
               "file": "apps/showcase/doc/datepicker/disabled-doc.ts",
               "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/datepicker/disabled-doc.ts"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 2,
-          "readBytes": 15442,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/date-picker/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/date-picker/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/date-picker/example/index.vue"
-            },
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/date-input/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/date-input/example/index.vue"
             }
           ]
         },
@@ -25378,23 +25901,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 1888,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/date-picker/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/date-picker/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/date-picker/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -26082,23 +26588,6 @@
               "url": "https://github.com/quasarframework/quasar/blob/6d531cf190aa6c2fa0c5990ecbe1349bc801c718/docs/src/examples/QTime/CustomLocale.vue"
             }
           ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 1460,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/time-picker/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/time-picker/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/time-picker/example/index.vue"
-            }
-          ]
         }
       ]
     },
@@ -26689,23 +27178,6 @@
               "title": "CustomLocale",
               "file": "docs/src/examples/QTime/CustomLocale.vue",
               "url": "https://github.com/quasarframework/quasar/blob/6d531cf190aa6c2fa0c5990ecbe1349bc801c718/docs/src/examples/QTime/CustomLocale.vue"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 1460,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/time-picker/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/time-picker/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/time-picker/example/index.vue"
             }
           ]
         }
@@ -27420,13 +27892,6 @@
               "title": "自定义表单校验状态",
               "file": "packages/web-vue/components/form/__demo__/status.md",
               "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/form/__demo__/status.md"
-            },
-            {
-              "library": "varlet",
-              "name": "Varlet",
-              "title": "CustomFormComponent",
-              "file": "packages/varlet-ui/src/form/example/CustomFormComponent.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/form/example/CustomFormComponent.vue"
             }
           ]
         }
@@ -27583,30 +28048,6 @@
               "url": "https://github.com/unovue/shadcn-vue/blob/dd3ff4ccbb46a15081e841570e51a5a2ace095cf/apps/v4/registry/bases/reka/examples/form/FormWithCheckbox.vue"
             }
           ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 2,
-          "readBytes": 8009,
-          "topics": [
-            "定制与组合"
-          ],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/form/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "CustomFormComponent",
-              "file": "packages/varlet-ui/src/form/example/CustomFormComponent.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/form/example/CustomFormComponent.vue"
-            },
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/form/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/form/example/index.vue"
-            }
-          ]
         }
       ]
     },
@@ -27655,6 +28096,11 @@
           "anchor": ""
         },
         {
+          "title": "紧凑账户表单",
+          "source": "src/form/example/demos/compact-account.vue",
+          "anchor": ""
+        },
+        {
           "title": "布局切换与单项覆盖",
           "source": "src/form/example/demos/layout-comparison.vue",
           "anchor": ""
@@ -27665,8 +28111,23 @@
           "anchor": ""
         },
         {
+          "title": "局部表单分区",
+          "source": "src/form/example/demos/section.vue",
+          "anchor": ""
+        },
+        {
+          "title": "分区标题操作",
+          "source": "src/form/example/demos/section-actions.vue",
+          "anchor": ""
+        },
+        {
           "title": "响应式标签栅格",
           "source": "src/form/example/demos/label-width-comparison.vue",
+          "anchor": ""
+        },
+        {
+          "title": "同一标签下的多个控件",
+          "source": "src/form/example/demos/mixed-field-label.vue",
           "anchor": ""
         },
         {
@@ -27922,13 +28383,6 @@
               "title": "自定义表单校验状态",
               "file": "packages/web-vue/components/form/__demo__/status.md",
               "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/form/__demo__/status.md"
-            },
-            {
-              "library": "varlet",
-              "name": "Varlet",
-              "title": "CustomFormComponent",
-              "file": "packages/varlet-ui/src/form/example/CustomFormComponent.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/form/example/CustomFormComponent.vue"
             }
           ]
         },
@@ -28209,30 +28663,6 @@
               "url": "https://github.com/unovue/shadcn-vue/blob/dd3ff4ccbb46a15081e841570e51a5a2ace095cf/apps/v4/registry/bases/reka/examples/form/FormWithCheckbox.vue"
             }
           ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 2,
-          "readBytes": 8009,
-          "topics": [
-            "定制与组合"
-          ],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/form/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "CustomFormComponent",
-              "file": "packages/varlet-ui/src/form/example/CustomFormComponent.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/form/example/CustomFormComponent.vue"
-            },
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/form/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/form/example/index.vue"
-            }
-          ]
         }
       ]
     },
@@ -28268,128 +28698,83 @@
       "topics": [],
       "demos": [
         {
-          "title": "只读取文件",
+          "title": "基础用法",
           "source": "src/upload/example/demos/read-only.vue",
           "anchor": ""
         },
         {
-          "title": "基本使用",
-          "source": "src/upload/example/demos/basic-usage.vue",
+          "title": "列表展示方式",
+          "source": "src/upload/example/demos/list-type.vue",
           "anchor": ""
         },
         {
-          "title": "动态只读与禁用",
-          "source": "src/upload/example/demos/state-controls.vue",
+          "title": "上传入口位置",
+          "source": "src/upload/example/demos/trigger-position.vue",
           "anchor": ""
         },
         {
-          "title": "所有队列状态",
-          "source": "src/upload/example/demos/state.vue",
+          "title": "拖拽上传",
+          "source": "src/upload/example/demos/draggable-picture.vue",
           "anchor": ""
         },
         {
-          "title": "交互状态切换",
-          "source": "src/upload/example/demos/state-lab.vue",
+          "title": "文件类型、数量与大小",
+          "source": "src/upload/example/demos/picture-limits.vue",
           "anchor": ""
         },
         {
-          "title": "图卡、插槽与自定义预览",
-          "source": "src/upload/example/demos/custom-surface.vue",
+          "title": "单文件与替换",
+          "source": "src/upload/example/demos/replacement.vue",
           "anchor": ""
         },
         {
-          "title": "自定义文件项",
-          "source": "src/upload/example/demos/custom-render.vue",
-          "anchor": ""
-        },
-        {
-          "title": "自定义删除按钮",
-          "source": "src/upload/example/demos/remove-button-slot.vue",
-          "anchor": ""
-        },
-        {
-          "title": "自定义选择按钮",
-          "source": "src/upload/example/demos/style.vue",
-          "anchor": ""
-        },
-        {
-          "title": "自定义预览",
-          "source": "src/upload/example/demos/custom-preview.vue",
-          "anchor": ""
-        },
-        {
-          "title": "图片和视频预览",
-          "source": "src/upload/example/demos/preview.vue",
-          "anchor": ""
-        },
-        {
-          "title": "目录选择与多文件回退",
+          "title": "选择文件夹",
           "source": "src/upload/example/demos/directory.vue",
           "anchor": ""
         },
         {
-          "title": "接管文件选择",
-          "source": "src/upload/example/demos/click-action.vue",
+          "title": "图片与视频预览",
+          "source": "src/upload/example/demos/preview.vue",
           "anchor": ""
         },
         {
-          "title": "剪贴板图片与读取校验",
-          "source": "src/upload/example/demos/clipboard.vue",
+          "title": "只读、禁用与纯阅读",
+          "source": "src/upload/example/demos/states.vue",
           "anchor": ""
         },
         {
-          "title": "替换后的约束校验",
-          "source": "src/upload/example/demos/replacement-validation.vue",
+          "title": "自定义入口与预览",
+          "source": "src/upload/example/demos/custom-surface.vue",
           "anchor": ""
         },
         {
-          "title": "批次筛选",
-          "source": "src/upload/example/demos/before-add.vue",
-          "anchor": ""
-        },
-        {
-          "title": "读取前确认",
-          "source": "src/upload/example/demos/before-read.vue",
-          "anchor": ""
-        },
-        {
-          "title": "文件大小与数量限制",
-          "source": "src/upload/example/demos/selection-limits-comparison.vue",
-          "anchor": ""
-        },
-        {
-          "title": "外部管理进度",
-          "source": "src/upload/example/demos/external-state.vue",
-          "anchor": ""
-        },
-        {
-          "title": "外部上传进度",
-          "source": "src/upload/example/demos/use-progress.vue",
-          "anchor": ""
-        },
-        {
-          "title": "手动队列和可取消请求",
-          "source": "src/upload/example/demos/queue-request.vue",
+          "title": "手动上传、进度与重试",
+          "source": "src/upload/example/demos/manual-upload.vue",
           "anchor": ""
         },
         {
           "title": "删除前确认",
-          "source": "src/upload/example/demos/before-remove.vue",
+          "source": "src/upload/example/demos/remove-confirm.vue",
           "anchor": ""
         },
         {
-          "title": "上传前准备与取消竞争",
-          "source": "src/upload/example/demos/prepare-request.vue",
+          "title": "由业务管理上传状态",
+          "source": "src/upload/example/demos/external-state.vue",
           "anchor": ""
         },
         {
-          "title": "异步请求元数据",
-          "source": "src/upload/example/demos/metadata-request.vue",
+          "title": "外置上传按钮",
+          "source": "src/upload/example/demos/external-trigger.vue",
           "anchor": ""
         },
         {
-          "title": "请求句柄迟到与取消",
-          "source": "src/upload/example/demos/late-request.vue",
+          "title": "Dialog 中上传",
+          "source": "src/upload/example/demos/dialog-upload.vue",
+          "anchor": ""
+        },
+        {
+          "title": "接入剪贴板图片",
+          "source": "src/upload/example/demos/clipboard.vue",
           "anchor": ""
         }
       ],
@@ -28400,13 +28785,13 @@
           "status": "demo",
           "demos": [
             {
-              "title": "只读取文件",
+              "title": "基础用法",
               "source": "src/upload/example/demos/read-only.vue",
               "anchor": ""
             },
             {
-              "title": "动态只读与禁用",
-              "source": "src/upload/example/demos/state-controls.vue",
+              "title": "只读、禁用与纯阅读",
+              "source": "src/upload/example/demos/states.vue",
               "anchor": ""
             }
           ],
@@ -28426,7 +28811,7 @@
           "label": "受控值与默认值",
           "status": "documented",
           "demos": [],
-          "documentation": "| model-value / default-value                                  | UploadFileItem[]                                         | 受控值 / 非受控初值[]                             |",
+          "documentation": "| model-value | `UploadFileItem[] \\| null` | `undefined` | 受控文件列表，配合 v-model 使用 |",
           "evidence": [
             {
               "library": "naive-ui",
@@ -28443,13 +28828,8 @@
           "status": "demo",
           "demos": [
             {
-              "title": "图卡、插槽与自定义预览",
+              "title": "自定义入口与预览",
               "source": "src/upload/example/demos/custom-surface.vue",
-              "anchor": ""
-            },
-            {
-              "title": "自定义文件项",
-              "source": "src/upload/example/demos/custom-render.vue",
               "anchor": ""
             }
           ],
@@ -28514,17 +28894,30 @@
           ]
         },
         {
+          "id": "read-edit",
+          "label": "阅读态、编辑与确认",
+          "status": "demo",
+          "demos": [
+            {
+              "title": "只读、禁用与纯阅读",
+              "source": "src/upload/example/demos/states.vue",
+              "anchor": ""
+            }
+          ],
+          "evidence": []
+        },
+        {
           "id": "upload-drop",
           "label": "拖放与多文件选择",
           "status": "demo",
           "demos": [
             {
-              "title": "目录选择与多文件回退",
-              "source": "src/upload/example/demos/directory.vue",
+              "title": "拖拽上传",
+              "source": "src/upload/example/demos/draggable-picture.vue",
               "anchor": ""
             }
           ],
-          "documentation": "| multiple / directory / draggable                             | boolean                                                  | false                                             |",
+          "documentation": "| directory | `boolean` | `false` | 选择文件夹；不支持的设备可使用 multiple 作为回退 |",
           "evidence": [
             {
               "library": "element-plus",
@@ -28576,12 +28969,12 @@
           "status": "demo",
           "demos": [
             {
-              "title": "目录选择与多文件回退",
+              "title": "选择文件夹",
               "source": "src/upload/example/demos/directory.vue",
               "anchor": ""
             }
           ],
-          "documentation": "| multiple / directory / draggable                             | boolean                                                  | false                                             |",
+          "documentation": "| directory | `boolean` | `false` | 选择文件夹；不支持的设备可使用 multiple 作为回退 |",
           "evidence": [
             {
               "library": "element-plus",
@@ -28627,17 +29020,12 @@
           "status": "demo",
           "demos": [
             {
-              "title": "替换后的约束校验",
-              "source": "src/upload/example/demos/replacement-validation.vue",
-              "anchor": ""
-            },
-            {
-              "title": "文件大小与数量限制",
-              "source": "src/upload/example/demos/selection-limits-comparison.vue",
+              "title": "文件类型、数量与大小",
+              "source": "src/upload/example/demos/picture-limits.vue",
               "anchor": ""
             }
           ],
-          "documentation": "| accept / capture                                             | `string / UploadCapture`<br>`UploadCapture: boolean \\| 'user' \\| 'environment' \\| undefined` | 未指定                                            |",
+          "documentation": "| accept | `string` | `undefined` | 允许选择的文件类型，例如 image/* |",
           "evidence": [
             {
               "library": "element-plus",
@@ -28675,13 +29063,8 @@
           "status": "demo",
           "demos": [
             {
-              "title": "所有队列状态",
-              "source": "src/upload/example/demos/state.vue",
-              "anchor": ""
-            },
-            {
-              "title": "手动队列和可取消请求",
-              "source": "src/upload/example/demos/queue-request.vue",
+              "title": "手动上传、进度与重试",
+              "source": "src/upload/example/demos/manual-upload.vue",
               "anchor": ""
             }
           ],
@@ -28715,13 +29098,13 @@
           "status": "demo",
           "demos": [
             {
-              "title": "图卡、插槽与自定义预览",
-              "source": "src/upload/example/demos/custom-surface.vue",
+              "title": "拖拽上传",
+              "source": "src/upload/example/demos/draggable-picture.vue",
               "anchor": ""
             },
             {
-              "title": "自定义文件项",
-              "source": "src/upload/example/demos/custom-render.vue",
+              "title": "文件类型、数量与大小",
+              "source": "src/upload/example/demos/picture-limits.vue",
               "anchor": ""
             }
           ],
@@ -28996,23 +29379,6 @@
               "title": "custom",
               "file": "apps/showcase/doc/fileupload/custom-doc.ts",
               "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/fileupload/custom-doc.ts"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 5694,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/uploader/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/uploader/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/uploader/example/index.vue"
             }
           ]
         },
@@ -29370,23 +29736,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 1797,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/alert/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/alert/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/alert/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -29476,25 +29825,7 @@
           "evidence": []
         }
       ],
-      "references": [
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 980,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/pull-refresh/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/pull-refresh/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/pull-refresh/example/index.vue"
-            }
-          ]
-        }
-      ]
+      "references": []
     },
     {
       "coreStrengths": [
@@ -29591,27 +29922,62 @@
       "topics": [],
       "demos": [
         {
-          "title": "基本使用",
-          "source": "src/table/example/demos/basic-usage.vue",
+          "title": "基础表格",
+          "source": "src/table/example/demos/basic.vue",
           "anchor": ""
         },
         {
-          "title": "固定表头",
-          "source": "src/table/example/demos/fixed-header.vue",
+          "title": "列宽自适应",
+          "source": "src/table/example/demos/column-sizing.vue",
           "anchor": ""
         },
         {
-          "title": "尾部插槽",
-          "source": "src/table/example/demos/slot.vue",
+          "title": "分组表头",
+          "source": "src/table/example/demos/columns-children.vue",
           "anchor": ""
         },
         {
-          "title": "任务筛选与数据联动",
-          "source": "src/table/example/demos/task-workbench.vue",
+          "title": "标签页内横滑与冻结列",
+          "source": "src/table/example/demos/tabs-frozen.vue",
           "anchor": ""
         },
         {
-          "title": "受控加载",
+          "title": "固定列和表头",
+          "source": "src/table/example/demos/fixed-column-and-header.vue",
+          "anchor": ""
+        },
+        {
+          "title": "千行虚拟滚动",
+          "source": "src/table/example/demos/virtual-list-props.vue",
+          "anchor": ""
+        },
+        {
+          "title": "虚拟滚动与展开详情",
+          "source": "src/table/example/demos/virtual-details.vue",
+          "anchor": ""
+        },
+        {
+          "title": "排序与分页",
+          "source": "src/table/example/demos/sort-pagination.vue",
+          "anchor": ""
+        },
+        {
+          "title": "跨页行选择",
+          "source": "src/table/example/demos/paged-selection.vue",
+          "anchor": ""
+        },
+        {
+          "title": "订单状态与金额汇总",
+          "source": "src/table/example/demos/order-summary.vue",
+          "anchor": ""
+        },
+        {
+          "title": "空数据",
+          "source": "src/table/example/demos/empty-state.vue",
+          "anchor": ""
+        },
+        {
+          "title": "加载中",
           "source": "src/table/example/demos/loading.vue",
           "anchor": ""
         }
@@ -29662,16 +30028,18 @@
           ]
         },
         {
+          "id": "disabled",
+          "label": "禁用与只读",
+          "status": "documented",
+          "demos": [],
+          "documentation": "| disabled | 是否禁用行选择器 | `boolean`                  | `false` |",
+          "evidence": []
+        },
+        {
           "id": "controlled",
           "label": "受控值与默认值",
-          "status": "demo",
-          "demos": [
-            {
-              "title": "受控加载",
-              "source": "src/table/example/demos/loading.vue",
-              "anchor": ""
-            }
-          ],
+          "status": "candidate",
+          "demos": [],
           "evidence": [
             {
               "library": "element-plus",
@@ -29707,14 +30075,8 @@
         {
           "id": "custom",
           "label": "插槽与自定义内容",
-          "status": "demo",
-          "demos": [
-            {
-              "title": "尾部插槽",
-              "source": "src/table/example/demos/slot.vue",
-              "anchor": ""
-            }
-          ],
+          "status": "candidate",
+          "demos": [],
           "evidence": [
             {
               "library": "element-plus",
@@ -29835,8 +30197,19 @@
         {
           "id": "virtual",
           "label": "虚拟列表与大数据",
-          "status": "candidate",
-          "demos": [],
+          "status": "demo",
+          "demos": [
+            {
+              "title": "千行虚拟滚动",
+              "source": "src/table/example/demos/virtual-list-props.vue",
+              "anchor": ""
+            },
+            {
+              "title": "虚拟滚动与展开详情",
+              "source": "src/table/example/demos/virtual-details.vue",
+              "anchor": ""
+            }
+          ],
           "evidence": [
             {
               "library": "naive-ui",
@@ -29878,8 +30251,14 @@
         {
           "id": "table-select",
           "label": "行选择与批量操作",
-          "status": "candidate",
-          "demos": [],
+          "status": "demo",
+          "demos": [
+            {
+              "title": "跨页行选择",
+              "source": "src/table/example/demos/paged-selection.vue",
+              "anchor": ""
+            }
+          ],
           "evidence": [
             {
               "library": "element-plus",
@@ -29931,8 +30310,8 @@
           "status": "demo",
           "demos": [
             {
-              "title": "任务筛选与数据联动",
-              "source": "src/table/example/demos/task-workbench.vue",
+              "title": "排序与分页",
+              "source": "src/table/example/demos/sort-pagination.vue",
               "anchor": ""
             }
           ],
@@ -29987,8 +30366,13 @@
           "status": "demo",
           "demos": [
             {
-              "title": "固定表头",
-              "source": "src/table/example/demos/fixed-header.vue",
+              "title": "列宽自适应",
+              "source": "src/table/example/demos/column-sizing.vue",
+              "anchor": ""
+            },
+            {
+              "title": "分组表头",
+              "source": "src/table/example/demos/columns-children.vue",
               "anchor": ""
             }
           ],
@@ -30104,8 +30488,14 @@
         {
           "id": "table-expand",
           "label": "展开行、树数据与懒加载",
-          "status": "candidate",
-          "demos": [],
+          "status": "demo",
+          "demos": [
+            {
+              "title": "虚拟滚动与展开详情",
+              "source": "src/table/example/demos/virtual-details.vue",
+              "anchor": ""
+            }
+          ],
           "evidence": [
             {
               "library": "element-plus",
@@ -30154,8 +30544,19 @@
         {
           "id": "table-span",
           "label": "分组表头、合并与汇总",
-          "status": "candidate",
-          "demos": [],
+          "status": "demo",
+          "demos": [
+            {
+              "title": "分组表头",
+              "source": "src/table/example/demos/columns-children.vue",
+              "anchor": ""
+            },
+            {
+              "title": "订单状态与金额汇总",
+              "source": "src/table/example/demos/order-summary.vue",
+              "anchor": ""
+            }
+          ],
           "evidence": [
             {
               "library": "element-plus",
@@ -30529,28 +30930,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 2,
-          "readBytes": 17064,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/table/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/table/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/table/example/index.vue"
-            },
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/data-table/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/data-table/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -30904,23 +31283,6 @@
               "title": "AlignItemsList",
               "file": "docs/data/material/components/lists/AlignItemsList.tsx",
               "url": "https://github.com/mui/material-ui/blob/a5faab53e647b92b5efb8ea26ce1ae758778736e/docs/data/material/components/lists/AlignItemsList.tsx"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 2479,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/list/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/list/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/list/example/index.vue"
             }
           ]
         },
@@ -31677,23 +32039,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 2816,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/avatar/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/avatar/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/avatar/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -32155,23 +32500,6 @@
               "title": "directive",
               "file": "apps/showcase/doc/badge/directive-doc.ts",
               "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/badge/directive-doc.ts"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 3566,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/badge/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/badge/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/badge/example/index.vue"
             }
           ]
         },
@@ -32823,28 +33151,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 2,
-          "readBytes": 6804,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/chip/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/chip/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/chip/example/index.vue"
-            },
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/badge/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/badge/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -33007,13 +33313,6 @@
               "title": "省略",
               "file": "packages/web-vue/components/typography/__demo__/ellipsis.md",
               "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/typography/__demo__/ellipsis.md"
-            },
-            {
-              "library": "varlet",
-              "name": "Varlet",
-              "title": "index",
-              "file": "packages/varlet-ui/src/ellipsis/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/ellipsis/example/index.vue"
             }
           ]
         }
@@ -33184,23 +33483,6 @@
               "title": "TypographyTheme",
               "file": "docs/data/material/components/typography/TypographyTheme.tsx",
               "url": "https://github.com/mui/material-ui/blob/a5faab53e647b92b5efb8ea26ce1ae758778736e/docs/data/material/components/typography/TypographyTheme.tsx"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "相关组合",
-          "exampleCount": 1,
-          "readBytes": 1217,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/ellipsis/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/ellipsis/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/ellipsis/example/index.vue"
             }
           ]
         },
@@ -33810,23 +34092,6 @@
               "title": "dynamic",
               "file": "apps/showcase/doc/accordion/dynamic-doc.ts",
               "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/accordion/dynamic-doc.ts"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 4545,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/collapse/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/collapse/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/collapse/example/index.vue"
             }
           ]
         },
@@ -34466,7 +34731,7 @@
               "anchor": ""
             }
           ],
-          "documentation": "| model-value / v-model | number | - | 受控图片序号，从 1 开始 |",
+          "documentation": "| model-value | number | `-` | 受控图片序号，从 1 开始 支持 `v-model`。 |",
           "evidence": []
         },
         {
@@ -34739,23 +35004,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 2499,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/image/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/image/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/image/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -34784,6 +35032,379 @@
               "title": "image-with-fit",
               "file": "apps/compositions/src/examples/image-with-fit.tsx",
               "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/image-with-fit.tsx"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "coreStrengths": [],
+      "id": "timeline",
+      "group": "data",
+      "route": "/components/timeline/",
+      "name": "Timeline 时间轴",
+      "feature": "节点、轴线、方向与幽灵节点。",
+      "members": [],
+      "topics": [],
+      "demos": [],
+      "featurePoints": [
+        {
+          "id": "size",
+          "label": "尺寸与密度",
+          "status": "candidate",
+          "demos": [],
+          "evidence": [
+            {
+              "library": "naive-ui",
+              "name": "Naive UI",
+              "title": "大小",
+              "file": "src/timeline/demos/zhCN/size.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/timeline/demos/zhCN/size.demo.vue"
+            },
+            {
+              "library": "chakra-ui",
+              "name": "Chakra UI",
+              "title": "timeline-with-sizes",
+              "file": "apps/compositions/src/examples/timeline-with-sizes.tsx",
+              "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/timeline-with-sizes.tsx"
+            }
+          ]
+        },
+        {
+          "id": "variant",
+          "label": "变体与视觉层次",
+          "status": "candidate",
+          "demos": [],
+          "evidence": [
+            {
+              "library": "material-ui",
+              "name": "MUI",
+              "title": "OutlinedTimeline",
+              "file": "docs/data/material/components/timeline/OutlinedTimeline.js",
+              "url": "https://github.com/mui/material-ui/blob/a5faab53e647b92b5efb8ea26ce1ae758778736e/docs/data/material/components/timeline/OutlinedTimeline.js"
+            },
+            {
+              "library": "chakra-ui",
+              "name": "Chakra UI",
+              "title": "timeline-with-variants",
+              "file": "apps/compositions/src/examples/timeline-with-variants.tsx",
+              "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/timeline-with-variants.tsx"
+            }
+          ]
+        },
+        {
+          "id": "custom",
+          "label": "插槽与自定义内容",
+          "status": "candidate",
+          "demos": [],
+          "evidence": [
+            {
+              "library": "element-plus",
+              "name": "Element Plus",
+              "title": "custom-node",
+              "file": "docs/examples/timeline/custom-node.vue",
+              "url": "https://github.com/element-plus/element-plus/blob/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/examples/timeline/custom-node.vue"
+            },
+            {
+              "library": "naive-ui",
+              "name": "Naive UI",
+              "title": "自定义图标",
+              "file": "src/timeline/demos/zhCN/customize-icon.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/timeline/demos/zhCN/customize-icon.demo.vue"
+            },
+            {
+              "library": "arco-design-vue",
+              "name": "Arco Design Vue",
+              "title": "自定义节点内容",
+              "file": "packages/web-vue/components/timeline/__demo__/icon.md",
+              "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/timeline/__demo__/icon.md"
+            },
+            {
+              "library": "quasar",
+              "name": "Quasar",
+              "title": "SlotsOnly",
+              "file": "docs/src/examples/QTimeline/SlotsOnly.vue",
+              "url": "https://github.com/quasarframework/quasar/blob/6d531cf190aa6c2fa0c5990ecbe1349bc801c718/docs/src/examples/QTimeline/SlotsOnly.vue"
+            },
+            {
+              "library": "material-ui",
+              "name": "MUI",
+              "title": "CustomizedTimeline",
+              "file": "docs/data/material/components/timeline/CustomizedTimeline.js",
+              "url": "https://github.com/mui/material-ui/blob/a5faab53e647b92b5efb8ea26ce1ae758778736e/docs/data/material/components/timeline/CustomizedTimeline.js"
+            },
+            {
+              "library": "primeng",
+              "name": "PrimeNG",
+              "title": "template",
+              "file": "apps/showcase/doc/timeline/template-doc.ts",
+              "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/timeline/template-doc.ts"
+            }
+          ]
+        },
+        {
+          "id": "icons",
+          "label": "图标与图文组合",
+          "status": "candidate",
+          "demos": [],
+          "evidence": [
+            {
+              "library": "naive-ui",
+              "name": "Naive UI",
+              "title": "自定义图标",
+              "file": "src/timeline/demos/zhCN/customize-icon.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/timeline/demos/zhCN/customize-icon.demo.vue"
+            },
+            {
+              "library": "arco-design-vue",
+              "name": "Arco Design Vue",
+              "title": "自定义节点内容",
+              "file": "packages/web-vue/components/timeline/__demo__/icon.md",
+              "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/timeline/__demo__/icon.md"
+            }
+          ]
+        }
+      ],
+      "references": [
+        {
+          "library": "element-plus",
+          "name": "Element Plus",
+          "type": "Vue 桌面",
+          "relation": "同类组件",
+          "exampleCount": 6,
+          "readBytes": 4551,
+          "topics": [
+            "定制与组合"
+          ],
+          "url": "https://github.com/element-plus/element-plus/tree/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/en-US/component/timeline.md",
+          "samples": [
+            {
+              "title": "basic",
+              "file": "docs/examples/timeline/basic.vue",
+              "url": "https://github.com/element-plus/element-plus/blob/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/examples/timeline/basic.vue"
+            },
+            {
+              "title": "center",
+              "file": "docs/examples/timeline/center.vue",
+              "url": "https://github.com/element-plus/element-plus/blob/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/examples/timeline/center.vue"
+            },
+            {
+              "title": "custom-node",
+              "file": "docs/examples/timeline/custom-node.vue",
+              "url": "https://github.com/element-plus/element-plus/blob/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/examples/timeline/custom-node.vue"
+            },
+            {
+              "title": "custom-timestamp",
+              "file": "docs/examples/timeline/custom-timestamp.vue",
+              "url": "https://github.com/element-plus/element-plus/blob/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/examples/timeline/custom-timestamp.vue"
+            }
+          ]
+        },
+        {
+          "library": "naive-ui",
+          "name": "Naive UI",
+          "type": "Vue 桌面",
+          "relation": "同类组件",
+          "exampleCount": 6,
+          "readBytes": 5294,
+          "topics": [
+            "尺寸",
+            "布局与响应式",
+            "定制与组合"
+          ],
+          "url": "https://github.com/tusen-ai/naive-ui/tree/fe69c62663f7648c249a9786dea3565979526a38/src/timeline/demos/zhCN/index.demo-entry.md",
+          "samples": [
+            {
+              "title": "基础用法",
+              "file": "src/timeline/demos/zhCN/basic.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/timeline/demos/zhCN/basic.demo.vue"
+            },
+            {
+              "title": "大小",
+              "file": "src/timeline/demos/zhCN/size.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/timeline/demos/zhCN/size.demo.vue"
+            },
+            {
+              "title": "自定义图标",
+              "file": "src/timeline/demos/zhCN/customize-icon.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/timeline/demos/zhCN/customize-icon.demo.vue"
+            },
+            {
+              "title": "水平",
+              "file": "src/timeline/demos/zhCN/horizontal.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/timeline/demos/zhCN/horizontal.demo.vue"
+            }
+          ]
+        },
+        {
+          "library": "arco-design-vue",
+          "name": "Arco Design Vue",
+          "type": "Vue 桌面",
+          "relation": "同类组件",
+          "exampleCount": 10,
+          "readBytes": 16368,
+          "topics": [
+            "布局与响应式",
+            "定制与组合"
+          ],
+          "url": "https://github.com/arco-design/arco-design-vue/tree/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/timeline/README.zh-CN.md",
+          "samples": [
+            {
+              "title": "基本用法",
+              "file": "packages/web-vue/components/timeline/__demo__/basic.md",
+              "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/timeline/__demo__/basic.md"
+            },
+            {
+              "title": "自定义节点内容",
+              "file": "packages/web-vue/components/timeline/__demo__/icon.md",
+              "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/timeline/__demo__/icon.md"
+            },
+            {
+              "title": "自定义标签",
+              "file": "packages/web-vue/components/timeline/__demo__/custom.md",
+              "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/timeline/__demo__/custom.md"
+            },
+            {
+              "title": "横向时间轴",
+              "file": "packages/web-vue/components/timeline/__demo__/direction.md",
+              "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/timeline/__demo__/direction.md"
+            }
+          ]
+        },
+        {
+          "library": "quasar",
+          "name": "Quasar",
+          "type": "Vue 多端",
+          "relation": "同类组件",
+          "exampleCount": 6,
+          "readBytes": 29038,
+          "topics": [
+            "布局与响应式",
+            "定制与组合"
+          ],
+          "url": "https://github.com/quasarframework/quasar/tree/6d531cf190aa6c2fa0c5990ecbe1349bc801c718/docs/src/examples/QTimeline",
+          "samples": [
+            {
+              "title": "Basic",
+              "file": "docs/src/examples/QTimeline/Basic.vue",
+              "url": "https://github.com/quasarframework/quasar/blob/6d531cf190aa6c2fa0c5990ecbe1349bc801c718/docs/src/examples/QTimeline/Basic.vue"
+            },
+            {
+              "title": "Dark",
+              "file": "docs/src/examples/QTimeline/Dark.vue",
+              "url": "https://github.com/quasarframework/quasar/blob/6d531cf190aa6c2fa0c5990ecbe1349bc801c718/docs/src/examples/QTimeline/Dark.vue"
+            },
+            {
+              "title": "Layouts",
+              "file": "docs/src/examples/QTimeline/Layouts.vue",
+              "url": "https://github.com/quasarframework/quasar/blob/6d531cf190aa6c2fa0c5990ecbe1349bc801c718/docs/src/examples/QTimeline/Layouts.vue"
+            },
+            {
+              "title": "PropsOnly",
+              "file": "docs/src/examples/QTimeline/PropsOnly.vue",
+              "url": "https://github.com/quasarframework/quasar/blob/6d531cf190aa6c2fa0c5990ecbe1349bc801c718/docs/src/examples/QTimeline/PropsOnly.vue"
+            }
+          ]
+        },
+        {
+          "library": "material-ui",
+          "name": "MUI",
+          "type": "React 设计参考",
+          "relation": "同类组件",
+          "exampleCount": 22,
+          "readBytes": 31104,
+          "topics": [
+            "变体与外观",
+            "定制与组合"
+          ],
+          "url": "https://github.com/mui/material-ui/tree/a5faab53e647b92b5efb8ea26ce1ae758778736e/docs/data/material/components/timeline",
+          "samples": [
+            {
+              "title": "BasicTimeline",
+              "file": "docs/data/material/components/timeline/BasicTimeline.js",
+              "url": "https://github.com/mui/material-ui/blob/a5faab53e647b92b5efb8ea26ce1ae758778736e/docs/data/material/components/timeline/BasicTimeline.js"
+            },
+            {
+              "title": "BasicTimeline",
+              "file": "docs/data/material/components/timeline/BasicTimeline.tsx",
+              "url": "https://github.com/mui/material-ui/blob/a5faab53e647b92b5efb8ea26ce1ae758778736e/docs/data/material/components/timeline/BasicTimeline.tsx"
+            },
+            {
+              "title": "AlternateReverseTimeline",
+              "file": "docs/data/material/components/timeline/AlternateReverseTimeline.js",
+              "url": "https://github.com/mui/material-ui/blob/a5faab53e647b92b5efb8ea26ce1ae758778736e/docs/data/material/components/timeline/AlternateReverseTimeline.js"
+            },
+            {
+              "title": "AlternateReverseTimeline",
+              "file": "docs/data/material/components/timeline/AlternateReverseTimeline.tsx",
+              "url": "https://github.com/mui/material-ui/blob/a5faab53e647b92b5efb8ea26ce1ae758778736e/docs/data/material/components/timeline/AlternateReverseTimeline.tsx"
+            }
+          ]
+        },
+        {
+          "library": "primeng",
+          "name": "PrimeNG",
+          "type": "Angular 交互参考",
+          "relation": "同类组件",
+          "exampleCount": 7,
+          "readBytes": 11625,
+          "topics": [],
+          "url": "https://github.com/primefaces/primeng/tree/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/timeline",
+          "samples": [
+            {
+              "title": "basic",
+              "file": "apps/showcase/doc/timeline/basic-doc.ts",
+              "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/timeline/basic-doc.ts"
+            },
+            {
+              "title": "alignment",
+              "file": "apps/showcase/doc/timeline/alignment-doc.ts",
+              "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/timeline/alignment-doc.ts"
+            },
+            {
+              "title": "horizontal",
+              "file": "apps/showcase/doc/timeline/horizontal-doc.ts",
+              "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/timeline/horizontal-doc.ts"
+            },
+            {
+              "title": "opposite",
+              "file": "apps/showcase/doc/timeline/opposite-doc.ts",
+              "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/timeline/opposite-doc.ts"
+            }
+          ]
+        },
+        {
+          "library": "chakra-ui",
+          "name": "Chakra UI",
+          "type": "React 组合参考",
+          "relation": "同类组件",
+          "exampleCount": 6,
+          "readBytes": 11191,
+          "topics": [
+            "尺寸",
+            "变体与外观"
+          ],
+          "url": "https://github.com/chakra-ui/chakra-ui/tree/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/.",
+          "samples": [
+            {
+              "title": "timeline-basic",
+              "file": "apps/compositions/src/examples/timeline-basic.tsx",
+              "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/timeline-basic.tsx"
+            },
+            {
+              "title": "timeline-with-sizes",
+              "file": "apps/compositions/src/examples/timeline-with-sizes.tsx",
+              "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/timeline-with-sizes.tsx"
+            },
+            {
+              "title": "timeline-with-variants",
+              "file": "apps/compositions/src/examples/timeline-with-variants.tsx",
+              "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/timeline-with-variants.tsx"
+            },
+            {
+              "title": "timeline-alternating",
+              "file": "apps/compositions/src/examples/timeline-alternating.tsx",
+              "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/timeline-alternating.tsx"
             }
           ]
         }
@@ -35177,23 +35798,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "相关组合",
-          "exampleCount": 1,
-          "readBytes": 1252,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/count-to/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/count-to/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/count-to/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -35382,23 +35986,6 @@
               "title": "自定义前缀&后缀",
               "file": "packages/web-vue/components/statistic/__demo__/prefix.md",
               "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/statistic/__demo__/prefix.md"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 2046,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/countdown/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/countdown/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/countdown/example/index.vue"
             }
           ]
         }
@@ -35930,23 +36517,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 4243,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/menu/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/menu/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/menu/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -36088,25 +36658,7 @@
           "evidence": []
         }
       ],
-      "references": [
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 3240,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/fab/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/fab/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/fab/example/index.vue"
-            }
-          ]
-        }
-      ]
+      "references": []
     },
     {
       "coreStrengths": [
@@ -37109,23 +37661,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 2086,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/progress/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/progress/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/progress/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -38103,23 +38638,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 1797,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/alert/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/alert/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/alert/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -38639,23 +39157,6 @@
               "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/message/closable-doc.ts"
             }
           ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 4783,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/snackbar/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/snackbar/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/snackbar/example/index.vue"
-            }
-          ]
         }
       ]
     },
@@ -38849,23 +39350,6 @@
               "title": "HTTP状态码 500",
               "file": "packages/web-vue/components/result/__demo__/500.md",
               "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/result/__demo__/500.md"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 3473,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/result/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/result/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/result/example/index.vue"
             }
           ]
         }
@@ -39328,13 +39812,6 @@
               "title": "Basic",
               "file": "docs/src/examples/QInnerLoading/Basic.vue",
               "url": "https://github.com/quasarframework/quasar/blob/6d531cf190aa6c2fa0c5990ecbe1349bc801c718/docs/src/examples/QInnerLoading/Basic.vue"
-            },
-            {
-              "library": "varlet",
-              "name": "Varlet",
-              "title": "index",
-              "file": "packages/varlet-ui/src/loading/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/loading/example/index.vue"
             }
           ]
         },
@@ -39632,25 +40109,6 @@
               "title": "PTViewer",
               "file": "apps/showcase/doc/progressspinner/pt/PTViewer.ts",
               "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/progressspinner/pt/PTViewer.ts"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 1613,
-          "topics": [
-            "加载与异步"
-          ],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/loading/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/loading/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/loading/example/index.vue"
             }
           ]
         },
@@ -40030,23 +40488,6 @@
               "title": "PTComponent",
               "file": "apps/showcase/doc/skeleton/pt/PTComponent.ts",
               "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/skeleton/pt/PTComponent.ts"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 1373,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/skeleton/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/skeleton/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/skeleton/example/index.vue"
             }
           ]
         },
@@ -40616,23 +41057,6 @@
               "title": "PTComponent",
               "file": "apps/showcase/doc/progressbar/pt/PTComponent.ts",
               "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/progressbar/pt/PTComponent.ts"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 2086,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/progress/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/progress/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/progress/example/index.vue"
             }
           ]
         },
@@ -41212,23 +41636,6 @@
               "title": "PTComponent",
               "file": "apps/showcase/doc/progressbar/pt/PTComponent.ts",
               "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/progressbar/pt/PTComponent.ts"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "相关组合",
-          "exampleCount": 1,
-          "readBytes": 2086,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/progress/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/progress/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/progress/example/index.vue"
             }
           ]
         },
@@ -41846,23 +42253,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 3631,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/tooltip/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/tooltip/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/tooltip/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -42472,6 +42862,11 @@
           "anchor": ""
         },
         {
+          "title": "上下分割线",
+          "source": "src/dialog/example/demos/dividers.vue",
+          "anchor": ""
+        },
+        {
           "title": "custom button text",
           "source": "src/dialog/example/demos/custom-button-text.vue",
           "anchor": ""
@@ -42996,23 +43391,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 3710,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/dialog/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/dialog/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/dialog/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -43160,23 +43538,6 @@
           ]
         },
         {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 1329,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/overlay/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/overlay/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/overlay/example/index.vue"
-            }
-          ]
-        },
-        {
           "library": "chakra-ui",
           "name": "Chakra UI",
           "type": "React 组合参考",
@@ -43285,27 +43646,7 @@
           "evidence": []
         }
       ],
-      "references": [
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 2380,
-          "topics": [
-            "拖动与排序"
-          ],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/drag/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/drag/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/drag/example/index.vue"
-            }
-          ]
-        }
-      ]
+      "references": []
     },
     {
       "coreStrengths": [],
@@ -43329,25 +43670,7 @@
         }
       ],
       "featurePoints": [],
-      "references": [
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 789,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/lazy/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/lazy/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/lazy/example/index.vue"
-            }
-          ]
-        }
-      ]
+      "references": []
     },
     {
       "coreStrengths": [],
@@ -43611,18 +43934,7 @@
       "feature": "应用根部与局部主题、嵌套、品牌预设、变量覆盖和弹层继承。",
       "members": [],
       "topics": [],
-      "demos": [
-        {
-          "title": "变量覆盖",
-          "source": "src/theme-provider/example/demos/basic.vue",
-          "anchor": ""
-        },
-        {
-          "title": "根部与嵌套",
-          "source": "src/theme-provider/example/demos/local-theme.vue",
-          "anchor": ""
-        }
-      ],
+      "demos": [],
       "featurePoints": [
         {
           "id": "size",
@@ -43687,19 +43999,8 @@
         {
           "id": "theme",
           "label": "主题切换与局部覆盖",
-          "status": "demo",
-          "demos": [
-            {
-              "title": "变量覆盖",
-              "source": "src/theme-provider/example/demos/basic.vue",
-              "anchor": ""
-            },
-            {
-              "title": "根部与嵌套",
-              "source": "src/theme-provider/example/demos/local-theme.vue",
-              "anchor": ""
-            }
-          ],
+          "status": "candidate",
+          "demos": [],
           "evidence": [
             {
               "library": "vuetify",
@@ -43875,7 +44176,7 @@
           "label": "禁用与只读",
           "status": "documented",
           "demos": [],
-          "documentation": "| `disabled` / `readonly` / `error` | `boolean` | 消费者合并 Form / Group 后传入 |",
+          "documentation": "| `disabled` | `boolean` | 消费者合并 Form / Group 后传入的禁用状态 |",
           "evidence": [
             {
               "library": "element-plus",
@@ -44147,23 +44448,6 @@
               "title": "StateTextFields",
               "file": "docs/data/material/components/text-fields/StateTextFields.tsx",
               "url": "https://github.com/mui/material-ui/blob/a5faab53e647b92b5efb8ea26ce1ae758778736e/docs/data/material/components/text-fields/StateTextFields.tsx"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "相关组合",
-          "exampleCount": 1,
-          "readBytes": 7076,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/input/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/input/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/input/example/index.vue"
             }
           ]
         },
@@ -44814,23 +45098,6 @@
               "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/watermark/__demo__/multiline.md"
             }
           ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 2333,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/watermark/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/watermark/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/watermark/example/index.vue"
-            }
-          ]
         }
       ]
     },
@@ -44971,23 +45238,6 @@
               "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/ripple/custom-doc.ts"
             }
           ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "同类组件",
-          "exampleCount": 1,
-          "readBytes": 1046,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/ripple/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/ripple/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/ripple/example/index.vue"
-            }
-          ]
         }
       ]
     },
@@ -45108,28 +45358,6 @@
               "title": "custom",
               "file": "apps/showcase/doc/ripple/custom-doc.ts",
               "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/ripple/custom-doc.ts"
-            }
-          ]
-        },
-        {
-          "library": "varlet",
-          "name": "Varlet",
-          "type": "Vue 移动",
-          "relation": "相关组合",
-          "exampleCount": 2,
-          "readBytes": 2387,
-          "topics": [],
-          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/hover/docs/zh-CN.md",
-          "samples": [
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/hover/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/hover/example/index.vue"
-            },
-            {
-              "title": "index",
-              "file": "packages/varlet-ui/src/ripple/example/index.vue",
-              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/ripple/example/index.vue"
             }
           ]
         },

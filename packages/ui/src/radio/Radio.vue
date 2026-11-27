@@ -12,7 +12,7 @@ import { positiveLength } from '../utils/size-length'
 import { radioGroupKey } from './context'
 import { useRadioForm } from './form-adapter'
 import { radioProps } from './props'
-import type { RadioMethods, RadioModel } from './props'
+import type { RadioMethods } from './props'
 import type { RadioSlots } from './types'
 import { useRadioRegistration } from './use-radio-navigation'
 
@@ -24,8 +24,8 @@ defineSlots<RadioSlots>()
 const emit = defineEmits<{
   'update:open': [open: boolean]
   'open-change': [open: boolean]
-  'update:modelValue': [value: RadioModel]
-  change: [value: RadioModel, event?: Event]
+  'update:modelValue': [value: string | number | boolean | null]
+  change: [value: string | number | boolean | null, event?: Event]
   click: [event: MouseEvent]
   focus: [event: FocusEvent]
   blur: [event: FocusEvent]

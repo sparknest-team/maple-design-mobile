@@ -33,15 +33,16 @@
     "lib"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --out-dir=lib --dts --clean && node ../../../design-ui/bin/vue-compat-declarations.mjs lib",
-    "dev": "tsup src/index.ts --format esm --out-dir=lib --watch --dts"
+    "build": "tsdown --config ../../scripts/tsdown.config.mjs --format esm --format cjs && ui-compat-declarations lib",
+    "dev": "tsdown --config ../../scripts/tsdown.config.mjs --format esm --watch"
   },
   "dependencies": {
     "@maple-design/shared-vue": "workspace:*"
   },
   "devDependencies": {
+    "@sparknest/ui-build-vue": "^1.4.4",
     "@types/node": "catalog:",
-    "tsup": "catalog:",
+    "tsdown": "catalog:",
     "typescript": "catalog:",
     "vue": "catalog:"
   },

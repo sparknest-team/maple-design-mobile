@@ -10,7 +10,9 @@ function run(action, bindings) {
     Object.entries(bindings)
       .filter(([key]) => !key.startsWith('onVnode'))
       .map(([key, value]) => [key.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase()), value]),
-  )(LoadingBar.setDefaultOptions(options), LoadingBar[action]())
+  )
+  LoadingBar.setDefaultOptions(options)
+  LoadingBar[action]()
 }
 onUnmounted(() => {
   LoadingBar.finish()

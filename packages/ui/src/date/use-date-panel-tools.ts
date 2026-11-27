@@ -1,19 +1,19 @@
 import { computed, nextTick, shallowRef } from 'vue'
 import { cloneFieldValue } from '../_components/picker-field/use-field-value'
 import { isDateSelectionValid } from './date-rules'
-import { outputDateValue, parseDateValue, sameDateSelection, type DateSelection } from './date-value'
+import { outputDateValue, parseDateValue, sameDateSelection } from './date-value'
 import type { DatePanelOptions } from './panel-state'
 import type { DateShortcut } from './panel-tools-props'
 
 interface PanelToolsOptions {
   options: () => DatePanelOptions
   range: () => boolean
-  value: () => DateSelection
+  value: () => Date | string | number | (Date | string | number | null | undefined)[] | null | undefined
   blocked: () => boolean
-  valid: (value: DateSelection) => boolean
-  select: (value: DateSelection) => boolean
+  valid: (value: Date | string | number | (Date | string | number | null | undefined)[] | null | undefined) => boolean
+  select: (value: Date | string | number | (Date | string | number | null | undefined)[] | null | undefined) => boolean
   onShortcut: (shortcut: DateShortcut) => void
-  onNavigate: (value: DateSelection) => void
+  onNavigate: (value: Date | string | number | (Date | string | number | null | undefined)[] | null | undefined) => void
 }
 
 export function useDatePanelTools(config: PanelToolsOptions) {
@@ -42,8 +42,12 @@ export function useDatePanelTools(config: PanelToolsOptions) {
     : parseDateValue(values[0], options())
       ? values[0]
       : outputDateValue(anchor.toDate(), options())
-  const localPickerValue = shallowRef<DateSelection>(cloneFieldValue(initial))
-  const previewValue = shallowRef<DateSelection>()
+  const localPickerValue = shallowRef<
+    Date | string | number | (Date | string | number | null | undefined)[] | null | undefined
+  >(cloneFieldValue(initial))
+  const previewValue = shallowRef<
+    Date | string | number | (Date | string | number | null | undefined)[] | null | undefined
+  >()
   const actualPickerValue = computed(() =>
     cloneFieldValue(options().pickerValue !== undefined ? options().pickerValue : localPickerValue.value),
   )
@@ -65,10 +69,12 @@ export function useDatePanelTools(config: PanelToolsOptions) {
   let suppressNavigation = false
   let previewRevision = 0
 
-  function shortcutValue(shortcut: DateShortcut): DateSelection {
+  function shortcutValue(
+    shortcut: DateShortcut,
+  ): Date | string | number | (Date | string | number | null | undefined)[] | null | undefined {
     try {
       const source = typeof shortcut.value === 'function' ? shortcut.value() : shortcut.value
-      const convert = (part: Exclude<DateSelection, unknown[]>) => {
+      const convert = (part: Date | string | number | null | undefined) => {
         const date = parseDateValue(part, {
           ...options(),
           ...(shortcut.format ? { valueFormat: shortcut.format } : {}),
@@ -80,7 +86,10 @@ export function useDatePanelTools(config: PanelToolsOptions) {
       return undefined
     }
   }
-  function allowed(shortcut: DateShortcut, value: DateSelection) {
+  function allowed(
+    shortcut: DateShortcut,
+    value: Date | string | number | (Date | string | number | null | undefined)[] | null | undefined,
+  ) {
     return (
       !shortcut.disabled &&
       !config.blocked() &&
@@ -117,7 +126,7 @@ export function useDatePanelTools(config: PanelToolsOptions) {
     config.onShortcut(shortcut)
     return true
   }
-  function navigate(value: DateSelection) {
+  function navigate(value: Date | string | number | (Date | string | number | null | undefined)[] | null | undefined) {
     if (suppressNavigation || config.blocked() || sameDateSelection(value, actualPickerValue.value, options())) {
       return false
     }

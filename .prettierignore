@@ -7,7 +7,6 @@ packages/ui/types-generated/**
 
 # Site and scaffolding sources are excluded from lint as well (see eslint.config.js).
 # They are templates/staging copies, not hand-edited modules.
-packages/cli/site/**
 packages/cli/template/**
 packages/ui/site/**
 packages/ui/public/**
@@ -31,7 +30,6 @@ packages/ui/umd/**
 packages/ui/coverage/**
 
 # Generated documentation mirrors and demo review metadata, rewritten by scripts.
-packages/ui/docs/public/llms/**
 **/api-review*.config.json
 
 # Component guides are regenerated and compared by the doc pipeline

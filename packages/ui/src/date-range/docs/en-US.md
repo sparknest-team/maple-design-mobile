@@ -13,6 +13,8 @@ Fields configure this through `dateRangePickerProps`.
 
 `abbreviation` (boolean, default `true`) controls abbreviated month labels in the calendar month grid. Set it to `false` for full month names from the active Locale. It does not affect weekday labels, headers, wheel columns, or value formats. Range calendars use the top-level option; nested calendar options cannot override it.
 
+A selected range contains two endpoints. Each endpoint is a string for a format pattern, a `Date` for `value-format="Date"`, or a number for `value-format="timestamp"`. Clearing returns the configured empty value.
+
 ## Basic examples
 
 ### Basic Usage
@@ -303,7 +305,7 @@ Configure `pickerValue`, `defaultPickerValue` and shortcuts through nested `date
 
 | Event | Description | Parameters |
 | --------------------- | -------------------------------------- | --------------------------------- |
-| `update:picker-value` | Request calendar viewport update | value: DateSelection |
+| `update:picker-value` | Request calendar viewport update | value: Date \| string \| number \| (Date \| string \| number \| null \| undefined)[] \| null \| undefined |
 | `picker-value-change` | Viewport request and formatted payload | value, date(s), formatted text(s) |
 | `select-shortcut` | Accepted shortcut object | shortcut: DateShortcut |
 
@@ -433,7 +435,7 @@ Range values remain `[start, end]`; changing reading direction does not swap end
 | `date-fields` | Date wheel columns and order; an explicit list controls visibility | `readonly DatePickerField[]`<br>`DatePickerField: 'month' \| 'year' \| 'day'` | Derived from precision |
 | `date-picker-props` | Allowlisted internal range-calendar presentation, excluding owned root state | `DateRangeCalendarOptions` | `{}` |
 | `day-start-of-week` | First day of week for calendars, an integer from 0 to 6 | `DateWeekStart` | `0` |
-| `default-picker-value` | Initial calendar viewport, read once; selected values take precedence over the current date | `DateSelection` | `undefined` |
+| `default-picker-value` | Initial calendar viewport, read once; selected values take precedence over the current date | `Date \| string \| number \| (Date \| string \| number \| null \| undefined)[] \| null \| undefined` | `undefined` |
 | `default-value` | Initial uncontrolled value, read only at creation | `(DateValue \| undefined)[]` | `undefined` |
 | `disable-confirm` | Commit on selection; false retains draft for confirmation | `boolean` | `true` |
 | `disabled` | Disable all or lock start/end separately; fields inherit FormItem/Form when unset | `boolean \| boolean[]` | `false` |
@@ -447,7 +449,7 @@ Range values remain `[start, end]`; changing reading direction does not swap end
 | `min` | Inclusive minimum; a supplied invalid boundary is not silently ignored | `DateValue` | `undefined` |
 | `model-value` | External date value; undefined is uncontrolled, null is explicitly empty | `(DateValue \| undefined)[] \| null` | `undefined` |
 | `picker-props` | Maple date/time wheel presentation options, excluding the root model/rules | `DateWheelOptions` | `{}` |
-| `picker-value` | Controlled calendar viewport, separate from selection; range viewports contain two dates | `DateSelection` | `undefined` |
+| `picker-value` | Controlled calendar viewport, separate from selection; range viewports contain two dates | `Date \| string \| number \| (Date \| string \| number \| null \| undefined)[] \| null \| undefined` | `undefined` |
 | `presentation` | Maple standalone-panel presentation | `calendar \| picker \| calendarPicker` | `calendarPicker` |
 | `preview-shortcut` | Preview shortcuts on hover/focus without committing | `boolean` | `true` |
 | `readonly` | Readonly panel without candidate changes or commits | `boolean` | `false` |
@@ -659,8 +661,9 @@ A range placeholder string applies to both endpoints; arrays configure each and 
 
 ```ts
 import { DateRange, DateRangePicker, type DateRangeProps, type DateRangePickerProps,
-  type DateRangeEmits, type DateRangePickerEmits, type DateValue, type DateSelection,
-  type DateChangeArgs, type DateRules, type DateShortcut } from '@maple-design/ui-vue'
+  type DateRangeEmits, type DateRangePickerEmits, type DateValue,
+  type DateChangeArgs, type DateRules, type DateShortcut
+} from '@maple-design/ui-vue'
 ```
 
 <!-- date-contract:end -->

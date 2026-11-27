@@ -18,15 +18,16 @@
   "dependencies": {
     "@maple-design/touch-emulator-vue": "workspace:*",
     "@maple-design/ui-vue": "workspace:*",
-    "@vue/repl": "^2.9.0",
+    "@vue/repl": "^4.7.2",
     "file-saver": "^2.0.5",
-    "jszip": "^3.10.1",
+    "jszip": "^3.10.2",
     "vue": "catalog:"
   },
   "devDependencies": {
     "@maple-design/cli-vue": "workspace:*",
     "@types/file-saver": "^2.0.7",
     "@types/node": "catalog:",
+    "@vue/content-mapper": "4.0.0-alpha.0",
     "live-server": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:"

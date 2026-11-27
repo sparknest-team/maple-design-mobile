@@ -3,11 +3,17 @@ export function inBrowser(): boolean {
 }
 
 export function inMobile(): boolean {
-  return inBrowser() && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+  if (!inBrowser()) {
+    return false
+  }
+  const agent = navigator.userAgent.toLowerCase()
+  return ['android', 'webos', 'iphone', 'ipad', 'ipod', 'blackberry', 'iemobile', 'opera mini'].some((name) =>
+    agent.includes(name),
+  )
 }
 
 export function hasOwn<T extends object>(value: T, key: PropertyKey): key is keyof T {
-  return Object.prototype.hasOwnProperty.call(value, key)
+  return Object.getOwnPropertyDescriptor(value, key) !== undefined
 }
 
 export function isArray(value: unknown): value is any[] {
@@ -31,7 +37,10 @@ export function isString(value: unknown): value is string {
 }
 
 export function isNumeric(value: unknown): value is number | string {
-  return typeof value === 'number' || (typeof value === 'string' && /^[-+]?\d+$/.test(value))
+  if (isString(value)) {
+    return /^[+-]?[0-9]+$/.test(value)
+  }
+  return isNumber(value)
 }
 
 export function isObject(value: unknown): value is Record<string, any> {
@@ -43,11 +52,14 @@ export function toRawType(value: unknown): string {
 }
 
 export function isPlainObject(value: unknown): value is Record<string, any> {
-  return Object.prototype.toString.call(value) === '[object Object]'
+  return toRawType(value) === 'Object'
 }
 
 export function isEmpty(value: unknown): boolean {
-  return value === undefined || value === null || value === '' || (isArray(value) && !value.length)
+  if (Array.isArray(value)) {
+    return value.length === 0
+  }
+  return value === '' || value === null || value === undefined
 }
 
 export function isWindow(value: unknown): value is Window {
@@ -55,5 +67,5 @@ export function isWindow(value: unknown): value is Window {
 }
 
 export function supportTouch(): boolean {
-  return inBrowser() && 'ontouchstart' in window
+  return inBrowser() && Reflect.has(window, 'ontouchstart')
 }

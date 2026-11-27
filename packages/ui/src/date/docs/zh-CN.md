@@ -10,6 +10,8 @@
 
 安装 Date 时会一并注册 DatePicker，也可通过静态成员 `Date.Picker` 使用。
 
+单选时，格式字符串对应字符串值，`value-format="Date"` 返回日期对象，`value-format="timestamp"` 返回数字时间戳。范围和多选使用数组；清空时返回配置的空值。
+
 ## 基础示例
 
 ### 基本使用
@@ -385,7 +387,7 @@ actions 插槽提供 `{ confirm, disabled, selectNow, nowDisabled }`。自定义
 
 | 事件                  | 说明               | 参数                              |
 | --------------------- | ------------------ | --------------------------------- |
-| `update:picker-value` | 请求日历视口更新   | value: DateSelection              |
+| `update:picker-value` | 请求日历视口更新   | value: Date \| string \| number \| (Date \| string \| number \| null \| undefined)[] \| null \| undefined              |
 | `picker-value-change` | 视口请求及展示通知 | value, date(s), formatted text(s) |
 | `select-shortcut`     | 接受的原快捷项对象 | shortcut: DateShortcut            |
 
@@ -617,7 +619,7 @@ datePickerProps/dateRangePickerProps 只配置展示，不能覆盖根模型、�
 | `color` | Maple 日历主题色 | `string` | 主题缺省 |
 | `date-fields` | 日期滚轮列及顺序；显式列表决定可见列 | `readonly DatePickerField[]`<br>`DatePickerField: 'month' \| 'year' \| 'day'` | 按精度推导 |
 | `day-start-of-week` | 每周第一天，仅日历展示，整数 0～6 | `DateWeekStart` | `0` |
-| `default-picker-value` | 初始日历视口，仅初始化读取；优先已选值，再用当前日期 | `DateSelection` | `undefined` |
+| `default-picker-value` | 初始日历视口，仅初始化读取；优先已选值，再用当前日期 | `Date \| string \| number \| (Date \| string \| number \| null \| undefined)[] \| null \| undefined` | `undefined` |
 | `default-value` | 非受控初始值，仅创建时读取 | `DateValue \| DateValue[]` | `undefined` |
 | `disable-confirm` | 选择后立即提交；false 保留草稿待确认 | `boolean` | `true` |
 | `disabled` | 禁用面板选择和提交 | `boolean` | `false` |
@@ -633,7 +635,7 @@ datePickerProps/dateRangePickerProps 只配置展示，不能覆盖根模型、�
 | `model-value` | 外部日期值；undefined 为非受控，null 为显式空值 | `DateValue \| DateValue[] \| null` | `undefined` |
 | `multiple` | Maple 多选；避免同时开启范围模式 | `boolean` | `false` |
 | `picker-props` | Maple 日期/时间滚轮展示配置，不接管根模型与规则 | `DateWheelOptions` | `{}` |
-| `picker-value` | 受控日历视口，不是选中值；范围视口含两个日期 | `DateSelection` | `undefined` |
+| `picker-value` | 受控日历视口，不是选中值；范围视口含两个日期 | `Date \| string \| number \| (Date \| string \| number \| null \| undefined)[] \| null \| undefined` | `undefined` |
 | `presentation` | Maple 独立面板展示方式 | `calendar \| picker \| calendarPicker` | `calendarPicker` |
 | `preview-shortcut` | 悬停/聚焦快捷项时预览，不提交 | `boolean` | `true` |
 | `range` | Maple 通用独立面板的范围模式 | `boolean` | `false` |
@@ -724,8 +726,9 @@ Date/DateRange 的时间区域仅在 show-time 开启时生效。`format` 控制
 
 ```ts
 import { Date as DateField, DatePicker, type DateProps, type DatePickerProps,
-  type DateEmits, type DatePickerEmits, type DateValue, type DateSelection,
-  type DateChangeArgs, type DateRules, type DateShortcut } from '@maple-design/ui-vue'
+  type DateEmits, type DatePickerEmits, type DateValue,
+  type DateChangeArgs, type DateRules, type DateShortcut
+} from '@maple-design/ui-vue'
 ```
 
 <!-- date-contract:end -->

@@ -39,7 +39,7 @@ Choose a color. Only the customized button changes; the other button follows the
 Keep the existing status × variant API: yellow primary, neutral secondary and violet tertiary. Switch the card surface to compare transparent buttons, then inspect violet selection and focus across the related controls.
 
 ```demo
-../example/FireflyScenes.vue
+../example/en-US/FireflyScenes.vue
 ```
 
 ### More component states

@@ -26,8 +26,7 @@ onThemeChange()
   </h2>
 
   <section data-demo="basic">
-    <app-type>{{ english ? 'Basic usage and subtitle' : '基础用法与副标题' }}</app-type
-    ><DemoBasic />
+    <app-type>{{ english ? 'Basic usage and subtitle' : '基础用法与副标题' }}</app-type><DemoBasic />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="appearance-and-states">
@@ -48,8 +47,7 @@ onThemeChange()
   </section>
 
   <section data-demo="hoverable">
-    <app-type>{{ english ? 'Hover style' : '悬浮样式' }}</app-type
-    ><DemoHoverable />
+    <app-type>{{ english ? 'Hover style' : '悬浮样式' }}</app-type><DemoHoverable />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="layout-and-arrangement">
@@ -58,8 +56,7 @@ onThemeChange()
   </h2>
 
   <section data-demo="image">
-    <app-type>{{ english ? 'Images and directions' : '图片与三种布局' }}</app-type
-    ><DemoImage />
+    <app-type>{{ english ? 'Images and directions' : '图片与三种布局' }}</app-type><DemoImage />
   </section>
 
   <section data-demo="nested-tabs">
@@ -73,8 +70,9 @@ onThemeChange()
   </h2>
 
   <section data-demo="tooltip">
-    <app-type>{{ english ? 'Long title and tooltip' : '长标题与提示' }}</app-type
-    ><DemoTooltipEn v-if="english" /><DemoTooltip v-else />
+    <app-type>{{ english ? 'Long title and tooltip' : '长标题与提示' }}</app-type><DemoTooltipEn
+      v-if="english"
+    /><DemoTooltip v-else />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="customization-and-slots">
@@ -83,13 +81,11 @@ onThemeChange()
   </h2>
 
   <section data-demo="no-padding">
-    <app-type>{{ english ? 'Custom header' : '自定义标题区域' }}</app-type
-    ><DemoNoPadding />
+    <app-type>{{ english ? 'Custom header' : '自定义标题区域' }}</app-type><DemoNoPadding />
   </section>
 
   <section data-demo="slots">
-    <app-type>{{ english ? 'Content slots' : '内容插槽' }}</app-type
-    ><DemoSlots />
+    <app-type>{{ english ? 'Content slots' : '内容插槽' }}</app-type><DemoSlots />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="interaction-and-control">
@@ -98,13 +94,11 @@ onThemeChange()
   </h2>
 
   <section data-demo="ripple">
-    <app-type>{{ english ? 'Ripple and click' : '水波与点击事件' }}</app-type
-    ><DemoRipple />
+    <app-type>{{ english ? 'Ripple and click' : '水波与点击事件' }}</app-type><DemoRipple />
   </section>
 
   <section data-demo="floating">
-    <app-type>{{ english ? 'Floating and close' : '浮动展开与关闭' }}</app-type
-    ><DemoFloating />
+    <app-type>{{ english ? 'Floating and close' : '浮动展开与关闭' }}</app-type><DemoFloating />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="lifecycle-and-edge-cases">

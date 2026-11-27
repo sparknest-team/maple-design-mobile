@@ -32,7 +32,7 @@ export type DatePickerProps = import('../_utils/public-props').CompatiblePublicP
 
 export type { DateDisabledTime, DateRules } from './date-rules'
 
-export type { DateValue, DateSelection, DateSide, DateValueOptions } from '../date/date-value'
+export type { DateValue, DateSide, DateValueOptions } from '../date/date-value'
 
 export type { DatePickerType, DatePickerOptions } from './picker-props'
 export type { DateWeekStart } from './panel-props'

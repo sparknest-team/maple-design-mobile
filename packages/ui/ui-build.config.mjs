@@ -6,6 +6,7 @@ const pkg = JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf8'))
 
 export default {
   root,
+  releaseCheck: 'tsconfig.release-check.json',
   name: '@maple-design/ui-vue',
   globalName: 'Maple',
   bundleName: 'maple',

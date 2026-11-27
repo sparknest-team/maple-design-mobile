@@ -23,7 +23,7 @@ export const _CheckboxGroupComponent: typeof CheckboxGroup = CheckboxGroup
 export default Checkbox
 export type { CheckboxProps, CheckboxGroupProps, CheckboxValue } from './props'
 
-export type { CheckboxMethods, CheckboxModel } from './props'
+export type { CheckboxMethods } from './props'
 
 export type { CheckboxOption } from './types'
 export type { ChoiceFieldNames } from './choice-options'

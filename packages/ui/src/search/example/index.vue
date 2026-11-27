@@ -109,7 +109,8 @@ onThemeChange()
   </section>
 
   <section data-demo="native-form">
-    <app-type>{{ english ? 'Native form and popup ownership' : '原生表单与弹层身份' }}</app-type
-    ><component :is="english ? EnNativeFormDemo : NativeFormDemo" />
+    <app-type>{{ english ? 'Native form and popup ownership' : '原生表单与弹层身份' }}</app-type><component
+      :is="english ? EnNativeFormDemo : NativeFormDemo"
+    />
   </section>
 </template>

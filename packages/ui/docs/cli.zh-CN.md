@@ -36,39 +36,32 @@ maple-cli gen
 ### 配置文件
 
 项目根目录下的 `maple.config.mjs` 用来管理整个组件库项目的具体细节。
-默认配置可查阅 [maple.default.config.ts](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.default.config.ts?ref_type=heads)。
-也可以参考 `@maple-design/ui-vue` 的 [maple.config.mjs](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/ui/maple.config.mjs?ref_type=heads)。
+默认配置可查阅 [maple.default.config.ts](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/cli/src/node/config/maple.default.config.ts)。
+也可以参考 `@maple-design/ui-vue` 的 [maple.config.mjs](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/ui/maple.config.mjs)。
+
+文档站的 Vite 插件和代理在 `docs/.vuepress/config.ts` 中配置。组件库的打包入口、外部依赖和产物选项在 `ui-build.config.mjs` 中配置。
 
 | 参数 | 说明 | 类型 | 默认值 |
 | -- | -------------- | -------- | ---------- |
 | `name` | 组件库全名，会作为包名 | _string_ | `Maple` |
-| `namespace` | 组件库命名空间, 会作为组件前缀 | _string_ | `var` |
-| `host` | 开发服务器主机 | _number_ | `localhost` |
+| `namespace` | 组件库命名空间, 会作为组件前缀 | _string_ | `mp` |
 | `port` | 开发服务器端口 | _number_ | `8080` |
-| `proxy` | 开发服务器代理 | _Record<string, string \| ProxyOptions>_ | `-` |
 | `title` | 文档中组件库的标题 | _string_ | `Maple` |
 | `logo` | 文档中组件库的 logo | _string_ | `-` |
 | `alias` | 路径别名 (使用相对路径时，根路径为 src 文件夹) | _Record<string, string>_ | `-` |
 | `defaultLanguage` | 文档默认语言 | _string_ | `zh-CN` |
 | `defaultLightTheme` | 默认使用的亮色主题 | _string_ | `lightTheme` |
 | `defaultDarkTheme` | 默认使用的暗色主题 | _string_ | `darkTheme` |
-| `useMobile` | 是否显示右侧手机预览 | _boolean_ | `false` |
 | `themeKey` | 主题在本地存储中的 key | _string_ | `MAPLE_THEME` |
 | `lightTheme` | 默认品牌亮色文档主题 | _Record<string, any>_ | `-` |
 | `darkTheme` | 默认品牌暗色文档主题 | _Record<string, any>_ | `-` |
 | `mapleLightTheme` | 枫叶品牌亮色文档主题 | _Record<string, any>_ | `-` |
 | `mapleDarkTheme` | 枫叶品牌暗色文档主题 | _Record<string, any>_ | `-` |
-| `highlight` | 文档代码片段样式相关 | _{ style: string }_ | `-` |
-| `analysis` | 文档统计相关 | _{ baidu: string }_ | `-` |
-| `pc` | pc 端文档结构配置 | _[MapleConfigPc](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.config.ts?ref_type=heads)_ | `-` |
-| `mobile` | mobile 端文档结构配置 | _[MapleConfigMobile](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.config.ts?ref_type=heads)_ | `-` |
-| `bundle` | 组件库编译的捆绑产物配置 | _{ external: string[], globals: Record<string, string> }_ | `-` |
-| `vitePlugins` | vite 插件 | _[Plugin](https://vite.dev/guide/using-plugins.html)[]_ \| `(plugins: Plugin[]) => Plugin[])` | `-` |
+| `pc` | pc 端文档结构配置 | _[MapleConfigPc](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/cli/src/node/config/maple.config.ts)_ | `-` |
+| `mobile` | mobile 端文档结构配置 | _[MapleConfigMobile](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/cli/src/node/config/maple.config.ts)_ | `-` |
 | `directives` | 组件库指令文件夹名称 | _string[]_ | `[]` |
-| `copy` | 复制文件配置 | _[CopyPath[]](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/vite-plugins/src/copy.ts)_ | `-` |
-| `icons` | 字体图标打包相关配置 | _[MapleConfigIcons](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.config.ts?ref_type=heads)_ | `-` |
-| `esbuild` | esbuild 配置 | _[MapleConfigEsbuild](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.config.ts?ref_type=heads)_ | `-` |
-| `seo` | seo 选项 | _[MapleConfigSeo](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.config.ts?ref_type=heads)_ | ` -` |
+| `icons` | 字体图标打包相关配置 | _[MapleConfigIcons](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/cli/src/node/config/maple.config.ts)_ | `-` |
+| `seo` | seo 选项 | _[MapleConfigSeo](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/cli/src/node/config/maple.config.ts)_ | ` -` |
 
 #### Menu
 
@@ -77,41 +70,10 @@ maple-cli gen
 | `doc` | 文档页面应匹配的文件名称, 必填 | _string_ | `-` |
 | `type` | menu 类型, 当 type 为 `1` 时表示分类 menu, 类型为 `2` 时 doc 字段匹配 src 下的组件文件, 类型为`3`时 doc 字段匹配 docs 下的 md 文件 | _MenuTypes_ | `-` |
 | `text` | menu 所展示的文字, 当设置国际化时可配置英文展示文字 | _Record<string, string>_ | `-` |
-| `useMobile` | 是否在当前文档页显示右侧手机预览, 如不填写, 默认取 config 中的 useMobile | _boolean_ | `-` |
 
 ### 自定义页面
 
-如果想在组件库中插入其他页面，可以在项目根目录下的创建 `pages` 文件夹编写 vue 组件， 用来生成其他的页面。
-目录结构如下：
-
-```text
-// playground-ignore
-|-- maple-ui
-  |-- src
-  |-- docs
-  |-- pages
-    |-- sponsor
-      |-- index.vue
-    |-- contributor
-      |-- locale
-        |-- en-US.ts
-      |-- index.vue
-    |-- changelog
-      |-- locale
-        |-- zh-CN.ts
-        |-- en-US.ts
-      |-- index.vue
-```
-
-生成的路由如下：
-
-```text
-// playground-ignore
-/zh-CN/sponsor
-/en-US/contributor
-/zh-CN/changelog
-/en-US/changelog
-```
+Maple 的文档站从 `docs/sponsor.zh-CN.md` 和 `docs/sponsor.en-US.md` 分别生成 `/zh-CN/sponsor/` 和 `/en-US/sponsor/`。要在侧边栏显示新页面，在 `maple.config.mjs` 的 `pc.menu` 中添加对应的 `doc`。页面匹配和路由规则由 `docs/.vuepress/config.ts` 定义。
 
 ### 命令相关
 
@@ -122,8 +84,6 @@ maple-cli gen
 maple-cli dev
 # force mode
 maple-cli dev -f
-# draft mode
-maple-cli dev -d
 ```
 
 #### 构建文档站点

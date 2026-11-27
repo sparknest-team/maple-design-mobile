@@ -5,18 +5,14 @@
 <va-button>按钮起步</va-button>
 ```
 
-```vue
-import BasicUse from '../example/BasicUse'
-```
+<demo src="../example/BasicUse.vue"></demo>
 
 ### 主题色按钮
 ```html
 <va-button color="#009688">按钮起步</va-button>
 ```
 
-```vue
-import ModifyColor from '../example/ModifyColor'
-```
+<demo src="../example/ModifyColor.vue"></demo>
 
 ## API
 

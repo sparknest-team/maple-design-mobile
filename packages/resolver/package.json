@@ -35,8 +35,8 @@
     "lib"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --out-dir=lib --dts --clean",
-    "dev": "tsup src/index.ts --format esm --out-dir=lib --watch --dts",
+    "build": "tsdown --config ../../scripts/tsdown.config.mjs --format esm --format cjs",
+    "dev": "tsdown --config ../../scripts/tsdown.config.mjs --format esm --watch",
     "test": "pnpm build && node --test test/*.test.mjs"
   },
   "dependencies": {
@@ -45,7 +45,7 @@
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "tsup": "catalog:",
+    "tsdown": "catalog:",
     "typescript": "catalog:"
   },
   "publishConfig": {

@@ -9,10 +9,9 @@ program.version(`maple-cli ${getCliVersion()}`).usage('<command> [options]')
 program
   .command('dev')
   .option('-f --force', 'Force dep pre-optimization regardless of whether deps have changed')
-  .option('-d --draft', 'Start the service in draft mode')
   .description('Run maple development environment')
   .action(async (options) => {
-    const { dev } = await import('./commands/dev.js')
+    const { dev } = await import('./commands/vuepress.js')
 
     return dev(options)
   })
@@ -21,7 +20,7 @@ program
   .command('build')
   .description('Build maple site for production')
   .action(async () => {
-    const { build } = await import('./commands/build.js')
+    const { build } = await import('./commands/vuepress.js')
 
     return build()
   })
@@ -82,12 +81,12 @@ program
   })
 
 program
-  .command('compile')
+  .command('compile [config]')
   .description('Compile maple components library code')
-  .action(async () => {
+  .action(async (configPath) => {
     const { compile } = await import('./commands/compile.js')
 
-    return compile()
+    return compile(configPath)
   })
 
 program
@@ -118,7 +117,7 @@ program
   .description('Run test in work directory')
   .option('-w, --watch', 'Watch files for changes and rerun tests related to changed files')
   .option('-c, --component <componentName>', 'Test a specific component')
-  .option('-cov, --coverage', 'Generate the coverage')
+  .option('--coverage', 'Generate the coverage')
   .action(async (options) => {
     const { test } = await import('./commands/test.js')
 
@@ -140,7 +139,7 @@ program
 
 program
   .command('changelog')
-  .option('-rc --releaseCount <releaseCount>', 'Release count')
+  .option('--releaseCount <releaseCount>', 'Release count')
   .option('-f --file <file>', 'Changelog filename')
   .description('Generate changelog')
   .action(async (options) => {
@@ -189,4 +188,20 @@ program.on('command:*', async ([cmd]) => {
   process.exitCode = 1
 })
 
-program.parse()
+// Commander 15 accepts only one-character short flags. Accept the two
+// historical spellings for their original commands.
+const [command, ...args] = process.argv.slice(2)
+const end = args.indexOf('--')
+const argv = args.map((arg, index) => {
+  if (end !== -1 && index >= end) {
+    return arg
+  }
+  if (command === 'test' && arg === '-cov') {
+    return '--coverage'
+  }
+  if (command === 'changelog' && arg === '-rc') {
+    return '--releaseCount'
+  }
+  return arg
+})
+program.parse(command ? [command, ...argv] : [], { from: 'user' })

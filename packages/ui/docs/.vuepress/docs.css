@@ -1,0 +1,116 @@
+/* Set the aliases again inside the provider so brand and dark presets follow the menu. */
+html:root,
+.theme-container[vp-container] {
+  --vp-c-accent: var(--mp-color-primary);
+  --vp-c-accent-bg: var(--mp-color-primary);
+  --vp-c-accent-hover: rgb(var(--mp-primary-5));
+  --vp-c-accent-soft: rgba(var(--mp-primary-6), 0.15);
+  --content-width: 960px;
+}
+
+.maple-docs-tools .docs-select__options,
+.theme-container .vp-sidebar {
+  --docs-scroll-thumb: color-mix(in srgb, var(--mp-color-text-3) 45%, transparent);
+  scrollbar-color: var(--docs-scroll-thumb) transparent;
+  scrollbar-width: thin;
+}
+
+.maple-docs-tools .docs-select__options::-webkit-scrollbar-thumb,
+.vp-sidebar::-webkit-scrollbar-thumb {
+  background: var(--docs-scroll-thumb);
+}
+
+.maple-docs-tools .docs-select__options::-webkit-scrollbar-thumb:active,
+.vp-sidebar::-webkit-scrollbar-thumb:active {
+  background: var(--mp-color-text-3);
+}
+
+body {
+  font-size: 14px;
+}
+
+.vp-navbar .vp-site-name {
+  font-size: 18px;
+}
+
+.vp-navbar .vp-nav-links {
+  font-size: 14px;
+}
+
+.vp-navbar .vp-navbar-end {
+  gap: 4px;
+}
+
+@media (max-width: 719px) {
+  .vp-navbar .vp-toggle-navbar-button {
+    order: -1;
+  }
+}
+
+@media (max-width: 374px) {
+  .vp-navbar {
+    padding-inline: 4px;
+  }
+
+  .vp-navbar .vp-nav-logo {
+    margin-inline-end: 0;
+  }
+
+  .vp-navbar .vp-toggle-sidebar-button {
+    padding-inline-end: 4px;
+  }
+
+  .vp-navbar .vp-navbar-end,
+  .vp-navbar .vp-navbar-end .docs-navbar-tools {
+    gap: 0;
+  }
+}
+
+.vmi-previewer {
+  --c-border: var(--mp-sys-color-border-default);
+}
+
+.vp-page [vp-content],
+.vp-page-title,
+.vp-page-nav,
+.vp-page-meta {
+  box-sizing: border-box;
+  max-width: min(100%, var(--content-width));
+}
+
+#markdown-content > :is(p, ul, ol, table) code:not(pre code) {
+  color: var(--vp-c-accent);
+  background: transparent;
+  font-size: 0.85em;
+}
+
+#markdown-content > table {
+  display: table;
+  width: 100%;
+  margin: 0;
+  border-collapse: collapse;
+}
+
+#markdown-content > table tr {
+  border: 0;
+  background: transparent;
+  transition: none;
+}
+
+#markdown-content > table :is(th, td) {
+  padding: 0.6em 1em;
+  border: 1px solid var(--mp-sys-color-border-strong);
+}
+
+#markdown-content > table code {
+  padding: 0.1rem 0.4rem;
+  line-height: 28px;
+}
+
+@media (max-width: 719px) {
+  #markdown-content > table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}

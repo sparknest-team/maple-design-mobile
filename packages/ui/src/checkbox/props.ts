@@ -5,10 +5,10 @@ import { choiceIconSizeProp, choiceOrientationProp } from './choice-appearance-p
 import { checkboxGroupValueProps, choiceOptionsProps } from './choice-group-props'
 import { checkboxValueProps } from './choice-value-props'
 
-export type CheckboxValue = import('./choice-value-props').ChoiceValue
+export type CheckboxValue = string | number | boolean
 export const checkboxProps = {
   ...fieldPresentationProps,
-  emptyValue: emptyValueProp<import('./choice-value-props').CheckboxModel>(),
+  emptyValue: emptyValueProp<boolean | (string | number | boolean)[] | null>(),
   ...checkboxValueProps,
   /** 是否禁用；未设置时继承分组或表单 */
   disabled: { type: Boolean, default: undefined },
@@ -35,7 +35,7 @@ export const checkboxProps = {
 }
 export const checkboxGroupProps = {
   ...fieldPresentationProps,
-  emptyValue: emptyValueProp<import('./choice-value-props').ChoiceValue[]>(),
+  emptyValue: emptyValueProp<(string | number | boolean)[]>(),
   ...checkboxGroupValueProps,
   ...choiceOptionsProps,
   /** 组内排列方向 */
@@ -58,4 +58,3 @@ export interface CheckboxMethods {
   focus(options?: FocusOptions): void
   blur(): void
 }
-export type { CheckboxModel } from './choice-value-props'

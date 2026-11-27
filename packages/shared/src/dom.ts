@@ -1,38 +1,57 @@
-import { inBrowser, isWindow } from './predicates'
+import { isWindow } from './predicates'
 
-function getGlobalThis(): typeof globalThis {
-  if (typeof globalThis !== 'undefined') {
+// Older Node runtimes can expose global without globalThis.
+declare const global: typeof globalThis
+
+function scheduler(): typeof globalThis {
+  if (typeof globalThis === 'object') {
     return globalThis
   }
-  if (inBrowser()) {
+  if (typeof window !== 'undefined') {
     return window as unknown as typeof globalThis
   }
-  return typeof global !== 'undefined' ? global : (self as unknown as typeof globalThis)
+  if (typeof global !== 'undefined') {
+    return global
+  }
+  return self as unknown as typeof globalThis
 }
 
-// Resolve the scheduler at call time so SSR and browser fallback behavior agree.
 export function requestFrame(callback: FrameRequestCallback): number {
-  const target = getGlobalThis()
-  return target.requestAnimationFrame
-    ? target.requestAnimationFrame(callback)
-    : (target.setTimeout(callback) as unknown as number)
+  const host = scheduler()
+  if (host.requestAnimationFrame) {
+    return host.requestAnimationFrame(callback)
+  }
+  return host.setTimeout(callback) as unknown as number
 }
 
 export function cancelFrame(handle: number | undefined): void {
-  const target = getGlobalThis()
-  if (target.cancelAnimationFrame) {
-    target.cancelAnimationFrame(handle as number)
+  const host = scheduler()
+  if (!host.cancelAnimationFrame) {
+    host.clearTimeout(handle)
   } else {
-    target.clearTimeout(handle)
+    host.cancelAnimationFrame(handle as number)
   }
 }
 
+function afterFrames(count: number): Promise<unknown> {
+  return new Promise((resolve) => {
+    function advance(time: number) {
+      if (--count === 0) {
+        resolve(time)
+      } else {
+        requestFrame(advance)
+      }
+    }
+    requestFrame(advance)
+  })
+}
+
 export function raf(): Promise<unknown> {
-  return new Promise((resolve) => requestFrame(resolve))
+  return afterFrames(1)
 }
 
 export function doubleRaf(): Promise<unknown> {
-  return new Promise((resolve) => requestFrame(() => requestFrame(resolve)))
+  return afterFrames(2)
 }
 
 export function getStyle(element: Element): CSSStyleDeclaration {
@@ -40,31 +59,33 @@ export function getStyle(element: Element): CSSStyleDeclaration {
 }
 
 export function getRect(element: Element | Window): DOMRect {
-  if (isWindow(element)) {
-    const width = element.innerWidth
-    const height = element.innerHeight
-    const rect = { x: 0, y: 0, top: 0, left: 0, right: width, bottom: height, width, height }
-    return { ...rect, toJSON: () => rect }
+  if (!isWindow(element)) {
+    return element.getBoundingClientRect()
   }
-  return element.getBoundingClientRect()
+  const { innerWidth: width, innerHeight: height } = element
+  const bounds = { x: 0, y: 0, top: 0, left: 0, right: width, bottom: height, width, height }
+  return Object.assign({}, bounds, { toJSON: () => bounds })
 }
 
 export function getScrollLeft(element: Element | Window): number {
-  return Math.max('scrollLeft' in element ? element.scrollLeft : element.scrollX, 0)
+  const offset = 'scrollLeft' in element ? element.scrollLeft : element.scrollX
+  return Math.max(0, offset)
 }
 
 export function getScrollTop(element: Element | Window): number {
-  return Math.max('scrollTop' in element ? element.scrollTop : element.scrollY, 0)
+  const offset = 'scrollTop' in element ? element.scrollTop : element.scrollY
+  return Math.max(0, offset)
 }
 
 export function inViewport(element: HTMLElement): boolean {
-  const { top, bottom, left, right } = getRect(element)
-  const { width, height } = getRect(window)
-  return left <= width && right >= 0 && top <= height && bottom >= 0
+  const box = getRect(element)
+  const screen = getRect(window)
+  return box.right >= 0 && box.bottom >= 0 && box.left <= screen.width && box.top <= screen.height
 }
 
 export function preventDefault(event: Event): void {
-  if (event.cancelable !== false) {
-    event.preventDefault()
+  if (event.cancelable === false) {
+    return
   }
+  event.preventDefault()
 }

@@ -17,9 +17,15 @@
   </div>
 </template>
 <script setup lang="ts">
-import Button from '../button/base'
+import ButtonComponent from '../button/base'
+import type { WithNativeListeners } from '../_utils/native-listener-types'
 import { createNamespace } from '../utils/components'
 import type { DateShortcut, DateShortcutsPosition } from './panel-tools-props'
+
+const Button = ButtonComponent as WithNativeListeners<
+  typeof ButtonComponent,
+  'onBlur' | 'onFocus' | 'onMouseenter' | 'onMouseleave'
+>
 
 defineOptions({ name: createNamespace('date-shortcuts').name })
 const { n, classes } = createNamespace('date-shortcuts')

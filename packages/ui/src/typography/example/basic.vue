@@ -1,9 +1,3 @@
-<script setup>
-import { onThemeChange } from '@maple-design/cli-vue/client'
-
-onThemeChange()
-</script>
-
 <template>
   <div class="demo mp-px-16 mp-py-16">
     <div class="mp-text-1 mp-mb-8">mp-text-1 主文案</div>

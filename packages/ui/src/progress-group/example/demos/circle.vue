@@ -12,8 +12,7 @@ const items = [
     <mp-progress-group mode="circle" :items="items" circle-size="min(42vw, 240px)" :stroke-width="12" show-text>
       <template #text="{ value, max }">
         <div class="progress-group-example__circle-status">
-          <strong>{{ value }}</strong
-          ><small>/ {{ max }} GB</small>
+          <strong>{{ value }}</strong><small>/ {{ max }} GB</small>
         </div>
       </template>
     </mp-progress-group>

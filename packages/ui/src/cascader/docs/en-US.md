@@ -345,7 +345,7 @@ Use `v-model`, `v-model:open` and `v-model:input-value` for controlled state. Cl
 | `tag-nowrap` | Keep tags on one line with ellipsis and preserved removal icons; overflow scrolls horizontally; hover, focus or tap truncated text to preview it | `boolean` | `false` |
 | `popup-container` | Selector, element, element resolver, or false for inline rendering | `PopupContainer` | `—` |
 | `trigger-props` | Menu Trigger props; field owns open state | `TriggerProps` | `—` |
-| `virtual-list-props` | Pass the virtual list attribute, pass in this parameter to turn on virtual scrolling [VirtualListProps](#VirtualListProps) | `VirtualListProps` | `—` |
+| `virtual-list-props` | Pass the virtual list attribute, pass in this parameter to turn on virtual scrolling [VirtualListProps](/en-US/table/#virtuallistprops) | `VirtualListProps` | `—` |
 | `search-delay` | Finite nonnegative search debounce delay in milliseconds. | `number` | `500` |
 | `format-label` | Format selected labels; use label slot for VNodes | `function` | `—` |
 | `clearable` | Allow clearing; preserve disabled selections | `boolean` | `false` |

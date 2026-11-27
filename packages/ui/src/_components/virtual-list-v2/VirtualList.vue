@@ -1,6 +1,6 @@
 <template>
-  <Component :is="mergedComponent.container" ref="containerRef" :class="prefixCls" :style="style" @scroll="onScroll">
-    <Component
+  <component :is="mergedComponent.container" ref="containerRef" :class="prefixCls" :style="style" @scroll="onScroll">
+    <component
       :is="mergedComponent.list"
       v-bind="{ ...listAttrs, ...range?.listAttrs }"
       :style="
@@ -13,7 +13,7 @@
       "
     >
       <slot name="list-prefix" :range="range" />
-      <Component
+      <component
         :is="mergedComponent.content"
         ref="contentRef"
         v-bind="contentAttrs"
@@ -38,9 +38,9 @@
           <slot name="item" :range="range" :item="item" :index="virtualEnabled ? start + index : index" />
         </VirtualListItem>
         <slot v-if="virtualEnabled" name="after-items" :padding="behindPadding" />
-      </Component>
-    </Component>
-  </Component>
+      </component>
+    </component>
+  </component>
 </template>
 
 <script lang="ts">

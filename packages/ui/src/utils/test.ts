@@ -243,7 +243,7 @@ export function mockStubs() {
   }
 }
 
-export function mockConsole(method: keyof Console, fn: any = () => {}) {
+export function mockConsole(method: Exclude<keyof Console, 'Console'>, fn: any = () => {}) {
   const originMethod = console[method]
 
   console[method] = fn

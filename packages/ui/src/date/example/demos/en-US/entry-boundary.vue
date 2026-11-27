@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { DateSelection } from '@maple-design/ui-vue'
 
 const limited = ref(true)
-const fieldValue = ref<DateSelection>('2025-02-12')
-const panelValue = ref<DateSelection>('2025-02-12')
+const fieldValue = ref<Date | string | number | (Date | string | number | null | undefined)[] | null | undefined>(
+  '2025-02-12',
+)
+const panelValue = ref<Date | string | number | (Date | string | number | null | undefined)[] | null | undefined>(
+  '2025-02-12',
+)
 const week = ref<0 | 1 | 6>(1)
 const presentation = ref<'picker' | 'calendar'>('calendar')
 </script>

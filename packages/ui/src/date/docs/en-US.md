@@ -10,6 +10,8 @@ Pure panels do not accept open/default-open, popup-container, placement, trigger
 
 Installing Date also registers DatePicker, which is available through the static member `Date.Picker`.
 
+For a single selection, a format string produces text, `value-format="Date"` produces a `Date`, and `value-format="timestamp"` produces a number. Range and multiple selections use arrays. The configured empty value determines what clearing returns.
+
 ## Basic examples
 
 ### Basic Usage
@@ -365,7 +367,7 @@ Configure `pickerValue`, `defaultPickerValue` and shortcuts through nested `date
 
 | Event | Description | Parameters |
 | --------------------- | -------------------------------------- | --------------------------------- |
-| `update:picker-value` | Request calendar viewport update | value: DateSelection |
+| `update:picker-value` | Request calendar viewport update | value: Date \| string \| number \| (Date \| string \| number \| null \| undefined)[] \| null \| undefined |
 | `picker-value-change` | Viewport request and formatted payload | value, date(s), formatted text(s) |
 | `select-shortcut` | Accepted shortcut object | shortcut: DateShortcut |
 
@@ -608,7 +610,7 @@ See the complete field and panel event lists on this page.
 | `color` | Maple calendar color | `string` | Theme default |
 | `date-fields` | Date wheel columns and order; an explicit list controls visibility | `readonly DatePickerField[]`<br>`DatePickerField: 'month' \| 'year' \| 'day'` | Derived from precision |
 | `day-start-of-week` | First day of week for calendars, an integer from 0 to 6 | `DateWeekStart` | `0` |
-| `default-picker-value` | Initial calendar viewport, read once; selected values take precedence over the current date | `DateSelection` | `undefined` |
+| `default-picker-value` | Initial calendar viewport, read once; selected values take precedence over the current date | `Date \| string \| number \| (Date \| string \| number \| null \| undefined)[] \| null \| undefined` | `undefined` |
 | `default-value` | Initial uncontrolled value, read only at creation | `DateValue \| DateValue[]` | `undefined` |
 | `disable-confirm` | Commit on selection; false retains draft for confirmation | `boolean` | `true` |
 | `disabled` | Disable panel selection and commit | `boolean` | `false` |
@@ -624,7 +626,7 @@ See the complete field and panel event lists on this page.
 | `model-value` | External date value; undefined is uncontrolled, null is explicitly empty | `DateValue \| DateValue[] \| null` | `undefined` |
 | `multiple` | Maple multiple selection; avoid enabling range mode at the same time | `boolean` | `false` |
 | `picker-props` | Maple date/time wheel presentation options, excluding the root model/rules | `DateWheelOptions` | `{}` |
-| `picker-value` | Controlled calendar viewport, separate from selection; range viewports contain two dates | `DateSelection` | `undefined` |
+| `picker-value` | Controlled calendar viewport, separate from selection; range viewports contain two dates | `Date \| string \| number \| (Date \| string \| number \| null \| undefined)[] \| null \| undefined` | `undefined` |
 | `presentation` | Maple standalone-panel presentation | `calendar \| picker \| calendarPicker` | `calendarPicker` |
 | `preview-shortcut` | Preview shortcuts on hover/focus without committing | `boolean` | `true` |
 | `range` | Range mode of the Maple general standalone panel | `boolean` | `false` |
@@ -715,8 +717,9 @@ Standalone panels have the seven events below, without the old preview event. Na
 
 ```ts
 import { Date as DateField, DatePicker, type DateProps, type DatePickerProps,
-  type DateEmits, type DatePickerEmits, type DateValue, type DateSelection,
-  type DateChangeArgs, type DateRules, type DateShortcut } from '@maple-design/ui-vue'
+  type DateEmits, type DatePickerEmits, type DateValue,
+  type DateChangeArgs, type DateRules, type DateShortcut
+} from '@maple-design/ui-vue'
 ```
 
 <!-- date-contract:end -->

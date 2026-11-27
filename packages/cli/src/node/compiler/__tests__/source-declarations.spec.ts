@@ -1,7 +1,7 @@
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
-import ts from 'typescript'
+import ts from 'typescript-js'
 import { expect, test } from 'vitest'
 import { copySourceDeclarations } from '../copySourceDeclarations.js'
 

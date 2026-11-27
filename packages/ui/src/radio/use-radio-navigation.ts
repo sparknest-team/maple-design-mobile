@@ -98,7 +98,7 @@ export function useRadioNavigation(hasSelection: () => boolean): RadioNavigation
       }
       event.preventDefault()
       event.stopPropagation()
-      let to = from
+      let to: number
       if (event.key === 'Home') {
         to = 0
       } else if (event.key === 'End') {

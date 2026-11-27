@@ -1,9 +1,9 @@
 import { execFile } from 'node:child_process'
 import { relative, resolve } from 'node:path'
 import { promisify } from 'node:util'
-import { downlevelVueDeclarations } from '@sparknest/ui-build-vue'
+import { downlevelVueDeclarations, normalizeVueTypeFiles } from '@sparknest/ui-build-vue'
 import fse from 'fs-extra'
-import ts from 'typescript'
+import ts from 'typescript-js'
 import { getMapleConfig } from '../config/maple.config.js'
 import { CWD, SRC_DIR } from '../shared/constant.js'
 import { getPublicDirs } from '../shared/fsUtils.js'
@@ -26,7 +26,12 @@ export async function compileTypes() {
   await compileStyleVars()
   // This directory contains generated artifacts only; stale renamed components must not survive builds.
   await fse.emptyDir(declarationsDir)
-  await promisify(execFile)('vue-tsc', ['-p', 'tsconfig.declaration.json'], { cwd: CWD, maxBuffer: 16 * 1024 * 1024 })
+  await promisify(execFile)('tsc', ['--runExternalCode', '-p', 'tsconfig.declaration.json'], {
+    cwd: CWD,
+    env: { ...process.env, VUE_CONTENT_MAPPER_WORKERS: process.env.VUE_CONTENT_MAPPER_WORKERS ?? '1' },
+    maxBuffer: 16 * 1024 * 1024,
+  })
+  await normalizeVueTypeFiles(declarationsDir)
   await copySourceDeclarations(SRC_DIR, declarationsDir)
   const { namespace = 'mp', directives = [] } = await getMapleConfig()
   const lines: string[] = []

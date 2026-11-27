@@ -1,27 +1,34 @@
 export function camelize(value: string): string {
-  return value
-    .replace(/-(\w)/g, (_, character: string) => character.toUpperCase())
-    .replace(/^./, (character) => character.toLowerCase())
+  const words = value.split(/-(?=\w)/)
+  let result = words[0]
+  for (const word of words.slice(1)) {
+    result += word.charAt(0).toUpperCase() + word.slice(1)
+  }
+  return result.charAt(0).toLowerCase() + result.slice(1)
 }
 
 export function kebabCase(value: string): string {
-  return value
-    .replace(/([A-Z])/g, ' $1')
-    .trim()
-    .split(' ')
-    .join('-')
-    .toLowerCase()
+  let words = ''
+  for (const letter of value) {
+    words += letter >= 'A' && letter <= 'Z' ? ' ' + letter : letter
+  }
+  return words.trim().replace(/ /g, '-').toLowerCase()
 }
 
-// Keep the Pascal export standalone so namespace imports do not retain a camelize wrapper.
 export function pascalCase(value: string): string {
-  const first = value.charAt(0)
-  return value
-    .replace(/-(\w)/g, (_, character: string) => character.toUpperCase())
-    .replace(/^./, (character) => character.toLowerCase())
-    .replace(first, first.toUpperCase())
+  // The public helper capitalizes the first occurrence of the original initial.
+  const initial = value.charAt(0)
+  const normalized = camelize(value)
+  const at = normalized.indexOf(initial)
+  if (at < 0) {
+    return normalized
+  }
+  return normalized.slice(0, at) + initial.toUpperCase() + normalized.slice(at + initial.length)
 }
 
 export function slash(path: string): string {
-  return path.startsWith('\\\\?\\') ? path : path.replace(/\\/g, '/')
+  if (path.slice(0, 4) === '\\\\?\\') {
+    return path
+  }
+  return path.split('\\').join('/')
 }

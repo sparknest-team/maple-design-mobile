@@ -1,6 +1,6 @@
 import { computed, inject, provide, ref, type ComputedRef, type InjectionKey, type Ref } from 'vue'
 import dayjs from 'dayjs'
-import { outputDateValue, parseDateValue, type DateSelection } from './date-value'
+import { outputDateValue, parseDateValue } from './date-value'
 import type { DatePanelOptions } from './panel-state'
 import type { DateShortcut } from './panel-tools-props'
 import type { useDateSelection } from './use-date-selection'
@@ -56,10 +56,12 @@ export function useRangeQuickSelection(
   const items = computed(() =>
     options.value.shortcuts?.length ? options.value.shortcuts : currentRangeShortcuts(options.value),
   )
-  function value(item: DateShortcut): DateSelection {
+  function value(
+    item: DateShortcut,
+  ): Date | string | number | (Date | string | number | null | undefined)[] | null | undefined {
     try {
       const source = typeof item.value === 'function' ? item.value() : item.value
-      const convert = (part: Exclude<DateSelection, unknown[]>) => {
+      const convert = (part: Date | string | number | null | undefined) => {
         const parsed = parseDateValue(part, { ...options.value, ...(item.format ? { valueFormat: item.format } : {}) })
         return parsed ? outputDateValue(parsed.toDate(), options.value) : undefined
       }

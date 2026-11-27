@@ -19,7 +19,7 @@ Examples use `Message.info(...)`, supported on both platforms. Selection closes 
 The main button publishes; the arrow opens related actions. Options have stable values and include a disabled action.
 
 ```demo
-../example/basic.vue
+../example/en-US/basic.vue
 ```
 
 ## Appearance and states
@@ -42,7 +42,7 @@ The main button publishes; the arrow opens related actions. Options have stable 
 Compare default, outline, tonal and text variants.
 
 ```demo
-../example/variants.vue
+../example/en-US/variants.vue
 ```
 
 ### Disabled states
@@ -50,7 +50,7 @@ Compare default, outline, tonal and text variants.
 Compare disabling the whole group, only the main button and only the menu button. Overall disabled cannot be overridden by disabled: false on either child.
 
 ```demo
-../example/disabled.vue
+../example/en-US/disabled.vue
 ```
 
 ### Appearance configuration comparison
@@ -93,7 +93,7 @@ Use this example for a primary action and secondary menu. Adjust status, size an
 Use bottom-start, an 8px vertical offset and a 160px maximum height. With hide-on-select=false, repeated selections keep the menu open and display the latest value.
 
 ```demo
-../example/popup.vue
+../example/en-US/popup.vue
 ```
 
 ## Customization and slots
@@ -103,7 +103,7 @@ Use bottom-start, an 8px vertical offset and a 160px maximum height. With hide-o
 Rotate the same arrow icon on both platforms using the open slot parameter.
 
 ```demo
-../example/custom-icon.vue
+../example/en-US/custom-icon.vue
 ```
 
 ## Interaction and control
@@ -115,7 +115,7 @@ Use `@click.stop` on external controls so the opening click is not also treated 
 Use v-model:open to synchronize external controls, the trigger and selection-driven closing.
 
 ```demo
-../example/controlled.vue
+../example/en-US/controlled.vue
 ```
 
 ## Async and dynamic data
@@ -125,7 +125,7 @@ Use v-model:open to synchronize external controls, the trigger and selection-dri
 Use an async @click handler and control button-props.loading with business state. Reset loading in finally on both success and failure; the counter shows completed operations.
 
 ```demo
-../example/async-action.vue
+../example/en-US/async-action.vue
 ```
 
 ## Reading direction

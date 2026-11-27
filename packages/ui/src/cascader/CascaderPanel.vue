@@ -16,12 +16,14 @@
 </template>
 
 <script lang="ts">
+import type { Ref } from 'vue'
 import { computed, defineComponent, provide, reactive, ref, toRefs, watch } from 'vue'
 import { isNull, isUndefined } from '../_utils/is'
 import { getKeyDownHandler, KEYBOARD_KEY } from '../_utils/keyboard'
 import { BaseType, UnionType } from '../_utils/types'
 import { createNamespace, getPrefixCls } from '../utils/components'
-import BaseCascaderPanel from './base-cascader-panel'
+import BaseCascaderPanelComponent from './base-cascader-panel'
+import type { WithNativeListeners } from '../_utils/native-listener-types'
 import { cascaderInjectionKey } from './context'
 import { useSelectedPath } from './hooks/use-selected-path'
 import { cascaderPanelProps } from './panel-props'
@@ -37,6 +39,11 @@ import {
   getValidValues,
   getValueKey,
 } from './utils'
+
+const BaseCascaderPanel = BaseCascaderPanelComponent as WithNativeListeners<
+  typeof BaseCascaderPanelComponent,
+  'onKeydown'
+>
 
 export default defineComponent({
   name: createNamespace('cascader-panel').name,
@@ -85,7 +92,7 @@ export default defineComponent({
       },
     )
 
-    const optionInfos = ref<CascaderOptionInfo[]>([])
+    const optionInfos: Ref<CascaderOptionInfo[]> = ref<CascaderOptionInfo[]>([])
     const totalLevel = ref(1)
 
     const optionMap = reactive(new Map<string, CascaderOptionInfo>())
@@ -152,7 +159,7 @@ export default defineComponent({
       )
     })
 
-    const filteredLeafOptions = computed(() =>
+    const filteredLeafOptions = computed<CascaderOptionInfo[]>(() =>
       props.checkStrictly ? Array.from(optionMap.values()) : Array.from(leafOptionSet),
     )
 

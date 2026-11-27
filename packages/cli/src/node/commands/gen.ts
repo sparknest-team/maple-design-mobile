@@ -1,3 +1,4 @@
+import { glob } from 'node:fs/promises'
 import { resolve } from 'path'
 import { confirm, input, select } from '@inquirer/prompts'
 import fse from 'fs-extra'
@@ -110,6 +111,14 @@ export async function gen(options: GenCommandOptions) {
   await copy(configBase, dest)
   await copy(code, dest)
   await rename(resolve(dest, '_gitignore'), resolve(dest, '.gitignore'))
+  // Use the generated package's public entry in code copied from its documentation.
+  for await (const file of glob('src/*/example/**/*.vue', { cwd: dest })) {
+    const path = resolve(dest, file)
+    const source = readFileSync(path, 'utf8')
+    if (source.includes('__LIBRARY_NAME__/')) {
+      writeFileSync(path, source.replaceAll('__LIBRARY_NAME__/', name + '/'))
+    }
+  }
   syncVersion(name)
 
   logger.success('✨ Application generated successfully!')

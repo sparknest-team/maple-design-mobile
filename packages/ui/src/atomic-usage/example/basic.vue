@@ -1,9 +1,3 @@
-<script setup>
-import { onThemeChange } from '@maple-design/cli-vue/client'
-
-onThemeChange()
-</script>
-
 <template>
   <div class="demo mp-px-16 mp-py-16">
     <div class="mp-text-3 mp-mb-8">Flex · 间距 · 省略</div>

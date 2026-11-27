@@ -73,7 +73,6 @@ import vRipple from '../ripple'
 import { createNamespace } from '../utils/components'
 import { positiveLength } from '../utils/size-length'
 import { ChoiceLabel } from './choice-label'
-import type { CheckboxModel } from './choice-value-props'
 import { checkboxGroupKey } from './context'
 import { checkboxProps } from './props'
 import type { CheckboxSlots } from './types'
@@ -90,8 +89,8 @@ defineSlots<CheckboxSlots>()
 const emit = defineEmits<{
   'update:open': [open: boolean]
   'open-change': [open: boolean]
-  'update:modelValue': [value: CheckboxModel]
-  change: [value: CheckboxModel, event?: Event]
+  'update:modelValue': [value: boolean | (string | number | boolean)[] | null]
+  change: [value: boolean | (string | number | boolean)[] | null, event?: Event]
   click: [event: MouseEvent]
   focus: [event: FocusEvent]
   blur: [event: FocusEvent]

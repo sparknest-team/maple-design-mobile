@@ -1,9 +1,5 @@
 <script setup>
-import { onThemeChange } from '@maple-design/cli-vue/client'
-
 const elevations = Array.from({ length: 25 }).map((_, index) => index)
-
-onThemeChange()
 </script>
 
 <template>

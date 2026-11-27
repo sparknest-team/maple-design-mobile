@@ -28,8 +28,7 @@ onThemeChange()
   </section>
 
   <section data-demo="basic">
-    <app-type>{{ english ? '24-column layout' : '24 栏基础布局' }}</app-type
-    ><Demo0 />
+    <app-type>{{ english ? '24-column layout' : '24 栏基础布局' }}</app-type><Demo0 />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="layout-and-arrangement">
@@ -38,23 +37,19 @@ onThemeChange()
   </h2>
 
   <section data-demo="gutter">
-    <app-type>{{ english ? 'Two-axis and responsive gutters' : '双向间距与响应式间距' }}</app-type
-    ><Demo1 />
+    <app-type>{{ english ? 'Two-axis and responsive gutters' : '双向间距与响应式间距' }}</app-type><Demo1 />
   </section>
 
   <section data-demo="alignment">
-    <app-type>{{ english ? 'Horizontal and vertical alignment' : '水平与垂直对齐' }}</app-type
-    ><Demo2 />
+    <app-type>{{ english ? 'Horizontal and vertical alignment' : '水平与垂直对齐' }}</app-type><Demo2 />
   </section>
 
   <section data-demo="wrap">
-    <app-type>{{ english ? 'Wrapping and plain container mode' : '换行与普通容器模式' }}</app-type
-    ><Demo3 />
+    <app-type>{{ english ? 'Wrapping and plain container mode' : '换行与普通容器模式' }}</app-type><Demo3 />
   </section>
 
   <section data-demo="nested">
-    <app-type>{{ english ? 'Nested rows and isolated gutters' : '嵌套与间距隔离' }}</app-type
-    ><Demo4 />
+    <app-type>{{ english ? 'Nested rows and isolated gutters' : '嵌套与间距隔离' }}</app-type><Demo4 />
   </section>
 
   <section data-demo="layout-lab">

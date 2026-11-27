@@ -11,8 +11,6 @@ export default defineConfig({
   themeKey: 'MAPLE_V3_THEME',
   defaultLightTheme: 'lightTheme',
   defaultDarkTheme: 'darkTheme',
-  useMobile: false,
-  _cf: ['pages.dev', 'maplejs.org'],
   analysis: { baidu: '' },
   pc: {
     title: {
@@ -387,9 +385,6 @@ export default defineConfig({
   icons: {
     entry: 'packages/icons/svg',
     output: 'packages/icons/src',
-  },
-  esbuild: {
-    target: 'es2016',
   },
   directives: [],
 })

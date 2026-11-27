@@ -1,5 +1,4 @@
 import type { VNodeChild } from 'vue'
-import type { ChoiceValue } from './choice-value-props'
 
 export interface ChoiceFieldNames {
   label?: string
@@ -10,7 +9,7 @@ export interface ChoiceFieldNames {
 }
 
 export interface ChoiceOption {
-  value: ChoiceValue
+  value: string | number | boolean
   label?: VNodeChild | ((option: ChoiceOption, checked: boolean) => VNodeChild)
   disabled?: boolean
   readonly?: boolean
@@ -21,9 +20,9 @@ export interface CheckboxOption extends ChoiceOption {
   indeterminate?: boolean
 }
 
-export type ChoiceOptionInput = ChoiceValue | ChoiceOption | Record<string, unknown>
+export type ChoiceOptionInput = string | number | boolean | ChoiceOption | Record<string, unknown>
 
-function isValue(value: unknown): value is ChoiceValue {
+function isValue(value: unknown): value is string | number | boolean {
   return (
     typeof value === 'string' || typeof value === 'boolean' || (typeof value === 'number' && Number.isFinite(value))
   )
@@ -34,7 +33,7 @@ export function normalizeChoiceOptions(
   options: readonly ChoiceOptionInput[] | undefined,
   fields: ChoiceFieldNames = {},
 ): CheckboxOption[] {
-  const seen = new Set<ChoiceValue>()
+  const seen = new Set<string | number | boolean>()
   const result: CheckboxOption[] = []
   for (const input of options ?? []) {
     const record = typeof input === 'object' && input !== null ? input : undefined

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const require = createRequire(resolve(root, 'packages/ui/package.json'))
-const ts = require('typescript')
+const ts = require('typescript-js')
 
 test('generated style variables support optional and custom values in strict declarations', () => {
   const temp = mkdtempSync(join(tmpdir(), 'maple-style-vars-'))

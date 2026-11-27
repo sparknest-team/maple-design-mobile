@@ -2,8 +2,7 @@ import { defineConfig } from '@maple-design/cli-vue'
 
 export default defineConfig({
   namespace: 'va',
-  logo: './logo.svg',
-  useMobile: true,
+  logo: './maple_icon.png',
   pc: {
     header: {
       darkMode: null,

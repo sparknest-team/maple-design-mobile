@@ -18,8 +18,8 @@
       :readonly="controller.mergedReadonly"
       :hint="false"
       :variant="editor ? 'outline' : undefined"
-      :aria-label="texts.search.value"
-      :aria-controls="optionsId"
+      :ariaLabel="texts.search.value"
+      :input-attrs="{ 'aria-controls': optionsId }"
       :placeholder="texts.search.value"
       clearable
       @update:model-value="controller.handleInputValueChange"

@@ -44,8 +44,7 @@ onThemeChange()
   </section>
 
   <section data-demo="control-sizes">
-    <app-type>{{ english ? 'Form control size comparison' : '表单控件尺寸对照' }}</app-type
-    ><ControlSizes />
+    <app-type>{{ english ? 'Form control size comparison' : '表单控件尺寸对照' }}</app-type><ControlSizes />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="selection-modes-and-paths">

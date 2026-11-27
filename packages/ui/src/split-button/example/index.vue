@@ -2,14 +2,21 @@
 import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
 import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import AsyncActionDemo from './async-action.vue'
+import AsyncActionDemoEn from './en-US/async-action.vue'
 import BasicUsageDemo from './basic.vue'
+import BasicUsageDemoEn from './en-US/basic.vue'
 import ControlledDemo from './controlled.vue'
+import ControlledDemoEn from './en-US/controlled.vue'
 import CustomIconDemo from './custom-icon.vue'
+import CustomIconDemoEn from './en-US/custom-icon.vue'
 import OrganizedAppearanceLab from './demos/appearance-lab.vue'
 import OrganizedAppearanceLabEn from './demos/en-US/appearance-lab.vue'
 import DisabledDemo from './disabled.vue'
+import DisabledDemoEn from './en-US/disabled.vue'
 import PopupDemo from './popup.vue'
+import PopupDemoEn from './en-US/popup.vue'
 import VariantsDemo from './variants.vue'
+import VariantsDemoEn from './en-US/variants.vue'
 
 onThemeChange()
 </script>
@@ -22,7 +29,7 @@ onThemeChange()
 
   <section data-demo="basic-usage">
     <app-type>{{ english ? 'Basic usage' : '基础用法' }}</app-type>
-    <BasicUsageDemo />
+    <component :is="english ? BasicUsageDemoEn : BasicUsageDemo" />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="appearance-and-states">
@@ -32,12 +39,12 @@ onThemeChange()
 
   <section data-demo="variants">
     <app-type>{{ english ? 'Variants' : '视觉变体' }}</app-type>
-    <VariantsDemo />
+    <component :is="english ? VariantsDemoEn : VariantsDemo" />
   </section>
 
   <section data-demo="disabled">
     <app-type>{{ english ? 'Disabled states' : '禁用状态' }}</app-type>
-    <DisabledDemo />
+    <component :is="english ? DisabledDemoEn : DisabledDemo" />
   </section>
 
   <section data-demo="appearance-lab">
@@ -54,7 +61,7 @@ onThemeChange()
 
   <section data-demo="popup">
     <app-type>{{ english ? 'Popup and repeated selection' : '浮层与连续选择' }}</app-type>
-    <PopupDemo />
+    <component :is="english ? PopupDemoEn : PopupDemo" />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="customization-and-slots">
@@ -64,7 +71,7 @@ onThemeChange()
 
   <section data-demo="custom-icon">
     <app-type>{{ english ? 'Custom icon' : '自定义图标' }}</app-type>
-    <CustomIconDemo />
+    <component :is="english ? CustomIconDemoEn : CustomIconDemo" />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="interaction-and-control">
@@ -74,7 +81,7 @@ onThemeChange()
 
   <section data-demo="controlled">
     <app-type>{{ english ? 'Controlled menu' : '受控展开' }}</app-type>
-    <ControlledDemo />
+    <component :is="english ? ControlledDemoEn : ControlledDemo" />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="async-and-dynamic-data">
@@ -84,6 +91,6 @@ onThemeChange()
 
   <section data-demo="async-action">
     <app-type>{{ english ? 'Async action' : '异步操作' }}</app-type>
-    <AsyncActionDemo />
+    <component :is="english ? AsyncActionDemoEn : AsyncActionDemo" />
   </section>
 </template>

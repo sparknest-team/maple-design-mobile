@@ -1,8 +1,5 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { onThemeChange } from '@maple-design/cli-vue/client'
-
-onThemeChange()
 
 const width = ref(typeof window !== 'undefined' ? window.innerWidth : 0)
 const onResize = () => {

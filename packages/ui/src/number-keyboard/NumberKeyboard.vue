@@ -148,11 +148,13 @@ export default defineComponent({
     const titleId = `number-keyboard-title-${useId()}`
     const deleteLabel = computed(() => translate('numberKeyboard.delete') ?? 'Delete')
     const closeLabel = computed(() => translate('numberKeyboard.done') ?? 'Done')
+    const explicitLabel = () => (typeof attrs['aria-label'] === 'string' ? attrs['aria-label'] : undefined)
+    const explicitLabelledby = () =>
+      typeof attrs['aria-labelledby'] === 'string' ? attrs['aria-labelledby'] : undefined
     const dialogLabel = () =>
-      attrs['aria-label'] ??
-      (!attrs['aria-labelledby'] && !props.title ? (translate('numberKeyboard.label') ?? 'Number keyboard') : undefined)
-    const dialogLabelledby = () =>
-      attrs['aria-labelledby'] ?? (!attrs['aria-label'] && props.title ? titleId : undefined)
+      explicitLabel() ??
+      (!explicitLabelledby() && !props.title ? (translate('numberKeyboard.label') ?? 'Number keyboard') : undefined)
+    const dialogLabelledby = () => explicitLabelledby() ?? (!explicitLabel() && props.title ? titleId : undefined)
     const contentAttrs = () =>
       Object.fromEntries(Object.entries(attrs).filter(([key]) => key !== 'aria-label' && key !== 'aria-labelledby'))
     const open = useVModel(props, 'open', { emit, eventName: 'update:open', defaultValue: props.defaultOpen })

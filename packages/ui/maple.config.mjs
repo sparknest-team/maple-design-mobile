@@ -1,27 +1,11 @@
 import { readFileSync } from 'node:fs'
-import { defineConfig } from '@maple-design/cli-vue'
+import { defineConfig } from '@maple-design/cli-vue/config'
 
-const componentReuse = JSON.parse(readFileSync(new URL('./component-reuse.json', import.meta.url), 'utf8'))
 const { version: packageVersion } = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'))
-const markReuse = (item) => {
-  const reuse = componentReuse[item.doc]
-  if (!reuse || item.type !== 2) {
-    return item
-  }
-  return {
-    ...item,
-    text: {
-      ...item.text,
-      'zh-CN': `${item.text['zh-CN']} [${reuse.label}]`,
-      'en-US': `${item.text['en-US']} [${reuse.en}]`,
-    },
-  }
-}
 
 export default defineConfig({
   defaultLightTheme: 'lightTheme',
   defaultDarkTheme: 'darkTheme',
-  useMobile: true,
   analysis: {
     baidu: 'https://hm.baidu.com/hm.js?5c628ce58967c90ff4dd9c8803d930fa',
   },
@@ -74,15 +58,6 @@ export default defineConfig({
           'atomic-css',
           'atomic-usage',
           'utilitySpec',
-        ],
-      },
-
-      { id: 'components', text: { 'zh-CN': '组件', 'en-US': 'Components' }, entry: 'button' },
-      {
-        id: 'showcase',
-        text: { 'zh-CN': '特色与场景', 'en-US': 'Features and scenarios' },
-        entry: 'showcase',
-        docs: [
           'showcase',
           'showcaseStrengths',
           'showcasePractices',
@@ -102,6 +77,8 @@ export default defineConfig({
           'showcaseTouch',
         ],
       },
+
+      { id: 'components', text: { 'zh-CN': '组件', 'en-US': 'Components' }, entry: 'button' },
       {
         id: 'ai',
         text: { 'zh-CN': 'AI 与工具', 'en-US': 'AI and tools' },
@@ -331,8 +308,8 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': '更新与迁移',
-          'en-US': 'Updates and migration',
+          'zh-CN': '变更记录',
+          'en-US': 'Changelog',
         },
         doc: 'updates',
         type: 3,
@@ -1396,7 +1373,7 @@ export default defineConfig({
         doc: 'lazy',
         type: 2,
       },
-    ].map(markReuse),
+    ],
   },
   mobile: {
     docs: [

@@ -40,13 +40,15 @@ onThemeChange()
   </h2>
 
   <section data-demo="bounded-scroll">
-    <app-type>{{ english ? 'Bounded scrolling' : '容器滚动' }}</app-type
-    ><BoundedEnDemo v-if="english" /><BoundedDemo v-else />
+    <app-type>{{ english ? 'Bounded scrolling' : '容器滚动' }}</app-type><BoundedEnDemo v-if="english" /><BoundedDemo
+      v-else
+    />
   </section>
 
   <section data-demo="virtual-navigation">
-    <app-type>{{ english ? 'Virtual navigation' : '虚拟定位' }}</app-type
-    ><VirtualEnDemo v-if="english" /><VirtualDemo v-else />
+    <app-type>{{ english ? 'Virtual navigation' : '虚拟定位' }}</app-type><VirtualEnDemo v-if="english" /><VirtualDemo
+      v-else
+    />
   </section>
 
   <section data-demo="manual-usage">

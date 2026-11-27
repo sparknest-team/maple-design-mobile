@@ -1,7 +1,4 @@
 <script setup>
-import { onThemeChange } from '@maple-design/cli-vue/client'
-
-onThemeChange()
 const status = ['primary', 'success', 'warning', 'danger', 'info']
 const levels = [1, 2, 3, 4]
 </script>

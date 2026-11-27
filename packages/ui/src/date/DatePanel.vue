@@ -68,7 +68,7 @@ import { resolveEmptyValue } from '../utils/empty-value'
 import { currentDateValue, provideDateCurrent } from './date-current'
 import { provideDateLocale, scopeDateOptions } from './date-locale'
 import { isDateEndpointSelectionValid } from './date-rules'
-import { dateEventPayload, outputDateValue, parseDateValue, type DateSelection } from './date-value'
+import { dateEventPayload, outputDateValue, parseDateValue } from './date-value'
 import DatePanelActions from './DatePanelActions.vue'
 import DateShortcuts from './DateShortcuts.vue'
 import type { DatePanelOptions } from './panel-state'
@@ -122,7 +122,7 @@ const activeIndex = computed(() => {
 })
 provideDateCurrent(() => options.value.showCurrent !== false)
 const isRange = computed(() => props.range || Boolean(options.value.range))
-const model = useFieldValue<DateSelection>({
+const model = useFieldValue<Date | string | number | (Date | string | number | null | undefined)[] | null | undefined>({
   value: () => options.value.modelValue,
   defaultValue: () => options.value.defaultValue ?? (isRange.value || options.value.multiple ? [] : undefined),
 })
@@ -134,7 +134,10 @@ const blocked = computed(() =>
 )
 const selection = useDateSelection({
   emptyValue: () =>
-    resolveEmptyValue<DateSelection>(options.value, props.range || options.value.multiple ? [] : undefined),
+    resolveEmptyValue<Date | string | number | (Date | string | number | null | undefined)[] | null | undefined>(
+      options.value,
+      props.range || options.value.multiple ? [] : undefined,
+    ),
   value: () => model.value.value,
   rules: () => options.value,
   range: () => isRange.value,
@@ -213,7 +216,7 @@ const tools = useDatePanelTools({
     emit('picker-value-change', value, payload.dates, payload.texts)
   },
 })
-function select(value: DateSelection) {
+function select(value: Date | string | number | (Date | string | number | null | undefined)[] | null | undefined) {
   tools.endPreview()
   if (reversed(value) && selection.editable(value)) {
     quick.pending.value = true
@@ -230,7 +233,7 @@ const quick = useRangeQuickSelection(
   (shortcut) => emit('select-shortcut', shortcut),
 )
 const showNow = computed(() => !options.value.multiple && options.value.showNowButton !== false)
-function nowCandidate(): DateSelection {
+function nowCandidate(): Date | string | number | (Date | string | number | null | undefined)[] | null | undefined {
   const now = currentDateValue({ ...options.value, format: undefined })
   if (!isRange.value) {
     return now
@@ -286,7 +289,7 @@ function confirm() {
   }
   return committed
 }
-function reversed(value: DateSelection) {
+function reversed(value: Date | string | number | (Date | string | number | null | undefined)[] | null | undefined) {
   if (!isRange.value || !Array.isArray(value) || value.length !== 2) {
     return false
   }

@@ -1,14 +1,13 @@
 import { onActivated, onDeactivated, onScopeDispose } from 'vue'
 import { bulkChoices } from './choice-state'
-import type { ChoiceValue } from './choice-value-props'
 
 export interface CheckboxGroupMethods {
-  checkAll(): ChoiceValue[]
-  inverseAll(): ChoiceValue[]
+  checkAll(): (string | number | boolean)[]
+  inverseAll(): (string | number | boolean)[]
 }
 
 export interface ChoiceRegistration {
-  value(): ChoiceValue
+  value(): string | number | boolean
   disabled(): boolean
   readonly(): boolean
   element(): HTMLElement | null | undefined
@@ -17,8 +16,8 @@ export type RegisterChoice = (item: ChoiceRegistration) => () => void
 
 /** Each group owns its registry. DOM order is read at invocation, never cached. */
 export function useCheckboxGroupMethods(
-  value: () => ChoiceValue[],
-  commit: (next: ChoiceValue[]) => unknown,
+  value: () => (string | number | boolean)[],
+  commit: (next: (string | number | boolean)[]) => unknown,
   blocked: () => boolean,
   max: () => number | undefined,
 ) {
@@ -37,7 +36,7 @@ export function useCheckboxGroupMethods(
     items.clear()
   })
 
-  function bulk(inverse: boolean): ChoiceValue[] {
+  function bulk(inverse: boolean): (string | number | boolean)[] {
     if (disposed || blocked()) {
       return [...value()]
     }

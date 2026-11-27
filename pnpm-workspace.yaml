@@ -3,36 +3,50 @@ packages:
   - 'tests/vue-compat/*'
 
 catalog:
-  typescript: 5.9.3
-  vue: 3.5.45
-  vue-router: 4.5.0
+  typescript: 7.1.0-beta
+  tsdown: 0.23.7
+  vue: 3.5.46
+  vue-router: 5.5.1
   vite: 8.3.8
-  vitest: 5.1.1
-  tsup: 7.2.0
-  jsdom: 24.1.1
-  fs-extra: ^9.0.1
-  live-server: ^1.2.1
-  rimraf: ^5.0.1
-  tinyexec: ^0.3.0
-  '@types/node': ^22.12.0
-  '@vitest/coverage-istanbul': 5.1.1
-  '@vue/runtime-core': 3.5.45
-  '@vue/server-renderer': 3.5.45
-  '@vue/compiler-sfc': 3.5.45
+  vitest: 5.1.2
+  tsup: 9.0.0
+  jsdom: 31.0.1
+  fs-extra: ^11.4.1
+  live-server: ^1.2.2
+  rimraf: ^6.1.4
+  tinyexec: ^1.4.0
+  '@types/node': ^26.6.11
+  '@vitest/coverage-istanbul': 5.1.2
+  '@vue/runtime-core': 3.5.46
+  '@vue/server-renderer': 3.5.46
+  '@vue/compiler-sfc': 3.5.46
   '@vitejs/plugin-vue': 6.0.11
   '@vitejs/plugin-vue-jsx': 5.1.6
-  '@vue/babel-plugin-jsx': 1.2.5
-  '@vue/test-utils': 2.4.6
+  '@vue/babel-plugin-jsx': 3.0.0
+  '@vue/test-utils': 2.6.0
+
+# Vue's SFC resolver and these lint plugins consume the classic JS compiler API.
+packageExtensions:
+  '@vue/compiler-sfc@3.5.46':
+    dependencies:
+      typescript: 6.0.3
+  'vuepress-theme-hope@2.0.0-rc.111':
+    dependencies:
+      typescript: 6.0.3
 
 overrides:
+  # Use the tested release candidates until their versions are available from npm.
+  '@sparknest/ui-build-vue': file:vendor/sparknest/ui-build-vue-candidate.2.tgz
+  '@sparknest/ui-doc-preview-vue': file:vendor/sparknest/ui-doc-preview-vue-candidate.tgz
+  '@sparknest/vuepress-plugins-vue': file:vendor/sparknest/vuepress-plugins-vue-candidate.2.tgz
+  '@sparknest/ui-icons-vue': file:vendor/sparknest/ui-icons-vue-candidate.tgz
   array-includes: npm:@nolyfill/array-includes@latest
   array.prototype.flat: npm:@nolyfill/array.prototype.flat@latest
   array.prototype.flatmap: npm:@nolyfill/array.prototype.flatmap@latest
   object.assign: npm:@nolyfill/object.assign@latest
   object.entries: npm:@nolyfill/object.entries@latest
   object.values: npm:@nolyfill/object.values@latest
-  tinyexec: npm:tinyexec@^0.3.0
-  '@sparknest/ui-build-vue': link:../design-ui/packages/ui-build
-  '@sparknest/ui-doc-preview-vue': link:../design-ui/packages/ui-doc-preview
-  '@sparknest/ui-icons-vue': link:../design-ui/packages/ui-icons
-  '@sparknest/theme-contract-vue': link:../design-ui/packages/theme-contract
+
+patchedDependencies:
+  vue@3.5.46: patches/vue-compiler-sfc-register-typescript.patch
+  '@vuepress/bundler-vite@2.0.0-rc.32': patches/vuepress-bundler-vite-main-entry.patch

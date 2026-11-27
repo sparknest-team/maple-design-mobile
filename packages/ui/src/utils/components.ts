@@ -26,7 +26,7 @@ import {
   normalizeToArray,
 } from '@maple-design/shared-vue'
 import { useEventListener } from '@maple-design/use-vue'
-import type { SafeParseReturnType, ZodType } from 'zod'
+import type { ZodSafeParseResult, ZodType } from 'zod'
 import { createRequestGuard } from './async-request'
 
 export type NamespaceClass = string | null | undefined
@@ -209,7 +209,7 @@ export function isZodRule(rule: unknown): rule is ZodType {
   return isPlainObject(rule) && isFunction(rule.safeParseAsync)
 }
 
-export function isZodResult(result: unknown): result is SafeParseReturnType<any, any> {
+export function isZodResult(result: unknown): result is ZodSafeParseResult<any> {
   return isPlainObject(result) && hasOwn(result, 'success')
 }
 

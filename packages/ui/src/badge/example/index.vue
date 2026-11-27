@@ -21,8 +21,7 @@ onThemeChange()
   </h2>
 
   <section data-demo="basic">
-    <app-type>{{ english ? 'Basic usage' : '基础用法' }}</app-type
-    ><DemoBasic />
+    <app-type>{{ english ? 'Basic usage' : '基础用法' }}</app-type><DemoBasic />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="appearance-and-states">
@@ -31,8 +30,7 @@ onThemeChange()
   </h2>
 
   <section data-demo="color">
-    <app-type>{{ english ? 'Statuses and colors' : '状态和颜色' }}</app-type
-    ><DemoColor />
+    <app-type>{{ english ? 'Statuses and colors' : '状态和颜色' }}</app-type><DemoColor />
   </section>
 
   <section data-demo="appearance-lab">
@@ -48,8 +46,7 @@ onThemeChange()
   </h2>
 
   <section data-demo="position">
-    <app-type>{{ english ? 'Positions and offsets' : '位置与偏移' }}</app-type
-    ><DemoPosition />
+    <app-type>{{ english ? 'Positions and offsets' : '位置与偏移' }}</app-type><DemoPosition />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="content-and-presentation">
@@ -58,23 +55,19 @@ onThemeChange()
   </h2>
 
   <section data-demo="inline">
-    <app-type>{{ english ? 'Inline and standalone' : '内联与独立展示' }}</app-type
-    ><DemoInline />
+    <app-type>{{ english ? 'Inline and standalone' : '内联与独立展示' }}</app-type><DemoInline />
   </section>
 
   <section data-demo="dot">
-    <app-type>{{ english ? 'Dot badges' : '小圆点' }}</app-type
-    ><DemoDot />
+    <app-type>{{ english ? 'Dot badges' : '小圆点' }}</app-type><DemoDot />
   </section>
 
   <section data-demo="max">
-    <app-type>{{ english ? 'Maximum and zero' : '最大值与零值' }}</app-type
-    ><DemoMax />
+    <app-type>{{ english ? 'Maximum and zero' : '最大值与零值' }}</app-type><DemoMax />
   </section>
 
   <section data-demo="show">
-    <app-type>{{ english ? 'Show and hide' : '显示与隐藏' }}</app-type
-    ><DemoShow />
+    <app-type>{{ english ? 'Show and hide' : '显示与隐藏' }}</app-type><DemoShow />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="customization-and-slots">
@@ -83,7 +76,6 @@ onThemeChange()
   </h2>
 
   <section data-demo="content">
-    <app-type>{{ english ? 'Custom content' : '自定义内容' }}</app-type
-    ><DemoContent />
+    <app-type>{{ english ? 'Custom content' : '自定义内容' }}</app-type><DemoContent />
   </section>
 </template>

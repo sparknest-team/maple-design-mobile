@@ -1,5 +1,5 @@
 <script setup>
-import VaButton from '../..'
+import VaButton from '__LIBRARY_NAME__/button'
 </script>
 
 <template>

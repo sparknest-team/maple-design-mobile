@@ -1,5 +1,5 @@
 import { shallowRef, watch } from 'vue'
-import type { Theme } from './index'
+import type { Theme } from './theme.js'
 
 // The mounted app owns its theme; demos must not reapply another storage scope.
 export const currentTheme = shallowRef<Theme>()

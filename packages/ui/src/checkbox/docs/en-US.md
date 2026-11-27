@@ -85,7 +85,7 @@ Methods are `toggle(checked?: boolean)`, `focus(options?)` and `blur()`. Disable
 Both libraries accept primitive options or objects. `field-names` maps `label/value/disabled/readonly/indeterminate`; read-only options remain focusable but cannot change the value. Checkbox indeterminate is presentation only.
 The `label` slot receives `{ data, checked }` and takes precedence over a label render function `(data, checked) => VNodeChild`. Data is normalized and retains business fields; source objects are not mutated. Missing labels fall back to the value's text.
 Providing `options` replaces the default slot, including `[]`; omit it to use the default slot. Values must be strings, finite numbers or booleans; missing/invalid values and duplicate values of the same type are skipped (first occurrence wins). `false`, `0`, `''` and `'0'` remain distinct. Option changes never rewrite the model.
-CheckboxGroup uses `ChoiceValue[]`; `max` is a number (use `:max="2"`).
+CheckboxGroup uses `(string | number | boolean)[]`; `max` is a number (use `:max="2"`).
 
 ```demo
 ../example/demos/en-US/option-data.vue
@@ -273,14 +273,14 @@ During an explicit options request both group roots announce aria-busy and emit 
 
 These props belong to field presentation; pure panels do not gain reading mode. Form and FormItem provide inherited settings. The existing empty-value type and clear fallback remain component-specific.
 
-`ChoiceValue = string | number | boolean`；`CheckboxModel = boolean | ChoiceValue[] | null`；`RadioModel = ChoiceValue | null`。
+`string | number | boolean = string | number | boolean`；`boolean | (string | number | boolean)[] | null = boolean | (string | number | boolean)[] | null`；`string | number | boolean | null = string | number | boolean | null`。
 
 ### Checkbox Props
 
 | Prop | Description | Type | Default |
 | ---------------------- | ---------------------------------- | ------------------------ | --------- |
-| model-value (v-model) | Controlled value | CheckboxModel | undefined |
-| default-value | Initial uncontrolled value | CheckboxModel | false |
+| model-value (v-model) | Controlled value | boolean \| (string \| number \| boolean)[] \| null | undefined |
+| default-value | Initial uncontrolled value | boolean \| (string \| number \| boolean)[] \| null | false |
 | value | Option identifier in array/group mode | string\|number\|boolean | true |
 | disabled | Disabled state; inherits from the form/group when omitted | boolean | undefined |
 | readonly | Readonly state; inherits from the form/group when omitted | boolean | undefined |
@@ -296,7 +296,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | edit-mode | Editing mode, inherited from FormItem and Form | `'direct' \| 'popup'` | `'direct'` |
 | read-pretty | Independent read presentation; explicit false overrides the parent | `boolean` | `false` |
 | clearable | Deferred editor clearing; does not change native deselection | `boolean` | `false` |
-| empty-value | Explicit presentation clear output; does not control native unchecking | `CheckboxModel \| (() => CheckboxModel)` | `false` |
+| empty-value | Explicit presentation clear output; does not control native unchecking | `boolean \| (string \| number \| boolean)[] \| null \| (() => boolean \| (string \| number \| boolean)[] \| null)` | `false` |
 | empty-values | Empty-value recognition; field takes precedence over FormItem and Form | `readonly unknown[]` | `-` |
 | empty-text | Read empty text; an explicit empty string is valid | `string` | `'-'` |
 | before-commit | Guard before saving a deferred edit; return a boolean or Promise, or complete via done | `(payload: { value: unknown; previousValue: unknown }, done: (allow?: boolean) => void, context: { signal: AbortSignal; event?: Event }) => void \| boolean \| Promise<void \| boolean>` | `-` |
@@ -308,10 +308,10 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 | Prop | Description | Type | Default |
 | --------------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ------------ |
-| model-value (v-model) | Controlled value | ChoiceValue[] \| null | undefined |
-| default-value | Initial uncontrolled value | ChoiceValue[] | [] |
+| model-value (v-model) | Controlled value | (string \| number \| boolean)[] \| null | undefined |
+| default-value | Initial uncontrolled value | (string \| number \| boolean)[] | [] |
 | max | Maximum selection count | number | undefined |
-| options | Options; replaces default slot when supplied | Array<ChoiceValue \| CheckboxOption \| Record<string, unknown>> / `(query, { signal }) => Array / Promise` | `undefined` |
+| options | Options; replaces default slot when supplied | Array<string \| number \| boolean \| CheckboxOption \| Record<string, unknown>> / `(query, { signal }) => Array / Promise` | `undefined` |
 | orientation | Horizontal/vertical arrangement of checkbox-group options, default horizontal; not text reading direction | Orientation<br>`'horizontal' \| 'vertical'` | 'horizontal' |
 | disabled | Disabled state; inherits from the form/group when omitted | boolean | undefined |
 | readonly | Readonly state; inherits from the form/group when omitted | boolean | undefined |
@@ -322,7 +322,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | edit-mode | Editing mode, inherited from FormItem and Form | `'direct' \| 'popup'` | `'direct'` |
 | read-pretty | Independent read presentation; explicit false overrides the parent | `boolean` | `false` |
 | clearable | Deferred editor clearing; does not change native deselection | `boolean` | `false` |
-| empty-value | Explicit presentation clear output; does not control native unchecking | `ChoiceValue[] \| null \| (() => ChoiceValue[] \| null)` | `[]` |
+| empty-value | Explicit presentation clear output; does not control native unchecking | `(string \| number \| boolean)[] \| null \| (() => (string \| number \| boolean)[] \| null)` | `[]` |
 | empty-values | Empty-value recognition; field takes precedence over FormItem and Form | `readonly unknown[]` | `-` |
 | empty-text | Read empty text; an explicit empty string is valid | `string` | `'-'` |
 | before-commit | Guard before saving a deferred edit; return a boolean or Promise, or complete via done | `(payload: { value: unknown; previousValue: unknown }, done: (allow?: boolean) => void, context: { signal: AbortSignal; event?: Event }) => void \| boolean \| Promise<void \| boolean>` | `-` |
@@ -342,15 +342,15 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 | Method | Arguments | Returns |
 | ---------- | ---- | ------------- |
-| checkAll | - | ChoiceValue[] |
-| inverseAll | - | ChoiceValue[] |
+| checkAll | - | (string \| number \| boolean)[] |
+| inverseAll | - | (string \| number \| boolean)[] |
 
 ### Checkbox Events
 
 | Event | Description | Arguments |
 | ------------------ | ---------------- | ----------------------------------- |
-| update:modelValue | Proposes a new value | value: CheckboxModel |
-| change | Value change | value: CheckboxModel, event?: Event |
+| update:modelValue | Proposes a new value | value: boolean \| (string \| number \| boolean)[] \| null |
+| change | Value change | value: boolean \| (string \| number \| boolean)[] \| null, event?: Event |
 | click | Click; not emitted while disabled | event: MouseEvent |
 | focus | Focus | event: FocusEvent |
 | blur | Blur | event: FocusEvent |
@@ -361,8 +361,8 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 | Event | Description | Arguments |
 | ------------------ | --------------------------- | -------------------------------------------------- |
-| update:modelValue | Proposes a new value | value: ChoiceValue[] \| null |
-| change | Value change proposal | value: ChoiceValue[] \| null, event?: Event |
+| update:modelValue | Proposes a new value | value: (string \| number \| boolean)[] \| null |
+| change | Value change proposal | value: (string \| number \| boolean)[] \| null, event?: Event |
 | update:open | Controlled editor visibility update | open: boolean |
 | open-change | Actual editor visibility change | open: boolean |
 | load-error | Explicit option loading failed; does not change the model | error: unknown |
@@ -376,7 +376,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | unchecked-icon | Unchecked icon | - |
 | indeterminate-icon | Half icon | - |
 | default | Label | checked: boolean |
-| read | Custom read content, taking precedence over empty-text | value: CheckboxModel, text: string |
+| read | Custom read content, taking precedence over empty-text | value: boolean \| (string \| number \| boolean)[] \| null, text: string |
 
 ### CheckboxGroup Slots
 
@@ -384,7 +384,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | -------- | ----------------- | -------------------------------------- |
 | checkbox | Custom checkbox | checked: boolean<br/>disabled: boolean<br/>indeterminate: boolean |
 | label | Checkbox label content | data: CheckboxOption, checked: boolean |
-| read | Custom read content, taking precedence over empty-text | value: ChoiceValue[] \| null, text: string |
+| read | Custom read content, taking precedence over empty-text | value: (string \| number \| boolean)[] \| null, text: string |
 | default | Native child options when options is omitted | - |
 
 ## Types
@@ -393,7 +393,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 | Field | Description | Type |
 | ------------- | -------------- | -------------------------------------------------------------------- |
-| value | Option identity | ChoiceValue |
+| value | Option identity | string \| number \| boolean |
 | label | Label or render function | VNodeChild \| (data: CheckboxOption, checked: boolean) => VNodeChild |
 | disabled | Disable interaction | boolean |
 | readonly | Read-only interaction | boolean |

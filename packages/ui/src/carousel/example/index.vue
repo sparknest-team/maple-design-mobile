@@ -57,8 +57,7 @@ onThemeChange()
   </section>
 
   <section data-demo="auto-sized">
-    <app-type>{{ english ? 'auto-sized' : 'auto-sized' }}</app-type
-    ><AutoSizedDemo />
+    <app-type>{{ english ? 'auto-sized' : 'auto-sized' }}</app-type><AutoSizedDemo />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="navigation-and-effects">
@@ -131,13 +130,11 @@ onThemeChange()
   </section>
 
   <section data-demo="controlled">
-    <app-type>{{ english ? 'controlled' : 'controlled' }}</app-type
-    ><ControlledDemo />
+    <app-type>{{ english ? 'controlled' : 'controlled' }}</app-type><ControlledDemo />
   </section>
 
   <section data-demo="interactive-content">
-    <app-type>{{ english ? 'interactive-content' : 'interactive-content' }}</app-type
-    ><InteractiveContentDemo />
+    <app-type>{{ english ? 'interactive-content' : 'interactive-content' }}</app-type><InteractiveContentDemo />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="lifecycle">

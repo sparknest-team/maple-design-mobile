@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "noCheck": true,
     "rootDir": "src",
     "outDir": "types-generated",
     "declaration": true,
@@ -8,6 +9,6 @@
     "noEmit": false,
     "noEmitOnError": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "include": ["shims/build-styles.d.ts", "src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
   "exclude": ["src/**/__tests__/**", "src/**/example/**", "src/**/__demos__/**"]
 }

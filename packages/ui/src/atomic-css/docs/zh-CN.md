@@ -112,7 +112,7 @@ export default {
 import { presetMaple } from '@maple-design/preset-tailwindcss-vue'
 
 export default {
-  presets: [presetMaple()],
+  presets: [presetMaple({ tailwindVersion: 4 })],
 }
 ```
 
@@ -121,6 +121,8 @@ export default {
 @import 'tailwindcss';
 @config '../tailwind.config.js';
 ```
+
+v4 的写法是 `mp:p-4`、`mp:bg-primary` 和 `mp:sm:p-4`。前缀由预设设置，CSS 入口按上例导入。Tailwind v4 不支持 v3 的 corePlugins 配置，默认的阴影工具类可以生成。
 
 ---
 

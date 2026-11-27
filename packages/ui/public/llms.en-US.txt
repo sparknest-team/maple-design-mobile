@@ -146,7 +146,7 @@ Documentation language: en-US.
 - [Tooltip](./llms/en-US/tooltip.md): /en-US/tooltip
 - [Trigger](./llms/en-US/trigger.md): /en-US/trigger
 - [Typography](./llms/en-US/typography.md): /en-US/typography
-- [Updates and migration](./llms/en-US/updates.md): /en-US/updates
+- [Changelog](./llms/en-US/updates.md): /en-US/updates
 - [Upload](./llms/en-US/upload.md): /en-US/upload
 - [Utilities Overview](./llms/en-US/utilities.md): /en-US/utilities
 - [Utility Spec](./llms/en-US/utilitySpec.md): /en-US/utilitySpec
