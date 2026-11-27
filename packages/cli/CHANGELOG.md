@@ -1,5 +1,14 @@
 # @maple-design/cli-vue
 
+## 1.4.10
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @maple-design/resolver-vue@1.4.10
+  - @maple-design/shared-vue@1.4.10
+  - @maple-design/vite-plugins-vue@1.4.10
+
 ## 1.4.9
 
 ### Patch Changes
