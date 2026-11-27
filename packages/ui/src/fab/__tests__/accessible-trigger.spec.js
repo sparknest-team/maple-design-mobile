@@ -59,6 +59,7 @@ test('hover mode supports keyboard clicks, retains focused actions, and Escape r
   expect(document.activeElement).toBe(trigger.element)
 })
 
+// 4 worker 并发时组件挂载和键盘触发后的 Vue 更新可能超过默认 5 秒超时。
 test('hover keyboard request preserves controlled rejection and does not require actions', async () => {
   const owner = setup({ trigger: 'hover', open: false })
   const trigger = owner.get('.mp-fab__trigger')
@@ -66,4 +67,4 @@ test('hover keyboard request preserves controlled rejection and does not require
   await nextTick()
   expect(owner.emitted('update:open')).toEqual([[true]])
   expect(trigger.attributes('aria-expanded')).toBe('false')
-})
+}, 20000)

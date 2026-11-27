@@ -143,6 +143,7 @@ async function settleActions(container, actions, expectedDisplay) {
   }
 }
 
+// 4 worker 并发时过渡帧可能滞后，默认 5 秒会截断 settleActions 的 10 秒等待窗口。
 test('fab trigger equals click', async () => {
   const container = document.createElement('div')
   const wrapper = mount(Fab, {
@@ -173,7 +174,7 @@ test('fab trigger equals click', async () => {
   expect(actions.style.display).toBe('none')
 
   wrapper.unmount()
-})
+}, 20000)
 
 test('fab trigger equals hover', async () => {
   const container = document.createElement('div')

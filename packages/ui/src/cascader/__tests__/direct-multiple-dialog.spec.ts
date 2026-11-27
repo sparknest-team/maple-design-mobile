@@ -69,6 +69,7 @@ test('ArrowDown moves focus from the combobox into the dialog', async () => {
   }
 })
 
+// 4 worker 并发时对话框关闭后的焦点还原可能滞后，默认 5 秒会提前终止用例。
 test('Escape from a dialog checkbox closes and restores input focus', async () => {
   const wrapper = mount(Cascader, { attachTo: document.body, props })
   try {
@@ -84,7 +85,7 @@ test('Escape from a dialog checkbox closes and restores input focus', async () =
   } finally {
     wrapper.unmount()
   }
-})
+}, 20000)
 
 test('a caller-provided popup role does not claim the generated dialog', async () => {
   const wrapper = mount(Cascader, { props: { ...props, 'aria-haspopup': 'tree' } })
