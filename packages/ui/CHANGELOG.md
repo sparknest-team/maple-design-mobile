@@ -1,5 +1,15 @@
 # @maple-design/ui-vue
 
+## 1.4.10
+
+### Patch Changes
+
+- [#63](https://github.com/sparknest-team/maple-design-mobile/pull/63) [`d8724ee`](https://github.com/sparknest-team/maple-design-mobile/commit/d8724ee77233f52a5a3a6f7b7a729b6db96c592f) Thanks [@sparknest-team](https://github.com/sparknest-team)! - 修复 jsdom 31 升级后失效的单元测试：移除往只读 `getComputedStyle()` 结果写 `transform` 的 `mockTranslate`（jsdom 31 按规范改为只读）、对齐 CSS 序列化断言、补齐用例间 DOM 隔离与焦点还原的宏任务同步，并把 VuePress 迁移后失效的路由测试改测真实的 `legacyRoute` 兼容实现。
+- Updated dependencies []:
+  - @maple-design/icons-vue@1.4.10
+  - @maple-design/shared-vue@1.4.10
+  - @maple-design/use-vue@1.4.10
+
 ## 1.4.9
 
 ### Patch Changes
