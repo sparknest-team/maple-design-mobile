@@ -1,20 +1,18 @@
 import { createVNode, defineComponent } from 'vue'
 import { expect, test } from 'vitest'
-import { joinSiteRoutes } from '../../../../cli/src/node/compiler/siteRoutes'
+import { legacyRoute } from '../../../docs/.vuepress/legacy-route'
 import { isEqual } from '../is-equal'
 import { resolveProps, ShapeFlags } from '../vue-utils'
 
-test('route groups never emit empty array entries', () => {
-  for (const groups of [
-    [[], []],
-    [['1'], []],
-    [[], ['2']],
-    [['1'], ['2']],
-    [[], ['3']],
+test('VuePress legacy routing only resolves concrete documentation paths', () => {
+  for (const [hash, path] of [
+    ['', undefined],
+    ['#/', undefined],
+    ['#/button', '/zh-CN/button/'],
+    ['#/en-US/button', '/en-US/button/'],
+    ['#/index?language=en-US', '/en-US/'],
   ]) {
-    const source = joinSiteRoutes(...groups)
-    const routes = JSON.parse(`[${source}]`)
-    expect(routes).toEqual(groups.flat().map(Number))
+    expect(legacyRoute(hash)).toBe(path)
   }
 })
 

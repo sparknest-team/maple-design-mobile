@@ -109,6 +109,7 @@ test('resets revealed content if closed while its KeepAlive card is inactive', a
 })
 
 test('ends the fade when content receives focus after opening starts', async () => {
+  vi.useFakeTimers()
   const wrapper = mount(Card, {
     attachTo: document.body,
     props: { floating: true, ripple: false, floatingDuration: 250 },
@@ -116,9 +117,7 @@ test('ends the fade when content receives focus after opening starts', async () 
   })
   try {
     const area = wrapper.get('[class$="card__floating-content"]')
-    for (let attempt = 0; attempt < 100 && (area.element as HTMLElement).style.opacity !== '1'; attempt++) {
-      await new Promise((resolve) => setTimeout(resolve, 20))
-    }
+    await vi.runAllTimersAsync()
     expect((area.element as HTMLElement).style.opacity).toBe('1')
     expect(area.attributes('aria-hidden')).toBeUndefined()
     wrapper.get('input').element.focus()
@@ -126,5 +125,6 @@ test('ends the fade when content receives focus after opening starts', async () 
     expect((area.element as HTMLElement).style.transition).toBe('none')
   } finally {
     wrapper.unmount()
+    vi.useRealTimers()
   }
 })

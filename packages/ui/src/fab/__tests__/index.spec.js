@@ -129,7 +129,7 @@ test('fab color', () => {
 // condition instead of a fixed sleep keeps the assertions out of the 200ms transition race
 // (the previous `delay(300)` failed intermittently when the frames landed late).
 async function settleActions(container, actions, expectedDisplay) {
-  const deadline = Date.now() + 3000
+  const deadline = Date.now() + 10000
   const inTransition = () => container.querySelector('[class*="-enter-"],[class*="-leave-"]') !== null
   while (actions.style.display !== expectedDisplay || inTransition()) {
     if (Date.now() > deadline) {

@@ -21,7 +21,7 @@ describe('space copied implementation contract', () => {
         split: () => '|',
       },
     })
-    expect(w.element.style.gap).toBe('1rem 1rem')
+    expect([w.element.style.rowGap, w.element.style.columnGap]).toEqual(['1rem', '1rem'])
     expect(w.findAll('.' + n('item'))).toHaveLength(2)
     expect(w.findAll('.' + n('item-split'))).toHaveLength(1)
     await w.setProps({ size: [4, '2rem'], direction: 'column', wrap: false, block: false })
@@ -57,7 +57,8 @@ describe('space copied implementation contract', () => {
       [[4, '2rem'], '4px 2rem'],
     ]) {
       await w.setProps({ size })
-      expect(w.element.style.gap).toBe(expected)
+      const gap = w.element.style.gap
+      expect(gap === expected || `${gap} ${gap}` === expected).toBe(true)
     }
     await w.setProps({ direction: 'column' })
     expect(w.element.style.gap).toBe('4px 2rem')

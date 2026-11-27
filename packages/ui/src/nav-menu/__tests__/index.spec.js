@@ -183,7 +183,7 @@ describe('migrated NavMenu filtering', () => {
     await wrapper.find('[data-nav-item]').trigger('click')
     wrapper.vm.resize()
     await nextTick()
-    expect(wrapper.find('.mp-overlay').attributes('style')).toContain('top: 144px')
+    expect(wrapper.get('.mp-overlay').element.style.top).toBe('144px')
     expect(wrapper.find('.mp-overlay').attributes('style')).toContain('height: 700px')
     viewport.height = 500
     wrapper.vm.resize()

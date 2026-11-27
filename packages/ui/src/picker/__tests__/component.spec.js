@@ -1,17 +1,26 @@
 import { createApp } from 'vue'
-import { mount } from '@vue/test-utils'
-import { expect, test, vi } from 'vitest'
+import { enableAutoUnmount, mount as mountComponent } from '@vue/test-utils'
+import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import Picker from '..'
-import { delay, mockTranslate, trigger } from '../../utils/test'
+import { trigger } from '../../utils/test'
 import VarPicker from '../Picker'
+import { setRenderedTranslations } from './rendered-translation'
 
-mockTranslate()
+enableAutoUnmount(afterEach)
+beforeEach(() => vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'performance'] }))
+afterEach(() => {
+  document.body.innerHTML = ''
+  vi.useRealTimers()
+})
+
+function mount(component, options) {
+  return mountComponent(component, { attachTo: document.body, ...options })
+}
 
 test('empty columns produce an empty value without throwing', () => {
   const wrapper = mount(VarPicker, { props: { columns: [[]] } })
   expect(() => wrapper.vm.confirm()).not.toThrow()
   expect(wrapper.emitted('confirm')).toBeUndefined()
-  wrapper.unmount()
 })
 
 test('picker component plugin', () => {
@@ -22,12 +31,14 @@ test('picker component plugin', () => {
 const columns = [[{ text: 'A' }, { text: 'B' }, { text: 'C' }]]
 
 const triggerDrag = async (element, x, y) => {
+  setRenderedTranslations(element)
   await trigger(element, 'touchstart', 0, 0)
   await trigger(element, 'touchmove', x / 4, y / 4)
   await trigger(element, 'touchmove', x / 3, y / 3)
   await trigger(element, 'touchmove', x / 2, y / 2)
   await trigger(element, 'touchmove', x, y)
-  await delay(300)
+  // Release one millisecond past the 300 ms momentum sampling window.
+  await vi.advanceTimersByTimeAsync(301)
   await trigger(element, 'touchend', x, y)
 }
 
@@ -46,10 +57,9 @@ test('scroll up & onConfirm', async () => {
   await triggerDrag(element, 0, -600)
   expect(wrapper.html()).toMatchSnapshot()
 
+  setRenderedTranslations(wrapper.element)
   await wrapper.find('.mp-picker__confirm-button').trigger('click')
   expect(onConfirm).lastCalledWith(['C'], [2], [{ text: 'C' }])
-
-  wrapper.unmount()
 })
 
 test('click option & onConfirm', async () => {
@@ -64,12 +74,11 @@ test('click option & onConfirm', async () => {
 
   const options = wrapper.findAll('.mp-picker__option')
   await options[1].trigger('click')
-  await delay(300)
+  await vi.advanceTimersByTimeAsync(300)
 
+  setRenderedTranslations(wrapper.element)
   await wrapper.find('.mp-picker__confirm-button').trigger('click')
   expect(onConfirm).toHaveBeenLastCalledWith(['B'], [1], [{ text: 'B' }])
-
-  wrapper.unmount()
 })
 
 test('scroll down & onCancel', async () => {
@@ -87,10 +96,9 @@ test('scroll down & onCancel', async () => {
   await triggerDrag(element, 0, 600)
   expect(wrapper.html()).toMatchSnapshot()
 
+  setRenderedTranslations(wrapper.element)
   await wrapper.find('.mp-picker__cancel-button').trigger('click')
   expect(onCancel).lastCalledWith(['A'], [0], [{ text: 'A' }])
-
-  wrapper.unmount()
 })
 
 test('cascade mode', async () => {
@@ -134,6 +142,7 @@ test('cascade mode', async () => {
   const confirmButton = wrapper.find('.mp-picker__confirm-button')
 
   await triggerDrag(columns[0].element, 0, -44)
+  setRenderedTranslations(wrapper.element)
   await confirmButton.trigger('click')
   expect(onConfirm).lastCalledWith(
     ['无锡市', '新吴区'],
@@ -157,6 +166,7 @@ test('cascade mode', async () => {
   // find elements again for rebuild children
   columns = wrapper.findAll('.mp-picker__column')
   await triggerDrag(columns[1].element, 0, -44)
+  setRenderedTranslations(wrapper.element)
   await confirmButton.trigger('click')
   expect(onConfirm).lastCalledWith(
     ['无锡市', '惠山区'],
@@ -176,8 +186,6 @@ test('cascade mode', async () => {
       { text: '惠山区' },
     ],
   )
-
-  wrapper.unmount()
 })
 
 test('custom key', async () => {
@@ -210,6 +218,7 @@ test('custom key', async () => {
   await triggerDrag(columns[0].element, 0, -44)
   expect(wrapper.html()).toMatchSnapshot()
 
+  setRenderedTranslations(wrapper.element)
   await wrapper.find('.mp-picker__confirm-button').trigger('click')
   expect(onConfirm).lastCalledWith(
     [1, 10],
@@ -235,8 +244,6 @@ test('custom key', async () => {
       },
     ],
   )
-
-  wrapper.unmount()
 })
 
 test('multiple column picker columnsCount', async () => {
@@ -269,6 +276,7 @@ test('multiple column picker columnsCount', async () => {
   expect(columns.length).toBe(2)
 
   await triggerDrag(columns[1].element, 0, -44)
+  setRenderedTranslations(wrapper.element)
   await wrapper.find('.mp-picker__confirm-button').trigger('click')
   expect(onConfirm).lastCalledWith(
     ['1-1', '2-2'],
@@ -284,7 +292,6 @@ test('multiple column picker columnsCount', async () => {
       },
     ],
   )
-  wrapper.unmount()
 })
 
 test('cascade column picker columnsCount', async () => {
@@ -337,6 +344,7 @@ test('cascade column picker columnsCount', async () => {
   expect(columns.length).toBe(2)
 
   await triggerDrag(columns[1].element, 0, -44)
+  setRenderedTranslations(wrapper.element)
   await wrapper.find('.mp-picker__confirm-button').trigger('click')
   expect(onConfirm).lastCalledWith(
     ['四川省', '攀枝花市'],
@@ -373,7 +381,6 @@ test('cascade column picker columnsCount', async () => {
       },
     ],
   )
-  wrapper.unmount()
 })
 
 test('column option className', () => {

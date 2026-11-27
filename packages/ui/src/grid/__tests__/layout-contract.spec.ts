@@ -79,7 +79,8 @@ describe('grid DOM-order budget and safe numeric contract', () => {
         slots: { default: () => h(GridItem, { span: Infinity, offset: Infinity }) },
       })
       expect(wrapper.element.style.gridTemplateColumns).toContain('repeat(24,')
-      expect(wrapper.element.style.gap).toBe('0px 0px')
+      expect(wrapper.element.style.rowGap).toBe('0px')
+      expect(wrapper.element.style.columnGap).toBe('0px')
       expect(wrapper.findComponent(GridItem).element.style.gridColumn).toBe('span 1 / span 1')
       expect(wrapper.html()).not.toMatch(/NaN|Infinity|undefinedpx/)
       wrapper.unmount()

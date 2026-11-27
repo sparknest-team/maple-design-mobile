@@ -30,12 +30,28 @@ function setup() {
       },
     }),
   )
-  const drag = async (from: string, x: number, y: number, cancel = false) => {
-    await owner.get(from).trigger('pointerdown', { pointerId: 1, button: 0, clientX: 0, clientY: 0 })
-    await owner.trigger('pointermove', { pointerId: 1, clientX: x, clientY: y })
-    await owner.trigger(cancel ? 'pointercancel' : 'pointerup', { pointerId: 1, clientX: x, clientY: y })
+  const pointer = async (target: Element, type: string, x: number, y: number) => {
+    target.dispatchEvent(
+      new PointerEvent(type, {
+        pointerId: 7,
+        pointerType: 'touch',
+        isPrimary: true,
+        button: 0,
+        buttons: type === 'pointerdown' || type === 'pointermove' ? 1 : 0,
+        clientX: x,
+        clientY: y,
+        bubbles: true,
+        cancelable: true,
+      }),
+    )
+    await nextTick()
   }
-  return { owner, enabled, close, drag }
+  const drag = async (from: string, x: number, y: number, cancel = false) => {
+    await pointer(owner.get(from).element, 'pointerdown', 0, 0)
+    await pointer(owner.element, 'pointermove', x, y)
+    await pointer(owner.element, cancel ? 'pointercancel' : 'pointerup', x, y)
+  }
+  return { owner, enabled, close, drag, pointer }
 }
 test('only a sufficient downward header gesture closes the sheet; body, controls and cancellation do not', async () => {
   const { owner, close, drag } = setup()
@@ -58,13 +74,13 @@ test('only a sufficient downward header gesture closes the sheet; body, controls
   }
 })
 test('disabling during a gesture (pending confirmation or closing) cancels it', async () => {
-  const { owner, close, enabled } = setup()
+  const { owner, close, enabled, pointer } = setup()
   try {
-    await owner.get('span').trigger('pointerdown', { pointerId: 1, button: 0, clientY: 0 })
-    await owner.trigger('pointermove', { pointerId: 1, clientY: 100 })
+    await pointer(owner.get('span').element, 'pointerdown', 0, 0)
+    await pointer(owner.element, 'pointermove', 0, 100)
     enabled.value = false
     await nextTick()
-    await owner.trigger('pointerup', { pointerId: 1, clientY: 100 })
+    await pointer(owner.element, 'pointerup', 0, 100)
     expect(close).not.toHaveBeenCalled()
   } finally {
     owner.unmount()

@@ -27,17 +27,22 @@ test('overlay supports uncontrolled open and ignores content clicks', async () =
 
 test('overlay can preserve mounted content after closing', async () => {
   const wrapper = mount(VarOverlay, {
+    attachTo: document.body,
     props: { defaultOpen: true, popupContainer: false, unmountOnClose: false },
     slots: { default: '<span data-overlay-content>content</span>' },
   })
 
-  expect(wrapper.emitted('open')).toHaveLength(1)
-  await wrapper.get('.mp-overlay__backdrop').trigger('pointerdown')
-  await wrapper.get('.mp-overlay__backdrop').trigger('click')
-  await wrapper.vm.$nextTick()
-  expect(wrapper.emitted('close')).toHaveLength(1)
-  expect(wrapper.find('[data-overlay-content]').exists()).toBe(true)
-  expect(wrapper.get('.mp-overlay').isVisible()).toBe(false)
+  try {
+    expect(wrapper.emitted('open')).toHaveLength(1)
+    await wrapper.get('.mp-overlay__backdrop').trigger('pointerdown')
+    await wrapper.get('.mp-overlay__backdrop').trigger('click')
+    await wrapper.vm.$nextTick()
+    expect(wrapper.emitted('close')).toHaveLength(1)
+    expect(wrapper.find('[data-overlay-content]').exists()).toBe(true)
+    expect(wrapper.get('.mp-overlay').isVisible()).toBe(false)
+  } finally {
+    wrapper.unmount()
+  }
 })
 
 const Wrapper = {

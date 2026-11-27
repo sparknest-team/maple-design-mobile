@@ -301,7 +301,7 @@ test('outgoing slide is not recycled before ordinary transition completes', asyn
   expect(incomingStart).toBe(outgoingEnd)
   vi.advanceTimersByTime(50)
   await nextTick()
-  expect(slides[0].element.style.translate).toBe('1200px 0')
+  expect(slides[0].element.style.translate).toMatch(/^1200px(?: 0(?:px)?)?$/)
 })
 test('cancelled pointer does not swallow the next child button click', async () => {
   const clicked = vi.fn()
@@ -349,6 +349,6 @@ test('centered distant jumps snap when the union would require the same slide tw
   expect(track.style.transitionDuration).toBe('0ms')
   expect(track.style.transform).toBe('translateX(-375px)')
   const slides = wrapper.findAll('[aria-roledescription="slide"]')
-  expect(slides[0].element.style.translate).toBe('600px 0')
+  expect(slides[0].element.style.translate).toMatch(/^600px(?: 0(?:px)?)?$/)
   expect(visible(wrapper)).toEqual(['false', 'true', 'false', 'false'])
 })

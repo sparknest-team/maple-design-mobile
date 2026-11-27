@@ -34,14 +34,14 @@ test('ellipsis lineClamp', async () => {
 
   expect(wrapper.find('.mp-ellipsis--clamp').exists()).toBeTruthy()
   expect(wrapper.find('.mp-ellipsis--line').exists()).toBeFalsy()
-  expect(wrapper.find('.mp-ellipsis').attributes('style')).toContain('-webkit-line-clamp: 3')
+  expect(wrapper.get('.mp-ellipsis').element.style.getPropertyValue('-webkit-line-clamp')).toBe('3')
 
   await wrapper.setProps({
     lineClamp: 2,
   })
   expect(wrapper.find('.mp-ellipsis--clamp').exists()).toBeTruthy()
   expect(wrapper.find('.mp-ellipsis--line').exists()).toBeFalsy()
-  expect(wrapper.find('.mp-ellipsis').attributes('style')).toContain('-webkit-line-clamp: 2')
+  expect(wrapper.get('.mp-ellipsis').element.style.getPropertyValue('-webkit-line-clamp')).toBe('2')
 
   wrapper.unmount()
 })

@@ -8,15 +8,9 @@ import Locale from '../../locale'
 import { MenuOption } from '../../menu'
 import Radio, { RadioGroup } from '../../radio'
 import Space from '../../space'
-import AsyncAction from '../example/async-action.vue'
-import Basic from '../example/basic.vue'
-import Controlled from '../example/controlled.vue'
-import CustomIcon from '../example/custom-icon.vue'
 import Appearance from '../example/demos/appearance-lab.vue'
 import AppearanceEn from '../example/demos/en-US/appearance-lab.vue'
-import Disabled from '../example/disabled.vue'
-import Popup from '../example/popup.vue'
-import Variants from '../example/variants.vue'
+import MobileDemo from '../example/index.vue'
 
 useDemoControls()
 
@@ -29,6 +23,11 @@ afterEach(() => Locale.use('zh-CN'))
 const { info } = vi.hoisted(() => ({ info: vi.fn() }))
 vi.mock('@maple-design/ui-vue', async () => ({ Locale: (await import('../../locale')).default, Message: { info } }))
 
+vi.mock('@maple-design/cli-vue/client', () => ({
+  AppType: { template: '<div><slot /></div>' },
+  onThemeChange: () => {},
+}))
+
 const components = Object.fromEntries(
   [SplitButton, Button, Space, MenuOption, Radio, RadioGroup].map((component) => [component.name, component]),
 )
@@ -38,40 +37,42 @@ afterEach(() => {
   info.mockClear()
 })
 
-// The appearance lab ships a fixed zh-CN copy plus an en-US sibling under
-// example/demos/en-US, so it is covered by the comparison tests below instead
-// of the runtime Locale switch used by the other demos.
-test.each([Basic, Controlled, AsyncAction, Popup, Disabled, CustomIcon, Variants])(
+function mountMobileDemo() {
+  const wrapper = mount(MobileDemo, {
+    global: { components, stubs: { MIconMenuDown: true, MpSelect: true } },
+  })
+  wrappers.push(wrapper)
+  return wrapper
+}
+
+test.each(['basic-usage', 'controlled', 'async-action', 'popup', 'disabled', 'custom-icon', 'variants'])(
   'actual demo labels follow the site language without an uninitialized local locale: %s',
   async (demo) => {
-    const wrapper = mount(demo, {
-      global: { components, stubs: { MIconMenuDown: true, MpSelect: true } },
-    })
-    wrappers.push(wrapper)
-    const menu = wrapper.findComponent(SplitButton)
-    expect(menu.vm.$slots.content).toBeTruthy()
-    // Rendered slot VNodes exist even before teleport content is opened.
+    const wrapper = mountMobileDemo()
+    const section = () => wrapper.get(`[data-demo="${demo}"]`)
+    const menu = () => wrapper.findAllComponents(SplitButton).find((item) => section().element.contains(item.element))
+    expect(menu()?.vm.$slots.content).toBeTruthy()
     const labels = () =>
-      menu.vm.$slots
-        .content()
+      menu()
+        .vm.$slots.content()
         .filter((node) => node.props?.label)
         .map((node) => node.props.label)
     expect(labels()).toEqual(['保存草稿', '保存并发布', '暂无权限'])
     Locale.use('en-US')
     await nextTick()
     expect(labels()).toEqual(['Save draft', 'Save and publish', 'Unavailable'])
-    expect(wrapper.find('button').text()).not.toBe('')
+    expect(section().get('button').text()).not.toBe('')
   },
 )
 
 test('primary action uses the current translated message', async () => {
-  const wrapper = mount(Basic, { global: { components } })
-  wrappers.push(wrapper)
-  await wrapper.find('button').trigger('click')
+  const wrapper = mountMobileDemo()
+  const button = () => wrapper.get('[data-demo="basic-usage"]').get('button')
+  await button().trigger('click')
   expect(info).toHaveBeenLastCalledWith('发布成功')
   Locale.use('en-US')
   await nextTick()
-  await wrapper.find('button').trigger('click')
+  await button().trigger('click')
   expect(info).toHaveBeenLastCalledWith('Published')
 })
 

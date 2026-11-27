@@ -102,6 +102,7 @@ test.each([false, true])('editor announces an existing child column in virtual=%
   const branch = { key: 'a', label: 'Alpha', value: 'a', isLeaf: false, path: [] }
   const leaf = { key: 'a1', label: 'Child', value: 'a1', isLeaf: true, path: [] }
   const wrapper = mount(EditorPanel, {
+    attachTo: document.body,
     props: {
       displayColumns: [[branch], [leaf]] as any,
       selectedPath: ['a'],
@@ -128,6 +129,7 @@ test('mobile editor does not announce a hidden child column as expanded', async 
   const branch = { key: 'a', label: 'Alpha', value: 'a', isLeaf: false, path: [] }
   const leaf = { key: 'a1', label: 'Child', value: 'a1', isLeaf: true, path: [] }
   const wrapper = mount(EditorPanel, {
+    attachTo: document.body,
     props: { displayColumns: [[branch], [leaf]] as any, selectedPath: ['a'], totalLevel: 2 },
     global: { provide: { [selectionEditorSurface as symbol]: { mobile: true } } },
   })

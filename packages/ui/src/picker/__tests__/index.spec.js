@@ -1,10 +1,17 @@
 import { createApp } from 'vue'
-import { expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import Picker from '..'
-import { delay, mockTranslate, trigger } from '../../utils/test'
+import { trigger } from '../../utils/test'
 import VarPicker from '../Picker'
+import { setRenderedTranslations } from './rendered-translation'
 
-mockTranslate()
+beforeEach(() => vi.useFakeTimers())
+afterEach(async () => {
+  Picker.close()
+  await vi.runAllTimersAsync()
+  document.body.innerHTML = ''
+  vi.useRealTimers()
+})
 
 test('picker plugin', () => {
   const app = createApp({}).use(Picker)
@@ -27,18 +34,18 @@ test('picker functional show & close', async () => {
     onClosed,
   })
 
-  await delay(16)
+  await vi.advanceTimersByTimeAsync(16)
   expect(onOpen).toHaveBeenCalledTimes(1)
   expect(document.querySelector('.mp-popup').style.display).toBe('')
 
-  await delay(300)
+  await vi.runAllTimersAsync()
   expect(onOpened).toHaveBeenCalledTimes(1)
 
   Picker.close()
-  await delay(16)
+  await vi.advanceTimersByTimeAsync(16)
   expect(onClose).toHaveBeenCalledTimes(1)
 
-  await delay(300)
+  await vi.runAllTimersAsync()
   expect(document.querySelector('.mp-popup')).toBeFalsy()
   expect(onClosed).toHaveBeenCalledTimes(1)
 })
@@ -50,14 +57,13 @@ test('picker functional confirm', async () => {
     columns,
     onConfirm,
   })
-  await delay(16)
-  await delay(300)
+  await vi.runAllTimersAsync()
+  setRenderedTranslations(document.body)
   await trigger(document.querySelector('.mp-picker__confirm-button'), 'click')
   expect(onConfirm).toHaveBeenCalledTimes(1)
   expect(onConfirm).toBeCalledWith(['A'], [0], [{ text: 'A' }])
 
-  await delay(16)
-  await delay(300)
+  await vi.runAllTimersAsync()
 })
 
 test('picker functional cancel', async () => {
@@ -67,15 +73,14 @@ test('picker functional cancel', async () => {
     columns,
     onCancel,
   })
-  await delay(16)
-  await delay(300)
+  await vi.runAllTimersAsync()
 
+  setRenderedTranslations(document.body)
   await trigger(document.querySelector('.mp-picker__cancel-button'), 'click')
   expect(onCancel).toHaveBeenCalledTimes(1)
   expect(onCancel).toBeCalledWith(['A'], [0], [{ text: 'A' }])
 
-  await delay(16)
-  await delay(300)
+  await vi.runAllTimersAsync()
 })
 
 test('safe area', async () => {
@@ -83,12 +88,11 @@ test('safe area', async () => {
     columns,
     safeArea: true,
   })
-  await delay(16)
-  await delay(300)
+  await vi.runAllTimersAsync()
 
   expect(document.body.innerHTML).toMatchSnapshot()
 
+  setRenderedTranslations(document.body)
   await trigger(document.querySelector('.mp-picker__cancel-button'), 'click')
-  await delay(16)
-  await delay(300)
+  await vi.runAllTimersAsync()
 })

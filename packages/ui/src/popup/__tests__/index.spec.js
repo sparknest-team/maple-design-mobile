@@ -57,7 +57,7 @@ const Wrapper = {
 }
 
 test('popup show', async () => {
-  const wrapper = mount(Wrapper)
+  const wrapper = mount(Wrapper, { attachTo: document.body })
   expect(wrapper.find('.mp-popup').isVisible()).toBeFalsy()
   expect(wrapper.html()).toMatchSnapshot()
 

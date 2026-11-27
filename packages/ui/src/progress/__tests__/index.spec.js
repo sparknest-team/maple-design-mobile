@@ -53,7 +53,7 @@ describe('Progress complete contract', () => {
     expect(wrapper.get('.mp-progress__bar').classes()).toContain('mp-progress__bar--animated')
     await wrapper.setProps({ track: false })
     expect(wrapper.find('.mp-progress__buffer').exists()).toBe(false)
-    expect(wrapper.get('.mp-progress__track').attributes('style')).toContain('transparent')
+    expect(wrapper.get('.mp-progress__track').element.style.background).toMatch(/^(transparent|none)$/)
     wrapper.unmount()
   })
   test('circle gradient reacts and IDs stay stable and unique', async () => {

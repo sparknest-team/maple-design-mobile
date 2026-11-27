@@ -6,13 +6,19 @@ import Slider from '..'
 const owners: ReturnType<typeof mount>[] = []
 afterEach(() => owners.splice(0).forEach((owner) => owner.unmount()))
 function pointer(target: EventTarget, type: string, x = 20, id = 1) {
-  const event = new MouseEvent(type, { bubbles: true, cancelable: true, clientX: x, clientY: 0, button: 0 })
-  Object.defineProperties(event, {
-    pointerId: { value: id },
-    isPrimary: { value: true },
-    pointerType: { value: 'mouse' },
-  })
-  target.dispatchEvent(event)
+  target.dispatchEvent(
+    new PointerEvent(type, {
+      bubbles: true,
+      cancelable: true,
+      clientX: x,
+      clientY: 0,
+      button: 0,
+      buttons: type === 'pointerdown' || type === 'pointermove' ? 1 : 0,
+      pointerId: id,
+      isPrimary: true,
+      pointerType: 'mouse',
+    }),
+  )
 }
 function geometry(owner: ReturnType<typeof mount>) {
   const track = owner.get('[class*="slider__track"]').element
@@ -126,13 +132,14 @@ test('KeepAlive cancellation is balanced and old pointer events cannot extend it
   expect(ends).toEqual([70, 80])
 })
 test('unmount finishes an active session once and removes pointer listeners', async () => {
-  const { owner } = await fixture()
+  const ends: unknown[][] = []
+  const { owner } = await fixture({ onEnd: (...args: unknown[]) => ends.push(args) })
   owner.unmount()
   owners.splice(owners.indexOf(owner), 1)
-  expect(owner.emitted('end')).toEqual([[70]])
+  expect(ends).toEqual([[70]])
   pointer(document, 'pointermove', 90)
   pointer(document, 'pointerup', 90)
-  expect(owner.emitted('end')).toEqual([[70]])
+  expect(ends).toEqual([[70]])
 })
 test('cleanup without a start never manufactures an end event', async () => {
   const owner = mount(Slider, { props: { editMode: 'direct' } })

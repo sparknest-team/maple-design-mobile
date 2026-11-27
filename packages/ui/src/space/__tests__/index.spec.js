@@ -42,9 +42,9 @@ describe('test space component props', () => {
       },
     })
 
-    expect(wrapper.find('.mp-space').attributes('style')).toContain('flex-wrap: wrap;')
+    expect(wrapper.get('.mp-space').element.style.flexWrap).toBe('wrap')
     await wrapper.setProps({ wrap: false })
-    expect(wrapper.find('.mp-space').attributes('style')).toContain('flex-wrap: nowrap;')
+    expect(wrapper.get('.mp-space').element.style.flexWrap).toBe('nowrap')
     wrapper.unmount()
   })
 
@@ -55,10 +55,10 @@ describe('test space component props', () => {
       },
     })
 
-    expect(wrapper.find('.mp-space').attributes('style')).toContain('flex-direction: row;')
+    expect(wrapper.get('.mp-space').element.style.flexDirection).toBe('row')
     expect(wrapper.find('.mp-space').attributes('style')).toContain('align-items: center')
     await wrapper.setProps({ direction: 'column' })
-    expect(wrapper.find('.mp-space').attributes('style')).toContain('flex-direction: column;')
+    expect(wrapper.get('.mp-space').element.style.flexDirection).toBe('column')
     expect(wrapper.find('.mp-space').attributes('style')).toContain('align-items: stretch')
     wrapper.unmount()
   })

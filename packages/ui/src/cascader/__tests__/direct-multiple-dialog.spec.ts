@@ -67,6 +67,10 @@ test('Escape from a dialog checkbox closes and restores input focus', async () =
     ;(checkbox.element as HTMLElement).focus()
     await checkbox.trigger('keydown', { key: 'Escape' })
     await flushPromises()
+    // 内部 checkbox 的 Escape 走 setTimeout(...,0) 延后还原焦点（trigger 的 document 级监听需先关闭弹层），
+    // 必须让出一个宏任务才能观测到最终 activeElement。
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    await flushPromises()
     expect(input.attributes('aria-expanded')).toBe('false')
     expect(document.activeElement).toBe(input.element)
   } finally {
