@@ -26,6 +26,7 @@ describe('notice-bar', () => {
 
   test('closeable mode emits close', async () => {
     const wrapper = mount(VarNoticeBar, {
+      attachTo: document.body,
       props: {
         text: 'close me',
         mode: 'closeable',

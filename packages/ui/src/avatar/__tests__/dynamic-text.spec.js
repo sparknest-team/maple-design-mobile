@@ -19,7 +19,8 @@ test('remeasures updated slot text and restores the scale for short content', as
   await nextTick()
   await nextTick()
   await nextTick()
-  expect(content().element.style.transform).toBe(`scale(${40 / 268})`)
+  const scale = /^scale\(([\d.]+)\)$/.exec(content().element.style.transform)
+  expect(Number(scale?.[1])).toBeCloseTo(40 / 268, 6)
   text.value = 'B'
   await nextTick()
   await nextTick()

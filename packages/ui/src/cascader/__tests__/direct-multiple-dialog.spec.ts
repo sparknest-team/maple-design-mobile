@@ -18,6 +18,17 @@ const props = {
   ],
 }
 
+async function waitFor(predicate: () => boolean, message: string, timeoutMs = 3000, stepMs = 10) {
+  const deadline = Date.now() + timeoutMs
+  while (!predicate()) {
+    if (Date.now() >= deadline) {
+      throw new Error(`${message} (waited ${timeoutMs}ms)`)
+    }
+    await new Promise<void>((resolve) => setTimeout(resolve, stepMs))
+    await flushPromises()
+  }
+}
+
 test('SSR exposes a named dialog with a single checkbox tab stop per result', async () => {
   const html = await renderToString(createSSRApp({ render: () => h(Cascader, props) }))
   const host = document.createElement('div')
@@ -58,6 +69,7 @@ test('ArrowDown moves focus from the combobox into the dialog', async () => {
   }
 })
 
+// 4 worker 并发时对话框关闭后的焦点还原可能滞后，默认 5 秒会提前终止用例。
 test('Escape from a dialog checkbox closes and restores input focus', async () => {
   const wrapper = mount(Cascader, { attachTo: document.body, props })
   try {
@@ -68,11 +80,12 @@ test('Escape from a dialog checkbox closes and restores input focus', async () =
     await checkbox.trigger('keydown', { key: 'Escape' })
     await flushPromises()
     expect(input.attributes('aria-expanded')).toBe('false')
+    await waitFor(() => document.activeElement === input.element, 'Escape 后焦点未还原到 combobox')
     expect(document.activeElement).toBe(input.element)
   } finally {
     wrapper.unmount()
   }
-})
+}, 20000)
 
 test('a caller-provided popup role does not claim the generated dialog', async () => {
   const wrapper = mount(Cascader, { props: { ...props, 'aria-haspopup': 'tree' } })

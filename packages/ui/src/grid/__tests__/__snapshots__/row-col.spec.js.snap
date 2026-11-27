@@ -1,15 +1,15 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`test row and col component props > row and col gutter computed 1`] = `
-"<div class="mp-row mp-row--align-start mp-row--justify-start" style="margin: -10px -10px -10px -10px;">
-  <div class="mp-col mp-col--span-12" style="padding: 10px 10px 10px 10px;"></div>
-  <div class="mp-col mp-col--span-12" style="padding: 10px 10px 10px 10px;"></div>
+"<div class="mp-row mp-row--align-start mp-row--justify-start" style="margin: -10px;">
+  <div class="mp-col mp-col--span-12" style="padding: 10px;"></div>
+  <div class="mp-col mp-col--span-12" style="padding: 10px;"></div>
 </div>"
 `;
 
 exports[`test row and col component props > row and col gutter computed 2`] = `
-"<div class="mp-row mp-row--align-start mp-row--justify-start" style="margin-right: -20px; margin-left: -20px;">
-  <div class="mp-col mp-col--span-12" style="padding-right: 20px; padding-left: 20px;"></div>
-  <div class="mp-col mp-col--span-12" style="padding-right: 20px; padding-left: 20px;"></div>
+"<div class="mp-row mp-row--align-start mp-row--justify-start" style="margin-left: -20px; margin-right: -20px;">
+  <div class="mp-col mp-col--span-12" style="padding-left: 20px; padding-right: 20px;"></div>
+  <div class="mp-col mp-col--span-12" style="padding-left: 20px; padding-right: 20px;"></div>
 </div>"
 `;

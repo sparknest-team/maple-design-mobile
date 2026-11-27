@@ -69,6 +69,7 @@ describe('number-keyboard', () => {
 
   test('open/close via open', async () => {
     const wrapper = mount(VarNumberKeyboard, {
+      attachTo: document.body,
       props: {
         open: false,
         popupContainer: false,

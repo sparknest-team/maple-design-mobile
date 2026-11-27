@@ -18,7 +18,6 @@ const global = {
     MpDialog: Surface,
     Popup: Surface,
     MpPopup: Surface,
-    teleport: true,
   },
 }
 for (const editMode of ['popup'] as FieldEditMode[]) {
@@ -105,7 +104,11 @@ for (const editMode of ['popup'] as FieldEditMode[]) {
           children: [{ value: 'zhejiang', label: '浙江', children: [{ value: 'ningbo', label: '宁波' }] }],
         },
       ]
-      const wrapper = mount(Cascader, { props: { editMode, options, needConfirm: true }, global })
+      const wrapper = mount(Cascader, {
+        attachTo: document.body,
+        props: { editMode, options, needConfirm: true },
+        global,
+      })
       try {
         await wrapper.get('[aria-haspopup=dialog]').trigger('click')
         await flushPromises()

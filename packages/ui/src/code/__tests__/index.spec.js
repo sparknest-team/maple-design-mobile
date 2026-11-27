@@ -1,7 +1,8 @@
+import { Blob } from 'node:buffer'
 import { createApp, h } from 'vue'
 import { flushPromises, mount } from '@vue/test-utils'
 import { codeToHtml } from 'shiki'
-import { beforeEach, describe, expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import Code from '..'
 import VarHighlighterProvider from '../../highlighter-provider'
 import VarCode from '../Code'
@@ -10,8 +11,12 @@ import VarCode from '../Code'
 // A fixed delay can snapshot the empty container on a loaded CI worker.
 const highlight = vi.fn(codeToHtml)
 beforeEach(() => {
+  // Shiki loads WASM through Blob.stream, which jsdom does not implement.
+  vi.stubGlobal('Blob', Blob)
   highlight.mockClear()
 })
+afterEach(() => vi.unstubAllGlobals())
+
 async function rendered() {
   await highlight.mock.results.at(-1).value
   await flushPromises()

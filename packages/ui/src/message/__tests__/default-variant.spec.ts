@@ -1,10 +1,14 @@
 import { mount } from '@vue/test-utils'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import Message, { _MessageComponent, messageProps } from '..'
 
-afterEach(() => {
+beforeEach(() => vi.useFakeTimers())
+afterEach(async () => {
   Message.clear()
+  await vi.runAllTimersAsync()
+  document.body.innerHTML = ''
   Message.resetDefaultOptions()
+  vi.useRealTimers()
 })
 describe('Message default variant contract', () => {
   it('uses neutral for component and imperative defaults', async () => {

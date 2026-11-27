@@ -5,7 +5,7 @@ import Popup from '../Popup.vue'
 import type { PopupCloseReason } from '../props'
 
 it('keeps uncontrolled popup closed when a close guard is added or removed', async () => {
-  const owner = mount(Popup, { props: { defaultOpen: true, popupContainer: false } })
+  const owner = mount(Popup, { attachTo: document.body, props: { defaultOpen: true, popupContainer: false } })
   try {
     expect(await owner.vm.close()).toBe(true)
     await nextTick()
@@ -23,7 +23,7 @@ it('keeps uncontrolled popup closed when a close guard is added or removed', asy
 })
 
 it('keeps a controlled popup open until its parent accepts a close request', async () => {
-  const owner = mount(Popup, { props: { open: true, popupContainer: false } })
+  const owner = mount(Popup, { attachTo: document.body, props: { open: true, popupContainer: false } })
   try {
     await owner.vm.close()
     await nextTick()

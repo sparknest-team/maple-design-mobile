@@ -41,9 +41,9 @@ describe('test divider components props', () => {
     const wrapper = mount(VarDivider, {
       props: { inset: 36 },
     })
-    const style = wrapper.find('.mp-divider').attributes('style') || ''
-    expect(style).toContain('margin-inline-start')
-    expect(style).toContain('36px')
+    const style = wrapper.get('.mp-divider').element.style
+    expect(style.marginInlineStart).toBe('36px')
+    expect(style.marginInlineEnd).toBe('36px')
     wrapper.unmount()
   })
 

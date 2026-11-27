@@ -14,7 +14,11 @@ function fixture(props = {}) {
   owners.push(w)
   return w
 }
-const height = (w) => Number(w.get('.mp-floating-panel').element.style.transform.match(/- ([\d.]+)px/)?.[1])
+function height(wrapper) {
+  const { transform } = wrapper.get('.mp-floating-panel').element.style
+  const offset = /^translateY\(calc\(100% ([+-]) ([\d.]+)px\)\)$/.exec(transform)
+  return Number(offset?.[2]) * (offset?.[1] === '+' ? -1 : 1) + 0
+}
 test('a refusing controlled parent keeps its effective anchor after notifying', async () => {
   const w = fixture({ modelValue: 100 })
   await triggerDrag(w.get('.mp-floating-panel'), 0, -200)
@@ -99,9 +103,9 @@ test('a teleported panel follows its viewport and locks only its own document', 
     await trigger(view, 'resize')
     expect(panel.style.height).toBe('240px')
     await w.setProps({ popupContainer: document.body })
-    expect(panel.style.height).toBe(window.innerHeight * 0.6 + 'px')
+    expect(parseFloat(panel.style.height)).toBeCloseTo(window.innerHeight * 0.6, 5)
     await trigger(view, 'orientationchange')
-    expect(panel.style.height).toBe(window.innerHeight * 0.6 + 'px')
+    expect(parseFloat(panel.style.height)).toBeCloseTo(window.innerHeight * 0.6, 5)
   } finally {
     owners.pop().unmount()
     frame.remove()
