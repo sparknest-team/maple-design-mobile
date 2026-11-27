@@ -1,6 +1,6 @@
 {
   "name": "@maple-design/resolver-vue",
-  "version": "1.4.8",
+  "version": "1.4.9",
   "description": "Maple resolver for unplugin-vue-components and unplugin-auto-import",
   "keywords": [
     "maple",
