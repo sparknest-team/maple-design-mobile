@@ -152,8 +152,8 @@ export function useDirection(target?: () => Element | null | undefined, explicit
   }
 
   function currentElement(): Element | undefined {
-    const node = target ? target() : instance?.vnode.el
-    return node?.nodeType === 1 ? node : node?.parentElement
+    const node = target ? target() : (instance?.vnode.el as Node | null | undefined)
+    return node?.nodeType === 1 ? (node as Element) : (node?.parentElement ?? undefined)
   }
   function start() {
     element.value = currentElement()

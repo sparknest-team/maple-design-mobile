@@ -278,14 +278,14 @@ Ordinary circular Radio icons do not scale with Group.size. The five sizes apply
 
 These props belong to field presentation; pure panels do not gain reading mode. Form and FormItem provide inherited settings. The existing empty-value type and clear fallback remain component-specific.
 
-`ChoiceValue = string | number | boolean`；`CheckboxModel = boolean | ChoiceValue[] | null`；`RadioModel = ChoiceValue | null`。
+`string | number | boolean = string | number | boolean`；`boolean | (string | number | boolean)[] | null = boolean | (string | number | boolean)[] | null`；`string | number | boolean | null = string | number | boolean | null`。
 
 ### Radio Props
 
 | Prop | Description | Type | Default |
 | --------------------- | ------------------------------- | ------------------------- | --------- |
-| model-value (v-model) | Controlled value | RadioModel | undefined |
-| default-value | Initial uncontrolled value | ChoiceValue \| null | null |
+| model-value (v-model) | Controlled value | string \| number \| boolean \| null | undefined |
+| default-value | Initial uncontrolled value | string \| number \| boolean \| null | null |
 | value | Option `value` | `string\|number\|boolean` | `true` |
 | variant | Radio variant | `'radio'\|'button'` | `'radio'` |
 | disabled | Disabled state; inherits from the form/group when omitted | boolean | undefined |
@@ -294,7 +294,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | edit-mode | Editing mode, inherited from FormItem and Form | `'direct' \| 'popup'` | `'direct'` |
 | read-pretty | Independent read presentation; explicit false overrides the parent | `boolean` | `false` |
 | clearable | Deferred editor clearing; does not change native deselection | `boolean` | `false` |
-| empty-value | Explicit presentation clear output; does not control native unchecking | `RadioModel \| (() => RadioModel)` | `null` |
+| empty-value | Explicit presentation clear output; does not control native unchecking | `string \| number \| boolean \| null \| (() => string \| number \| boolean \| null)` | `null` |
 | empty-values | Empty-value recognition; field takes precedence over FormItem and Form | `readonly unknown[]` | `-` |
 | empty-text | Read empty text; an explicit empty string is valid | `string` | `'-'` |
 | before-commit | Guard before saving a deferred edit; return a boolean or Promise, or complete via done | `(payload: { value: unknown; previousValue: unknown }, done: (allow?: boolean) => void, context: { signal: AbortSignal; event?: Event }) => void \| boolean \| Promise<void \| boolean>` | `-` |
@@ -314,11 +314,11 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 | Prop | Description | Type | Default |
 | --------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | -------------- |
-| model-value (v-model) | Controlled value | RadioModel | undefined |
-| default-value | Initial uncontrolled value | RadioModel | null |
+| model-value (v-model) | Controlled value | string \| number \| boolean \| null | undefined |
+| default-value | Initial uncontrolled value | string \| number \| boolean \| null | null |
 | variant | Radio-group variant | `'radio'\|'button'` | `'radio'` |
 | size | Radio-group size | `'xs'\|'sm'\|'md'\|'lg'\|'xl'` | `-` |
-| options | Options; replaces default slot when supplied | Array<ChoiceValue \| RadioOption \| Record<string, unknown>> / `(query, { signal }) => Array / Promise` | `undefined` |
+| options | Options; replaces default slot when supplied | Array<string \| number \| boolean \| RadioOption \| Record<string, unknown>> / `(query, { signal }) => Array / Promise` | `undefined` |
 | orientation | Horizontal/vertical arrangement of radio-group options, default horizontal; not text reading direction | `'horizontal'\|'vertical'` | `'horizontal'` |
 | disabled | Disabled state; inherits from the form/group when omitted | boolean | undefined |
 | readonly | Readonly state; inherits from the form/group when omitted | boolean | undefined |
@@ -328,7 +328,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | edit-mode | Editing mode, inherited from FormItem and Form | `'direct' \| 'popup'` | `'direct'` |
 | read-pretty | Independent read presentation; explicit false overrides the parent | `boolean` | `false` |
 | clearable | Deferred editor clearing; does not change native deselection | `boolean` | `false` |
-| empty-value | Explicit presentation clear output; does not control native unchecking | `RadioModel \| (() => RadioModel)` | `null` |
+| empty-value | Explicit presentation clear output; does not control native unchecking | `string \| number \| boolean \| null \| (() => string \| number \| boolean \| null)` | `null` |
 | empty-values | Empty-value recognition; field takes precedence over FormItem and Form | `readonly unknown[]` | `-` |
 | empty-text | Read empty text; an explicit empty string is valid | `string` | `'-'` |
 | before-commit | Guard before saving a deferred edit; return a boolean or Promise, or complete via done | `(payload: { value: unknown; previousValue: unknown }, done: (allow?: boolean) => void, context: { signal: AbortSignal; event?: Event }) => void \| boolean \| Promise<void \| boolean>` | `-` |
@@ -349,8 +349,8 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 | Event | Description | Arguments |
 | ------------------ | -------- | --------------------------------- |
-| update:modelValue | Proposes a new value | value: RadioModel |
-| change | Value change proposal | value: RadioModel, event?: Event |
+| update:modelValue | Proposes a new value | value: string \| number \| boolean \| null |
+| change | Value change proposal | value: string \| number \| boolean \| null, event?: Event |
 | focus | Focus | event: FocusEvent |
 | blur | Blur | event: FocusEvent |
 | update:open | Controlled editor visibility update | open: boolean |
@@ -361,8 +361,8 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 | Event | Description | Arguments |
 | ------------------ | --------------------------- | ---------------------------------------------- |
-| update:modelValue | Proposes a new value | value: RadioModel |
-| change | Value change proposal | value: RadioModel, event?: Event |
+| update:modelValue | Proposes a new value | value: string \| number \| boolean \| null |
+| change | Value change proposal | value: string \| number \| boolean \| null, event?: Event |
 | update:open | Controlled editor visibility update | open: boolean |
 | open-change | Actual editor visibility change | open: boolean |
 | load-error | Explicit option loading failed; does not change the model | error: unknown |
@@ -372,7 +372,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | Slot | Description | Prop |
 | ------ | ------------ | ---------------------------------------- |
 | radio | Custom radio control | `checked:boolean`<br/>`disabled:boolean` |
-| read | Custom read content, taking precedence over empty-text | value: RadioModel, text: string |
+| read | Custom read content, taking precedence over empty-text | value: string \| number \| boolean \| null, text: string |
 | default | Button label or default circular label | checked: boolean, disabled: boolean |
 | checked-icon | Default circular checked icon | - |
 | unchecked-icon | Default circular unchecked icon | - |
@@ -383,7 +383,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | ------ | ------------- | ---------------------------------------- |
 | radio | Custom radio control | `checked:boolean`<br/>`disabled:boolean` |
 | label | Radio label content | `data: RadioOption, checked: boolean` |
-| read | Custom read content, taking precedence over empty-text | value: RadioModel, text: string |
+| read | Custom read content, taking precedence over empty-text | value: string \| number \| boolean \| null, text: string |
 | default | Native child options when options is omitted | - |
 
 ## Types
@@ -392,7 +392,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 | Field | Description | Type |
 | -------- | -------------- | ----------------------------------------------------------------- |
-| value | Option identity | ChoiceValue |
+| value | Option identity | string \| number \| boolean |
 | label | Label or render function | VNodeChild \| (data: RadioOption, checked: boolean) => VNodeChild |
 | disabled | Disable interaction | boolean |
 | readonly | Read-only interaction | boolean |

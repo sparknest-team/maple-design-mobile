@@ -34,8 +34,7 @@ const slides = [
     <p role="status">Slide: {{ current }}</p>
     <section v-for="group in groups" :key="group.name" :data-comparison-scene="group.name">
       <h4>
-        <span lang="zh-CN">{{ group.zh }}</span
-        ><span lang="en-US">{{ group.en }}</span>
+        <span lang="zh-CN">{{ group.zh }}</span><span lang="en-US">{{ group.en }}</span>
       </h4>
       <div class="indicator-comparison-grid">
         <div v-for="preset in group.values" :key="preset.label">

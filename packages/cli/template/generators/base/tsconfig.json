@@ -1,7 +1,7 @@
 {
+  "contentMappers": [{ "package": "@vue/content-mapper", "extensions": [".vue"] }],
   "compilerOptions": {
     "strict": true,
-    "downlevelIteration": true,
     "declaration": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -14,7 +14,8 @@
     "jsxImportSource": "vue",
     "jsx": "preserve",
     "types": [
-      "vitest/globals"
+      "vitest/globals",
+      "vite/client"
     ],
     "target": "ES2020",
     "module": "ESNext",

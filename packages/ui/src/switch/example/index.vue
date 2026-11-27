@@ -23,8 +23,7 @@ onThemeChange()
   </h2>
 
   <section data-demo="basic">
-    <app-type>{{ english ? 'Controlled and default value' : '双向绑定与默认值' }}</app-type
-    ><DemoBasic />
+    <app-type>{{ english ? 'Controlled and default value' : '双向绑定与默认值' }}</app-type><DemoBasic />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="appearance-and-states">
@@ -45,23 +44,19 @@ onThemeChange()
   </h2>
 
   <section data-demo="custom-color">
-    <app-type>{{ english ? 'Custom colors' : '自定义颜色' }}</app-type
-    ><DemoCustomColor />
+    <app-type>{{ english ? 'Custom colors' : '自定义颜色' }}</app-type><DemoCustomColor />
   </section>
 
   <section data-demo="custom-text">
-    <app-type>{{ english ? 'Custom text' : '自定义文字' }}</app-type
-    ><DemoCustomText />
+    <app-type>{{ english ? 'Custom text' : '自定义文字' }}</app-type><DemoCustomText />
   </section>
 
   <section data-demo="custom-icon">
-    <app-type>{{ english ? 'Custom icons' : '自定义图标' }}</app-type
-    ><DemoCustomIcon />
+    <app-type>{{ english ? 'Custom icons' : '自定义图标' }}</app-type><DemoCustomIcon />
   </section>
 
   <section data-demo="custom">
-    <app-type>{{ english ? 'Ripple and handle elevation' : '水波与滑块阴影' }}</app-type
-    ><DemoCustom />
+    <app-type>{{ english ? 'Ripple and handle elevation' : '水波与滑块阴影' }}</app-type><DemoCustom />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="interaction-and-control">
@@ -77,8 +72,7 @@ onThemeChange()
   </section>
 
   <section data-demo="loading">
-    <app-type>{{ english ? 'Loading' : '加载中' }}</app-type
-    ><DemoLoading />
+    <app-type>{{ english ? 'Loading' : '加载中' }}</app-type><DemoLoading />
   </section>
 
   <section data-demo="events">
@@ -87,8 +81,7 @@ onThemeChange()
   </section>
 
   <section data-demo="custom-value">
-    <app-type>{{ english ? 'Custom values and events' : '自定义值与事件' }}</app-type
-    ><DemoCustomValue />
+    <app-type>{{ english ? 'Custom values and events' : '自定义值与事件' }}</app-type><DemoCustomValue />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="async-and-dynamic-data">
@@ -97,7 +90,8 @@ onThemeChange()
   </h2>
 
   <section data-demo="switch-interception">
-    <app-type>{{ english ? 'Async allow, deny and rejection' : '异步允许、阻止与异常' }}</app-type
-    ><DemoSwitchInterception />
+    <app-type>{{
+      english ? 'Async allow, deny and rejection' : '异步允许、阻止与异常'
+    }}</app-type><DemoSwitchInterception />
   </section>
 </template>

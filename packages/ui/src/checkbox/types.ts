@@ -1,5 +1,4 @@
 import type { VNodeChild } from 'vue'
-import type { CheckboxModel, ChoiceValue } from './choice-value-props'
 
 export type { ChoiceOption as CheckboxOption } from './choice-options'
 export interface CheckboxSlots {
@@ -8,11 +7,11 @@ export interface CheckboxSlots {
   'checked-icon'?: () => VNodeChild
   'unchecked-icon'?: () => VNodeChild
   'indeterminate-icon'?: () => VNodeChild
-  read?: (state: { value: CheckboxModel; text: string }) => VNodeChild
+  read?: (state: { value: boolean | (string | number | boolean)[] | null; text: string }) => VNodeChild
 }
 export interface CheckboxGroupSlots {
   default?: () => VNodeChild
   label?: (state: { data: import('./choice-options').ChoiceOption; checked: boolean }) => VNodeChild
   checkbox?: CheckboxSlots['checkbox']
-  read?: (state: { value: ChoiceValue[] | null; text: string }) => VNodeChild
+  read?: (state: { value: (string | number | boolean)[] | null; text: string }) => VNodeChild
 }

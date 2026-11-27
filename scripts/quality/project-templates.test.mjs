@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, symlinkSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, symlinkSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { delimiter, resolve } from 'node:path'
@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const require = createRequire(resolve(root, 'packages/ui-playground/package.json'))
-const ts = createRequire(resolve(root, 'packages/cli/package.json'))('typescript')
+const ts = createRequire(resolve(root, 'packages/cli/package.json'))('typescript-js')
 const read = (path) => readFileSync(resolve(root, path), 'utf8')
 async function loadPureModule(path) {
   const { outputText } = ts.transpileModule(read(path), {
@@ -84,6 +84,19 @@ test('real compiled CLI honors --locale and writes a standalone package with the
     ),
   )
   assert.ok(existsSync(resolve(folder, 'example-ui-vue/src/locale')))
+  assert.equal(pkg.scripts.dev, 'vuepress dev docs')
+  assert.equal(pkg.scripts.build, 'vuepress build docs --dest site')
+  const project = resolve(folder, 'example-ui-vue')
+  for (const locale of ['zh-CN', 'en-US']) {
+    const markdown = readFileSync(resolve(project, 'src/button/docs', locale + '.md'), 'utf8')
+    const demos = [...markdown.matchAll(/<demo src="([^"]+)"><\/demo>/g)]
+    assert.equal(demos.length, 2)
+    for (const [, source] of demos) {
+      const code = readFileSync(resolve(project, 'src/button/docs', source), 'utf8')
+      assert.match(code, /from 'example-ui-vue\/button'/)
+      assert.ok(code.includes(locale === 'en-US' ? 'Start' : '起步'))
+    }
+  }
 })
 
 for (const style of ['sfc', 'tsx']) {
@@ -103,7 +116,16 @@ for (const style of ['sfc', 'tsx']) {
         { cwd: folder, encoding: 'utf8', timeout: 30000 },
       )
       assert.equal(generate.status, 0, generate.stdout + generate.stderr)
-      symlinkSync(resolve(root, 'packages/ui/node_modules'), resolve(project, 'node_modules'), 'dir')
+      const modules = resolve(project, 'node_modules')
+      const uiModules = resolve(root, 'packages/ui/node_modules')
+      mkdirSync(modules)
+      for (const entry of readdirSync(uiModules)) {
+        symlinkSync(resolve(uiModules, entry), resolve(modules, entry))
+      }
+      // The generated project declares Vite directly for vite/client types.
+      if (!existsSync(resolve(modules, 'vite'))) {
+        symlinkSync(resolve(root, 'packages/cli/node_modules/vite'), resolve(modules, 'vite'), 'dir')
+      }
       const env = {
         ...process.env,
         PATH: [resolve(project, 'node_modules/.bin'), resolve(root, 'node_modules/.bin'), process.env.PATH].join(

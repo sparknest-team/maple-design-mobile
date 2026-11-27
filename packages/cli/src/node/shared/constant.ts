@@ -7,36 +7,21 @@ export const CWD = process.cwd()
 export const MAPLE_CONFIG = resolve(CWD, 'maple.config.mjs')
 export const COMPONENT_REUSE_JSON = resolve(CWD, 'component-reuse.json')
 export const VITEST_CONFIG = resolve(dirname, '../config/vitest.config.js')
-export const SRC = 'src'
-export const SRC_DIR = resolve(CWD, SRC)
+export const SRC_DIR = resolve(CWD, 'src')
 export const ES_DIR = resolve(CWD, 'es')
 export const LIB_DIR = resolve(CWD, 'lib')
 export const UMD_DIR = resolve(CWD, 'umd')
 export const TYPES_DIR = resolve(CWD, 'types')
-export const ROOT_DOCS_DIR = resolve(CWD, 'docs')
-export const ROOT_PAGES_DIR = resolve(CWD, 'pages')
 
 export const VITE_RESOLVE_EXTENSIONS = ['.vue', '.tsx', '.ts', '.jsx', '.js', '.mjs', '.cjs', '.less', '.scss', '.css']
-export const SCRIPTS_EXTENSIONS = ['.tsx', '.ts', '.jsx', '.js', '.mjs', '.cjs']
 export const PUBLIC_DIR_INDEXES = ['index.vue', 'index.tsx', 'index.ts', 'index.jsx', 'index.js']
-export const STYLE_DIR_NAME = 'style'
-export const EXAMPLE_DIR_NAME = 'example'
-export const LOCALE_DIR_NAME = 'locale'
-export const DOCS_DIR_NAME = 'docs'
-export const TESTS_DIR_NAME = '__tests__'
 export const GENERATORS_DIR = resolve(dirname, '../../../template/generators')
 export const UI_PACKAGE_JSON = resolve(CWD, 'package.json')
 export const CLI_PACKAGE_JSON = resolve(dirname, '../../../package.json')
 export const CHECKLIST_FILE = resolve(CWD, 'CHECKLIST.md')
 
 // site
-export const SITE = resolve(dirname, '../../../site')
 export const SITE_OUTPUT_PATH = resolve(CWD, 'site')
-export const SITE_PUBLIC_PATH = resolve(CWD, 'public')
-export const SITE_DIR = resolve(CWD, '.maple/site')
-export const SITE_PC_DIR = resolve(CWD, '.maple/site/pc')
-export const SITE_PC_ROUTES = resolve(CWD, '.maple/pc.routes.ts')
-export const SITE_MOBILE_ROUTES = resolve(CWD, '.maple/mobile.routes.ts')
 export const SITE_CONFIG = resolve(CWD, '.maple/site.config.json')
 
 // template highlight

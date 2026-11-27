@@ -89,7 +89,7 @@ Checkbox 的布尔模型始终返回 boolean；数组模型按 value 增删选�
 两端均支持原始值或对象选项。`field-names` 映射 `label/value/disabled/readonly/indeterminate`；只读选项允许聚焦但不能改值，Checkbox 的半选仅用于展示。
 `label` 插槽接收 `{ data, checked }`，优先于标签渲染函数 `(data, checked) => VNodeChild`。data 为保留业务字段的归一化副本，不修改输入对象；未提供标签时显示值的文字。
 显式传入 `options` 时替代默认插槽，包括 `[]`；不传时使用默认插槽。选项值限字符串、有限数字或布尔值；缺失/非法值及同类型重复值被忽略（保留第一项）。`false`、`0`、`''` 和 `'0'` 是不同选项。异步选项变更不反向修改模型。
-CheckboxGroup 使用 `ChoiceValue[]`，`max` 只接受 number，请使用 `:max="2"`。
+CheckboxGroup 使用 `(string | number | boolean)[]`，`max` 只接受 number，请使用 `:max="2"`。
 
 ```demo
 ../example/demos/option-data.vue
@@ -275,14 +275,14 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 
 以上是字段展示层 API；纯面板不因此新增阅读模式。Form 与 FormItem 提供继承配置。empty-value 的现有类型与默认输出仍按该组件原 API 执行。
 
-`ChoiceValue = string | number | boolean`；`CheckboxModel = boolean | ChoiceValue[] | null`；`RadioModel = ChoiceValue | null`。
+`string | number | boolean = string | number | boolean`；`boolean | (string | number | boolean)[] | null = boolean | (string | number | boolean)[] | null`；`string | number | boolean | null = string | number | boolean | null`。
 
 ### Checkbox Props
 
 | 属性                   | 说明                               | 类型                     | 默认值    |
 | ---------------------- | ---------------------------------- | ------------------------ | --------- |
-| model-value (v-model) | 受控值 | CheckboxModel | undefined |
-| default-value | 非受控初始值 | CheckboxModel | false |
+| model-value (v-model) | 受控值 | boolean \| (string \| number \| boolean)[] \| null | undefined |
+| default-value | 非受控初始值 | boolean \| (string \| number \| boolean)[] \| null | false |
 | value                  | 数组/分组模式的选项标识            | string\|number\|boolean  | true      |
 | disabled               | 是否禁用；未设置时继承表单/分组    | boolean                  | undefined |
 | readonly               | 是否只读；未设置时继承表单/分组    | boolean                  | undefined |
@@ -298,7 +298,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 | edit-mode | 编辑模式，继承 FormItem 和 Form | `'direct' \| 'popup'` | `'direct'` |
 | read-pretty | 独立阅读状态，显式 false 覆盖父级 | `boolean` | `false` |
 | clearable | 延迟编辑层清空操作，不改变原生取消选择 | `boolean` | `false` |
-| empty-value | 展示层显式清空输出，不控制原生取消勾选 | `CheckboxModel \| (() => CheckboxModel)` | `false` |
+| empty-value | 展示层显式清空输出，不控制原生取消勾选 | `boolean \| (string \| number \| boolean)[] \| null \| (() => boolean \| (string \| number \| boolean)[] \| null)` | `false` |
 | empty-values | 空值识别策略，字段优先于 FormItem 和 Form | `readonly unknown[]` | `-` |
 | empty-text | 阅读空文案，显式空字符串有效 | `string` | `'-'` |
 | before-commit | 延迟编辑保存前守卫；返回布尔值、Promise 或通过 done 完成 | `(payload: { value: unknown; previousValue: unknown }, done: (allow?: boolean) => void, context: { signal: AbortSignal; event?: Event }) => void \| boolean \| Promise<void \| boolean>` | `-` |
@@ -310,10 +310,10 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 
 | 属性                  | 说明                                                        | 类型                                                                                                       | 默认值       |
 | --------------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ------------ |
-| model-value (v-model) | 受控值 | ChoiceValue[] \| null | undefined |
-| default-value         | 非受控初始值                                                | ChoiceValue[]                                                                                              | []           |
+| model-value (v-model) | 受控值 | (string \| number \| boolean)[] \| null | undefined |
+| default-value         | 非受控初始值                                                | (string \| number \| boolean)[]                                                                                              | []           |
 | max                   | 最多可选数量                                                | number                                                                                                     | undefined    |
-| options               | 选项；传入时替代默认插槽                                    | Array<ChoiceValue \| CheckboxOption \| Record<string, unknown>> / `(query, { signal }) => Array / Promise` | `undefined`  |
+| options               | 选项；传入时替代默认插槽                                    | Array<string \| number \| boolean \| CheckboxOption \| Record<string, unknown>> / `(query, { signal }) => Array / Promise` | `undefined`  |
 | orientation           | 复选组内选项的横纵排列，默认 horizontal；不表示文字阅读方向 | Orientation<br>`'horizontal' \| 'vertical'` | 'horizontal' |
 | disabled              | 是否禁用；未设置时继承表单/分组                             | boolean                                                                                                    | undefined    |
 | readonly              | 是否只读；未设置时继承表单/分组                             | boolean                                                                                                    | undefined    |
@@ -324,7 +324,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 | edit-mode | 编辑模式，继承 FormItem 和 Form | `'direct' \| 'popup'` | `'direct'` |
 | read-pretty | 独立阅读状态，显式 false 覆盖父级 | `boolean` | `false` |
 | clearable | 延迟编辑层清空操作，不改变原生取消选择 | `boolean` | `false` |
-| empty-value | 展示层显式清空输出，不控制原生取消勾选 | `ChoiceValue[] \| null \| (() => ChoiceValue[] \| null)` | `[]` |
+| empty-value | 展示层显式清空输出，不控制原生取消勾选 | `(string \| number \| boolean)[] \| null \| (() => (string \| number \| boolean)[] \| null)` | `[]` |
 | empty-values | 空值识别策略，字段优先于 FormItem 和 Form | `readonly unknown[]` | `-` |
 | empty-text | 阅读空文案，显式空字符串有效 | `string` | `'-'` |
 | before-commit | 延迟编辑保存前守卫；返回布尔值、Promise 或通过 done 完成 | `(payload: { value: unknown; previousValue: unknown }, done: (allow?: boolean) => void, context: { signal: AbortSignal; event?: Event }) => void \| boolean \| Promise<void \| boolean>` | `-` |
@@ -344,15 +344,15 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 
 | 方法       | 参数 | 返回值        |
 | ---------- | ---- | ------------- |
-| checkAll   | -    | ChoiceValue[] |
-| inverseAll | -    | ChoiceValue[] |
+| checkAll   | -    | (string \| number \| boolean)[] |
+| inverseAll | -    | (string \| number \| boolean)[] |
 
 ### Checkbox Events
 
 | 事件名             | 说明             | 参数                                |
 | ------------------ | ---------------- | ----------------------------------- |
-| update:modelValue | 提议新值         | value: CheckboxModel                |
-| change             | 值变化           | value: CheckboxModel, event?: Event |
+| update:modelValue | 提议新值         | value: boolean \| (string \| number \| boolean)[] \| null                |
+| change             | 值变化           | value: boolean \| (string \| number \| boolean)[] \| null, event?: Event |
 | click              | 点击；禁用不触发 | event: MouseEvent                   |
 | focus              | 聚焦             | event: FocusEvent                   |
 | blur               | 失焦             | event: FocusEvent                   |
@@ -363,8 +363,8 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 
 | 事件名             | 说明                        | 参数                                               |
 | ------------------ | --------------------------- | -------------------------------------------------- |
-| update:modelValue | 提议新值 | value: ChoiceValue[] \| null |
-| change | 值变化提案 | value: ChoiceValue[] \| null, event?: Event |
+| update:modelValue | 提议新值 | value: (string \| number \| boolean)[] \| null |
+| change | 值变化提案 | value: (string \| number \| boolean)[] \| null, event?: Event |
 | update:open | 编辑层受控开关更新 | open: boolean |
 | open-change | 编辑层实际开关变化 | open: boolean |
 | load-error | 显式选项加载失败，不改变模型 | error: unknown |
@@ -378,7 +378,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 | unchecked-icon     | 未选中图标         | -                                                           |
 | indeterminate-icon | 半选图标           | -                                                           |
 | default            | 标签               | checked: boolean                                            |
-| read | 自定义阅读内容，优先于 empty-text | value: CheckboxModel, text: string |
+| read | 自定义阅读内容，优先于 empty-text | value: boolean \| (string \| number \| boolean)[] \| null, text: string |
 
 ### CheckboxGroup Slots
 
@@ -386,7 +386,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 | -------- | ----------------- | -------------------------------------- |
 | checkbox | 自定义复选框      | checked: boolean<br/>disabled: boolean<br/>indeterminate: boolean |
 | label    | checkbox 文案内容 | data: CheckboxOption, checked: boolean |
-| read | 自定义阅读内容，优先于 empty-text | value: ChoiceValue[] \| null, text: string |
+| read | 自定义阅读内容，优先于 empty-text | value: (string \| number \| boolean)[] \| null, text: string |
 | default | 未提供 options 时的原生子选项 | - |
 
 ## Types
@@ -395,7 +395,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 
 | 字段          | 说明           | 类型                                                                 |
 | ------------- | -------------- | -------------------------------------------------------------------- |
-| value         | 选项标识       | ChoiceValue                                                          |
+| value         | 选项标识       | string \| number \| boolean                                                          |
 | label         | 标签或渲染函数 | VNodeChild \| (data: CheckboxOption, checked: boolean) => VNodeChild |
 | disabled      | 禁用           | boolean                                                              |
 | readonly      | 只读           | boolean                                                              |

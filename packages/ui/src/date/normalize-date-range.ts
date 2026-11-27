@@ -1,11 +1,11 @@
 import { cloneFieldValue } from '../_components/picker-field/use-field-value'
-import { outputDateValue, parseDateValue, type DateSelection, type DateValueOptions } from './date-value'
+import { outputDateValue, parseDateValue, type DateValueOptions } from './date-value'
 
 /** Only renderer interaction candidates are normalized; never external models or typed/shortcut values. */
 export function normalizeDateRange(
-  value: DateSelection,
+  value: Date | string | number | (Date | string | number | null | undefined)[] | null | undefined,
   options: DateValueOptions & { exchangeTime?: boolean } = {},
-): DateSelection {
+): Date | string | number | (Date | string | number | null | undefined)[] | null | undefined {
   if (!Array.isArray(value) || value.length !== 2) {
     return cloneFieldValue(value)
   }

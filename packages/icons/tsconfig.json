@@ -8,5 +8,6 @@
     "skipLibCheck": true,
     "types": ["vite/client"]
   },
+  "contentMappers": [{ "package": "@vue/content-mapper", "extensions": [".vue"] }],
   "include": ["src/**/*.ts", "src/**/*.vue"]
 }

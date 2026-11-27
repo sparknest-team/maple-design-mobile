@@ -1,9 +1,10 @@
 import fs from 'node:fs'
 import { readdir } from 'node:fs/promises'
 import path from 'node:path'
+import { text } from 'node:stream/consumers'
 import { confirm, input, select } from '@inquirer/prompts'
 import { program } from 'commander'
-import conventionalChangelog from 'conventional-changelog'
+import { ConventionalChangelog } from 'conventional-changelog'
 import fse from 'fs-extra'
 import { createSpinner } from 'nanospinner'
 import pc from 'picocolors'
@@ -90,16 +91,8 @@ export async function changelog(options: ChangelogOptions) {
 }
 
 async function generateChangelog({ releaseCount = 2 }: { releaseCount?: number } = {}): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const chunks: Buffer[] = []
-    conventionalChangelog({
-      preset: 'angular',
-      releaseCount,
-    })
-      .on('data', (chunk: Buffer) => chunks.push(chunk))
-      .on('end', () => resolve(Buffer.concat(chunks).toString('utf-8')))
-      .on('error', reject)
-  })
+  const generator = new ConventionalChangelog().readPackage().loadPreset('angular').options({ releaseCount })
+  return text(generator.writeStream())
 }
 
 // ── release ───────────────────────────────────────────────────────

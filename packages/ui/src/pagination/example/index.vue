@@ -21,8 +21,7 @@ onThemeChange()
   </h2>
 
   <section data-demo="basic">
-    <app-type>{{ english ? 'Basic and two-way binding' : '基础与双向绑定' }}</app-type
-    ><Demo0 />
+    <app-type>{{ english ? 'Basic and two-way binding' : '基础与双向绑定' }}</app-type><Demo0 />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="appearance-and-states">
@@ -31,13 +30,11 @@ onThemeChange()
   </h2>
 
   <section data-demo="size">
-    <app-type>{{ english ? 'Five sizes and elevation' : '五档尺寸与阴影' }}</app-type
-    ><Demo4 />
+    <app-type>{{ english ? 'Five sizes and elevation' : '五档尺寸与阴影' }}</app-type><Demo4 />
   </section>
 
   <section data-demo="disabled">
-    <app-type>{{ english ? 'Disabled and hide on single page' : '禁用与单页隐藏' }}</app-type
-    ><Demo9 />
+    <app-type>{{ english ? 'Disabled and hide on single page' : '禁用与单页隐藏' }}</app-type><Demo9 />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="pagination-modes-and-information">
@@ -46,13 +43,11 @@ onThemeChange()
   </h2>
 
   <section data-demo="simple">
-    <app-type>{{ english ? 'Simple mode' : '简洁模式' }}</app-type
-    ><Demo5 />
+    <app-type>{{ english ? 'Simple mode' : '简洁模式' }}</app-type><Demo5 />
   </section>
 
   <section data-demo="more-page-size">
-    <app-type>{{ english ? 'Page window and ellipsis' : '更多页码与省略跳转' }}</app-type
-    ><Demo1 />
+    <app-type>{{ english ? 'Page window and ellipsis' : '更多页码与省略跳转' }}</app-type><Demo1 />
   </section>
 
   <section data-demo="auxiliary-controls-comparison">
@@ -68,8 +63,7 @@ onThemeChange()
   </h2>
 
   <section data-demo="custom-page-button">
-    <app-type>{{ english ? 'Custom page slots and styles' : '自定义分页按钮与样式' }}</app-type
-    ><Demo8 />
+    <app-type>{{ english ? 'Custom page slots and styles' : '自定义分页按钮与样式' }}</app-type><Demo8 />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="responsive-layout-and-data-changes">
@@ -78,17 +72,14 @@ onThemeChange()
   </h2>
 
   <section data-demo="responsive">
-    <app-type>{{ english ? 'Container width and compact layout' : '容器宽度与窄屏布局' }}</app-type
-    ><Demo11 />
+    <app-type>{{ english ? 'Container width and compact layout' : '容器宽度与窄屏布局' }}</app-type><Demo11 />
   </section>
 
   <section data-demo="auto-adjust">
-    <app-type>{{ english ? 'Data changes and auto adjustment' : '数据变化与自动调整' }}</app-type
-    ><Demo10 />
+    <app-type>{{ english ? 'Data changes and auto adjustment' : '数据变化与自动调整' }}</app-type><Demo10 />
   </section>
 
   <section data-demo="all">
-    <app-type>{{ english ? 'Full feature controls' : '完整功能交互' }}</app-type
-    ><Demo7 />
+    <app-type>{{ english ? 'Full feature controls' : '完整功能交互' }}</app-type><Demo7 />
   </section>
 </template>

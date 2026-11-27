@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Checkbox, CheckboxGroup, Radio, RadioGroup } from '@maple-design/ui-vue'
-import type { RadioModel } from '@maple-design/ui-vue'
 
 const checked = ref<boolean | null>(null),
   selected = ref<(string | number | boolean)[] | null>(null),
-  radio = ref<RadioModel>(null)
+  radio = ref<string | number | boolean | null>(null)
 function failed(error: unknown) {
   void error
 }

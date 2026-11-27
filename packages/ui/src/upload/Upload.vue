@@ -54,7 +54,7 @@
             </slot>
           </div>
         </template>
-        <div v-else-if="showFileList" :class="n('list')">
+        <div v-if="section === 'list' && showFileList" :class="n('list')">
           <template v-for="(file, index) in fileList" :key="file.uid">
             <slot name="item" v-bind="itemScope(file, index)">
               <div :class="classes(n('item'), n('item--' + file.status), formatElevation(elevation, 2))">
@@ -80,8 +80,9 @@
                   >
                 </button>
                 <div :class="n('meta')">
-                  <span :class="n('name')">{{ file.name }}</span
-                  ><span :class="n('size')">{{ formatSize(file.size) }}</span>
+                  <span :class="n('name')">{{ file.name }}</span><span :class="n('size')">{{
+                    formatSize(file.size)
+                  }}</span>
                   <span
                     v-if="listType === 'text' && isVideo(file) && formatVideoDuration(file.duration)"
                     :aria-label="`${text.duration} ${formatVideoDuration(file.duration)}`"

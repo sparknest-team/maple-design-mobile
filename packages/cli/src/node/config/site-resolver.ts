@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { MapleResolver, type MapleResolverOptions } from '@maple-design/resolver-vue'
-import ts from 'typescript'
+import ts from 'typescript-js'
 import type { Plugin } from 'vite'
 
 /** Browser dev must not depend on directories removed by a parallel package build. */
@@ -9,6 +9,7 @@ export function getWorkspaceSourceAliases(sourceDir: string) {
   return [
     ['@maple-design/shared-vue', 'shared/src/index.ts'],
     ['@maple-design/use-vue', 'use/src/index.ts'],
+    ['@maple-design/cli-vue/docs/theme', 'cli/src/client/theme.ts'],
     ['@maple-design/cli-vue/client', 'cli/src/client/index.ts'],
   ].flatMap(([name, relative]) => {
     const replacement = resolve(sourceDir, '../..', relative)

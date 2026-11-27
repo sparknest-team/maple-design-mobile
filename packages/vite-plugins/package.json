@@ -25,23 +25,23 @@
     "lib"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format esm --out-dir=lib --dts --clean",
-    "dev": "tsup src/index.ts --format esm --out-dir=lib --watch --dts"
+    "build": "tsdown --config ../../scripts/tsdown.config.mjs --format esm",
+    "dev": "tsdown --config ../../scripts/tsdown.config.mjs --format esm --watch"
   },
   "dependencies": {
     "@maple-design/shared-vue": "workspace:*",
-    "ejs": "^3.1.10",
+    "ejs": "^7.0.2",
     "fs-extra": "catalog:",
-    "highlight.js": "^10.7.3",
-    "markdown-it": "^14.3.0",
-    "pinyin-pro": "3.17.0"
+    "highlight.js": "^11.12.0",
+    "markdown-it": "^15.0.3",
+    "pinyin-pro": "3.29.5"
   },
   "devDependencies": {
     "@types/ejs": "^3.1.5",
-    "@types/fs-extra": "^9.0.13",
-    "@types/markdown-it": "^12.2.3",
+    "@types/fs-extra": "^11.0.4",
+    "@types/markdown-it": "^14.2.0",
     "@types/node": "catalog:",
-    "tsup": "catalog:",
+    "tsdown": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {

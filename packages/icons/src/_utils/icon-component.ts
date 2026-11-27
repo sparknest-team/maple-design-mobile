@@ -1,4 +1,4 @@
-import type { AllowedComponentProps, App, ComponentCustomProps, ComponentOptionsMixin, DefineComponent, VNodeProps } from 'vue'
+import type { AllowedComponentProps, App, ComponentCustomProps, ComponentOptionsMixin, DefineComponent, SVGAttributes, VNodeProps } from 'vue'
 
 export interface IconProps {
   size?: string | number
@@ -21,6 +21,6 @@ type IconDefaults = {
 export type IconComponent = DefineComponent<
   IconProps, {}, {}, {}, {}, ComponentOptionsMixin, ComponentOptionsMixin, IconEmits, string,
   VNodeProps & AllowedComponentProps & ComponentCustomProps,
-  Readonly<IconProps> & Readonly<{ onClick?: (event: MouseEvent) => any }>,
+  Readonly<IconProps> & Pick<SVGAttributes, 'aria-hidden'> & Readonly<{ onClick?: (event: MouseEvent) => any }>,
   IconDefaults
 > & { install(app: App): void }

@@ -1,7 +1,7 @@
 import { dirname, relative, resolve } from 'node:path'
 import fse from 'fs-extra'
 
-// Copy ambient declarations only. Source-backed declarations already come from vue-tsc.
+// Copy ambient declarations only. Source-backed declarations already come from the Vue declaration build.
 export async function copySourceDeclarations(sourceDir: string, outputDir: string) {
   async function visit(directory: string) {
     for (const entry of await fse.readdir(directory, { withFileTypes: true })) {

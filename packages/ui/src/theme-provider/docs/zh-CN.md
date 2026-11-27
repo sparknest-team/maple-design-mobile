@@ -1,5 +1,5 @@
 ---
-redirectTo: /zh-CN/themes
+redirectTo: /zh-CN/themes/
 ---
 
 # ThemeProvider

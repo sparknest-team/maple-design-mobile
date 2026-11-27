@@ -19,9 +19,9 @@ var MapleTouchEmulator = (() => {
   var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
   // index.js
-  var touch_emulator_exports = {};
-  __export(touch_emulator_exports, {
-    default: () => touch_emulator_default
+  var index_exports = {};
+  __export(index_exports, {
+    default: () => index_default
   });
   var inBrowser = typeof window !== "undefined";
   var supportTouch = inBrowser && "ontouchstart" in window;
@@ -98,6 +98,6 @@ var MapleTouchEmulator = (() => {
   if (inBrowser && !supportTouch) {
     createTouchEmulator();
   }
-  var touch_emulator_default = {};
-  return __toCommonJS(touch_emulator_exports);
+  var index_default = {};
+  return __toCommonJS(index_exports);
 })();

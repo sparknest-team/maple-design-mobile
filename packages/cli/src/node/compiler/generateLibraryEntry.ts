@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs'
 import { readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { pascalCase } from '@maple-design/shared-vue'
-import ts from 'typescript'
+import ts from 'typescript-js'
 import { SRC_DIR } from '../shared/constant.js'
 import { getPublicDirs, getVersion } from '../shared/fsUtils.js'
 
@@ -105,6 +105,18 @@ export async function exportedComponentTokens(dir: string) {
   return [`_${pascalCase(dir)}Component`]
 }
 
+async function writeEntry(file: string, content: string) {
+  const previous = await readFile(file, 'utf8').catch((error) => {
+    if (error.code !== 'ENOENT') {
+      throw error
+    }
+    return undefined
+  })
+  if (previous !== content) {
+    await writeFile(file, content)
+  }
+}
+
 export async function generateLibraryEntry() {
   const publicDirs = (await getPublicDirs()).filter((dir) => dir !== 'index')
   const publicComponents = publicDirs.map((dir) => pascalCase(dir))
@@ -158,6 +170,6 @@ ${tokenExports.join('\n')}
 ${publicContractExports(publicDirs).join('\n')}
 `
 
-  await writeFile(resolve(SRC_DIR, 'maple-vue.ts'), mapleVue)
-  await writeFile(resolve(SRC_DIR, 'index.ts'), index)
+  await writeEntry(resolve(SRC_DIR, 'maple-vue.ts'), mapleVue)
+  await writeEntry(resolve(SRC_DIR, 'index.ts'), index)
 }

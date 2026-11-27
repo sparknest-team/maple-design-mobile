@@ -25,7 +25,7 @@
         ref="field"
         :loading="fieldProps.loading"
         :loading-mode="fieldProps.loadingMode"
-        :aria-controls="state.open.value ? popupId : undefined"
+        :popup-id="state.open.value ? popupId : undefined"
         :cursor="state.disabled.value || state.readonly.value || state.controlProps.value.editable ? '' : 'pointer'"
         @commit="state.commitText"
         @click="click"

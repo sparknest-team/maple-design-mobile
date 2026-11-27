@@ -56,16 +56,18 @@
     "dev": "node scripts/watch.mjs",
     "generate": "node scripts/generate.mjs",
     "generate:check": "node scripts/generate.mjs --check",
-    "typecheck": "vue-tsc --noEmit -p tsconfig.contract.json"
+    "typecheck": "tsc --runExternalCode --noEmit -p tsconfig.contract.json"
   },
   "devDependencies": {
-    "@sparknest/ui-icons-vue": "^1.0.0",
+    "@sparknest/ui-build-vue": "^1.4.4",
+    "@sparknest/ui-icons-vue": "^1.4.4",
     "@vitejs/plugin-vue": "catalog:",
-    "chokidar": "^3.6.0",
-    "typescript": "catalog:",
+    "@vue/content-mapper": "4.0.0-alpha.0",
+    "chokidar": "^6.0.0",
+    "typescript": "7.1.0-beta",
+    "typescript-js": "npm:typescript@6.0.3",
     "vite": "catalog:",
-    "vue": "catalog:",
-    "vue-tsc": "^2.1.10"
+    "vue": "catalog:"
   },
   "peerDependencies": {
     "vue": "^3.2.47"

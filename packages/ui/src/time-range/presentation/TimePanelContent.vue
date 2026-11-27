@@ -71,13 +71,19 @@ import { navigateTemporalColumns } from '../../_utils/temporal-keyboard'
 import MpButton from '../../button/base'
 import { injectLocaleProvider } from '../../locale-provider/provide'
 import { temporalText as t } from '../../locale/temporal-text'
-import MpPicker from '../../picker/base'
+import MpPickerComponent from '../../picker/base'
+import type { WithNativeAttributes } from '../../_utils/native-listener-types'
 import { getTimePickerColumnLabels } from '../../time/picker-columns'
 import type { TimeValue } from '../../time/time-value'
 import type { useTimePanel } from '../../time/use-time-panel'
 import { createNamespace, formatElevation } from '../../utils/components'
 import { props as panelProps } from '../picker-props'
 import type { useMobileRangePanel } from './use-mobile-range-panel'
+
+const MpPicker = MpPickerComponent as WithNativeAttributes<
+  typeof MpPickerComponent,
+  'role' | 'aria-label' | 'onFocusin' | 'onPointerdown' | 'onTouchstart'
+>
 
 type ContentState = ReturnType<typeof useTimePanel<TimeValue[]>> & ReturnType<typeof useMobileRangePanel>
 const { n, classes } = createNamespace('time-range-picker')

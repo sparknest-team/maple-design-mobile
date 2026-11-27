@@ -1,5 +1,5 @@
 import type { DateFormatMode } from './date-format'
-import { parseDateValue, type DateSelection, type DateSide, type DateValue, type DateValueOptions } from './date-value'
+import { parseDateValue, type DateSide, type DateValue, type DateValueOptions } from './date-value'
 
 export interface DateDisabledTime {
   disabledHours?: () => number[]
@@ -65,7 +65,11 @@ export function isCalendarDateDisabled(
     side,
   )
 }
-export function isDateEndpointSelectionValid(value: DateSelection, options: DateRules = {}, endpoint?: number) {
+export function isDateEndpointSelectionValid(
+  value: Date | string | number | (Date | string | number | null | undefined)[] | null | undefined,
+  options: DateRules = {},
+  endpoint?: number,
+) {
   if (!Array.isArray(value) || !value.length || value.length > 2) {
     return false
   }
@@ -75,7 +79,12 @@ export function isDateEndpointSelectionValid(value: DateSelection, options: Date
   // Editing one endpoint must not make an incomplete range committable.
   return isDateSelectionValid(value, options, true)
 }
-export function isDateSelectionValid(value: DateSelection, options: DateRules = {}, range = false, multiple = false) {
+export function isDateSelectionValid(
+  value: Date | string | number | (Date | string | number | null | undefined)[] | null | undefined,
+  options: DateRules = {},
+  range = false,
+  multiple = false,
+) {
   if (range) {
     if (!Array.isArray(value) || value.length !== 2) {
       return false

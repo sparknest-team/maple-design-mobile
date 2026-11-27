@@ -29,6 +29,7 @@ async function getPull(github, owner, repo, number) {
     if (error.status === 403 || error.status === 404) {
       throw new Error(
         `DESIGN_SYSTEM_CI_TOKEN cannot read ${owner}/${repo} PR #${number}. Select all three repositories and grant Contents: Read-only and Pull requests: Read-only.`,
+        { cause: error },
       )
     }
     throw error

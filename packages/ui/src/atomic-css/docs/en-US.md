@@ -68,6 +68,15 @@ export default {
 }
 ```
 
+For Tailwind v4, use `presets: [presetMaple({ tailwindVersion: 4 })]` in the config and load it from your stylesheet:
+
+```css
+@import 'tailwindcss';
+@config '../tailwind.config.js';
+```
+
+Use `mp:p-4`, `mp:bg-primary` and `mp:sm:p-4`. Tailwind v4 does not apply the v3 shadow core-plugin exclusions.
+
 ### Class catalog
 
 Colors: `mp-bg-primary` `mp-text-success` `mp-bg-body` …  

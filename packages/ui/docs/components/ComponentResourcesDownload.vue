@@ -1,10 +1,9 @@
 <script setup>
-import { onThemeChange } from '@maple-design/cli-vue/client'
+import { useRoute } from 'vue-router'
 import MpButton from '../../src/button'
 import MpIcon from '../../src/icon'
-import { t } from './locale'
 
-onThemeChange()
+const route = useRoute()
 
 function download() {
   window.location.href =
@@ -14,7 +13,7 @@ function download() {
 
 <template>
   <mp-button status="primary" @click="download">
-    {{ t('downloadResources') }}
+    {{ route.path.startsWith('/en-US/') ? 'Download Resources' : '下载资源' }}
     <mp-icon name="download" style="margin: 2px 0 0 6px" />
   </mp-button>
 </template>

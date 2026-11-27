@@ -15,7 +15,6 @@ dayjs.extend(quarterOfYear)
 dayjs.extend(advancedFormat)
 
 export type DateValue = Date | string | number
-export type DateSelection = null | DateValue | (DateValue | null | undefined)[] | undefined
 export type DateSide = 'start' | 'end'
 export interface DateValueOptions extends DateLocaleOptions {
   timeZone?: string
@@ -118,13 +117,20 @@ export function formatDateValue(value: DateValue | null | undefined, options: Da
     ? options.format(date.toDate())
     : date.locale(dateLocaleName(options)).format(dateDisplayFormat(options))
 }
-export function dateEventPayload(value: DateSelection, options: DateValueOptions = {}) {
+export function dateEventPayload(
+  value: Date | string | number | (Date | string | number | null | undefined)[] | null | undefined,
+  options: DateValueOptions = {},
+) {
   const values = Array.isArray(value) ? value : [value]
   const dates = values.map((part) => parseDateValue(part, options)?.toDate())
   const texts = values.map((part) => formatDateValue(part, options))
   return Array.isArray(value) ? { dates, texts } : { dates: dates[0], texts: texts[0] }
 }
-export function sameDateSelection(a: DateSelection, b: DateSelection, options: DateValueOptions = {}) {
+export function sameDateSelection(
+  a: Date | string | number | (Date | string | number | null | undefined)[] | null | undefined,
+  b: Date | string | number | (Date | string | number | null | undefined)[] | null | undefined,
+  options: DateValueOptions = {},
+) {
   const left = Array.isArray(a) ? a : [a]
   const right = Array.isArray(b) ? b : [b]
   return (

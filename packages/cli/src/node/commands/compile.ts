@@ -3,6 +3,7 @@ import { pathToFileURL } from 'node:url'
 import { buildLibrary } from '@sparknest/ui-build-vue'
 import fse from 'fs-extra'
 import { createSpinner } from 'nanospinner'
+import { x } from 'tinyexec'
 import { compileTemplateHighlight } from '../compiler/compileTemplateHighlight.js'
 import { compileTypes, generateReference } from '../compiler/compileTypes.js'
 import { generateLibraryEntry } from '../compiler/generateLibraryEntry.js'
@@ -24,23 +25,25 @@ export async function runTask(taskName: string, task: () => any) {
   } catch (e: any) {
     s.error({ text: `Compilation ${taskName} failed!` })
     logger.error(e.toString())
-    process.exitCode = 1
+    throw e
   }
 }
 
-export async function compile() {
+export async function compile(configPath = 'ui-build.config.mjs') {
   process.env.NODE_ENV = 'production'
-  await removeDir()
-
+  const configUrl = pathToFileURL(resolve(configPath))
+  const { default: config } = await import(configUrl.href)
   await runTask('library entry', generateLibraryEntry)
+  if (config.releaseCheck) {
+    await x('tsc', ['--runExternalCode', '-p', config.releaseCheck], {
+      nodeOptions: { cwd: config.root, stdio: 'inherit' },
+      throwOnError: true,
+    })
+  }
+  await removeDir()
   await Promise.all([runTask('types', compileTypes), runTask('template highlight', compileTemplateHighlight)])
 
-  const configUrl = pathToFileURL(resolve(process.cwd(), 'ui-build.config.mjs')).href
-  const configModule = await import(`${configUrl}?t=${Date.now()}`)
-  await runTask('module', () => buildLibrary(configModule.default))
-  if (process.exitCode && process.exitCode !== 0) {
-    return
-  }
+  await runTask('module', () => buildLibrary(config))
   generateReference(ES_DIR)
   generateReference(LIB_DIR)
 }

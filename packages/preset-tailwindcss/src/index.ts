@@ -1,4 +1,5 @@
 export interface PresetMapleOptions {
+  tailwindVersion?: 3 | 4
   screens?: boolean | PresetMapleScreens
   fontSize?: boolean | PresetMapleFontSize
   colors?: boolean | PresetMapleColors
@@ -124,7 +125,7 @@ export function presetMaple(options: PresetMapleOptions = {}) {
   const disabled = getDisabled(options)
 
   return {
-    prefix: 'mp-',
+    prefix: options.tailwindVersion === 4 ? 'mp' : 'mp-',
     corePlugins: {
       boxShadow: false,
       boxShadowColor: false,

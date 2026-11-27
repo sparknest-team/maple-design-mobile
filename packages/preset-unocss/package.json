@@ -34,16 +34,17 @@
     "lib"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --out-dir=lib --dts --clean",
-    "dev": "tsup src/index.ts --format esm --out-dir=lib --watch --dts"
+    "build": "tsdown --config ../../scripts/tsdown.config.mjs --format esm --format cjs",
+    "dev": "tsdown --config ../../scripts/tsdown.config.mjs --format esm --watch"
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "tsup": "catalog:",
-    "typescript": "catalog:"
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "unocss": "^66.13.0"
   },
   "peerDependencies": {
-    "unocss": "^0.58.5"
+    "unocss": "^0.58.5 || ^66.13.0"
   },
   "publishConfig": {
     "access": "public",

@@ -60,8 +60,7 @@ onThemeChange()
   </h2>
 
   <section data-demo="overflow-keyboard">
-    <app-type>{{ english ? 'Overflow and keyboard' : '超额数据与键盘提示' }}</app-type
-    ><OverflowKeyboardDemo />
+    <app-type>{{ english ? 'Overflow and keyboard' : '超额数据与键盘提示' }}</app-type><OverflowKeyboardDemo />
   </section>
 
   <section data-demo="custom">

@@ -453,3 +453,19 @@ export function markdown(options: MarkdownOptions): Plugin {
     },
   }
 }
+
+// Normalize Maple's authored demo references for Cedar's VuePress renderer.
+// Keep page and phone renderers on the same demo discovery and locale rules.
+export function vuepressDemoMarkdown(source: string, id: string) {
+  const expanded = expandDemoFiles(source, id)
+  const withDemos = expanded.source.replace(
+    /MAPLE_DOC_DEMO_(\d+)/g,
+    (_, i) => '<demo src="' + expanded.demos[Number(i)].request + '"></demo>',
+  )
+  return withDemos.replace(/^```vue\s*\n((?:import \w+ from ['"][^'"]+\.vue['"]\s*\n)+)```/gm, (_, imports: string) =>
+    Array.from(
+      imports.matchAll(/from ['"]([^'"]+)['"]/g),
+      (match) => '<demo inline src="' + match[1] + '"></demo>',
+    ).join('\n\n'),
+  )
+}

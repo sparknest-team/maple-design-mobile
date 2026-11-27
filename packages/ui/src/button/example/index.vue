@@ -113,13 +113,11 @@ onThemeChange()
   </h2>
 
   <section data-demo="loading">
-    <app-type>{{ english ? 'Loading animations, layouts and sizes' : '加载动画、布局与尺寸' }}</app-type
-    ><DemoLoading />
+    <app-type>{{ english ? 'Loading animations, layouts and sizes' : '加载动画、布局与尺寸' }}</app-type><DemoLoading />
   </section>
 
   <section data-demo="loading-appearance">
-    <app-type>{{ english ? 'Loading indicator appearance' : '加载指示器样式' }}</app-type
-    ><DemoLoadingAppearance />
+    <app-type>{{ english ? 'Loading indicator appearance' : '加载指示器样式' }}</app-type><DemoLoadingAppearance />
   </section>
 
   <section data-demo="feedback">

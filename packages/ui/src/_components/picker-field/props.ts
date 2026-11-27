@@ -9,6 +9,7 @@ export type RangeInputAttributes = InputHTMLAttributes & {
 export const rangeInputAttrsProp = { type: Array as PropType<RangeInputAttributes[]>, default: undefined }
 
 export const pickerFieldProps = {
+  popupId: String,
   inputAttrs: rangeInputAttrsProp,
   openTriggerTarget: openTriggerTargetProp,
   ...fieldDecoratorProps,

@@ -7,7 +7,7 @@ export interface FormRuleContext {
   field: string
 }
 /** 函数仅 true 通过，其他正常返回值转成错误文字；Promise 拒绝保持可观察。 */
-export type FormRule<Value = any> = ((value: Value, context: FormRuleContext) => unknown) | ZodType<any, any, Value>
+export type FormRule<Value = any> = ((value: Value, context: FormRuleContext) => unknown) | ZodType<any, Value>
 export type FormRules = Record<string, FormRule | FormRule[]>
 export interface ValidatedError extends FormFieldError {
   label: string

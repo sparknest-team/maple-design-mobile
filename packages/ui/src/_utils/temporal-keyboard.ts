@@ -24,7 +24,7 @@ export function navigateTemporalGrid(event: KeyboardEvent, selector: string, col
   }
   const width = Math.max(1, columns)
   let to = from,
-    step = 0,
+    step: number,
     min = 0,
     max = cells.length - 1
   if (event.key === 'ArrowDown') {

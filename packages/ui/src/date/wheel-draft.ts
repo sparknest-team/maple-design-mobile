@@ -1,13 +1,13 @@
 import { isDateDisabled, type DateRules } from './date-rules'
-import { outputDateValue, parseDateValue, sameDateSelection, type DateSelection } from './date-value'
+import { outputDateValue, parseDateValue, sameDateSelection } from './date-value'
 
 /** Give empty wheel endpoints a real draft without changing an existing or locked endpoint. */
 export function dateWheelDraft(
-  value: DateSelection,
+  value: Date | string | number | (Date | string | number | null | undefined)[] | null | undefined,
   options: DateRules & { disabled?: boolean | boolean[] },
   range: boolean,
   now = new Date(),
-): DateSelection {
+): Date | string | number | (Date | string | number | null | undefined)[] | null | undefined {
   if ((!range && Array.isArray(value)) || (range && value != null && !Array.isArray(value))) {
     return value
   }

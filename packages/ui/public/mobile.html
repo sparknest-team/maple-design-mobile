@@ -1,0 +1,19 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maple Design Mobile</title>
+<script>
+  // Keep previously shared mobile.html hash links working under any deployment base.
+  const [route, anchor] = location.hash.slice(1).split('#')
+  const [path, search] = route.split('?')
+  const params = new URLSearchParams(search)
+  const parts = path.split('/').filter(Boolean)
+  const language = [parts[0], params.get('language')].includes('en-US') ? 'en-US' : 'zh-CN'
+  const doc = parts.filter(part => part !== 'en-US' && part !== 'zh-CN').join('/')
+  const target = new URL('./' + language + '/', location.href)
+  if (/^[\w-]+$/.test(doc) && !['home', 'index'].includes(doc)) target.pathname += doc + '/'
+  for (const key of ['language', 'platform', 'replace', 'section']) params.delete(key)
+  target.search = params.toString()
+  target.hash = anchor || ''
+  location.replace(target.href)
+</script>

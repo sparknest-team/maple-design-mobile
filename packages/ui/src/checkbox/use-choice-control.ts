@@ -1,18 +1,20 @@
 import { computed } from 'vue'
 import { toggleChoice, useChoiceState } from './choice-state'
-import type { CheckboxModel, ChoiceValue, RadioModel } from './choice-value-props'
 
 interface ControlProps<T> {
   modelValue?: T
   defaultValue: T
-  value: ChoiceValue
+  value: string | number | boolean
 }
 
 export function useCheckboxControl(
-  props: ControlProps<CheckboxModel>,
-  notify: (value: CheckboxModel, event?: Event) => void,
+  props: ControlProps<boolean | (string | number | boolean)[] | null>,
+  notify: (value: boolean | (string | number | boolean)[] | null, event?: Event) => void,
   blocked: () => boolean,
-  group?: { value: () => ChoiceValue[]; change: (value: ChoiceValue[], event?: Event) => void },
+  group?: {
+    value: () => (string | number | boolean)[]
+    change: (value: (string | number | boolean)[], event?: Event) => void
+  },
 ) {
   const state = useChoiceState(() => props.modelValue, props.defaultValue, notify, blocked)
   const value = computed(() => (group ? group.value() : state.value.value))
@@ -35,12 +37,15 @@ export function useCheckboxControl(
 }
 
 export function useRadioControl(
-  props: ControlProps<RadioModel>,
-  notify: (value: ChoiceValue, event?: Event) => void,
+  props: ControlProps<string | number | boolean | null>,
+  notify: (value: string | number | boolean, event?: Event) => void,
   blocked: () => boolean,
-  group?: { value: () => RadioModel; change: (value: ChoiceValue, event?: Event) => void },
+  group?: {
+    value: () => string | number | boolean | null
+    change: (value: string | number | boolean, event?: Event) => void
+  },
 ) {
-  const state = useChoiceState<RadioModel>(
+  const state = useChoiceState<string | number | boolean | null>(
     () => props.modelValue,
     props.defaultValue,
     (value, event) => {

@@ -30,3 +30,6 @@ packages/ui/types-generated/
 packages/ui/public/llms/
 packages/ui/public/llms.txt
 packages/ui/public/llms-full.txt
+
+packages/ui/docs/.vuepress/.temp*/
+packages/ui/docs/.vuepress/.cache*/

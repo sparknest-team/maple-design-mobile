@@ -1808,6 +1808,15 @@ export default {
 }
 ```
 
+For Tailwind v4, use `presets: [presetMaple({ tailwindVersion: 4 })]` in the config and load it from your stylesheet:
+
+```css
+@import 'tailwindcss';
+@config '../tailwind.config.js';
+```
+
+Use `mp:p-4`, `mp:bg-primary` and `mp:sm:p-4`. Tailwind v4 does not apply the v3 shadow core-plugin exclusions.
+
 ### Class catalog
 
 Colors: `mp-bg-primary` `mp-text-success` `mp-bg-body` …  
@@ -1837,9 +1846,6 @@ Example source: src/atomic-css/example/basic.vue
 ```vue
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { onThemeChange } from '@maple-design/cli-vue/client'
-
-onThemeChange()
 
 const width = ref(typeof window !== 'undefined' ? window.innerWidth : 0)
 const onResize = () => {
@@ -2265,12 +2271,6 @@ Do not interpolate class names such as `mp-bg-${status}`; Uno / TW only scans co
 Example source: src/atomic-usage/example/basic.vue
 
 ```vue
-<script setup>
-import { onThemeChange } from '@maple-design/cli-vue/client'
-
-onThemeChange()
-</script>
-
 <template>
   <div class="demo mp-px-16 mp-py-16">
     <div class="mp-text-3 mp-mb-8">Flex · 间距 · 省略</div>
@@ -6826,7 +6826,7 @@ html[lang='en-US'] .demo-config-comparison-hint > [lang='zh-CN'] {
 
 ### Card sizes and heading levels
 
-Size controls spacing. Heading level controls the title font size. The preview shows the active combination, font sizes and gaps above the title and description. Turn off “Show content” to leave only a comment in the default slot. The body container and its spacing disappear. The title and its description form the card header. From `xs` through `xl`, their gap is 2px, 4px, 6px, 8px and 10px, respectively.
+Size controls spacing. Choose a heading level from `h1` to `h6`. Card uses plain text for its title by default. The preview shows the active combination, font sizes and gaps above the title and description. Turn off “Show description” to hide the description and its spacing. Turn off “Show content” to leave only a comment in the default slot. The body container and its spacing disappear. The title and its description form the card header. From `xs` through `xl`, their gap is 2px, 4px, 6px, 8px and 10px, respectively.
 
 Example source: src/card/example/demos/en-US/sizes-and-headings.vue
 
@@ -6837,7 +6837,8 @@ import { ref, watch } from 'vue'
 const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
 const size = ref<(typeof sizes)[number]>('md')
 const levels = [1, 2, 3, 4, 5, 6] as const
-const level = ref<(typeof levels)[number]>(1)
+const level = ref<(typeof levels)[number] | 'default'>('default')
+const showDescription = ref(true)
 const showContent = ref(true)
 const preview = ref<HTMLElement | null>(null)
 const titleMetrics = ref('')
@@ -6845,12 +6846,14 @@ const descriptionMetrics = ref('')
 
 function measureText() {
   const container = preview.value?.querySelector<HTMLElement>('.mp-card__container')
-  const title = container?.querySelector(`h${level.value}`)
+  const title = container?.querySelector('.mp-card__title-text')
   const description = container?.querySelector('.mp-card__description')
-  if (!container || !title?.parentElement || !description) return
+  if (!container || !title?.parentElement) {
+    return
+  }
 
   titleMetrics.value = formatMetrics(title, getComputedStyle(title.parentElement).marginTop)
-  descriptionMetrics.value = formatMetrics(description, getComputedStyle(description).marginTop)
+  descriptionMetrics.value = description ? formatMetrics(description, getComputedStyle(description).marginTop) : ''
 }
 
 function formatMetrics(element: Element, gap: string) {
@@ -6858,7 +6861,7 @@ function formatMetrics(element: Element, gap: string) {
   return `font size ${fontSize} · gap above ${gap}`
 }
 
-watch([preview, size, level], measureText, { flush: 'post' })
+watch([preview, size, level, showDescription], measureText, { flush: 'post' })
 </script>
 
 <template>
@@ -6869,16 +6872,23 @@ watch([preview, size, level], measureText, { flush: 'post' })
     </mp-radio-group>
     <span>Heading level</span>
     <mp-radio-group v-model="level" aria-label="Heading level">
+      <mp-radio value="default">Default</mp-radio>
       <mp-radio v-for="value in levels" :key="value" :value="value">h{{ value }}</mp-radio>
     </mp-radio-group>
+    <mp-checkbox v-model="showDescription">Show description</mp-checkbox>
     <mp-checkbox v-model="showContent">Show content</mp-checkbox>
     <output>
-      Size {{ size }} · Heading h{{ level }}<br>
-      Title · {{ titleMetrics }}<br>
-      Description · {{ descriptionMetrics }}
+      Size {{ size }} · Heading {{ level === 'default' ? 'Default' : `h${level}` }}<br />
+      Title · {{ titleMetrics }}
+      <template v-if="showDescription"><br />Description · {{ descriptionMetrics }}</template>
     </output>
     <div ref="preview" @transitionend="measureText">
-      <mp-card :size="size" :heading-level="level" title="Project overview" description="Project settings apply to the entire team.">
+      <mp-card
+        :size="size"
+        :heading-level="level === 'default' ? undefined : level"
+        title="Project overview"
+        :description="showDescription ? 'Project settings apply to the entire team.' : undefined"
+      >
         <!-- Only this comment remains when content is hidden. -->
         <span v-if="showContent">Administrators can invite members.</span>
       </mp-card>
@@ -7034,31 +7044,44 @@ p {
 
 ### Long title and tooltip
 
-Example source: src/card/example/demos/tooltip.vue
+Example source: src/card/example/demos/en-US/tooltip.vue
 
 ```vue
 <script setup lang="ts">
 const title = 'Project overview with a long title that does not fit on one line'
+const description = 'Review the delivery schedule, dependencies and upcoming milestones for each team.'
 </script>
 
 <template>
   <mp-card style="width: 100%; max-width: 280px">
-    <template #title
-      ><span class="long-title" :title="title">{{ title }}</span></template
-    >
-    <template #description
-      ><span class="long-title" :title="title">{{ title }}</span></template
-    >
-    Native title tooltip on pointer devices; the full text remains in the DOM.
+    <template #title>
+      <mp-tooltip :content="title" trigger="click">
+        <button type="button" class="long-text">{{ title }}</button>
+      </mp-tooltip>
+    </template>
+    <template #description>
+      <mp-tooltip :content="description" trigger="click">
+        <button type="button" class="long-text">{{ description }}</button>
+      </mp-tooltip>
+    </template>
+    Tap the title or description to read the full text.
   </mp-card>
 </template>
 
 <style scoped>
-.long-title {
+.long-text {
   display: block;
+  width: 100%;
+  min-width: 0;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: start;
 }
 </style>
 ```
@@ -7290,6 +7313,8 @@ The default close button uses the current locale's close label; override it with
 | update:floating | `(value: boolean)`, emits false when the built-in close button or Escape requests closing; expansion is controlled by the parent |
 
 ### Card Slots
+
+The default slot controls the body. Omitting it or hiding all its children with `v-if` removes the body container and its spacing. A text interpolation such as `{{ note }}` keeps the container even when the string is empty.
 
 | Slot | Description | Arguments |
 | --- | --- | --- |
@@ -8000,8 +8025,7 @@ const slides = [
     <p role="status">Slide: {{ current }}</p>
     <section v-for="group in groups" :key="group.name" :data-comparison-scene="group.name">
       <h4>
-        <span lang="zh-CN">{{ group.zh }}</span
-        ><span lang="en-US">{{ group.en }}</span>
+        <span lang="zh-CN">{{ group.zh }}</span><span lang="en-US">{{ group.en }}</span>
       </h4>
       <div class="indicator-comparison-grid">
         <div v-for="preset in group.values" :key="preset.label">
@@ -10600,7 +10624,7 @@ Use `v-model`, `v-model:open` and `v-model:input-value` for controlled state. Cl
 | `tag-nowrap` | Keep tags on one line with ellipsis and preserved removal icons; overflow scrolls horizontally; hover, focus or tap truncated text to preview it | `boolean` | `false` |
 | `popup-container` | Selector, element, element resolver, or false for inline rendering | `PopupContainer` | `—` |
 | `trigger-props` | Menu Trigger props; field owns open state | `TriggerProps` | `—` |
-| `virtual-list-props` | Pass the virtual list attribute, pass in this parameter to turn on virtual scrolling [VirtualListProps](#VirtualListProps) | `VirtualListProps` | `—` |
+| `virtual-list-props` | Pass the virtual list attribute, pass in this parameter to turn on virtual scrolling [VirtualListProps](llms/en-US/table.md#virtuallistprops) | `VirtualListProps` | `—` |
 | `search-delay` | Finite nonnegative search debounce delay in milliseconds. | `number` | `500` |
 | `format-label` | Format selected labels; use label slot for VNodes | `function` | `—` |
 | `clearable` | Allow clearing; preserve disabled selections | `boolean` | `false` |
@@ -11424,7 +11448,7 @@ const selected = ref([0])
 Both libraries accept primitive options or objects. `field-names` maps `label/value/disabled/readonly/indeterminate`; read-only options remain focusable but cannot change the value. Checkbox indeterminate is presentation only.
 The `label` slot receives `{ data, checked }` and takes precedence over a label render function `(data, checked) => VNodeChild`. Data is normalized and retains business fields; source objects are not mutated. Missing labels fall back to the value's text.
 Providing `options` replaces the default slot, including `[]`; omit it to use the default slot. Values must be strings, finite numbers or booleans; missing/invalid values and duplicate values of the same type are skipped (first occurrence wins). `false`, `0`, `''` and `'0'` remain distinct. Option changes never rewrite the model.
-CheckboxGroup uses `ChoiceValue[]`; `max` is a number (use `:max="2"`).
+CheckboxGroup uses `(string | number | boolean)[]`; `max` is a number (use `:max="2"`).
 
 Example source: src/checkbox/example/demos/en-US/option-data.vue
 
@@ -12119,14 +12143,14 @@ During an explicit options request both group roots announce aria-busy and emit 
 
 These props belong to field presentation; pure panels do not gain reading mode. Form and FormItem provide inherited settings. The existing empty-value type and clear fallback remain component-specific.
 
-`ChoiceValue = string | number | boolean`；`CheckboxModel = boolean | ChoiceValue[] | null`；`RadioModel = ChoiceValue | null`。
+`string | number | boolean = string | number | boolean`；`boolean | (string | number | boolean)[] | null = boolean | (string | number | boolean)[] | null`；`string | number | boolean | null = string | number | boolean | null`。
 
 ### Checkbox Props
 
 | Prop | Description | Type | Default |
 | ---------------------- | ---------------------------------- | ------------------------ | --------- |
-| model-value (v-model) | Controlled value | CheckboxModel | undefined |
-| default-value | Initial uncontrolled value | CheckboxModel | false |
+| model-value (v-model) | Controlled value | boolean \| (string \| number \| boolean)[] \| null | undefined |
+| default-value | Initial uncontrolled value | boolean \| (string \| number \| boolean)[] \| null | false |
 | value | Option identifier in array/group mode | string\|number\|boolean | true |
 | disabled | Disabled state; inherits from the form/group when omitted | boolean | undefined |
 | readonly | Readonly state; inherits from the form/group when omitted | boolean | undefined |
@@ -12142,7 +12166,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | edit-mode | Editing mode, inherited from FormItem and Form | `'direct' \| 'popup'` | `'direct'` |
 | read-pretty | Independent read presentation; explicit false overrides the parent | `boolean` | `false` |
 | clearable | Deferred editor clearing; does not change native deselection | `boolean` | `false` |
-| empty-value | Explicit presentation clear output; does not control native unchecking | `CheckboxModel \| (() => CheckboxModel)` | `false` |
+| empty-value | Explicit presentation clear output; does not control native unchecking | `boolean \| (string \| number \| boolean)[] \| null \| (() => boolean \| (string \| number \| boolean)[] \| null)` | `false` |
 | empty-values | Empty-value recognition; field takes precedence over FormItem and Form | `readonly unknown[]` | `-` |
 | empty-text | Read empty text; an explicit empty string is valid | `string` | `'-'` |
 | before-commit | Guard before saving a deferred edit; return a boolean or Promise, or complete via done | `(payload: { value: unknown; previousValue: unknown }, done: (allow?: boolean) => void, context: { signal: AbortSignal; event?: Event }) => void \| boolean \| Promise<void \| boolean>` | `-` |
@@ -12154,10 +12178,10 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 | Prop | Description | Type | Default |
 | --------------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ------------ |
-| model-value (v-model) | Controlled value | ChoiceValue[] \| null | undefined |
-| default-value | Initial uncontrolled value | ChoiceValue[] | [] |
+| model-value (v-model) | Controlled value | (string \| number \| boolean)[] \| null | undefined |
+| default-value | Initial uncontrolled value | (string \| number \| boolean)[] | [] |
 | max | Maximum selection count | number | undefined |
-| options | Options; replaces default slot when supplied | Array<ChoiceValue \| CheckboxOption \| Record<string, unknown>> / `(query, { signal }) => Array / Promise` | `undefined` |
+| options | Options; replaces default slot when supplied | Array<string \| number \| boolean \| CheckboxOption \| Record<string, unknown>> / `(query, { signal }) => Array / Promise` | `undefined` |
 | orientation | Horizontal/vertical arrangement of checkbox-group options, default horizontal; not text reading direction | Orientation<br>`'horizontal' \| 'vertical'` | 'horizontal' |
 | disabled | Disabled state; inherits from the form/group when omitted | boolean | undefined |
 | readonly | Readonly state; inherits from the form/group when omitted | boolean | undefined |
@@ -12168,7 +12192,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | edit-mode | Editing mode, inherited from FormItem and Form | `'direct' \| 'popup'` | `'direct'` |
 | read-pretty | Independent read presentation; explicit false overrides the parent | `boolean` | `false` |
 | clearable | Deferred editor clearing; does not change native deselection | `boolean` | `false` |
-| empty-value | Explicit presentation clear output; does not control native unchecking | `ChoiceValue[] \| null \| (() => ChoiceValue[] \| null)` | `[]` |
+| empty-value | Explicit presentation clear output; does not control native unchecking | `(string \| number \| boolean)[] \| null \| (() => (string \| number \| boolean)[] \| null)` | `[]` |
 | empty-values | Empty-value recognition; field takes precedence over FormItem and Form | `readonly unknown[]` | `-` |
 | empty-text | Read empty text; an explicit empty string is valid | `string` | `'-'` |
 | before-commit | Guard before saving a deferred edit; return a boolean or Promise, or complete via done | `(payload: { value: unknown; previousValue: unknown }, done: (allow?: boolean) => void, context: { signal: AbortSignal; event?: Event }) => void \| boolean \| Promise<void \| boolean>` | `-` |
@@ -12188,15 +12212,15 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 | Method | Arguments | Returns |
 | ---------- | ---- | ------------- |
-| checkAll | - | ChoiceValue[] |
-| inverseAll | - | ChoiceValue[] |
+| checkAll | - | (string \| number \| boolean)[] |
+| inverseAll | - | (string \| number \| boolean)[] |
 
 ### Checkbox Events
 
 | Event | Description | Arguments |
 | ------------------ | ---------------- | ----------------------------------- |
-| update:modelValue | Proposes a new value | value: CheckboxModel |
-| change | Value change | value: CheckboxModel, event?: Event |
+| update:modelValue | Proposes a new value | value: boolean \| (string \| number \| boolean)[] \| null |
+| change | Value change | value: boolean \| (string \| number \| boolean)[] \| null, event?: Event |
 | click | Click; not emitted while disabled | event: MouseEvent |
 | focus | Focus | event: FocusEvent |
 | blur | Blur | event: FocusEvent |
@@ -12207,8 +12231,8 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 | Event | Description | Arguments |
 | ------------------ | --------------------------- | -------------------------------------------------- |
-| update:modelValue | Proposes a new value | value: ChoiceValue[] \| null |
-| change | Value change proposal | value: ChoiceValue[] \| null, event?: Event |
+| update:modelValue | Proposes a new value | value: (string \| number \| boolean)[] \| null |
+| change | Value change proposal | value: (string \| number \| boolean)[] \| null, event?: Event |
 | update:open | Controlled editor visibility update | open: boolean |
 | open-change | Actual editor visibility change | open: boolean |
 | load-error | Explicit option loading failed; does not change the model | error: unknown |
@@ -12222,7 +12246,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | unchecked-icon | Unchecked icon | - |
 | indeterminate-icon | Half icon | - |
 | default | Label | checked: boolean |
-| read | Custom read content, taking precedence over empty-text | value: CheckboxModel, text: string |
+| read | Custom read content, taking precedence over empty-text | value: boolean \| (string \| number \| boolean)[] \| null, text: string |
 
 ### CheckboxGroup Slots
 
@@ -12230,7 +12254,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | -------- | ----------------- | -------------------------------------- |
 | checkbox | Custom checkbox | checked: boolean<br/>disabled: boolean<br/>indeterminate: boolean |
 | label | Checkbox label content | data: CheckboxOption, checked: boolean |
-| read | Custom read content, taking precedence over empty-text | value: ChoiceValue[] \| null, text: string |
+| read | Custom read content, taking precedence over empty-text | value: (string \| number \| boolean)[] \| null, text: string |
 | default | Native child options when options is omitted | - |
 
 ## Types
@@ -12239,7 +12263,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 | Field | Description | Type |
 | ------------- | -------------- | -------------------------------------------------------------------- |
-| value | Option identity | ChoiceValue |
+| value | Option identity | string \| number \| boolean |
 | label | Label or render function | VNodeChild \| (data: CheckboxOption, checked: boolean) => VNodeChild |
 | disabled | Disable interaction | boolean |
 | readonly | Read-only interaction | boolean |
@@ -12340,39 +12364,32 @@ maple-cli gen
 ### Configuration file
 
 The `maple.config.mjs` in the project root directory is used to manage the specific details of the entire component library project.
-The default configuration can be viewed [maple.default.config.ts](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.default.config.ts?ref_type=heads).
-Also refer to `@maple-design/ui-vue` [maple.config.mjs](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/ui/maple.config.mjs?ref_type=heads).
+The default configuration can be viewed [maple.default.config.ts](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/cli/src/node/config/maple.default.config.ts).
+Also refer to `@maple-design/ui-vue` [maple.config.mjs](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/ui/maple.config.mjs).
+
+Configure documentation Vite plugins and proxies in `docs/.vuepress/config.ts`. Configure the library entry points, external dependencies and outputs in `ui-build.config.mjs`.
 
 | Parameter | Description | Type | Default |
 | --- | -------------- | -------- | ---------- |
 | `name` | The full name of the component library, which will be used as the package name | _string_ | `Maple` |
-| `namespace` | Component library namespace, will be used as component prefix | _string_ | `var` |
-| `host` | Development server host | _number_ | `localhost` |
+| `namespace` | Component library namespace, will be used as component prefix | _string_ | `mp` |
 | `port` | Development server port | _number_ | `8080` |
-| `proxy` | Development server proxy | _Record<string, string \| ProxyOptions>_ | `-` |
 | `title` | The title of the component library in the document | _string_ | `Maple` |
 | `logo` | The logo of the component library in the document | _string_ | `-` |
 | `alias` | Path alias (root is src folder when use mp-relative path) | _Record<string, string>_ | `-` |
 | `defaultLanguage` | Document default language | _string_ | `zh-CN` |
 | `defaultLightTheme` | Default light-mode selection | _string_ | `lightTheme` |
 | `defaultDarkTheme` | Default dark-mode selection | _string_ | `darkTheme` |
-| `useMobile` | Whether to display the mobile phone preview on the right | _boolean_ | `false` |
 | `themeKey` | The key of the theme in local storage | _string_ | `MAPLE_THEME` |
 | `lightTheme` | Default brand light document theme | _Record<string, any>_ | `-` |
 | `darkTheme` | Default brand dark document theme | _Record<string, any>_ | `-` |
 | `mapleLightTheme` | Maple brand light document theme | _Record<string, any>_ | `-` |
 | `mapleDarkTheme` | Maple brand dark document theme | _Record<string, any>_ | `-` |
-| `highlight` | Document code snippet style related | _{ style: string }_ | `-` |
-| `analysis` | Document statistics related | _{ baidu: string }_ | `-` |
-| `pc` | PC side document structure configuration | _[MapleConfigPc](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.config.ts?ref_type=heads)_ | `-` |
-| `mobile` | Mobile document structure configuration | _[MapleConfigMobile](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.config.ts?ref_type=heads)_ | `-` |
-| `bundle` | Bundle output options | _{ external: string[], globals: Record<string, string> }_ | `-` |
-| `vitePlugins` | vite plugins | _[Plugin](https://vite.dev/guide/using-plugins.html)[]_ \| `(plugins: Plugin[]) => Plugin[])` | `-` |
+| `pc` | PC side document structure configuration | _[MapleConfigPc](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/cli/src/node/config/maple.config.ts)_ | `-` |
+| `mobile` | Mobile document structure configuration | _[MapleConfigMobile](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/cli/src/node/config/maple.config.ts)_ | `-` |
 | `directives` | Component library directive folder name | _string[]_ | `[]` |
-| `copy` | Copy file configuration | _[CopyPath[]](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/vite-plugins/src/copy.ts)_ | `- ` |
-| `icons` | Font icon packaging related configurations | _[MapleConfigIcons](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.config.ts?ref_type=heads) _ | `-` |
-| `esbuild` | esbuild configuration | _[MapleConfigEsbuild](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.config.ts?ref_type=heads)_ | ` -` |
-| `seo` | seo options | _[MapleConfigSeo](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.config.ts?ref_type=heads)_ | ` -` |
+| `icons` | Font icon packaging related configurations | _[MapleConfigIcons](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/cli/src/node/config/maple.config.ts) _ | `-` |
+| `seo` | seo options | _[MapleConfigSeo](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/cli/src/node/config/maple.config.ts)_ | ` -` |
 
 #### Menu
 
@@ -12381,42 +12398,10 @@ Also refer to `@maple-design/ui-vue` [maple.config.mjs](https://xxx/pe.frontend/
 | `doc` | The document page corresponds to the matching file name, required | _string_ | `-` |
 | `type` | The type of menu, when the type is `1`, it means the category menu, when the type is `2`, the doc field matches the component file under src, when the type is `3`, the doc field matches the md file under docs, required | _MenuTypes_ | `-` |
 | `text` | The text displayed in the menu, English display text can be configured when internationalization is set, required | _Record<string, string>_ | `-` |
-| `useMobile` | Whether to display the mobile phone preview on the right side on the current document page, if not filled, the default value is useMobile in config  | _boolean_ | `-` |
 
 ### Custom pages
 
-If you want to insert other pages into the component library, you can create a `pages` folder in the project root directory to write a vue component to generate other pages.
-The directory structure is as follows:
-
-```text
-// playground-ignore
-|-- maple-ui
-  |-- src
-  |-- docs
-  |-- pages
-    |-- sponsor
-      |-- index.vue
-    |-- contributor
-      |-- locale
-        |-- en-US.ts
-      |-- index.vue
-    |-- changelog
-      |-- locale
-        |-- zh-CN.ts
-        |-- en-US.ts
-      |-- index.vue
-      
-```
-
-The resulting route is as follows:
-
-```text
-// playground-ignore
-/zh-CN/sponsor
-/en-US/contributor
-/zh-CN/changelog
-/en-US/changelog
-```
+The Maple documentation site maps `docs/sponsor.zh-CN.md` and `docs/sponsor.en-US.md` to `/zh-CN/sponsor/` and `/en-US/sponsor/`. To include the page in the sidebar, add its `doc` to `pc.menu` in `maple.config.mjs`. The page patterns and route mapping live in `docs/.vuepress/config.ts`.
 
 ### Command related
 
@@ -12427,8 +12412,6 @@ The resulting route is as follows:
 maple-cli dev
 # force mode
 maple-cli dev -f
-# draft mode
-maple-cli dev -d
 ```
 
 #### Build a documentation site
@@ -13778,9 +13761,6 @@ Example source: src/color/example/basic.vue
 
 ```vue
 <script setup>
-import { onThemeChange } from '@maple-design/cli-vue/client'
-
-onThemeChange()
 const status = ['primary', 'success', 'warning', 'danger', 'info']
 const levels = [1, 2, 3, 4]
 </script>
@@ -15348,6 +15328,8 @@ Fields configure this through `dateRangePickerProps`.
 
 `abbreviation` (boolean, default `true`) controls abbreviated month labels in the calendar month grid. Set it to `false` for full month names from the active Locale. It does not affect weekday labels, headers, wheel columns, or value formats. Range calendars use the top-level option; nested calendar options cannot override it.
 
+A selected range contains two endpoints. Each endpoint is a string for a format pattern, a `Date` for `value-format="Date"`, or a number for `value-format="timestamp"`. Clearing returns the configured empty value.
+
 ## Basic examples
 
 ### Basic Usage
@@ -16341,7 +16323,7 @@ Configure `pickerValue`, `defaultPickerValue` and shortcuts through nested `date
 
 | Event | Description | Parameters |
 | --------------------- | -------------------------------------- | --------------------------------- |
-| `update:picker-value` | Request calendar viewport update | value: DateSelection |
+| `update:picker-value` | Request calendar viewport update | value: Date \| string \| number \| (Date \| string \| number \| null \| undefined)[] \| null \| undefined |
 | `picker-value-change` | Viewport request and formatted payload | value, date(s), formatted text(s) |
 | `select-shortcut` | Accepted shortcut object | shortcut: DateShortcut |
 
@@ -16682,7 +16664,7 @@ Range values remain `[start, end]`; changing reading direction does not swap end
 | `date-fields` | Date wheel columns and order; an explicit list controls visibility | `readonly DatePickerField[]`<br>`DatePickerField: 'month' \| 'year' \| 'day'` | Derived from precision |
 | `date-picker-props` | Allowlisted internal range-calendar presentation, excluding owned root state | `DateRangeCalendarOptions` | `{}` |
 | `day-start-of-week` | First day of week for calendars, an integer from 0 to 6 | `DateWeekStart` | `0` |
-| `default-picker-value` | Initial calendar viewport, read once; selected values take precedence over the current date | `DateSelection` | `undefined` |
+| `default-picker-value` | Initial calendar viewport, read once; selected values take precedence over the current date | `Date \| string \| number \| (Date \| string \| number \| null \| undefined)[] \| null \| undefined` | `undefined` |
 | `default-value` | Initial uncontrolled value, read only at creation | `(DateValue \| undefined)[]` | `undefined` |
 | `disable-confirm` | Commit on selection; false retains draft for confirmation | `boolean` | `true` |
 | `disabled` | Disable all or lock start/end separately; fields inherit FormItem/Form when unset | `boolean \| boolean[]` | `false` |
@@ -16696,7 +16678,7 @@ Range values remain `[start, end]`; changing reading direction does not swap end
 | `min` | Inclusive minimum; a supplied invalid boundary is not silently ignored | `DateValue` | `undefined` |
 | `model-value` | External date value; undefined is uncontrolled, null is explicitly empty | `(DateValue \| undefined)[] \| null` | `undefined` |
 | `picker-props` | Maple date/time wheel presentation options, excluding the root model/rules | `DateWheelOptions` | `{}` |
-| `picker-value` | Controlled calendar viewport, separate from selection; range viewports contain two dates | `DateSelection` | `undefined` |
+| `picker-value` | Controlled calendar viewport, separate from selection; range viewports contain two dates | `Date \| string \| number \| (Date \| string \| number \| null \| undefined)[] \| null \| undefined` | `undefined` |
 | `presentation` | Maple standalone-panel presentation | `calendar \| picker \| calendarPicker` | `calendarPicker` |
 | `preview-shortcut` | Preview shortcuts on hover/focus without committing | `boolean` | `true` |
 | `readonly` | Readonly panel without candidate changes or commits | `boolean` | `false` |
@@ -16908,8 +16890,9 @@ A range placeholder string applies to both endpoints; arrays configure each and 
 
 ```ts
 import { DateRange, DateRangePicker, type DateRangeProps, type DateRangePickerProps,
-  type DateRangeEmits, type DateRangePickerEmits, type DateValue, type DateSelection,
-  type DateChangeArgs, type DateRules, type DateShortcut } from '@maple-design/ui-vue'
+  type DateRangeEmits, type DateRangePickerEmits, type DateValue,
+  type DateChangeArgs, type DateRules, type DateShortcut
+} from '@maple-design/ui-vue'
 ```
 
 <!-- date-contract:end -->
@@ -16972,6 +16955,8 @@ Floating panel height follows the visual viewport. A full calendar is visible wh
 Pure panels do not accept open/default-open, popup-container, placement, trigger-props, placeholder, variant or clearable. disable-confirm controls confirmation; actions receives { confirm, disabled }. Panels support independent app.use installation. Root and date/date-range subpaths export components, Props, Instance, Type, Options and Emits; no standalone date-picker/date-range-picker npm subpath exists.
 
 Installing Date also registers DatePicker, which is available through the static member `Date.Picker`.
+
+For a single selection, a format string produces text, `value-format="Date"` produces a `Date`, and `value-format="timestamp"` produces a number. Range and multiple selections use arrays. The configured empty value determines what clearing returns.
 
 ## Basic examples
 
@@ -18364,7 +18349,7 @@ Configure `pickerValue`, `defaultPickerValue` and shortcuts through nested `date
 
 | Event | Description | Parameters |
 | --------------------- | -------------------------------------- | --------------------------------- |
-| `update:picker-value` | Request calendar viewport update | value: DateSelection |
+| `update:picker-value` | Request calendar viewport update | value: Date \| string \| number \| (Date \| string \| number \| null \| undefined)[] \| null \| undefined |
 | `picker-value-change` | Viewport request and formatted payload | value, date(s), formatted text(s) |
 | `select-shortcut` | Accepted shortcut object | shortcut: DateShortcut |
 
@@ -18517,11 +18502,14 @@ Example source: src/date/example/demos/en-US/entry-boundary.vue
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { DateSelection } from '@maple-design/ui-vue'
 
 const limited = ref(true)
-const fieldValue = ref<DateSelection>('2025-02-12')
-const panelValue = ref<DateSelection>('2025-02-12')
+const fieldValue = ref<Date | string | number | (Date | string | number | null | undefined)[] | null | undefined>(
+  '2025-02-12',
+)
+const panelValue = ref<Date | string | number | (Date | string | number | null | undefined)[] | null | undefined>(
+  '2025-02-12',
+)
 const week = ref<0 | 1 | 6>(1)
 const presentation = ref<'picker' | 'calendar'>('calendar')
 </script>
@@ -18783,7 +18771,7 @@ See the complete field and panel event lists on this page.
 | `color` | Maple calendar color | `string` | Theme default |
 | `date-fields` | Date wheel columns and order; an explicit list controls visibility | `readonly DatePickerField[]`<br>`DatePickerField: 'month' \| 'year' \| 'day'` | Derived from precision |
 | `day-start-of-week` | First day of week for calendars, an integer from 0 to 6 | `DateWeekStart` | `0` |
-| `default-picker-value` | Initial calendar viewport, read once; selected values take precedence over the current date | `DateSelection` | `undefined` |
+| `default-picker-value` | Initial calendar viewport, read once; selected values take precedence over the current date | `Date \| string \| number \| (Date \| string \| number \| null \| undefined)[] \| null \| undefined` | `undefined` |
 | `default-value` | Initial uncontrolled value, read only at creation | `DateValue \| DateValue[]` | `undefined` |
 | `disable-confirm` | Commit on selection; false retains draft for confirmation | `boolean` | `true` |
 | `disabled` | Disable panel selection and commit | `boolean` | `false` |
@@ -18799,7 +18787,7 @@ See the complete field and panel event lists on this page.
 | `model-value` | External date value; undefined is uncontrolled, null is explicitly empty | `DateValue \| DateValue[] \| null` | `undefined` |
 | `multiple` | Maple multiple selection; avoid enabling range mode at the same time | `boolean` | `false` |
 | `picker-props` | Maple date/time wheel presentation options, excluding the root model/rules | `DateWheelOptions` | `{}` |
-| `picker-value` | Controlled calendar viewport, separate from selection; range viewports contain two dates | `DateSelection` | `undefined` |
+| `picker-value` | Controlled calendar viewport, separate from selection; range viewports contain two dates | `Date \| string \| number \| (Date \| string \| number \| null \| undefined)[] \| null \| undefined` | `undefined` |
 | `presentation` | Maple standalone-panel presentation | `calendar \| picker \| calendarPicker` | `calendarPicker` |
 | `preview-shortcut` | Preview shortcuts on hover/focus without committing | `boolean` | `true` |
 | `range` | Range mode of the Maple general standalone panel | `boolean` | `false` |
@@ -18890,8 +18878,9 @@ Standalone panels have the seven events below, without the old preview event. Na
 
 ```ts
 import { Date as DateField, DatePicker, type DateProps, type DatePickerProps,
-  type DateEmits, type DatePickerEmits, type DateValue, type DateSelection,
-  type DateChangeArgs, type DateRules, type DateShortcut } from '@maple-design/ui-vue'
+  type DateEmits, type DatePickerEmits, type DateValue,
+  type DateChangeArgs, type DateRules, type DateShortcut
+} from '@maple-design/ui-vue'
 ```
 
 <!-- date-contract:end -->
@@ -21319,7 +21308,7 @@ Source: `src/section/style/token.less`
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
-| `--mp-section-accent-color` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`background`, `background-color`, `border` |
+| `--mp-section-accent-color` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`background`, `border`, `border-inline-start` |
 | `--mp-section-after-gap` | Public | `24px` | Local CSS<br>`margin-block`, `padding-block-start` |
 | `--mp-section-before-gap` | Public | `32px` | Local CSS<br>`padding-block-start` |
 | `--mp-section-card-background` | Public | `var(--mp-sys-color-surface-default)` | Local CSS<br>`background-color` |
@@ -21331,32 +21320,32 @@ Source: `src/section/style/token.less`
 | `--mp-section-description-line-height` | Public | `20px` | Local CSS<br>`line-height` |
 | `--mp-section-description-size` | Public | `13px` | Local CSS<br>`font-size` |
 | `--mp-section-divider-color` | Public | `var(--mp-sys-color-border-default)` | Local CSS<br>`border-block-start` |
-| `--mp-section-divider-width` | Public | `1px` | Local CSS<br>`border`, `border-block-start` |
-| `--mp-section-header-gap` | Public | `16px` | Local CSS<br>`margin-block-end` |
+| `--mp-section-divider-width` | Public | `1px` | Local CSS<br>`border`, `border-block-start`, `border-radius` |
+| `--mp-section-header-gap` | Public | `16px` | Local CSS<br>`margin-block-start` |
 | `--mp-section-heading-gap` | Public | `16px` | Local CSS<br>`margin-inline-start` |
 | `--mp-section-heading-size-step` | Public | `1px` | Local CSS<br>`font-size`, `line-height` |
 | `--mp-section-marker-gap` | Public | `12px` | Local CSS<br>`padding-inline-end`, `padding-inline-start`, `row-gap` |
 | `--mp-section-marker-height` | Public | `calc(100% - 1lh + 1em)` | Local CSS<br>`height` |
 | `--mp-section-marker-radius` | Public | `2px` | Local CSS<br>`border-radius` |
-| `--mp-section-marker-width` | Public | `3px` | Local CSS<br>`padding-inline-start`, `width` |
+| `--mp-section-marker-width` | Public | `3px` | Local CSS<br>`border-inline-start`, `padding-inline-start`, `width` |
 | `--mp-section-outline-color` | Public | `var(--mp-sys-color-border-default)` | Local CSS<br>`border` |
 | `--mp-section-size-lg-card-padding` | Public | `20px` | Local CSS<br>`padding` |
-| `--mp-section-size-lg-header-gap` | Public | `20px` | Local CSS<br>`margin-block-end` |
+| `--mp-section-size-lg-header-gap` | Public | `20px` | Local CSS<br>`margin-block-start` |
 | `--mp-section-size-lg-marker-height` | Public | `calc(100% - 1lh + 1em)` | Local CSS<br>`height` |
 | `--mp-section-size-lg-title-line-height` | Public | `28px` | Local CSS<br>`line-height` |
 | `--mp-section-size-lg-title-size` | Public | `16px` | Local CSS<br>`font-size` |
 | `--mp-section-size-sm-card-padding` | Public | `12px` | Local CSS<br>`padding` |
-| `--mp-section-size-sm-header-gap` | Public | `12px` | Local CSS<br>`margin-block-end` |
+| `--mp-section-size-sm-header-gap` | Public | `12px` | Local CSS<br>`margin-block-start` |
 | `--mp-section-size-sm-marker-height` | Public | `calc(100% - 1lh + 1em)` | Local CSS<br>`height` |
 | `--mp-section-size-sm-title-line-height` | Public | `20px` | Local CSS<br>`line-height` |
 | `--mp-section-size-sm-title-size` | Public | `16px` | Local CSS<br>`font-size` |
 | `--mp-section-size-xl-card-padding` | Public | `24px` | Local CSS<br>`padding` |
-| `--mp-section-size-xl-header-gap` | Public | `24px` | Local CSS<br>`margin-block-end` |
+| `--mp-section-size-xl-header-gap` | Public | `24px` | Local CSS<br>`margin-block-start` |
 | `--mp-section-size-xl-marker-height` | Public | `calc(100% - 1lh + 1em)` | Local CSS<br>`height` |
 | `--mp-section-size-xl-title-line-height` | Public | `32px` | Local CSS<br>`line-height` |
 | `--mp-section-size-xl-title-size` | Public | `16px` | Local CSS<br>`font-size` |
 | `--mp-section-size-xs-card-padding` | Public | `8px` | Local CSS<br>`padding` |
-| `--mp-section-size-xs-header-gap` | Public | `8px` | Local CSS<br>`margin-block-end` |
+| `--mp-section-size-xs-header-gap` | Public | `8px` | Local CSS<br>`margin-block-start` |
 | `--mp-section-size-xs-marker-height` | Public | `calc(100% - 1lh + 1em)` | Local CSS<br>`height` |
 | `--mp-section-size-xs-title-line-height` | Public | `18px` | Local CSS<br>`line-height` |
 | `--mp-section-size-xs-title-size` | Public | `16px` | Local CSS<br>`font-size` |
@@ -22011,7 +22000,7 @@ Source: `src/tag/style/token.less`
 | `--mp-tag-orangered-border-color-hover` | Public | `transparent` | Local CSS<br>`border-color` |
 | `--mp-tag-orangered-icon-color` | Public | `rgb(var(--mp-orangered-6))` | Local CSS<br>`color` |
 | `--mp-tag-orangered-text-color` | Public | `rgb(var(--mp-orangered-6))` | Local CSS<br>`border-color`, `color` |
-| `--mp-tag-padding-horizontal` | Public | `10px` | Local CSS<br>`padding` |
+| `--mp-tag-padding-horizontal` | Public | `8px` | Local CSS<br>`padding` |
 | `--mp-tag-padding-vertical` | Public | `0` | Local CSS<br>`line-height`, `padding` |
 | `--mp-tag-pinkpurple-bg` | Public | `rgb(var(--mp-pinkpurple-1))`<br>`rgba(var(--mp-pinkpurple-6), 0.2)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
 | `--mp-tag-pinkpurple-bg-hover` | Public | `rgb(var(--mp-pinkpurple-2))`<br>`rgba(var(--mp-pinkpurple-6), 0.35)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
@@ -22032,15 +22021,15 @@ Source: `src/tag/style/token.less`
 | `--mp-tag-red-icon-color` | Public | `rgb(var(--mp-red-6))` | Local CSS<br>`color` |
 | `--mp-tag-red-text-color` | Public | `rgb(var(--mp-red-6))` | Local CSS<br>`border-color`, `color` |
 | `--mp-tag-round-radius` | Public | `100px` | Local CSS<br>`border-radius` |
-| `--mp-tag-size-lg` | Public | `36px` | Local CSS<br>`height`, `line-height` |
+| `--mp-tag-size-lg` | Public | `30px` | Local CSS<br>`height`, `line-height` |
 | `--mp-tag-size-lg-font-size` | Public | `var(--mp-sys-font-size-md)` | Local CSS<br>`font-size` |
-| `--mp-tag-size-md` | Public | `32px` | Local CSS<br>`height`, `line-height` |
-| `--mp-tag-size-md-font-size` | Public | `var(--mp-sys-font-size-md)` | Local CSS<br>`font-size` |
-| `--mp-tag-size-sm` | Public | `28px` | Local CSS<br>`height`, `line-height` |
+| `--mp-tag-size-md` | Public | `26px` | Local CSS<br>`height`, `line-height` |
+| `--mp-tag-size-md-font-size` | Public | `var(--mp-sys-font-size-sm)` | Local CSS<br>`font-size` |
+| `--mp-tag-size-sm` | Public | `22px` | Local CSS<br>`height`, `line-height` |
 | `--mp-tag-size-sm-font-size` | Public | `var(--mp-sys-font-size-xs)` | Local CSS<br>`font-size` |
-| `--mp-tag-size-xl` | Public | `40px` | Local CSS<br>`height`, `line-height` |
+| `--mp-tag-size-xl` | Public | `34px` | Local CSS<br>`height`, `line-height` |
 | `--mp-tag-size-xl-font-size` | Public | `var(--mp-sys-font-size-lg)` | Local CSS<br>`font-size` |
-| `--mp-tag-size-xs` | Public | `24px` | Local CSS<br>`height`, `line-height` |
+| `--mp-tag-size-xs` | Public | `18px` | Local CSS<br>`height`, `line-height` |
 | `--mp-tag-size-xs-font-size` | Public | `var(--mp-sys-font-size-xs)` | Local CSS<br>`font-size` |
 | `--mp-tag-status-danger-bg-color` | Public | `rgb(var(--mp-danger-1))` | Local CSS<br>`background-color` |
 | `--mp-tag-status-danger-text-color` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`color` |
@@ -28273,6 +28262,7 @@ function clearSection() {
   <div data-section-demo="actions">
     <mp-form :model="model" layout="horizontal" label-col-flex="7rem" edit-mode="direct">
       <mp-section
+        show-marker
         title="Onsite handling"
         description="Use a template to fill this section. Clearing it preserves the skill level outside the section."
       >
@@ -30563,7 +30553,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | `disabled` | Disabled; inherits Form when omitted | _boolean_ | `-` |
 | `readonly` | Readonly state; inherits from Form when omitted | _boolean_ | `-` |
 | `size` | Control size; inherits Form when omitted | _'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'_ | `-` |
-| `no-style` | Remove label/error UI, keep validation | _boolean_ | `false` |
+| `no-style` | Hide the item’s label and feedback while preserving its layout containers and field registration. Toggling this prop alone keeps fields in the default slot mounted. | _boolean_ | `false` |
 | `rules` | Validation rules: function / Zod / array | `FormRule \| FormRule[]` | `-` |
 | `validate-trigger` | Validation triggers; `clear` fires only for a control's `clear` action, not for `change` | _FormItemValidateTrigger \| FormItemValidateTrigger[]_<br>`FormItemValidateTrigger: 'input' \| 'change' \| 'focus' \| 'blur' \| 'clear'` | `'change'` |
 
@@ -32901,7 +32891,7 @@ When keyboard shortcuts are enabled, only the topmost preview handles arrow keys
 | rotateLeft() / rotateRight() | Rotate by 90 degrees |
 | toggleFullscreen() | Toggle fullscreen; returns the browser Promise or undefined when unsupported |
 
-`Image.showPreview()` requests the current image preview. The `imagePreview`, `previewImage`, and `ImagePreviewFn` service accepts a URL, URL array, or options and returns `ImagePreviewHandle | undefined` (for example during SSR). Its handle offers the 12 Group operations; paging operations have no effect for a single image. The service also exposes `close()`, `setDefaultOptions()`, and `resetDefaultOptions()`. Native `lazy` is browser-scheduled and does not promise automatic retries.
+`Image.showPreview()` requests the current image preview. The `imagePreview`, `previewImage`, and `ImagePreviewFn` service accepts a URL, URL array, or options and returns `ImagePreviewHandle | undefined` (for example during SSR). Its handle offers the 12 Group operations; paging operations have no effect for a single image. The service also exposes `close()`, `setDefaultOptions()`, and `resetDefaultOptions()`. A call such as `imagePreview({ closable: true })` uses the images configured by `setDefaultOptions()`. A nonempty `images` list or a `src` URL on the call overrides those images. When both are supplied, the list takes precedence. Native `lazy` is browser-scheduled and does not promise automatic retries.
 
 Scale parameters must be finite and positive; invalid min/max/default/step values fall back to 0.5/8/1/0.5. If max is below min it resolves to min. Initial and reset scales are clamped, changes to bounds clamp the current value, and `zoomTo` ignores nonfinite input. `close` in `actionsLayout` is a toolbar action, independent of the separate button controlled by `closable`.
 
@@ -38538,6 +38528,8 @@ const activeMessages = computed(() =>
 
 `<mp-locale-provider dir="rtl">` supplies a reading-direction scope independently of locale. Omit dir to inherit; nested `dir="ltr"` and native DOM dir containers provide local overrides. Popup content retains the source scope after teleporting. Physical left/right API values and media content keep their original semantics.
 
+Inside a native `dir="auto"` or `<bdi>` scope, controls follow the text direction computed by the browser. For an input used as a popup reference, typing updates the popup direction. Direct assignments to `input.value` or `textarea.value` are detected on a shared timer, so the update can occur later. If a closed shadow root sets the direction on an internal slot, mirror that direction on the element passed into the slot.
+
 ### Language fallback and scope
 
 `messages` maps language names to packs, and `locale` must match a pack in the current scope. Each key resolves to its own value in the selected local pack, then the nearest parent LocaleProvider, then the current global Locale. Missing packs or keys and `null`/`undefined` fall through; explicit empty strings are preserved. `Message` contains text and dictionaries such as calendar months and weekdays, so it is not a plain string map. Import `Message` from `@maple-design/ui-vue/locale`.
@@ -40634,7 +40626,7 @@ function changeValue(type) {
 ## Behavior
 
 - `duration` is milliseconds; `0` stays open. `Message.loading(...)` stays open by default.
-- Within one mount container/position, the same `id` updates the instance without duplicate DOM.
+- Within one mount container/position, the same `id` updates the instance without duplicate DOM. Omitting the ID creates a new message with an unused ID in that queue.
 - Only `resetOnUpdate`=`true` restarts the full duration on same-id updates.
 - `pauseOnHover` saves remaining time and resumes it on pointer leave.
 - Display deadlines are independent of CSS motion. Restarting, hover pause, cleanup/unmount invalidate old timer callbacks, which recheck open before running.
@@ -40687,6 +40679,8 @@ Function options additionally accept `onOpen / onOpened / onClose / onClosed`. C
 
 `update:open`, `open`, `opened`, `close`, and `closed`, emitted once per visibility cycle. When an initially open message hydrates, it skips the initial enter animation and emits `opened` after `open` on mount.
 
+When the message reopens, it emits `opened` from Vue’s `after-enter` hook. If the browser delays animation frames, the final visual state can appear after this event.
+
 ### Message Methods
 
 | Method | Description |
@@ -40707,7 +40701,7 @@ The optional second appContext argument applies to each message: injections, reg
 | ---- | ---- |
 | restartTimer() | Reset the current duration, subject to active, open, resetOnUpdate and hover-pause state |
 
-`MessageContent` is `VNodeChild | (() => VNodeChild)`: text, numbers, empty boolean children, VNodes, nested child arrays and synchronous render functions. Arbitrary plain objects and asynchronous tasks are not renderable content. content, icon and action share this protocol; local slots take precedence.
+`MessageContent` is `VNodeChild | (() => VNodeChild)`: text, numbers, empty boolean children, VNodes, nested child arrays and synchronous render functions. Arbitrary plain objects and asynchronous tasks are not renderable content. content, icon and action share this protocol; local slots take precedence. Numeric zero renders as text in the content, icon and action regions.
 
 duration must be finite and nonnegative. Negative values, NaN and Infinity do not schedule automatic closure and trigger development prop validation. Zero stays open; restartTimer follows the same rules.
 
@@ -41588,7 +41582,7 @@ These are actual :root defaults. Prefer component variables for business customi
 | `v-model:open` | Show overlay | _boolean_ | `false` |
 | `default-open` | Whether to display by default in uncontrolled mode | _boolean_ | `false` |
 | `overlay-closable` | Whether clicking the backdrop closes the Overlay | _boolean_ | `true` |
-| `lock-scroll` | Whether to disable scrolling penetration, scrolling the Overlay when disabled will not cause the body to scroll | _boolean_ | `true` |
+| `lock-scroll` | Lock the target container while open. Inline overlays lock the body of their own document. | _boolean_ | `true` |
 | `unmount-on-close` | Whether to unmount slot content after closing | _boolean_ | `true` |
 | `popup-container` | Teleport target; `false` renders in place | _string \| HTMLElement \| false_ | `'body'` |
 | `esc-to-close` | Whether to support keyboard ESC to close the overlay | _boolean_ | `true` |
@@ -42675,10 +42669,6 @@ Example source: src/palette/example/basic.vue
 
 ```vue
 <script setup>
-import { onThemeChange } from '@maple-design/cli-vue/client'
-
-onThemeChange()
-
 const hues = [
   { name: 'primary', label: 'Primary' },
   { name: 'success', label: 'Success' },
@@ -44599,6 +44589,10 @@ Cedar targets desktop applications; Maple targets mobile applications. Choose by
 Cedar / Maple target Vue 3.3 and later for ongoing compatibility checks; development uses Vue 3.5. The UI package keeps a `3` Vue peer range, so successful installation does not mean every Vue 3 version and scenario has been verified. On Vue 3.2, generated ID associations may differ if asynchronous components resolve in a different order on the server and client. Vue 3.0 and 3.1 have not been verified.
 
 When the initial server render of Cedar Table must apply a default filter, pass the columns through `:columns` and set `filterable.defaultFilteredValue`. Columns declared with `<c-table-column>` do not guarantee filtered rows in the server HTML.
+
+## Server-rendered overlays
+
+When rendering an initially open Dialog, Message or Cedar Drawer into its default `body` target, pass a context to `renderToString(app, context)`. If you assemble the document yourself, insert `context.teleports?.body ?? ''` immediately after the opening `<body>` tag, before the application root. Preserve the HTML and its comment anchors. Appending it after the application root can cause hydration to create a second overlay and leave the original backdrop intercepting clicks.
 
 ## Build tool compatibility
 
@@ -47316,8 +47310,7 @@ const items = [
     <mp-progress-group mode="circle" :items="items" circle-size="min(42vw, 240px)" :stroke-width="12" show-text>
       <template #text="{ value, max }">
         <div class="progress-group-example__circle-status">
-          <strong>{{ value }}</strong
-          ><small>/ {{ max }} GB</small>
+          <strong>{{ value }}</strong><small>/ {{ max }} GB</small>
         </div>
       </template>
     </mp-progress-group>
@@ -47675,8 +47668,11 @@ const scene2 = demoProxyRefs(
       <h4><span lang="zh-CN">五档与自定义尺寸</span><span lang="en-US">size</span></h4>
       <mp-space direction="column" size="16px">
         <mp-space v-for="size in scene1.sizes" :key="size" wrap size="16px" align="center">
-          <span>{{ size }}</span
-          ><mp-progress :size="size" :percent="42" /><mp-progress mode="circle" :size="size" :percent="42" />
+          <span>{{ size }}</span><mp-progress :size="size" :percent="42" /><mp-progress
+            mode="circle"
+            :size="size"
+            :percent="42"
+          />
         </mp-space>
         <mp-progress :size="10" :percent="12.5" />
         <mp-progress size="0.75rem" :stroke-width="6" :percent="60" />
@@ -49165,14 +49161,14 @@ Ordinary circular Radio icons do not scale with Group.size. The five sizes apply
 
 These props belong to field presentation; pure panels do not gain reading mode. Form and FormItem provide inherited settings. The existing empty-value type and clear fallback remain component-specific.
 
-`ChoiceValue = string | number | boolean`；`CheckboxModel = boolean | ChoiceValue[] | null`；`RadioModel = ChoiceValue | null`。
+`string | number | boolean = string | number | boolean`；`boolean | (string | number | boolean)[] | null = boolean | (string | number | boolean)[] | null`；`string | number | boolean | null = string | number | boolean | null`。
 
 ### Radio Props
 
 | Prop | Description | Type | Default |
 | --------------------- | ------------------------------- | ------------------------- | --------- |
-| model-value (v-model) | Controlled value | RadioModel | undefined |
-| default-value | Initial uncontrolled value | ChoiceValue \| null | null |
+| model-value (v-model) | Controlled value | string \| number \| boolean \| null | undefined |
+| default-value | Initial uncontrolled value | string \| number \| boolean \| null | null |
 | value | Option `value` | `string\|number\|boolean` | `true` |
 | variant | Radio variant | `'radio'\|'button'` | `'radio'` |
 | disabled | Disabled state; inherits from the form/group when omitted | boolean | undefined |
@@ -49181,7 +49177,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | edit-mode | Editing mode, inherited from FormItem and Form | `'direct' \| 'popup'` | `'direct'` |
 | read-pretty | Independent read presentation; explicit false overrides the parent | `boolean` | `false` |
 | clearable | Deferred editor clearing; does not change native deselection | `boolean` | `false` |
-| empty-value | Explicit presentation clear output; does not control native unchecking | `RadioModel \| (() => RadioModel)` | `null` |
+| empty-value | Explicit presentation clear output; does not control native unchecking | `string \| number \| boolean \| null \| (() => string \| number \| boolean \| null)` | `null` |
 | empty-values | Empty-value recognition; field takes precedence over FormItem and Form | `readonly unknown[]` | `-` |
 | empty-text | Read empty text; an explicit empty string is valid | `string` | `'-'` |
 | before-commit | Guard before saving a deferred edit; return a boolean or Promise, or complete via done | `(payload: { value: unknown; previousValue: unknown }, done: (allow?: boolean) => void, context: { signal: AbortSignal; event?: Event }) => void \| boolean \| Promise<void \| boolean>` | `-` |
@@ -49201,11 +49197,11 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 | Prop | Description | Type | Default |
 | --------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | -------------- |
-| model-value (v-model) | Controlled value | RadioModel | undefined |
-| default-value | Initial uncontrolled value | RadioModel | null |
+| model-value (v-model) | Controlled value | string \| number \| boolean \| null | undefined |
+| default-value | Initial uncontrolled value | string \| number \| boolean \| null | null |
 | variant | Radio-group variant | `'radio'\|'button'` | `'radio'` |
 | size | Radio-group size | `'xs'\|'sm'\|'md'\|'lg'\|'xl'` | `-` |
-| options | Options; replaces default slot when supplied | Array<ChoiceValue \| RadioOption \| Record<string, unknown>> / `(query, { signal }) => Array / Promise` | `undefined` |
+| options | Options; replaces default slot when supplied | Array<string \| number \| boolean \| RadioOption \| Record<string, unknown>> / `(query, { signal }) => Array / Promise` | `undefined` |
 | orientation | Horizontal/vertical arrangement of radio-group options, default horizontal; not text reading direction | `'horizontal'\|'vertical'` | `'horizontal'` |
 | disabled | Disabled state; inherits from the form/group when omitted | boolean | undefined |
 | readonly | Readonly state; inherits from the form/group when omitted | boolean | undefined |
@@ -49215,7 +49211,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | edit-mode | Editing mode, inherited from FormItem and Form | `'direct' \| 'popup'` | `'direct'` |
 | read-pretty | Independent read presentation; explicit false overrides the parent | `boolean` | `false` |
 | clearable | Deferred editor clearing; does not change native deselection | `boolean` | `false` |
-| empty-value | Explicit presentation clear output; does not control native unchecking | `RadioModel \| (() => RadioModel)` | `null` |
+| empty-value | Explicit presentation clear output; does not control native unchecking | `string \| number \| boolean \| null \| (() => string \| number \| boolean \| null)` | `null` |
 | empty-values | Empty-value recognition; field takes precedence over FormItem and Form | `readonly unknown[]` | `-` |
 | empty-text | Read empty text; an explicit empty string is valid | `string` | `'-'` |
 | before-commit | Guard before saving a deferred edit; return a boolean or Promise, or complete via done | `(payload: { value: unknown; previousValue: unknown }, done: (allow?: boolean) => void, context: { signal: AbortSignal; event?: Event }) => void \| boolean \| Promise<void \| boolean>` | `-` |
@@ -49236,8 +49232,8 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 | Event | Description | Arguments |
 | ------------------ | -------- | --------------------------------- |
-| update:modelValue | Proposes a new value | value: RadioModel |
-| change | Value change proposal | value: RadioModel, event?: Event |
+| update:modelValue | Proposes a new value | value: string \| number \| boolean \| null |
+| change | Value change proposal | value: string \| number \| boolean \| null, event?: Event |
 | focus | Focus | event: FocusEvent |
 | blur | Blur | event: FocusEvent |
 | update:open | Controlled editor visibility update | open: boolean |
@@ -49248,8 +49244,8 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 | Event | Description | Arguments |
 | ------------------ | --------------------------- | ---------------------------------------------- |
-| update:modelValue | Proposes a new value | value: RadioModel |
-| change | Value change proposal | value: RadioModel, event?: Event |
+| update:modelValue | Proposes a new value | value: string \| number \| boolean \| null |
+| change | Value change proposal | value: string \| number \| boolean \| null, event?: Event |
 | update:open | Controlled editor visibility update | open: boolean |
 | open-change | Actual editor visibility change | open: boolean |
 | load-error | Explicit option loading failed; does not change the model | error: unknown |
@@ -49259,7 +49255,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | Slot | Description | Prop |
 | ------ | ------------ | ---------------------------------------- |
 | radio | Custom radio control | `checked:boolean`<br/>`disabled:boolean` |
-| read | Custom read content, taking precedence over empty-text | value: RadioModel, text: string |
+| read | Custom read content, taking precedence over empty-text | value: string \| number \| boolean \| null, text: string |
 | default | Button label or default circular label | checked: boolean, disabled: boolean |
 | checked-icon | Default circular checked icon | - |
 | unchecked-icon | Default circular unchecked icon | - |
@@ -49270,7 +49266,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | ------ | ------------- | ---------------------------------------- |
 | radio | Custom radio control | `checked:boolean`<br/>`disabled:boolean` |
 | label | Radio label content | `data: RadioOption, checked: boolean` |
-| read | Custom read content, taking precedence over empty-text | value: RadioModel, text: string |
+| read | Custom read content, taking precedence over empty-text | value: string \| number \| boolean \| null, text: string |
 | default | Native child options when options is omitted | - |
 
 ## Types
@@ -49279,7 +49275,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 | Field | Description | Type |
 | -------- | -------------- | ----------------------------------------------------------------- |
-| value | Option identity | ChoiceValue |
+| value | Option identity | string \| number \| boolean |
 | label | Label or render function | VNodeChild \| (data: RadioOption, checked: boolean) => VNodeChild |
 | disabled | Disable interaction | boolean |
 | readonly | Read-only interaction | boolean |
@@ -52771,20 +52767,36 @@ Example source: src/section/example/demos/en-US/outline.vue
 </template>
 ```
 
-### Section sizes and heading levels
+### Section size, heading and content
 
-Size controls spacing. Heading level controls the title font size. The preview shows the active combination, font sizes and gaps above the title and description. Turn off “Show content” to leave only a comment in the default slot. The body container and its spacing disappear. The centered marker is one font size tall for a single line and grows by one line height for each additional line. The description appears below the title.
+Toggle the heading, description and body independently. Try each style and status. Without a heading, an enabled marker spans the section. Size controls spacing. Choose a heading level from `h1` to `h6`. Section defaults to `h4`. The preview shows the active combination, font sizes and gaps above the title and description. Turn off “Show description” to hide the description and its spacing. Turn off “Show content” to leave only a comment in the default slot. The body container and its spacing disappear. The heading-to-marker gap is 12px at every size. Override `--mp-section-marker-gap` on the section to customize it. The centered marker is one font size tall for a single line and grows by one line height for each additional line. The description appears below the title.
 
 Example source: src/section/example/demos/en-US/sizes.vue
 
 ```vue
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
+import type { SectionMarkerPlacement, SectionStatus, SectionVariant } from '@maple-design/ui-vue'
+
+const variants = ['plain', 'heading-line', 'tonal', 'outline'] as const
+const variant = ref<SectionVariant>('outline')
+const statuses = ['default', 'info', 'success', 'warning', 'danger'] as const
+const status = ref<SectionStatus>('default')
+const showTitle = ref(true)
+const showDescription = ref(true)
+const showMarker = ref(true)
+const preferredPlacement = ref<SectionMarkerPlacement>('title')
+const markerPlacement = computed({
+  get: () => (showTitle.value ? preferredPlacement.value : 'section'),
+  set: (value: SectionMarkerPlacement) => {
+    preferredPlacement.value = value
+  },
+})
 
 const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
 const size = ref<(typeof sizes)[number]>('md')
 const levels = [1, 2, 3, 4, 5, 6] as const
-const level = ref<(typeof levels)[number]>(1)
+const level = ref<(typeof levels)[number]>(4)
 const showContent = ref(true)
 const preview = ref<HTMLElement | null>(null)
 const titleMetrics = ref('')
@@ -52794,10 +52806,12 @@ function measureText() {
   const container = preview.value?.querySelector<HTMLElement>('.mp-section__surface')
   const title = container?.querySelector(`h${level.value}`)
   const description = container?.querySelector('.mp-section__description')
-  if (!container || !title || !description) return
+  if (!container) {
+    return
+  }
 
-  titleMetrics.value = formatMetrics(title, getComputedStyle(container).paddingTop)
-  descriptionMetrics.value = formatMetrics(description, getComputedStyle(description).marginTop)
+  titleMetrics.value = title ? formatMetrics(title, getComputedStyle(container).paddingTop) : ''
+  descriptionMetrics.value = description ? formatMetrics(description, getComputedStyle(description).marginTop) : ''
 }
 
 function formatMetrics(element: Element, gap: string) {
@@ -52805,11 +52819,15 @@ function formatMetrics(element: Element, gap: string) {
   return `font size ${fontSize} · gap above ${gap}`
 }
 
-watch([preview, size, level], () => {
-  measureText()
-  const view = preview.value?.ownerDocument.defaultView
-  view?.requestAnimationFrame?.(measureText)
-}, { flush: 'post' })
+watch(
+  [preview, size, level, showTitle, showDescription, variant, showMarker, markerPlacement],
+  () => {
+    measureText()
+    const view = preview.value?.ownerDocument.defaultView
+    view?.requestAnimationFrame?.(measureText)
+  },
+  { flush: 'post' },
+)
 </script>
 
 <template>
@@ -52822,14 +52840,38 @@ watch([preview, size, level], () => {
     <mp-radio-group v-model="level" aria-label="Heading level">
       <mp-radio v-for="value in levels" :key="value" :value="value">h{{ value }}</mp-radio>
     </mp-radio-group>
-    <mp-checkbox v-model="showContent">Show content</mp-checkbox>
+    <mp-radio-group v-model="variant" aria-label="Section style">
+      <mp-radio v-for="value in variants" :key="value" :value="value">{{ value }}</mp-radio>
+    </mp-radio-group>
+    <mp-radio-group v-model="status" aria-label="Section status">
+      <mp-radio v-for="value in statuses" :key="value" :value="value">{{ value }}</mp-radio>
+    </mp-radio-group>
+    <mp-space wrap>
+      <mp-checkbox v-model="showTitle">Show heading</mp-checkbox>
+      <mp-checkbox v-model="showDescription">Show description</mp-checkbox>
+      <mp-checkbox v-model="showMarker">Show marker</mp-checkbox>
+      <mp-checkbox v-model="showContent">Show content</mp-checkbox>
+    </mp-space>
+    <mp-radio-group v-model="markerPlacement" :disabled="!showMarker" aria-label="Marker placement">
+      <mp-radio value="title" :disabled="!showTitle">Heading</mp-radio>
+      <mp-radio value="section">Entire section</mp-radio>
+    </mp-radio-group>
     <output>
-      Size {{ size }} · Heading h{{ level }}<br>
-      Title · {{ titleMetrics }}<br>
-      Description · {{ descriptionMetrics }}
+      Size {{ size }} · Heading h{{ level }}
+      <template v-if="showTitle"><br />Title · {{ titleMetrics }}</template>
+      <template v-if="showDescription"><br />Description · {{ descriptionMetrics }}</template>
     </output>
     <div ref="preview" @transitionend="measureText">
-      <mp-section :size="size" :heading-level="level" variant="outline" show-marker title="Member permissions" description="Permissions are grouped by member role.">
+      <mp-section
+        :size="size"
+        :heading-level="level"
+        :marker-placement="markerPlacement"
+        :variant="variant"
+        :status="status"
+        :show-marker="showMarker"
+        :title="showTitle ? 'Member permissions' : undefined"
+        :description="showDescription ? 'Permission changes apply to all project members.' : undefined"
+      >
         <!-- Only this comment remains when content is hidden. -->
         <span v-if="showContent">Administrators can invite members.</span>
       </mp-section>
@@ -52838,72 +52880,9 @@ watch([preview, size, level], () => {
 </template>
 ```
 
-### With or without a heading
-
-Switch between plain, heading-line, tonal and outline, then toggle the heading and description independently. The example starts with just the body. Enable the marker to mark the entire section. When the heading is visible, you can choose either placement. With both the heading and description off, Section omits the header, including the line in the heading-line variant.
-
-Example source: src/section/example/demos/en-US/heading-options.vue
-
-```vue
-<script setup lang="ts">
-import { computed, ref } from 'vue'
-import type { SectionMarkerPlacement, SectionStatus, SectionVariant } from '@maple-design/ui-vue'
-
-const variants = ['plain', 'heading-line', 'tonal', 'outline'] as const
-const variant = ref<SectionVariant>('outline')
-const statuses = ['default', 'info', 'success', 'warning', 'danger'] as const
-const status = ref<SectionStatus>('default')
-const withTitle = ref(false)
-const withDescription = ref(false)
-const showMarker = ref(false)
-const preferredPlacement = ref<SectionMarkerPlacement>('title')
-const markerPlacement = computed({
-  get: () => (withTitle.value ? preferredPlacement.value : 'section'),
-  set: (value: SectionMarkerPlacement) => {
-    preferredPlacement.value = value
-  },
-})
-</script>
-
-<template>
-  <mp-space direction="column" align="stretch">
-    <mp-radio-group v-model="variant" aria-label="Section style">
-      <mp-radio v-for="value in variants" :key="value" :value="value">{{ value }}</mp-radio>
-    </mp-radio-group>
-    <mp-radio-group v-model="status" aria-label="Section status">
-      <mp-radio v-for="value in statuses" :key="value" :value="value">{{ value }}</mp-radio>
-    </mp-radio-group>
-    <mp-space wrap>
-      <mp-checkbox v-model="withTitle">Show heading</mp-checkbox>
-      <mp-checkbox v-model="withDescription">Show description</mp-checkbox>
-      <mp-checkbox v-model="showMarker">Show marker</mp-checkbox>
-    </mp-space>
-    <mp-radio-group v-model="markerPlacement" :disabled="!showMarker" aria-label="Marker placement">
-      <mp-radio value="title" :disabled="!withTitle">Heading</mp-radio>
-      <mp-radio value="section">Entire section</mp-radio>
-    </mp-radio-group>
-    <mp-section
-      :marker-placement="markerPlacement"
-      :variant="variant"
-      :status="status"
-      :show-marker="showMarker"
-      :title="withTitle ? 'Member permissions' : undefined"
-      :description="withDescription ? 'Permission changes apply to all project members.' : undefined"
-    >
-      <dl>
-        <dt>Administrator</dt>
-        <dd>Manage members and project settings</dd>
-        <dt>Member</dt>
-        <dd>View the project and update tasks</dd>
-      </dl>
-    </mp-section>
-  </mp-space>
-</template>
-```
-
 ### Grouping inline form fields
 
-Inside Form, Section defaults to heading-line with a heading marker. The fields follow the inline layout and wrap when space is limited. Use Divider between sections when needed.
+Inside Form, Section defaults to heading-line. Pass `show-marker` to display a heading marker. The fields follow the inline layout and wrap when space is limited. Use Divider between sections when needed.
 
 Example source: src/section/example/demos/en-US/inline-form.vue
 
@@ -52916,7 +52895,7 @@ const model = reactive({ name: '', department: '' })
 
 <template>
   <mp-form :model="model" layout="inline" edit-mode="direct">
-    <mp-section title="Member details">
+    <mp-section title="Member details" show-marker>
       <mp-form-item field="name" label="Name">
         <mp-input v-model="model.name" />
       </mp-form-item>
@@ -52940,11 +52919,13 @@ const model = reactive({ name: '', department: '' })
 | size | Visual size (xs / sm / md / lg / xl) | SectionSize | md |
 | variant | Appearance, plain, heading-line, tonal or outline | 'plain' \| 'heading-line' \| 'tonal' \| 'outline' | heading-line |
 | status | Status colors the marker, tonal fill and outline (default / info / success / warning / danger) | SectionStatus | — |
-| heading-level | HTML heading level from 1 to 6 | 1–6 | 3 inside Form, otherwise 2 |
-| show-marker | Show the marker | boolean | Enabled inside Form |
+| heading-level | HTML heading level from 1 to 6 | 1–6 | `4` |
+| show-marker | Show the marker | boolean | Off |
 | marker-placement | Marker placement (`title` or `section`) | string | `title` |
 
 ### Section Slots
+
+The default slot controls the body. Omitting it or hiding all its children with `v-if` removes the body container and its spacing. A text interpolation such as `{{ note }}` keeps the container even when the string is empty.
 
 Use the default slot for content and extra for actions. The title and description slots override their respective text props.
 
@@ -52965,7 +52946,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 
 | Variable | Default / condition | Affected styles |
 | --- | --- | --- |
-| `--mp-section-accent-color` | `var(--mp-sys-color-action-primary)` | `background`, `background-color`, `border` |
+| `--mp-section-accent-color` | `var(--mp-sys-color-action-primary)` | `background`, `border`, `border-inline-start` |
 | `--mp-section-after-gap` | `24px` | `margin-block`, `padding-block-start` |
 | `--mp-section-before-gap` | `32px` | `padding-block-start` |
 | `--mp-section-card-background` | `var(--mp-sys-color-surface-default)` | `background-color` |
@@ -52977,32 +52958,32 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-section-description-line-height` | `20px` | `line-height` |
 | `--mp-section-description-size` | `13px` | `font-size` |
 | `--mp-section-divider-color` | `var(--mp-sys-color-border-default)` | `border-block-start` |
-| `--mp-section-divider-width` | `1px` | `border`, `border-block-start` |
-| `--mp-section-header-gap` | `16px` | `margin-block-end` |
+| `--mp-section-divider-width` | `1px` | `border`, `border-block-start`, `border-radius` |
+| `--mp-section-header-gap` | `16px` | `margin-block-start` |
 | `--mp-section-heading-gap` | `16px` | `margin-inline-start` |
 | `--mp-section-heading-size-step` | `1px` | `font-size`, `line-height` |
 | `--mp-section-marker-gap` | `12px` | `padding-inline-end`, `padding-inline-start`, `row-gap` |
 | `--mp-section-marker-height` | `calc(100% - 1lh + 1em)` | `height` |
 | `--mp-section-marker-radius` | `2px` | `border-radius` |
-| `--mp-section-marker-width` | `3px` | `padding-inline-start`, `width` |
+| `--mp-section-marker-width` | `3px` | `border-inline-start`, `padding-inline-start`, `width` |
 | `--mp-section-outline-color` | `var(--mp-sys-color-border-default)` | `border` |
 | `--mp-section-size-lg-card-padding` | `20px` | `padding` |
-| `--mp-section-size-lg-header-gap` | `20px` | `margin-block-end` |
+| `--mp-section-size-lg-header-gap` | `20px` | `margin-block-start` |
 | `--mp-section-size-lg-marker-height` | `calc(100% - 1lh + 1em)` | `height` |
 | `--mp-section-size-lg-title-line-height` | `28px` | `line-height` |
 | `--mp-section-size-lg-title-size` | `16px` | `font-size` |
 | `--mp-section-size-sm-card-padding` | `12px` | `padding` |
-| `--mp-section-size-sm-header-gap` | `12px` | `margin-block-end` |
+| `--mp-section-size-sm-header-gap` | `12px` | `margin-block-start` |
 | `--mp-section-size-sm-marker-height` | `calc(100% - 1lh + 1em)` | `height` |
 | `--mp-section-size-sm-title-line-height` | `20px` | `line-height` |
 | `--mp-section-size-sm-title-size` | `16px` | `font-size` |
 | `--mp-section-size-xl-card-padding` | `24px` | `padding` |
-| `--mp-section-size-xl-header-gap` | `24px` | `margin-block-end` |
+| `--mp-section-size-xl-header-gap` | `24px` | `margin-block-start` |
 | `--mp-section-size-xl-marker-height` | `calc(100% - 1lh + 1em)` | `height` |
 | `--mp-section-size-xl-title-line-height` | `32px` | `line-height` |
 | `--mp-section-size-xl-title-size` | `16px` | `font-size` |
 | `--mp-section-size-xs-card-padding` | `8px` | `padding` |
-| `--mp-section-size-xs-header-gap` | `8px` | `margin-block-end` |
+| `--mp-section-size-xs-header-gap` | `8px` | `margin-block-start` |
 | `--mp-section-size-xs-marker-height` | `calc(100% - 1lh + 1em)` | `height` |
 | `--mp-section-size-xs-title-line-height` | `18px` | `line-height` |
 | `--mp-section-size-xs-title-size` | `16px` | `font-size` |
@@ -53010,7 +52991,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-section-title-line-height` | `24px` | `line-height` |
 | `--mp-section-title-size` | `16px` | `font-size` |
 | `--mp-section-title-weight` | `600` | `font-weight` |
-| `--mp-section-tonal-background` | `var(--mp-sys-color-surface-muted)` | `background-color` |
+| `--mp-section-tonal-background` | `color-mix(in srgb, var(--mp-sys-color-surface-muted) 60%, var(--mp-section-card-background))` | `background-color` |
 
 </div>
 
@@ -58157,6 +58138,10 @@ const values = reactive({
 
 ## Layout and arrangement
 
+In a native `dir="auto"` or `<bdi>` scope, changes to the text direction update the thumb position and arrow keys.
+
+A horizontal slider follows the reading direction of its assigned slot in an open shadow root, including after reassignment. A slider mounted inside a closed shadow root follows its ancestors there. When a slider is passed into that root from outside and the internal slot sets the direction, keep the same native `dir` on the element passed into that slot so the thumb position and arrow keys stay in sync.
+
 ### Vertical
 
 <!-- demo-config-notes:start -->
@@ -59035,8 +59020,7 @@ Example source: src/space/example/demos/en-US/demo-8.vue
 
 <template>
   <mp-space v-for="size in ['xs', 'sm', 'md', 'lg', 'xl']" :key="size" :size="size" wrap>
-    <span>{{ size }}</span
-    ><span>Item 1</span><span>Item 2</span>
+    <span>{{ size }}</span><span>Item 1</span><span>Item 2</span>
   </mp-space>
 </template>
 ```
@@ -59444,15 +59428,14 @@ Examples use `Message.info(...)`, supported on both platforms. Selection closes 
 
 The main button publishes; the arrow opens related actions. Options have stable values and include a disabled action.
 
-Example source: src/split-button/example/basic.vue
+Example source: src/split-button/example/en-US/basic.vue
 
 ```vue
 <script setup lang="ts">
-import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
 
 const publish = () => {
-  Message.info(english.value ? 'Published' : '发布成功')
+  Message.info('Published')
 }
 const handleSelect = (_value: unknown, option: { label?: unknown }) => {
   Message.info(String(option.label))
@@ -59461,12 +59444,12 @@ const handleSelect = (_value: unknown, option: { label?: unknown }) => {
 
 <template>
   <mp-split-button placement="bottom-end" @click="publish" @select="handleSelect">
-    {{ english ? 'Publish' : '发布' }}
+    Publish
 
     <template #content>
-      <mp-menu-option :label="english ? 'Save draft' : '保存草稿'" value="draft" />
-      <mp-menu-option :label="english ? 'Save and publish' : '保存并发布'" value="publish" />
-      <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
+      <mp-menu-option label="Save draft" value="draft" />
+      <mp-menu-option label="Save and publish" value="publish" />
+      <mp-menu-option label="Unavailable" value="restricted" disabled />
     </template>
   </mp-split-button>
 </template>
@@ -59491,15 +59474,14 @@ const handleSelect = (_value: unknown, option: { label?: unknown }) => {
 
 Compare default, outline, tonal and text variants.
 
-Example source: src/split-button/example/variants.vue
+Example source: src/split-button/example/en-US/variants.vue
 
 ```vue
 <script setup lang="ts">
-import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
 
 const publish = () => {
-  Message.info(english.value ? 'Published' : '发布成功')
+  Message.info('Published')
 }
 const handleSelect = (_value: unknown, option: { label?: unknown }) => {
   Message.info(String(option.label))
@@ -59519,9 +59501,9 @@ const variants = ['default', 'outline', 'tonal', 'text'] as const
       {{ variant }}
 
       <template #content>
-        <mp-menu-option :label="english ? 'Save draft' : '保存草稿'" value="draft" />
-        <mp-menu-option :label="english ? 'Save and publish' : '保存并发布'" value="publish" />
-        <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
+        <mp-menu-option label="Save draft" value="draft" />
+        <mp-menu-option label="Save and publish" value="publish" />
+        <mp-menu-option label="Unavailable" value="restricted" disabled />
       </template>
     </mp-split-button>
   </mp-space>
@@ -59532,15 +59514,14 @@ const variants = ['default', 'outline', 'tonal', 'text'] as const
 
 Compare disabling the whole group, only the main button and only the menu button. Overall disabled cannot be overridden by disabled: false on either child.
 
-Example source: src/split-button/example/disabled.vue
+Example source: src/split-button/example/en-US/disabled.vue
 
 ```vue
 <script setup lang="ts">
-import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
 
 const publish = () => {
-  Message.info(english.value ? 'Published' : '发布成功')
+  Message.info('Published')
 }
 const handleSelect = (_value: unknown, option: { label?: unknown }) => {
   Message.info(String(option.label))
@@ -59556,30 +59537,30 @@ const handleSelect = (_value: unknown, option: { label?: unknown }) => {
       @click="publish"
       @select="handleSelect"
     >
-      {{ english ? 'All disabled' : '整体禁用' }}
+      All disabled
 
       <template #content>
-        <mp-menu-option :label="english ? 'Save draft' : '保存草稿'" value="draft" />
-        <mp-menu-option :label="english ? 'Save and publish' : '保存并发布'" value="publish" />
-        <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
+        <mp-menu-option label="Save draft" value="draft" />
+        <mp-menu-option label="Save and publish" value="publish" />
+        <mp-menu-option label="Unavailable" value="restricted" disabled />
       </template>
     </mp-split-button>
     <mp-split-button :button-props="{ disabled: true }" @click="publish" @select="handleSelect">
-      {{ english ? 'Main disabled' : '仅禁用主按钮' }}
+      Main disabled
 
       <template #content>
-        <mp-menu-option :label="english ? 'Save draft' : '保存草稿'" value="draft" />
-        <mp-menu-option :label="english ? 'Save and publish' : '保存并发布'" value="publish" />
-        <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
+        <mp-menu-option label="Save draft" value="draft" />
+        <mp-menu-option label="Save and publish" value="publish" />
+        <mp-menu-option label="Unavailable" value="restricted" disabled />
       </template>
     </mp-split-button>
     <mp-split-button :trigger-button-props="{ disabled: true }" @click="publish" @select="handleSelect">
-      {{ english ? 'Menu disabled' : '仅禁用菜单按钮' }}
+      Menu disabled
 
       <template #content>
-        <mp-menu-option :label="english ? 'Save draft' : '保存草稿'" value="draft" />
-        <mp-menu-option :label="english ? 'Save and publish' : '保存并发布'" value="publish" />
-        <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
+        <mp-menu-option label="Save draft" value="draft" />
+        <mp-menu-option label="Save and publish" value="publish" />
+        <mp-menu-option label="Unavailable" value="restricted" disabled />
       </template>
     </mp-split-button>
   </mp-space>
@@ -59732,12 +59713,11 @@ const demoComparedOptions = demoComputed(
 
 Use bottom-start, an 8px vertical offset and a 160px maximum height. With hide-on-select=false, repeated selections keep the menu open and display the latest value.
 
-Example source: src/split-button/example/popup.vue
+Example source: src/split-button/example/en-US/popup.vue
 
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue'
-import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
 
 const lastAction = ref('')
@@ -59757,21 +59737,15 @@ const handleSelect = (value: unknown, option: { label?: unknown }) => {
       @click="lastAction = 'publish'"
       @select="handleSelect"
     >
-      {{ english ? 'Choose action' : '选择操作' }}
+      Choose action
       <template #content>
-        <mp-menu-option :label="english ? 'Save draft' : '保存草稿'" value="draft" />
-        <mp-menu-option :label="english ? 'Save and publish' : '保存并发布'" value="publish" />
-        <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
+        <mp-menu-option label="Save draft" value="draft" />
+        <mp-menu-option label="Save and publish" value="publish" />
+        <mp-menu-option label="Unavailable" value="restricted" disabled />
       </template>
     </mp-split-button>
-    <span aria-live="polite"
-      >{{ english ? 'Last action' : '最近操作' }}: {{ lastAction || (english ? 'None' : '暂无操作') }}</span
-    >
-    <span>{{
-      english
-        ? 'The menu stays open after selection; click outside to close.'
-        : '选择后菜单保持展开，可连续选择；点击外部关闭。'
-    }}</span>
+    <span aria-live="polite">Last action: {{ lastAction || 'None' }}</span>
+    <span>The menu stays open after selection; click outside to close.</span>
   </mp-space>
 </template>
 ```
@@ -59782,15 +59756,14 @@ const handleSelect = (value: unknown, option: { label?: unknown }) => {
 
 Rotate the same arrow icon on both platforms using the open slot parameter.
 
-Example source: src/split-button/example/custom-icon.vue
+Example source: src/split-button/example/en-US/custom-icon.vue
 
 ```vue
 <script setup lang="ts">
-import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
 
 const publish = () => {
-  Message.info(english.value ? 'Published' : '发布成功')
+  Message.info('Published')
 }
 const handleSelect = (_value: unknown, option: { label?: unknown }) => {
   Message.info(String(option.label))
@@ -59799,7 +59772,7 @@ const handleSelect = (_value: unknown, option: { label?: unknown }) => {
 
 <template>
   <mp-split-button @click="publish" @select="handleSelect">
-    {{ english ? 'Publish' : '发布' }}
+    Publish
     <template #icon="{ open }">
       <m-icon-menu-down
         :style="{
@@ -59809,9 +59782,9 @@ const handleSelect = (_value: unknown, option: { label?: unknown }) => {
       />
     </template>
     <template #content>
-      <mp-menu-option :label="english ? 'Save draft' : '保存草稿'" value="draft" />
-      <mp-menu-option :label="english ? 'Save and publish' : '保存并发布'" value="publish" />
-      <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
+      <mp-menu-option label="Save draft" value="draft" />
+      <mp-menu-option label="Save and publish" value="publish" />
+      <mp-menu-option label="Unavailable" value="restricted" disabled />
     </template>
   </mp-split-button>
 </template>
@@ -59825,16 +59798,15 @@ Use `@click.stop` on external controls so the opening click is not also treated 
 
 Use v-model:open to synchronize external controls, the trigger and selection-driven closing.
 
-Example source: src/split-button/example/controlled.vue
+Example source: src/split-button/example/en-US/controlled.vue
 
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue'
-import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
 
 const publish = () => {
-  Message.info(english.value ? 'Published' : '发布成功')
+  Message.info('Published')
 }
 const handleSelect = (_value: unknown, option: { label?: unknown }) => {
   Message.info(String(option.label))
@@ -59845,19 +59817,19 @@ const open = ref(false)
 <template>
   <mp-space direction="column" align="flex-start">
     <mp-space wrap>
-      <mp-button @click.stop="open = true">{{ english ? 'Open menu' : '展开菜单' }}</mp-button>
-      <mp-button @click.stop="open = false">{{ english ? 'Close menu' : '关闭菜单' }}</mp-button>
+      <mp-button @click.stop="open = true">Open menu</mp-button>
+      <mp-button @click.stop="open = false">Close menu</mp-button>
     </mp-space>
     <mp-split-button v-model:open="open" @click="publish" @select="handleSelect">
-      {{ english ? 'Publish' : '发布' }}
+      Publish
 
       <template #content>
-        <mp-menu-option :label="english ? 'Save draft' : '保存草稿'" value="draft" />
-        <mp-menu-option :label="english ? 'Save and publish' : '保存并发布'" value="publish" />
-        <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
+        <mp-menu-option label="Save draft" value="draft" />
+        <mp-menu-option label="Save and publish" value="publish" />
+        <mp-menu-option label="Unavailable" value="restricted" disabled />
       </template>
     </mp-split-button>
-    <span aria-live="polite">{{ open ? (english ? 'Opened' : '已展开') : english ? 'Closed' : '已关闭' }}</span>
+    <span aria-live="polite">{{ open ? 'Opened' : 'Closed' }}</span>
   </mp-space>
 </template>
 ```
@@ -59868,12 +59840,11 @@ const open = ref(false)
 
 Use an async @click handler and control button-props.loading with business state. Reset loading in finally on both success and failure; the counter shows completed operations.
 
-Example source: src/split-button/example/async-action.vue
+Example source: src/split-button/example/en-US/async-action.vue
 
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue'
-import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
 
 const completed = ref(0)
@@ -59899,15 +59870,15 @@ const handleSelect = (_value: unknown, option: { label?: unknown }) => {
 <template>
   <mp-space direction="column" align="flex-start">
     <mp-split-button :button-props="{ loading: publishing }" @click="publish" @select="handleSelect">
-      {{ english ? 'Publish' : '发布' }}
+      Publish
 
       <template #content>
-        <mp-menu-option :label="english ? 'Save draft' : '保存草稿'" value="draft" />
-        <mp-menu-option :label="english ? 'Save and publish' : '保存并发布'" value="publish" />
-        <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
+        <mp-menu-option label="Save draft" value="draft" />
+        <mp-menu-option label="Save and publish" value="publish" />
+        <mp-menu-option label="Unavailable" value="restricted" disabled />
       </template>
     </mp-split-button>
-    <span aria-live="polite">{{ english ? 'Completed' : '完成次数' }}: {{ completed }}</span>
+    <span aria-live="polite">Completed: {{ completed }}</span>
   </mp-space>
 </template>
 ```
@@ -61052,11 +61023,7 @@ Example source: src/style/example/basic.vue
 
 ```vue
 <script setup>
-import { onThemeChange } from '@maple-design/cli-vue/client'
-
 const elevations = Array.from({ length: 25 }).map((_, index) => index)
-
-onThemeChange()
 </script>
 
 <template>
@@ -64921,7 +64888,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-tag-orangered-border-color-hover` | `transparent` | `border-color` |
 | `--mp-tag-orangered-icon-color` | `rgb(var(--mp-orangered-6))` | `color` |
 | `--mp-tag-orangered-text-color` | `rgb(var(--mp-orangered-6))` | `border-color`, `color` |
-| `--mp-tag-padding-horizontal` | `10px` | `padding` |
+| `--mp-tag-padding-horizontal` | `8px` | `padding` |
 | `--mp-tag-padding-vertical` | `0` | `line-height`, `padding` |
 | `--mp-tag-pinkpurple-bg` | `rgb(var(--mp-pinkpurple-1))`<br>`rgba(var(--mp-pinkpurple-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-pinkpurple-bg-hover` | `rgb(var(--mp-pinkpurple-2))`<br>`rgba(var(--mp-pinkpurple-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
@@ -64942,15 +64909,15 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-tag-red-icon-color` | `rgb(var(--mp-red-6))` | `color` |
 | `--mp-tag-red-text-color` | `rgb(var(--mp-red-6))` | `border-color`, `color` |
 | `--mp-tag-round-radius` | `100px` | `border-radius` |
-| `--mp-tag-size-lg` | `36px` | `height`, `line-height` |
+| `--mp-tag-size-lg` | `30px` | `height`, `line-height` |
 | `--mp-tag-size-lg-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
-| `--mp-tag-size-md` | `32px` | `height`, `line-height` |
-| `--mp-tag-size-md-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
-| `--mp-tag-size-sm` | `28px` | `height`, `line-height` |
+| `--mp-tag-size-md` | `26px` | `height`, `line-height` |
+| `--mp-tag-size-md-font-size` | `var(--mp-sys-font-size-sm)` | `font-size` |
+| `--mp-tag-size-sm` | `22px` | `height`, `line-height` |
 | `--mp-tag-size-sm-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
-| `--mp-tag-size-xl` | `40px` | `height`, `line-height` |
+| `--mp-tag-size-xl` | `34px` | `height`, `line-height` |
 | `--mp-tag-size-xl-font-size` | `var(--mp-sys-font-size-lg)` | `font-size` |
-| `--mp-tag-size-xs` | `24px` | `height`, `line-height` |
+| `--mp-tag-size-xs` | `18px` | `height`, `line-height` |
 | `--mp-tag-size-xs-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
 | `--mp-tag-status-danger-bg-color` | `rgb(var(--mp-danger-1))` | `background-color` |
 | `--mp-tag-status-danger-text-color` | `var(--mp-sys-color-content-danger)` | `color` |
@@ -65867,32 +65834,34 @@ const styleVars = computed(() => ({
 
 Keep the existing status × variant API: yellow primary, neutral secondary and violet tertiary. Switch the card surface to compare transparent buttons, then inspect violet selection and focus across the related controls.
 
-Example source: src/themes/example/FireflyScenes.vue
+Example source: src/themes/example/en-US/FireflyScenes.vue
 
 ```vue
 <script setup>
-import { computed, ref } from 'vue'
-import { watchTheme } from '@maple-design/cli-vue/client'
-import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
+import { computed, ref, watch } from 'vue'
 import { Themes } from '@maple-design/ui-vue'
 
-const mode = ref('light')
+const props = defineProps({ dark: Boolean })
+const mode = computed(() => (props.dark ? 'dark' : 'light'))
 const background = ref('light')
-watchTheme((theme) => {
-  mode.value = theme.toLowerCase().includes('dark') ? 'dark' : 'light'
-  background.value = mode.value === 'dark' ? 'navy' : 'light'
-})
+watch(
+  mode,
+  () => {
+    background.value = mode.value === 'dark' ? 'navy' : 'light'
+  },
+  { immediate: true },
+)
 const variants = ['default', 'text', 'outline', 'tonal']
 const roles = [
-  { status: 'primary', label: '黄色主行动', labelEn: 'Yellow primary action' },
-  { status: 'secondary', label: '中性次级操作', labelEn: 'Neutral secondary action' },
-  { status: 'tertiary', label: '紫色辅助品牌', labelEn: 'Violet auxiliary brand' },
+  { status: 'primary', label: 'Yellow primary action' },
+  { status: 'secondary', label: 'Neutral secondary action' },
+  { status: 'tertiary', label: 'Violet auxiliary brand' },
 ]
 const backgrounds = [
-  { label: 'Navy / 深蓝', value: 'navy', color: '#17224B', text: '#FFFFFF' },
-  { label: 'White / 白色', value: 'light', color: '#FFFFFF', text: '#17224B' },
-  { label: 'Light gray / 浅灰', value: 'muted', color: '#F5F5F5', text: '#17224B' },
-  { label: 'Dark gray / 深灰', value: 'dark', color: '#252525', text: '#FFFFFF' },
+  { label: 'Navy', value: 'navy', color: '#17224B', text: '#FFFFFF' },
+  { label: 'White', value: 'light', color: '#FFFFFF', text: '#17224B' },
+  { label: 'Light gray', value: 'muted', color: '#F5F5F5', text: '#17224B' },
+  { label: 'Dark gray', value: 'dark', color: '#252525', text: '#FFFFFF' },
 ]
 // Read the actual preset so this example cannot silently redefine secondary as violet.
 const palette = computed(() => Themes.firefly[mode.value])
@@ -65921,18 +65890,15 @@ const contact = ref('')
 </script>
 
 <template>
-  <section class="firefly-button-scenes" :aria-label="english ? 'Firefly brand roles' : '萤火虫品牌角色'">
+  <section class="firefly-button-scenes" aria-label="Firefly brand roles">
     <p>
-      {{
-        english
-          ? 'Primary is yellow, secondary is neutral, and tertiary is violet. Switch the card background to compare transparent text and outline buttons; yellow text belongs on dark surfaces.'
-          : 'primary 为黄色主行动，secondary 为中性次级，tertiary 为紫色辅助。切换整张卡片背景对照文字与描边按钮；黄色文字适合深色背景。'
-      }}
+      Primary is yellow, secondary is neutral, and tertiary is violet. Switch the card background to compare transparent
+      text and outline buttons; yellow text belongs on dark surfaces.
     </p>
-    <mp-form-item layout="vertical" size="sm" :label="english ? 'Card background' : '卡片背景'">
+    <mp-form-item layout="vertical" size="sm" label="Card background">
       <mp-radio-group
         v-model="background"
-        :aria-label="english ? 'Card background' : '卡片背景'"
+        aria-label="Card background"
         :options="backgrounds"
         variant="button"
         size="sm"
@@ -65940,7 +65906,7 @@ const contact = ref('')
     </mp-form-item>
     <mp-theme-provider :style-vars="cardVars" class="firefly-button-scenes__panel" :data-surface="background">
       <div v-for="role in roles" :key="role.status" class="firefly-button-scenes__family">
-        <p>{{ english ? role.labelEn : role.label }} / {{ role.status }}</p>
+        <p>{{ role.label }} / {{ role.status }}</p>
         <mp-space wrap>
           <mp-button
             v-for="variant in variants"
@@ -65956,21 +65922,17 @@ const contact = ref('')
       </div>
     </mp-theme-provider>
     <mp-theme-provider :style-vars="interactionVars" class="firefly-interactions">
-      <h3>{{ english ? 'Violet selection and focus' : '紫色选择与焦点反馈' }}</h3>
+      <h3>Violet selection and focus</h3>
       <mp-space direction="column" block align="stretch" :size="16">
-        <mp-radio-group v-model="service" :aria-label="english ? 'Service selection' : '体验项目选择'">
-          <mp-radio value="drive">{{ english ? 'Test drive' : '预约试驾' }}</mp-radio>
-          <mp-radio value="visit">{{ english ? 'Visit' : '到店体验' }}</mp-radio>
+        <mp-radio-group v-model="service" aria-label="Service selection">
+          <mp-radio value="drive">Test drive</mp-radio>
+          <mp-radio value="visit">Visit</mp-radio>
         </mp-radio-group>
-        <mp-checkbox v-model="agreement">{{ english ? 'Receive service updates' : '接收服务信息' }}</mp-checkbox>
-        <mp-switch v-model="reminder" :aria-label="english ? 'Service reminder' : '体验提醒'" />
-        <mp-slider v-model="level" :aria-label="english ? 'Preference level' : '偏好程度'" />
-        <mp-input
-          v-model="contact"
-          :aria-label="english ? 'Firefly focus example' : '萤火虫焦点示例'"
-          :placeholder="english ? 'Focus to see the violet border' : '点击输入，查看紫色焦点边框'"
-        />
-        <mp-link status="primary">{{ english ? 'View service details' : '查看服务详情' }}</mp-link>
+        <mp-checkbox v-model="agreement">Receive service updates</mp-checkbox>
+        <mp-switch v-model="reminder" aria-label="Service reminder" />
+        <mp-slider v-model="level" aria-label="Preference level" />
+        <mp-input v-model="contact" aria-label="Firefly focus example" placeholder="Focus to see the violet border" />
+        <mp-link status="primary">View service details</mp-link>
       </mp-space>
     </mp-theme-provider>
   </section>
@@ -70403,7 +70365,9 @@ With Teleport, variables must be in the actual popup scope, for example through 
 
 ### Reduced motion
 
-`allowClose()` restores the internal closing gate; there is no public counterpart to disable closing, and this method cannot prevent closure.
+For a popup in a closed shadow root, an outside click is delivered after the browser dispatches the event. Setting `click-outside-to-close` to `false` before delivery keeps the popup open.
+
+The instance retains `allowClose()` for existing callers. Dismissal follows the current trigger and close settings.
 
 ## API
 
@@ -70468,7 +70432,7 @@ Native `click`, `mouseenter`, `mouseleave`, `focusin`, `focusout`, `contextmenu`
 
 `aria-describedby` from `reference-attrs` is merged and deduplicated with existing reference descriptions; cleanup or reference replacement restores the original attribute.
 
-When the first reference in the default slot is a native element, its server-rendered HTML includes the supplied `aria-*` and `data-*` attributes. For an external reference, Trigger applies the attributes to that element after mounting.
+The server-rendered reference element includes the supplied `aria-*` and `data-*` attributes. When the default slot contains a component, Trigger applies these attributes to its first rendered element. Trigger merges its description IDs with existing `aria-describedby` IDs and preserves the component’s own IDs when the reference changes. For an external reference, Trigger applies the attributes to that element after mounting.
 
 When several triggers share an element, their description IDs are combined. Removing one trigger drops the IDs contributed only by that trigger. Removing the last trigger restores the latest value supplied by the application.
 
@@ -70544,12 +70508,6 @@ Shared semantic text-color utilities remain in Utilities: `mp-text-1` … `mp-te
 Example source: src/typography/example/basic.vue
 
 ```vue
-<script setup>
-import { onThemeChange } from '@maple-design/cli-vue/client'
-
-onThemeChange()
-</script>
-
 <template>
   <div class="demo mp-px-16 mp-py-16">
     <div class="mp-text-1 mp-mb-8">mp-text-1 主文案</div>
@@ -70572,13 +70530,13 @@ Document: llms/en-US/updates.md
 
 <!-- Source: docs/updates.en-US.md; locale: en-US; page: /en-US/updates -->
 
-# Updates and migration
+# Changelog
 
 Check package versions and release notes before upgrading. Review affected props, events, types and theme variables, keep the dependency lockfile and verify critical workflows. Do not assume API compatibility without migration guidance.
 
-## Changelog
+## Release notes
 
-[Read the full Changelog](https://github.com/sparknest-team/maple-design-mobile/blob/main/CHANGELOG.md) for features, fixes and breaking changes. Unreleased entries are not necessarily included in the current npm package.
+[Read the full Changelog](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/ui/CHANGELOG.md) for features, fixes and breaking changes. Unreleased entries are not necessarily included in the current npm package.
 
 ## Upgrade checks
 
@@ -70587,6 +70545,8 @@ Check package versions and release notes before upgrading. Review affected props
 3. Update the lockfile and verify builds and critical interactions before releasing your application.
 
 [LLM documentation](#/en-US/llms) · [Cedar](https://cedar.show) · [Maple](https://maple.show)
+
+<!-- @include: ../CHANGELOG.md{3-} -->
 
 ---
 
@@ -71685,10 +71645,6 @@ Example source: src/utilities/example/basic.vue
 
 ```vue
 <script setup>
-import { onThemeChange } from '@maple-design/cli-vue/client'
-
-onThemeChange()
-
 const statusColors = ['primary', 'success', 'warning', 'danger', 'info']
 const textLevels = [1, 2, 3, 4]
 const spaceSamples = [

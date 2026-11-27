@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url'
 
 const cliRoot = fileURLToPath(new URL('../../packages/cli/', import.meta.url))
 const require = createRequire(resolve(cliRoot, 'package.json'))
-const ts = require('typescript')
+const ts = require('typescript-js')
 
 function compileWithoutUIArtifacts(configName, emit = false) {
   const configPath = resolve(cliRoot, configName)

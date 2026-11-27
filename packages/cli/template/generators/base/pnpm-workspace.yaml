@@ -1,0 +1,7 @@
+packageExtensions:
+  '@vue/compiler-sfc@3.5.46':
+    dependencies:
+      typescript: 6.0.3
+patchedDependencies:
+  vue@3.5.46: patches/vue-compiler-sfc-register-typescript.patch
+  '@vuepress/bundler-vite@2.0.0-rc.32': patches/vuepress-bundler-vite-main-entry.patch

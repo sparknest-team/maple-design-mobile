@@ -279,14 +279,14 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 
 以上是字段展示层 API；纯面板不因此新增阅读模式。Form 与 FormItem 提供继承配置。empty-value 的现有类型与默认输出仍按该组件原 API 执行。
 
-`ChoiceValue = string | number | boolean`；`CheckboxModel = boolean | ChoiceValue[] | null`；`RadioModel = ChoiceValue | null`。
+`string | number | boolean = string | number | boolean`；`boolean | (string | number | boolean)[] | null = boolean | (string | number | boolean)[] | null`；`string | number | boolean | null = string | number | boolean | null`。
 
 ### Radio Props
 
 | 属性                  | 说明                            | 类型                      | 默认值    |
 | --------------------- | ------------------------------- | ------------------------- | --------- |
-| model-value (v-model) | 受控值 | RadioModel | undefined |
-| default-value         | 非受控初始值                    | ChoiceValue \| null       | null      |
+| model-value (v-model) | 受控值 | string \| number \| boolean \| null | undefined |
+| default-value         | 非受控初始值                    | string \| number \| boolean \| null       | null      |
 | value                 | 选项的`value`                   | `string\|number\|boolean` | `true`    |
 | variant               | 单选的类型                      | `'radio'\|'button'`       | `'radio'` |
 | disabled              | 是否禁用；未设置时继承表单/分组 | boolean                   | undefined |
@@ -295,7 +295,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 | edit-mode | 编辑模式，继承 FormItem 和 Form | `'direct' \| 'popup'` | `'direct'` |
 | read-pretty | 独立阅读状态，显式 false 覆盖父级 | `boolean` | `false` |
 | clearable | 延迟编辑层清空操作，不改变原生取消选择 | `boolean` | `false` |
-| empty-value | 展示层显式清空输出，不控制原生取消勾选 | `RadioModel \| (() => RadioModel)` | `null` |
+| empty-value | 展示层显式清空输出，不控制原生取消勾选 | `string \| number \| boolean \| null \| (() => string \| number \| boolean \| null)` | `null` |
 | empty-values | 空值识别策略，字段优先于 FormItem 和 Form | `readonly unknown[]` | `-` |
 | empty-text | 阅读空文案，显式空字符串有效 | `string` | `'-'` |
 | before-commit | 延迟编辑保存前守卫；返回布尔值、Promise 或通过 done 完成 | `(payload: { value: unknown; previousValue: unknown }, done: (allow?: boolean) => void, context: { signal: AbortSignal; event?: Event }) => void \| boolean \| Promise<void \| boolean>` | `-` |
@@ -315,11 +315,11 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 
 | 属性                  | 说明                                                        | 类型                                                                                                    | 默认值         |
 | --------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | -------------- |
-| model-value (v-model) | 受控值 | RadioModel | undefined |
-| default-value         | 非受控初始值                                                | RadioModel                                                                                              | null           |
+| model-value (v-model) | 受控值 | string \| number \| boolean \| null | undefined |
+| default-value         | 非受控初始值                                                | string \| number \| boolean \| null                                                                                              | null           |
 | variant               | 单选框组的类型                                              | `'radio'\|'button'`                                                                                     | `'radio'`      |
 | size                  | 单选框组的尺寸                                              | `'xs'\|'sm'\|'md'\|'lg'\|'xl'`                                                                          | `-`            |
-| options               | 选项；传入时替代默认插槽                                    | Array<ChoiceValue \| RadioOption \| Record<string, unknown>> / `(query, { signal }) => Array / Promise` | `undefined`    |
+| options               | 选项；传入时替代默认插槽                                    | Array<string \| number \| boolean \| RadioOption \| Record<string, unknown>> / `(query, { signal }) => Array / Promise` | `undefined`    |
 | orientation           | 单选组内选项的横纵排列，默认 horizontal；不表示文字阅读方向 | `'horizontal'\|'vertical'`                                                                              | `'horizontal'` |
 | disabled              | 是否禁用；未设置时继承表单/分组                             | boolean                                                                                                 | undefined      |
 | readonly              | 是否只读；未设置时继承表单/分组                             | boolean                                                                                                 | undefined      |
@@ -329,7 +329,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 | edit-mode | 编辑模式，继承 FormItem 和 Form | `'direct' \| 'popup'` | `'direct'` |
 | read-pretty | 独立阅读状态，显式 false 覆盖父级 | `boolean` | `false` |
 | clearable | 延迟编辑层清空操作，不改变原生取消选择 | `boolean` | `false` |
-| empty-value | 展示层显式清空输出，不控制原生取消勾选 | `RadioModel \| (() => RadioModel)` | `null` |
+| empty-value | 展示层显式清空输出，不控制原生取消勾选 | `string \| number \| boolean \| null \| (() => string \| number \| boolean \| null)` | `null` |
 | empty-values | 空值识别策略，字段优先于 FormItem 和 Form | `readonly unknown[]` | `-` |
 | empty-text | 阅读空文案，显式空字符串有效 | `string` | `'-'` |
 | before-commit | 延迟编辑保存前守卫；返回布尔值、Promise 或通过 done 完成 | `(payload: { value: unknown; previousValue: unknown }, done: (allow?: boolean) => void, context: { signal: AbortSignal; event?: Event }) => void \| boolean \| Promise<void \| boolean>` | `-` |
@@ -350,8 +350,8 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 
 | 事件名             | 说明     | 参数                              |
 | ------------------ | -------- | --------------------------------- |
-| update:modelValue | 提议新值 | value: RadioModel |
-| change | 值变化提案 | value: RadioModel, event?: Event |
+| update:modelValue | 提议新值 | value: string \| number \| boolean \| null |
+| change | 值变化提案 | value: string \| number \| boolean \| null, event?: Event |
 | focus              | 聚焦     | event: FocusEvent                 |
 | blur               | 失焦     | event: FocusEvent                 |
 | update:open | 编辑层受控开关更新 | open: boolean |
@@ -362,8 +362,8 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 
 | 事件名             | 说明                        | 参数                                           |
 | ------------------ | --------------------------- | ---------------------------------------------- |
-| update:modelValue | 提议新值 | value: RadioModel |
-| change | 值变化提案 | value: RadioModel, event?: Event |
+| update:modelValue | 提议新值 | value: string \| number \| boolean \| null |
+| change | 值变化提案 | value: string \| number \| boolean \| null, event?: Event |
 | update:open | 编辑层受控开关更新 | open: boolean |
 | open-change | 编辑层实际开关变化 | open: boolean |
 | load-error | 显式选项加载失败，不改变模型 | error: unknown |
@@ -373,7 +373,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 | 插槽名 | 说明         | 参数                                     |
 | ------ | ------------ | ---------------------------------------- |
 | radio  | 自定义单选框 | `checked:boolean`<br/>`disabled:boolean` |
-| read | 自定义阅读内容，优先于 empty-text | value: RadioModel, text: string |
+| read | 自定义阅读内容，优先于 empty-text | value: string \| number \| boolean \| null, text: string |
 | default | button 标签或默认圆形标签 | checked: boolean, disabled: boolean |
 | checked-icon | 默认圆形选中图标 | - |
 | unchecked-icon | 默认圆形未选中图标 | - |
@@ -384,7 +384,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 | ------ | ------------- | ---------------------------------------- |
 | radio  | 自定义单选框  | `checked:boolean`<br/>`disabled:boolean` |
 | label  | radio文案内容 | `data: RadioOption, checked: boolean`    |
-| read | 自定义阅读内容，优先于 empty-text | value: RadioModel, text: string |
+| read | 自定义阅读内容，优先于 empty-text | value: string \| number \| boolean \| null, text: string |
 | default | 未提供 options 时的原生子选项 | - |
 
 ## Types
@@ -393,7 +393,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 
 | 字段     | 说明           | 类型                                                              |
 | -------- | -------------- | ----------------------------------------------------------------- |
-| value    | 选项标识       | ChoiceValue                                                       |
+| value    | 选项标识       | string \| number \| boolean                                                       |
 | label    | 标签或渲染函数 | VNodeChild \| (data: RadioOption, checked: boolean) => VNodeChild |
 | disabled | 禁用           | boolean                                                           |
 | readonly | 只读           | boolean                                                           |

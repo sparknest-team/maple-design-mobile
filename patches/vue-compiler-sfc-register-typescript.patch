@@ -1,0 +1,10 @@
+diff --git a/compiler-sfc/register-ts.js b/compiler-sfc/register-ts.js
+--- a/compiler-sfc/register-ts.js
++++ b/compiler-sfc/register-ts.js
+@@ -1,3 +1,5 @@
+ if (typeof require !== 'undefined') {
+-  require('@vue/compiler-sfc').registerTS(() => require('typescript'))
++  const compiler = require.resolve('@vue/compiler-sfc')
++  // Load the JS API used by compiler-sfc from its own dependencies.
++  require(compiler).registerTS(() => require(require.resolve('typescript', { paths: [compiler] })))
+ }

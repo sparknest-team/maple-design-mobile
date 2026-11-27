@@ -1,7 +1,7 @@
 import { createRequire } from 'node:module'
 
 const require = createRequire(new URL('../../packages/ui/package.json', import.meta.url))
-const ts = require('typescript')
+const ts = require('typescript-js')
 const localeCode = /^(?:en-US|zh-CN)$/
 const equality = new Set([
   ts.SyntaxKind.EqualsEqualsToken,

@@ -1,10 +1,11 @@
 <script setup>
-import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { AppType, currentTheme, onThemeChange } from '@maple-design/cli-vue/client'
 import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import ProviderBasicDemo from '../../theme-provider/example/demos/basic.vue'
 import ProviderLocalDemo from '../../theme-provider/example/demos/local-theme.vue'
 import BrandForm from './BrandForm.vue'
 import FireflyScenes from './FireflyScenes.vue'
+import FireflyScenesEn from './en-US/FireflyScenes.vue'
 import LocalTheme from './LocalTheme.vue'
 import ThemeDetails from './ThemeDetails.vue'
 
@@ -61,7 +62,7 @@ function setTheme(theme) {
 
   <section data-demo="theme-3">
     <app-type>{{ english ? 'Firefly button surfaces' : '萤火虫按钮使用场景' }}</app-type>
-    <FireflyScenes />
+    <component :is="english ? FireflyScenesEn : FireflyScenes" :dark="currentTheme?.toLowerCase().includes('dark')" />
     <ThemeDetails />
   </section>
 

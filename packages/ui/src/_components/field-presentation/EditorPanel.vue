@@ -52,7 +52,8 @@
 </template>
 <script setup lang="ts">
 import { computed, provide, ref, shallowRef } from 'vue'
-import Button from '../../button/base'
+import ButtonComponent from '../../button/base'
+import type { WithNativeListeners } from '../../_utils/native-listener-types'
 import { provideEditorErrorDescription } from '../../form/error-description'
 import { injectLocaleProvider } from '../../locale-provider/provide'
 import { createNamespace } from '../../utils/components'
@@ -61,6 +62,8 @@ import { fieldGlobalText as t } from './default-texts'
 import { editorAuxiliaryActions, editorAuxiliaryFeedback } from './editor-actions'
 import { isolateEditorForm } from './form-bridge'
 import { useFieldTexts } from './texts'
+
+const Button = ButtonComponent as WithNativeListeners<typeof ButtonComponent, 'onMousedown'>
 
 const props = defineProps<{
   popupContainer?: string | HTMLElement | false

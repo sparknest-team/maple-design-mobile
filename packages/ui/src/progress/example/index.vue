@@ -47,13 +47,11 @@ onThemeChange()
   </section>
 
   <section data-demo="step">
-    <app-type>{{ english ? 'step' : '分段进度' }}</app-type
-    ><StepDemo />
+    <app-type>{{ english ? 'step' : '分段进度' }}</app-type><StepDemo />
   </section>
 
   <section data-demo="loop">
-    <app-type>{{ english ? 'loop' : '不确定进度与动画' }}</app-type
-    ><LoopDemo />
+    <app-type>{{ english ? 'loop' : '不确定进度与动画' }}</app-type><LoopDemo />
   </section>
 
   <section data-demo="indeterminate-progress">
@@ -62,8 +60,7 @@ onThemeChange()
   </section>
 
   <section data-demo="advanced">
-    <app-type>{{ english ? 'advanced' : '渐变、起点、隐藏轨道与文本' }}</app-type
-    ><AdvancedDemo />
+    <app-type>{{ english ? 'advanced' : '渐变、起点、隐藏轨道与文本' }}</app-type><AdvancedDemo />
   </section>
 
   <section data-demo="style">

@@ -16,8 +16,7 @@ onThemeChange()
   </h2>
 
   <section data-demo="basic">
-    <app-type>{{ english ? 'Basic usage' : '基础用法' }}</app-type
-    ><DemoBasic />
+    <app-type>{{ english ? 'Basic usage' : '基础用法' }}</app-type><DemoBasic />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="layout-and-arrangement">
@@ -38,8 +37,7 @@ onThemeChange()
   </h2>
 
   <section data-demo="fix-change">
-    <app-type>{{ english ? 'Change event' : '吸附状态变化' }}</app-type
-    ><DemoFixChange />
+    <app-type>{{ english ? 'Change event' : '吸附状态变化' }}</app-type><DemoFixChange />
   </section>
 
   <section data-demo="controls">

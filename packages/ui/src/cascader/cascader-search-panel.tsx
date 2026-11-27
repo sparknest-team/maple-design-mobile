@@ -14,6 +14,7 @@ import {
 import { useEmptySlot } from '../_components/selection-field/empty-slot'
 import Scrollbar from '../_components/selection-scrollbar'
 import { isShadowRoot } from '../_utils/is-shadow-root'
+import type { WithNativeAttributes } from '../_utils/native-listener-types'
 import Empty from '../empty'
 import Loading from '../loading/Loading.vue'
 import { createNamespace, getPrefixCls } from '../utils/components'
@@ -24,7 +25,7 @@ import { useCascaderMenuFocus } from './use-menu-focus'
 
 const { name } = createNamespace('cascader-search-panel')
 
-export default defineComponent({
+const CascaderSearchPanel = defineComponent({
   name,
   props: {
     options: {
@@ -261,3 +262,5 @@ export default defineComponent({
     )
   },
 })
+
+export default CascaderSearchPanel as WithNativeAttributes<typeof CascaderSearchPanel, 'id'>

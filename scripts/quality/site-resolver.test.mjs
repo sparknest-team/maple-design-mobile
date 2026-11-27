@@ -60,7 +60,10 @@ test('internal implementation imports stay explicit without intercepting Vue HMR
   assert.equal(excluded(resolve(source, 'upload/example/basic.vue')), false)
   const plugin = createSiteImportPlugin(source)
   assert.equal(plugin.handleHotUpdate, undefined)
-  const config = readFileSync(new URL('../../packages/cli/src/node/config/vite.config.ts', import.meta.url), 'utf8')
+  const config = readFileSync(
+    new URL('../../packages/cli/src/node/config/documentation-vite.ts', import.meta.url),
+    'utf8',
+  )
   for (const name of ['Components', 'AutoImport']) {
     assert.match(config, new RegExp(`${name}\\(\\{[^}]*exclude: getSiteComponentExcludes\\(SRC_DIR\\)`))
   }

@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
-import ts from 'typescript'
+import ts from 'typescript-js'
 
 const iconRoot = fileURLToPath(new URL('../../packages/icons/', import.meta.url))
 

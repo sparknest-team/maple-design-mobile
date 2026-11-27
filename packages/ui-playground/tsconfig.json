@@ -1,5 +1,6 @@
 {
   "extends": "../../tsconfig.json",
+  "contentMappers": [{ "package": "@vue/content-mapper", "extensions": [".vue"] }],
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,

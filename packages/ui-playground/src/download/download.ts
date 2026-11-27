@@ -29,7 +29,6 @@ export async function downloadProject(store: any) {
     {
       mapleVersion: store.mapleVersion,
       vueVersion: store.vueVersion,
-      typescriptVersion: store.state?.typescriptVersion,
     },
     { mapleVersion, vueVersion, typescriptVersion },
   )

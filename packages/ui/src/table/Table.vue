@@ -1,3 +1,5 @@
 <script lang="ts">
-export { default } from './table-impl'
+import Table from './table-impl'
+
+export default Table
 </script>

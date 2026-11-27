@@ -37,20 +37,3 @@ export function createDemoMessages(messages: Record<string, Record<string, strin
     t: (key: string) => current.value[key] ?? messages['zh-CN']?.[key] ?? key,
   }
 }
-
-/** Both the desktop docs route and the mobile demo route carry the site language. */
-export function resolveDemoLanguage(hash: string, platform?: 'pc' | 'mobile'): string {
-  const queryIndex = hash.indexOf('?')
-  const query = new URLSearchParams(queryIndex < 0 ? '' : hash.slice(queryIndex + 1))
-  const [, routeLanguage, page] = hash.slice(0, queryIndex < 0 ? undefined : queryIndex).split('/')
-
-  if (platform === 'mobile') {
-    return query.get('language') || 'zh-CN'
-  }
-  if (platform === 'pc') {
-    return routeLanguage || 'zh-CN'
-  }
-
-  // Desktop: #/en-US/input; mobile/iframe: #/input?language=en-US.
-  return query.get('language') || (page ? routeLanguage : undefined) || 'zh-CN'
-}

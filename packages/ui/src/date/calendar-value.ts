@@ -1,30 +1,24 @@
 import { getDefaultValueFormat } from './date-format'
-import {
-  dateUsesSeconds,
-  outputDateValue,
-  parseDateValue,
-  type DateSelection,
-  type DateValueOptions,
-} from './date-value'
+import { dateUsesSeconds, outputDateValue, parseDateValue, type DateValueOptions } from './date-value'
 
 export function calendarValueFormat(options: DateValueOptions) {
   return getDefaultValueFormat(options.type, options.showTime, dateUsesSeconds(options))
 }
 export function toCalendarValue(
-  value: DateSelection,
+  value: Date | string | number | (Date | string | number | null | undefined)[] | null | undefined,
   options: DateValueOptions,
 ): string | (string | undefined)[] | undefined {
-  const convert = (part: Exclude<DateSelection, unknown[]>): string | undefined =>
+  const convert = (part: Date | string | number | null | undefined): string | undefined =>
     parseDateValue(part, options)?.format(calendarValueFormat(options))
   return Array.isArray(value) ? value.map(convert) : convert(value)
 }
 export function fromCalendarValue(
-  value: DateSelection,
+  value: Date | string | number | (Date | string | number | null | undefined)[] | null | undefined,
   options: DateValueOptions,
-  previous?: DateSelection,
-): DateSelection {
+  previous?: Date | string | number | (Date | string | number | null | undefined)[] | null | undefined,
+): Date | string | number | (Date | string | number | null | undefined)[] | null | undefined {
   const oldValues = Array.isArray(previous) ? previous : [previous]
-  const convert = (part: Exclude<DateSelection, unknown[]>, index = 0) => {
+  const convert = (part: Date | string | number | null | undefined, index = 0) => {
     const old = oldValues[index]
     // Civil labels omit the fold occurrence and sub-display precision. Untouched
     // endpoints retain their original instant, especially when that side is locked.

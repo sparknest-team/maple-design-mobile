@@ -5,18 +5,14 @@
 <va-button>start</va-button>
 ```
 
-```vue
-import BasicUse from '../example/en-US/BasicUse'
-```
+<demo src="../example/en-US/BasicUse.vue"></demo>
 
 ### Theme Color Button
 ```html
 <va-button color="#009688">start</va-button>
 ```
 
-```vue
-import ModifyColor from '../example/en-US/ModifyColor'
-```
+<demo src="../example/en-US/ModifyColor.vue"></demo>
 
 ## API
 

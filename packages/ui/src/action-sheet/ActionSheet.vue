@@ -16,8 +16,8 @@
     :safe-area-inset-bottom="safeArea"
     :safe-area-inset-left="safeArea"
     :safe-area-inset-right="safeArea"
-    :aria-label="dialogLabel"
-    :aria-labelledby="dialogLabelledby"
+    :aria-label="dialogLabel()"
+    :aria-labelledby="dialogLabelledby()"
     close-on-route-change
     @close-error="(error, reason) => $emit('close-error', error, reason)"
     @open="$emit('open')"
@@ -45,7 +45,6 @@
             v-for="action in actions"
             :key="action.name"
             :name="action.name"
-            :namespace="action.namespace"
             :icon="action.icon"
             :icon-size="action.iconSize"
             :class-name="action.className"
@@ -68,9 +67,12 @@ import MpPopup from '../popup'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'
 import { useId } from '../utils/vue-compat'
-import MpActionItem from './ActionItem.vue'
+import MpActionItemComponent from './ActionItem.vue'
+import type { WithNativeListeners } from '../_utils/native-listener-types'
 import { type ActionItem } from './index'
 import { props } from './props'
+
+const MpActionItem = MpActionItemComponent as WithNativeListeners<typeof MpActionItemComponent, 'onClick'>
 
 const { name, n, classes } = createNamespace('action-sheet')
 
@@ -86,8 +88,9 @@ export default defineComponent({
   emits: ['select', 'update:open', 'open', 'opened', 'close', 'closed', 'key-escape', 'click-overlay', 'close-error'],
   setup(props, { attrs, emit }) {
     const titleId = `mp-action-sheet-title-${useId()}`
-    const dialogLabel = computed(() => attrs['aria-label'])
-    const dialogLabelledby = computed(() => attrs['aria-labelledby'] ?? (dialogLabel.value ? undefined : titleId))
+    const dialogLabel = () => (typeof attrs['aria-label'] === 'string' ? attrs['aria-label'] : undefined)
+    const dialogLabelledby = () =>
+      typeof attrs['aria-labelledby'] === 'string' ? attrs['aria-labelledby'] : dialogLabel() ? undefined : titleId
     const contentAttrs = computed(() =>
       Object.fromEntries(Object.entries(attrs).filter(([key]) => key !== 'aria-label' && key !== 'aria-labelledby')),
     )

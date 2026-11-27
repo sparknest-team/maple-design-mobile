@@ -8,6 +8,7 @@ import MenuPresentation from '../_components/selection-field/MenuPresentation.vu
 import type { SelectionFieldItem } from '../_components/selection-field/props'
 import SelectionField from '../_components/selection-field/SelectionField.vue'
 import { isFunction } from '../_utils/is'
+import type { WithNativeAttributes } from '../_utils/native-listener-types'
 import type { CompatibleStyleValue as StyleValue } from '../_utils/style-value'
 import Input from '../input/base'
 import InputFeedback from '../input/InputFeedback.vue'
@@ -303,4 +304,4 @@ const Select = defineComponent({
   },
 })
 
-export default Select
+export default Select as WithNativeAttributes<typeof Select, 'aria-label'>

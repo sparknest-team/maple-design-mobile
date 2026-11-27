@@ -4,25 +4,17 @@
     "noEmit": true,
     "declaration": false,
     "emitDeclarationOnly": false,
-    "rootDir": ".",
+    "rootDir": "../../..",
     "paths": {
-      "@maple-design/ui-vue": [
-        "./src/index.ts"
-      ],
-      "@sparknest/ui-doc-preview-vue": [
-        "../../../design-ui/packages/ui-doc-preview/src/index.ts"
-      ],
-      "vue": [
-        "./node_modules/vue"
-      ],
-      "@maple-design/ui-vue/*": [
-        "./src/*/index.ts"
-      ]
+      "@maple-design/ui-vue": ["./src/index.ts"],
+      "vue": ["./node_modules/vue"],
+      "@maple-design/ui-vue/*": ["./src/*/index.ts"]
     }
   },
   "include": [
+    "shims/build-styles.d.ts",
     "type-tests/p1-api.ts",
-    "src/**/*.d.ts",
+    "./src/**/*.d.ts",
     "type-tests/p2-api.ts",
     "type-tests/f07-api.ts",
     "type-tests/api-naming.ts",

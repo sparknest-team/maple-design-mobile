@@ -97,8 +97,8 @@
   "devDependencies": {
     "@maple-design/cli-vue": "workspace:*",
     "@types/node": "catalog:",
-    "@types/vscode": "^1.102.0",
-    "@vscode/vsce": "^3.6.0",
+    "@types/vscode": "^1.146.0",
+    "@vscode/vsce": "^4.1.1",
     "typescript": "catalog:"
   },
   "engines": {

@@ -1,24 +1,28 @@
 import { computed, shallowRef, watch } from 'vue'
 import { cloneFieldValue } from '../_components/picker-field/use-field-value'
 import { isDateDisabled, isDateSelectionValid, type DateRules } from './date-rules'
-import { sameDateSelection, type DateSelection } from './date-value'
+import { sameDateSelection } from './date-value'
 
 interface DateSelectionOptions {
-  value: () => DateSelection
+  value: () => Date | string | number | (Date | string | number | null | undefined)[] | null | undefined
   rules: () => DateRules
-  emptyValue?: () => DateSelection
+  emptyValue?: () => Date | string | number | (Date | string | number | null | undefined)[] | null | undefined
   range: () => boolean
   allowReversedDraft?: () => boolean
-  validate?: (value: DateSelection) => boolean
+  validate?: (
+    value: Date | string | number | (Date | string | number | null | undefined)[] | null | undefined,
+  ) => boolean
   multiple?: () => boolean
   blocked: () => boolean
   disabledParts?: () => boolean[]
-  onSelect: (value: DateSelection) => void
-  onCommit: (value: DateSelection) => void
+  onSelect: (value: Date | string | number | (Date | string | number | null | undefined)[] | null | undefined) => void
+  onCommit: (value: Date | string | number | (Date | string | number | null | undefined)[] | null | undefined) => void
   onConfirm?: () => void
 }
 export function useDateSelection(options: DateSelectionOptions) {
-  const draft = shallowRef<DateSelection>(cloneFieldValue(options.value()))
+  const draft = shallowRef<Date | string | number | (Date | string | number | null | undefined)[] | null | undefined>(
+    cloneFieldValue(options.value()),
+  )
   let settled = false
   function reset() {
     draft.value = cloneFieldValue(options.value())
@@ -35,7 +39,7 @@ export function useDateSelection(options: DateSelectionOptions) {
     },
     { deep: true, flush: 'sync' },
   )
-  function unlocked(value: DateSelection) {
+  function unlocked(value: Date | string | number | (Date | string | number | null | undefined)[] | null | undefined) {
     const previous = options.value()
     return (
       !options.range() ||
@@ -50,14 +54,14 @@ export function useDateSelection(options: DateSelectionOptions) {
         )
     )
   }
-  function valid(value: DateSelection) {
+  function valid(value: Date | string | number | (Date | string | number | null | undefined)[] | null | undefined) {
     return (
       (options.validate
         ? options.validate(value)
         : isDateSelectionValid(value, options.rules(), options.range(), options.multiple?.())) && unlocked(value)
     )
   }
-  function editable(value: DateSelection) {
+  function editable(value: Date | string | number | (Date | string | number | null | undefined)[] | null | undefined) {
     if (valid(value)) {
       return true
     }
@@ -89,7 +93,9 @@ export function useDateSelection(options: DateSelectionOptions) {
     return true
   }
   // Stage an initial wheel candidate without publishing selection or model events.
-  function initialize(value: DateSelection) {
+  function initialize(
+    value: Date | string | number | (Date | string | number | null | undefined)[] | null | undefined,
+  ) {
     if (options.blocked() || !editable(value)) {
       return false
     }
@@ -97,7 +103,10 @@ export function useDateSelection(options: DateSelectionOptions) {
     settled = false
     return true
   }
-  function select(value: DateSelection, immediate = false) {
+  function select(
+    value: Date | string | number | (Date | string | number | null | undefined)[] | null | undefined,
+    immediate = false,
+  ) {
     if (options.blocked()) {
       return false
     }

@@ -162,8 +162,9 @@ onThemeChange()
   </section>
 
   <section data-demo="event-pipeline">
-    <app-type>{{ english ? 'Body and event contract' : '主体与事件契约' }}</app-type
-    ><EnPipelineDemo v-if="english" /><PipelineDemo v-else />
+    <app-type>{{ english ? 'Body and event contract' : '主体与事件契约' }}</app-type><EnPipelineDemo
+      v-if="english"
+    /><PipelineDemo v-else />
   </section>
 
   <section data-demo="native-attrs">

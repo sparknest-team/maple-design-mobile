@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
 
 const lastAction = ref('')
@@ -20,20 +19,14 @@ const handleSelect = (value: unknown, option: { label?: unknown }) => {
       @click="lastAction = 'publish'"
       @select="handleSelect"
     >
-      {{ english ? 'Choose action' : '选择操作' }}
+      选择操作
       <template #content>
-        <mp-menu-option :label="english ? 'Save draft' : '保存草稿'" value="draft" />
-        <mp-menu-option :label="english ? 'Save and publish' : '保存并发布'" value="publish" />
-        <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
+        <mp-menu-option label="保存草稿" value="draft" />
+        <mp-menu-option label="保存并发布" value="publish" />
+        <mp-menu-option label="暂无权限" value="restricted" disabled />
       </template>
     </mp-split-button>
-    <span aria-live="polite"
-      >{{ english ? 'Last action' : '最近操作' }}: {{ lastAction || (english ? 'None' : '暂无操作') }}</span
-    >
-    <span>{{
-      english
-        ? 'The menu stays open after selection; click outside to close.'
-        : '选择后菜单保持展开，可连续选择；点击外部关闭。'
-    }}</span>
+    <span aria-live="polite">最近操作: {{ lastAction || '暂无操作' }}</span>
+    <span>选择后菜单保持展开，可连续选择；点击外部关闭。</span>
   </mp-space>
 </template>

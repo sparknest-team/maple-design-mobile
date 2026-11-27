@@ -26,8 +26,7 @@ onThemeChange()
   </section>
 
   <section data-demo="basic">
-    <app-type>{{ english ? 'Columns, spans and offsets' : '列数、跨列与偏移' }}</app-type
-    ><Demo0 />
+    <app-type>{{ english ? 'Columns, spans and offsets' : '列数、跨列与偏移' }}</app-type><Demo0 />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="layout-and-arrangement">
@@ -36,8 +35,7 @@ onThemeChange()
   </h2>
 
   <section data-demo="responsive">
-    <app-type>{{ english ? 'Responsive columns, gaps and spans' : '响应式列数、间距与跨列' }}</app-type
-    ><Demo2 />
+    <app-type>{{ english ? 'Responsive columns, gaps and spans' : '响应式列数、间距与跨列' }}</app-type><Demo2 />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="customization-and-slots">
@@ -46,8 +44,7 @@ onThemeChange()
   </h2>
 
   <section data-demo="collapse">
-    <app-type>{{ english ? 'Collapsed rows and suffix slot' : '折叠行数与后缀插槽' }}</app-type
-    ><Demo1 />
+    <app-type>{{ english ? 'Collapsed rows and suffix slot' : '折叠行数与后缀插槽' }}</app-type><Demo1 />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="interaction-and-control">
@@ -56,7 +53,6 @@ onThemeChange()
   </h2>
 
   <section data-demo="dynamic">
-    <app-type>{{ english ? 'Insert, remove and reorder' : '动态插入、删除与排序' }}</app-type
-    ><Demo3 />
+    <app-type>{{ english ? 'Insert, remove and reorder' : '动态插入、删除与排序' }}</app-type><Demo3 />
   </section>
 </template>

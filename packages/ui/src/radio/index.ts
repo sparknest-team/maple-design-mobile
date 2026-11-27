@@ -24,7 +24,7 @@ export type RadioGroupProps = import('../_utils/public-props').CompatiblePublicP
   typeof import('./props').radioGroupProps
 >
 
-export type { RadioMethods, RadioModel } from './props'
+export type { RadioMethods } from './props'
 
 export type { RadioOption } from './types'
 

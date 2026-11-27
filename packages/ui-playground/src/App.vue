@@ -4,12 +4,10 @@ import { ThemeProvider } from '@maple-design/ui-vue'
 import { Repl } from '@vue/repl'
 import Monaco from '@vue/repl/monaco-editor'
 import Header from './Header.vue'
-import { ReplStore } from './store'
+import { createMapleStore } from './store'
 import { normalizeTheme, themeMap } from './themes'
 
-const store = new ReplStore({
-  serializedState: location.hash.slice(1),
-})
+const store = createMapleStore(location.hash.slice(1))
 const theme = ref(normalizeTheme(localStorage.getItem('maple-ui-playground-theme')))
 
 function setVH() {

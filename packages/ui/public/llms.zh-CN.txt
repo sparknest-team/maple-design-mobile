@@ -146,7 +146,7 @@ Documentation language: zh-CN.
 - [Tooltip 文字气泡](./llms/zh-CN/tooltip.md): /zh-CN/tooltip
 - [Trigger](./llms/zh-CN/trigger.md): /zh-CN/trigger
 - [字体排版 Typography](./llms/zh-CN/typography.md): /zh-CN/typography
-- [更新与迁移](./llms/zh-CN/updates.md): /zh-CN/updates
+- [变更记录](./llms/zh-CN/updates.md): /zh-CN/updates
 - [Upload 上传](./llms/zh-CN/upload.md): /zh-CN/upload
 - [总览 Utilities](./llms/zh-CN/utilities.md): /zh-CN/utilities
 - [Utility 工具类规范](./llms/zh-CN/utilitySpec.md): /zh-CN/utilitySpec

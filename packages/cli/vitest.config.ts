@@ -12,6 +12,6 @@ export default defineConfig({
     maxWorkers: 2,
     minWorkers: 1,
     environment: 'jsdom',
-    include: ['site/**/*.spec.ts', 'src/**/__tests__/*.spec.ts'],
+    include: ['src/**/__tests__/*.spec.ts'],
   },
 })

@@ -149,18 +149,15 @@ onThemeChange()
   </section>
 
   <section data-demo="field-components">
-    <app-type>{{ english ? 'Text and numeric fields' : '文本与数值字段' }}</app-type
-    ><DemoFieldComponents />
+    <app-type>{{ english ? 'Text and numeric fields' : '文本与数值字段' }}</app-type><DemoFieldComponents />
   </section>
 
   <section data-demo="field-choice">
-    <app-type>{{ english ? 'Boolean and choice fields' : '开关与勾选字段' }}</app-type
-    ><DemoFieldChoice />
+    <app-type>{{ english ? 'Boolean and choice fields' : '开关与勾选字段' }}</app-type><DemoFieldChoice />
   </section>
 
   <section data-demo="field-selection">
-    <app-type>{{ english ? 'Selection fields' : '下拉选择字段' }}</app-type
-    ><DemoFieldSelection />
+    <app-type>{{ english ? 'Selection fields' : '下拉选择字段' }}</app-type><DemoFieldSelection />
   </section>
 
   <section data-demo="selection-summary">
@@ -169,28 +166,23 @@ onThemeChange()
   </section>
 
   <section data-demo="field-tree">
-    <app-type>{{ english ? 'Hierarchical fields' : '层级选择字段' }}</app-type
-    ><DemoFieldTree />
+    <app-type>{{ english ? 'Hierarchical fields' : '层级选择字段' }}</app-type><DemoFieldTree />
   </section>
 
   <section data-demo="field-date">
-    <app-type>{{ english ? 'Date fields' : '日期字段' }}</app-type
-    ><DemoFieldDate />
+    <app-type>{{ english ? 'Date fields' : '日期字段' }}</app-type><DemoFieldDate />
   </section>
 
   <section data-demo="field-time">
-    <app-type>{{ english ? 'Time fields' : '时间字段' }}</app-type
-    ><DemoFieldTime />
+    <app-type>{{ english ? 'Time fields' : '时间字段' }}</app-type><DemoFieldTime />
   </section>
 
   <section data-demo="field-rating">
-    <app-type>{{ english ? 'Progress and rating fields' : '进度与评分字段' }}</app-type
-    ><DemoFieldRating />
+    <app-type>{{ english ? 'Progress and rating fields' : '进度与评分字段' }}</app-type><DemoFieldRating />
   </section>
 
   <section data-demo="field-upload">
-    <app-type>{{ english ? 'Attachment fields' : '附件字段' }}</app-type
-    ><DemoFieldUpload />
+    <app-type>{{ english ? 'Attachment fields' : '附件字段' }}</app-type><DemoFieldUpload />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="validation-and-submission">
@@ -277,18 +269,17 @@ onThemeChange()
   </section>
 
   <section id="platform-presentation" data-demo="platform-presentation">
-    <app-type>{{ english ? 'Desktop and mobile presentation' : '桌面与移动的同场景展示' }}</app-type
-    ><PlatformPresentationDemo />
+    <app-type>{{
+      english ? 'Desktop and mobile presentation' : '桌面与移动的同场景展示'
+    }}</app-type><PlatformPresentationDemo />
   </section>
 
   <section data-demo="field-panel-actions">
-    <app-type>{{ english ? 'Standalone panel actions' : '独立面板操作区' }}</app-type
-    ><DemoFieldPanelActions />
+    <app-type>{{ english ? 'Standalone panel actions' : '独立面板操作区' }}</app-type><DemoFieldPanelActions />
   </section>
 
   <section data-demo="change-source">
-    <app-type>{{ english ? 'Confirmation event source' : '确认事件来源' }}</app-type
-    ><ChangeSourceDemo />
+    <app-type>{{ english ? 'Confirmation event source' : '确认事件来源' }}</app-type><ChangeSourceDemo />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="dynamic-and-async-fields">
@@ -302,8 +293,9 @@ onThemeChange()
   </section>
 
   <section data-demo="presentation-state">
-    <app-type>{{ english ? 'Disabled, readonly and asynchronous confirmation' : '禁用、只读与异步确认' }}</app-type
-    ><PresentationState />
+    <app-type>{{
+      english ? 'Disabled, readonly and asynchronous confirmation' : '禁用、只读与异步确认'
+    }}</app-type><PresentationState />
   </section>
 
   <section data-demo="async-race">

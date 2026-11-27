@@ -13,73 +13,60 @@ interface MotionOptions {
 }
 
 export function motion(options: MotionOptions) {
-  const {
-    from,
-    to,
-    duration = 300,
-    frame = () => {},
-    timingFunction = (value) => value,
-    onStateChange = () => {},
-  } = options
-  // Invalid durations have the same bounded, next-frame completion as zero.
-  const safeDuration = Number.isFinite(duration) && duration >= 0 ? duration : 0
-  let state: MotionState = 'pending'
-  let value = from
-  const distance = to - from
-  let ticker: number | undefined
-  let startTime: number | undefined
-  let pausedTime: number | undefined
-  let sleepTime = 0
+  const { from, to, duration = 300, timingFunction, frame, onStateChange } = options
+  const timed = duration > 0 && Number.isFinite(duration)
+  let phase: MotionState = 'pending'
+  let origin: number | undefined
+  let pausedAt: number | undefined
+  let inactive = 0
+  let handle: number | undefined
 
-  function setState(next: MotionState) {
-    state = next
-    onStateChange(next)
+  function transition(next: MotionState) {
+    phase = next
+    onStateChange?.(next)
+  }
+
+  function paint() {
+    const elapsed = performance.now() - origin! - inactive
+    const fraction = timed ? clamp(elapsed / duration, 0, 1) : 1
+    const eased = timingFunction ? timingFunction(fraction) : fraction
+    if (fraction === 1) {
+      transition('finished')
+      frame?.({ value: to, done: true })
+      return
+    }
+    frame?.({ value: (to - from) * eased + from, done: false })
+    handle = requestFrame(paint)
   }
 
   function start() {
-    if (state === 'running' || state === 'finished') {
+    if (phase !== 'paused' && phase !== 'pending') {
       return
     }
-    setState('running')
+    transition('running')
     const now = performance.now()
-    startTime = startTime ?? now
-    sleepTime += pausedTime != null ? now - pausedTime : 0
-    pausedTime = undefined
-    tick()
-    function tick() {
-      ticker = requestFrame(() => {
-        const elapsed = performance.now() - startTime! - sleepTime
-        const progress = safeDuration === 0 ? 1 : clamp(elapsed / safeDuration, 0, 1)
-        value = distance * timingFunction(progress) + from
-        if (progress >= 1) {
-          setState('finished')
-          frame({ value: to, done: true })
-          return
-        }
-        frame({ value, done: false })
-        tick()
-      })
+    origin ??= now
+    if (pausedAt !== undefined) {
+      inactive += now - pausedAt
     }
+    pausedAt = undefined
+    handle = requestFrame(paint)
   }
 
   function pause() {
-    if (state !== 'running') {
-      return
+    if (phase === 'running') {
+      cancelFrame(handle)
+      transition('paused')
+      pausedAt = performance.now()
     }
-    cancelFrame(ticker)
-    setState('paused')
-    pausedTime = performance.now()
   }
 
   function reset() {
-    cancelFrame(ticker)
-    setState('pending')
-    value = from
-    ticker = undefined
-    startTime = undefined
-    pausedTime = undefined
-    sleepTime = 0
+    cancelFrame(handle)
+    transition('pending')
+    handle = pausedAt = origin = undefined
+    inactive = 0
   }
 
-  return { start, pause, reset, getState: (): MotionState => state }
+  return { start, pause, reset, getState: (): MotionState => phase }
 }

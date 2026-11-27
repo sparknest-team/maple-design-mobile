@@ -1,4 +1,5 @@
-import { computed, inject, provide, reactive, ref, toRefs, watch, type ExtractPropTypes, type SetupContext } from 'vue'
+import type { ExtractPropTypes, Ref, SetupContext } from 'vue'
+import { computed, inject, provide, reactive, ref, toRefs, watch } from 'vue'
 import { fieldEditorEnterSubmits, fieldEditorPanel } from '../_components/field-presentation/context'
 import { useFieldSearch } from '../_components/field-presentation/use-field-search'
 import { useSelectionSession } from '../_components/selection-field/use-selection-session'
@@ -92,10 +93,10 @@ export function useCascaderController(
     },
   )
 
-  const optionInfos = ref<CascaderOptionInfo[]>([])
+  const optionInfos: Ref<CascaderOptionInfo[]> = ref<CascaderOptionInfo[]>([])
   const totalLevel = ref(1)
 
-  const optionMap = reactive(new Map<string, CascaderOptionInfo>())
+  const optionMap: Map<string, CascaderOptionInfo> = reactive(new Map<string, CascaderOptionInfo>())
   const leafOptionMap = reactive(new Map<string, CascaderOptionInfo>())
   const leafOptionValueMap = reactive(new Map<BaseType, string>())
   const leafOptionSet = reactive(new Set<CascaderOptionInfo>())
@@ -182,7 +183,7 @@ export function useCascaderController(
     return label?.toLocaleLowerCase().includes(computedInputValue.value?.toLocaleLowerCase())
   }
 
-  const filteredLeafOptions = computed(() => {
+  const filteredLeafOptions = computed<CascaderOptionInfo[]>(() => {
     const options = props.checkStrictly ? Array.from(optionMap.values()) : Array.from(leafOptionSet)
 
     return options.filter((item) => {

@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest'
 import { fromCalendarValue, toCalendarValue } from '../calendar-value'
 import { isDateDisabled, isDateSelectionValid, type DateRules } from '../date-rules'
 import { dateTimeDisabledRules } from '../date-time-rules'
-import { dateEventPayload, formatDateValue, outputDateValue, parseDateValue, type DateSelection } from '../date-value'
+import { dateEventPayload, formatDateValue, outputDateValue, parseDateValue } from '../date-value'
 import { datePresentationOptions } from '../presentation-options'
 import { useDateSelection } from '../use-date-selection'
 
@@ -120,7 +120,9 @@ describe('date family value and rules', () => {
 })
 describe('date selection transaction', () => {
   function setup(range = false) {
-    const value = ref<DateSelection>(range ? ['2025-01-01', '2025-01-03'] : '2025-01-01')
+    const value = ref<Date | string | number | (Date | string | number | null | undefined)[] | null | undefined>(
+      range ? ['2025-01-01', '2025-01-03'] : '2025-01-01',
+    )
     const rules = reactive<DateRules>({})
     const blocked = ref(false)
     const parts = ref<boolean[]>([])

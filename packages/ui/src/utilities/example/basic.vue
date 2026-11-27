@@ -1,8 +1,4 @@
 <script setup>
-import { onThemeChange } from '@maple-design/cli-vue/client'
-
-onThemeChange()
-
 const statusColors = ['primary', 'success', 'warning', 'danger', 'info']
 const textLevels = [1, 2, 3, 4]
 const spaceSamples = [

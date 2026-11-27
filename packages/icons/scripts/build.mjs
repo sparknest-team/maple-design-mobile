@@ -1,18 +1,20 @@
 import { spawn } from 'node:child_process'
 import { rm } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import { downlevelVueDeclarations, normalizeVueTypeFiles, writeDualDeclarations } from '@sparknest/ui-build-vue'
 import vue from '@vitejs/plugin-vue'
-import ts from 'typescript'
+import ts from 'typescript-js'
 import { build } from 'vite'
-import { writeDualDeclarations } from '../../../../design-ui/packages/ui-build/src/dual-declarations.mjs'
-import { downlevelVueDeclarations } from '../../../../design-ui/packages/ui-build/src/vue-declarations.mjs'
 
 const root = resolve(import.meta.dirname, '..')
 const runTypes = () =>
   new Promise((done, fail) => {
-    const child = spawn('vue-tsc', ['-p', 'tsconfig.build.json'], { cwd: root, stdio: 'inherit' })
+    const child = spawn('tsc', ['--runExternalCode', '-p', 'tsconfig.build.json'], {
+      cwd: root,
+      stdio: 'inherit',
+    })
     child.on('error', fail)
-    child.on('exit', (code) => (code === 0 ? done() : fail(new Error(`vue-tsc exited with ${code}`))))
+    child.on('exit', (code) => (code === 0 ? done() : fail(new Error(`TypeScript exited with ${code}`))))
   })
 
 await Promise.all(['es', 'lib', 'types'].map((dir) => rm(resolve(root, dir), { recursive: true, force: true })))
@@ -43,6 +45,8 @@ const modules = (format, outDir, extension) =>
     },
   })
 
-await Promise.all([modules('es', 'es', 'mjs'), modules('cjs', 'lib', 'cjs'), runTypes()])
+await runTypes()
+await Promise.all([modules('es', 'es', 'mjs'), modules('cjs', 'lib', 'cjs')])
+await normalizeVueTypeFiles(resolve(root, 'types'))
 downlevelVueDeclarations(root, 'types', ts)
 writeDualDeclarations(resolve(root, 'types'), ts)

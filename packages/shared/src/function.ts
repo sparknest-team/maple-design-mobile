@@ -1,34 +1,44 @@
-import { isArray } from './predicates'
-
 export function call<P extends any[], R>(
   fn?: ((...args: P) => R) | ((...args: P) => R)[] | null,
   ...args: P
 ): R | R[] | undefined {
-  if (isArray(fn)) {
-    return fn.map((callback) => callback(...args))
+  if (!fn) {
+    return undefined
   }
-  if (fn) {
+  if (typeof fn === 'function') {
     return fn(...args)
   }
+  return fn.map((handler) => handler(...args))
 }
 
 export function throttle<F extends (...args: any[]) => any>(fn: F, delay = 200) {
+  let previous = 0
   let timer: ReturnType<typeof setTimeout> | undefined
-  let start = 0
-  return function loop(this: unknown, ...args: Parameters<F>): void {
+  let latest: (() => void) | undefined
+
+  function flush(): void {
     const now = performance.now()
-    const elapsed = now - start
-    if (!start) {
-      start = now
-    }
-    if (timer) {
-      clearTimeout(timer)
+    const elapsed = now - previous
+    // The first call measures against the clock origin, subsequent ones
+    // measure against the first observation or the last delivered call.
+    if (!previous) {
+      previous = now
     }
     if (elapsed >= delay) {
-      fn.apply(this, args)
-      start = now
+      const deliver = latest
+      latest = undefined
+      deliver?.()
+      previous = now
     } else {
-      timer = setTimeout(() => loop.apply(this, args), delay - elapsed)
+      timer = setTimeout(flush, delay - elapsed)
     }
+  }
+
+  return function (this: unknown, ...args: Parameters<F>): void {
+    if (timer !== undefined) {
+      clearTimeout(timer)
+    }
+    latest = () => Reflect.apply(fn, this, args)
+    flush()
   }
 }

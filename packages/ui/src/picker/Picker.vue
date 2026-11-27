@@ -128,6 +128,7 @@
 </template>
 
 <script lang="ts">
+import type { Ref, ComponentPublicInstance, HTMLAttributes, SlotsType } from 'vue'
 import {
   computed,
   defineComponent,
@@ -139,9 +140,6 @@ import {
   toRaw,
   Transition,
   watch,
-  type ComponentPublicInstance,
-  type HTMLAttributes,
-  type SlotsType,
 } from 'vue'
 import { IconCheck as MIconCheck } from '@maple-design/icons-vue'
 import { call, clamp, clampArrayRange, toNumber } from '@maple-design/shared-vue'
@@ -304,7 +302,7 @@ export default defineComponent({
         emit('update:modelValue', value)
       },
     })
-    const scrollColumns = ref<ScrollColumn[]>([])
+    const scrollColumns: Ref<ScrollColumn[]> = ref<ScrollColumn[]>([])
     const visibleColumnsCount = computed(() => toNumber(props.columnsCount))
     const optionHeight = computed(() => toPxNum(props.optionHeight))
     const optionCount = computed(() => toPxNum(props.optionCount))

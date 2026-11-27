@@ -80,7 +80,8 @@ import {
   type InputHTMLAttributes,
 } from 'vue'
 import { IconCalendar, IconClockCircle } from '@maple-design/icons-vue'
-import FieldDecorator from '../../field-decorator/FieldDecorator.vue'
+import FieldDecoratorComponent from '../../field-decorator/FieldDecorator.vue'
+import type { WithNativeListeners } from '../../_utils/native-listener-types'
 import { fieldDecoratorProps } from '../../field-decorator/props'
 import { useFormErrorDescription } from '../../form/error-description'
 import { useFormItemLabel } from '../../form/label-context'
@@ -92,6 +93,8 @@ import { blockFieldOpenClick, isFieldOpenClick } from '../picker-field/open-trig
 import { pickerFieldProps } from './props'
 import { useRangeFieldIndex } from './range-field-context'
 import { usePickerRangeLabels } from './range-labels'
+
+const FieldDecorator = FieldDecoratorComponent as WithNativeListeners<typeof FieldDecoratorComponent, 'onClick'>
 
 defineOptions({
   name: createNamespace('picker-field').name,
@@ -110,7 +113,11 @@ function inputAttributes(index: number): InputHTMLAttributes & Record<string, un
     }
   }
   const common = splitInputAttrs(attrs).native
-  const merged = mergeProps(common, part as Record<string, unknown>)
+  const merged = mergeProps(
+    common,
+    props.popupId ? { 'aria-controls': props.popupId } : {},
+    part as Record<string, unknown>,
+  )
   const descriptions = [common['aria-describedby'], part['aria-describedby']].flatMap((value) =>
     typeof value === 'string' ? value.split(/[ \t\n\f\r]+/).filter(Boolean) : [],
   )

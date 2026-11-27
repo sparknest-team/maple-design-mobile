@@ -6,8 +6,6 @@ node_modules
 .history
 *.log
 .DS_Store
-index.draft.vue
-*.draft.md
 
 site
 lib
@@ -17,3 +15,5 @@ coverage
 highlight
 
 .eslintcache
+docs/.vuepress/.temp*/
+docs/.vuepress/.cache*/

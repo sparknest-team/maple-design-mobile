@@ -29,7 +29,7 @@ export const _DateRangePickerComponent: typeof DateRangePicker = DateRangePicker
 
 export default DateRange
 
-export type { DateValue, DateSelection, DateSide, DateValueOptions } from '../date/date-value'
+export type { DateValue, DateSide, DateValueOptions } from '../date/date-value'
 export type { DateDisabledTime, DateRules } from '../date/date-rules'
 
 export type { DateRangePickerType, DateRangePickerOptions } from './picker-props'

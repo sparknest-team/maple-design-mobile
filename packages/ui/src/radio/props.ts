@@ -9,10 +9,10 @@ import type { ComponentSize } from '../utils/constants'
 import { emptyValueProp } from '../utils/empty-value'
 import { radioVariantProp } from './variant'
 
-export type RadioValue = import('../checkbox/choice-value-props').ChoiceValue
+export type RadioValue = string | number | boolean
 export const radioProps = {
   ...fieldPresentationProps,
-  emptyValue: emptyValueProp<import('../checkbox/choice-value-props').RadioModel>(),
+  emptyValue: emptyValueProp<string | number | boolean | null>(),
   ...radioValueProps,
   /** 外观，分组设置优先。 */
   variant: radioVariantProp,
@@ -37,7 +37,7 @@ export const radioProps = {
 }
 export const radioGroupProps = {
   ...fieldPresentationProps,
-  emptyValue: emptyValueProp<import('../checkbox/choice-value-props').RadioModel>(),
+  emptyValue: emptyValueProp<string | number | boolean | null>(),
   ...radioGroupValueProps,
   ...choiceOptionsProps,
   ariaLabel: { type: String, default: '' },
@@ -59,6 +59,5 @@ export interface RadioMethods {
   focus(options?: FocusOptions): void
   blur(): void
 }
-export type { RadioModel } from '../checkbox/choice-value-props'
 
 export type { RadioEmits, RadioGroupEmits, RadioSlots, RadioGroupSlots } from './types'

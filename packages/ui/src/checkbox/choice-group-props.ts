@@ -1,7 +1,6 @@
 import type { PropType } from 'vue'
 import type { OptionsLoader } from '../_hooks/use-option-request'
 import type { ChoiceFieldNames, ChoiceOptionInput } from './choice-options'
-import type { ChoiceValue } from './choice-value-props'
 import { radioValueProps } from './choice-value-props'
 
 export const choiceOptionsProps = {
@@ -16,9 +15,9 @@ export const choiceOptionsProps = {
 
 export const checkboxGroupValueProps = {
   /** 受控值 */
-  modelValue: { type: Array as PropType<ChoiceValue[] | null>, default: undefined },
+  modelValue: { type: Array as PropType<(string | number | boolean)[] | null>, default: undefined },
   /** 非受控初始值 */
-  defaultValue: { type: Array as PropType<ChoiceValue[]>, default: () => [] },
+  defaultValue: { type: Array as PropType<(string | number | boolean)[]>, default: () => [] },
   /** 最多可选数量 */
   max: { type: Number, validator: (value: number) => Number.isFinite(value) && Number.isInteger(value) && value >= 0 },
 }

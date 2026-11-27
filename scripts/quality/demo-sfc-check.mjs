@@ -8,7 +8,7 @@ import { checkCopyableDemo, checkDemoLanguage } from './demo-language-policy.mjs
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const require = createRequire(resolve(root, 'packages/ui/package.json'))
 const { parse, compileScript, compileTemplate } = require('vue/compiler-sfc')
-const ts = require('typescript')
+const ts = require('typescript-js')
 const source = resolve(root, 'packages/ui/src')
 const rootEntry = ts.createSourceFile(
   'index.ts',

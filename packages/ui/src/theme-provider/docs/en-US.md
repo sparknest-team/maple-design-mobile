@@ -1,5 +1,5 @@
 ---
-redirectTo: /en-US/themes
+redirectTo: /en-US/themes/
 ---
 
 # ThemeProvider

@@ -1,30 +1,51 @@
-import { defineConfig } from '@configurajs/eslint'
+import comments from '@eslint-community/eslint-plugin-eslint-comments'
+import js from '@eslint/js'
+import ts from '@typescript-eslint/eslint-plugin'
+import tsParser from '@typescript-eslint/parser'
+import vitest from '@vitest/eslint-plugin'
+import imports from 'eslint-plugin-import-x'
+import prettier from 'eslint-plugin-prettier'
+import vue from 'eslint-plugin-vue'
+import { defineConfig, globalIgnores } from 'eslint/config'
+import globals from 'globals'
+import vueParser from 'vue-eslint-parser'
 
-export default defineConfig({
-  rules: {
-    'no-unused-vars': 'off',
-    'require-await': 'off',
-    '@typescript-eslint/no-unused-vars': 'off',
-    '@typescript-eslint/unified-signatures': 'off',
-  },
-  overrides: [
-    {
-      // Utility and resolver package scripts run these tests with node --test.
-      files: ['scripts/quality/*.test.mjs', 'scripts/browser/*.test.mjs', 'packages/resolver/test/*.test.mjs'],
-      rules: {
-        'vitest/no-import-node-test': 'off',
-      },
-    },
-    {
-      files: ['packages/ui/src/*/example/**/*.vue'],
-      rules: {
-        'no-undef': 'error',
-      },
-    },
-  ],
-  ignores: [
-    // Root-level CLI preview output, like packages/ui/.maple below.
-    '.maple/**',
+export default defineConfig([
+  globalIgnores([
+    '**/node_modules',
+    '**/dist',
+    '**/package-lock.json',
+    '**/yarn.lock',
+    '**/pnpm-lock.yaml',
+    '**/bun.lockb',
+    '**/output',
+    '**/coverage',
+    '**/temp',
+    '**/.temp',
+    '**/tmp',
+    '**/.tmp',
+    '**/.history',
+    '**/.vitepress/cache',
+    '**/.nuxt',
+    '**/.next',
+    '**/.svelte-kit',
+    '**/.vercel',
+    '**/.changeset',
+    '**/.idea',
+    '**/.vscode',
+    '**/.cache',
+    '**/.output',
+    '**/.vite-inspect',
+    '**/.yarn',
+    '**/vite.config.*.timestamp-*',
+    '**/CHANGELOG*.md',
+    '**/*.min.*',
+    '**/LICENSE*',
+    '**/__snapshots__',
+    '**/auto-import?(s).d.ts',
+    '**/components.d.ts',
+    '**/.temp-build/**',
+    '**/.maple/**',
     // Rewritten by generateLibraryEntry; checked by typecheck and API export audit.
     'packages/ui/src/index.ts',
     'packages/ui/src/maple-vue.ts',
@@ -35,7 +56,6 @@ export default defineConfig({
     'packages/icons/types/**',
     'packages/ui/types-generated/**',
     'packages/cli/lib/**',
-    'packages/cli/site/**',
     'packages/cli/template/**',
     'packages/cli/client.js',
     'packages/cli/client.d.ts',
@@ -51,7 +71,6 @@ export default defineConfig({
     'packages/ui/types/index.d.ts',
     'packages/ui/types/styleVars.d.ts',
     'packages/ui/src/*/__tests__/__snapshots__/*',
-    'packages/ui/.maple/**',
     'packages/ui-playground/public/**',
     'packages/ui-playground/site/**',
     'packages/shared/lib/**',
@@ -60,5 +79,122 @@ export default defineConfig({
     'packages/preset-unocss/lib/**',
     'packages/resolver/lib/**',
     'packages/touch-emulator/iife.js',
-  ],
-})
+  ]),
+  {
+    files: ['**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,vue}'],
+    languageOptions: {
+      globals: { ...globals.browser, ...globals.node },
+      parserOptions: { ecmaFeatures: { jsx: true } },
+    },
+    plugins: { 'import-x': imports, 'eslint-comments': comments, prettier },
+    rules: {
+      ...js.configs.recommended.rules,
+      'no-unused-expressions': ['error', { allowShortCircuit: true, allowTaggedTemplates: true, allowTernary: true }],
+      eqeqeq: ['error', 'always', { null: 'ignore' }],
+      curly: 'error',
+      yoda: 'error',
+      'default-param-last': 'error',
+      'no-caller': 'error',
+      'no-empty': ['error', { allowEmptyCatch: true }],
+      'prefer-const': 'error',
+      'prefer-rest-params': 'error',
+      'symbol-description': 'error',
+      'import-x/first': 'error',
+      'import-x/no-duplicates': 'error',
+      'import-x/no-mutable-exports': 'error',
+      'import-x/no-self-import': 'error',
+      'eslint-comments/no-aggregating-enable': 'error',
+      'eslint-comments/no-duplicate-disable': 'error',
+      'eslint-comments/no-unlimited-disable': 'error',
+      'eslint-comments/no-unused-enable': 'error',
+      'prettier/prettier': 'error',
+      'no-unused-vars': 'off',
+      'require-await': 'off',
+    },
+  },
+  {
+    files: ['**/*.{ts,tsx,mts,cts,vue}'],
+    languageOptions: { parser: tsParser, parserOptions: { extraFileExtensions: ['.vue'] } },
+    plugins: { '@typescript-eslint': ts },
+    rules: {
+      ...ts.configs.recommended.rules,
+      // The project permits explicit any and empty object types in public compatibility signatures.
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-empty-object-type': 'off',
+      'no-useless-constructor': 'off',
+      'constructor-super': 'off',
+      'getter-return': 'off',
+      'no-class-assign': 'off',
+      'no-const-assign': 'off',
+      'no-dupe-args': 'off',
+      'no-dupe-class-members': 'off',
+      'no-dupe-keys': 'off',
+      'no-func-assign': 'off',
+      'no-import-assign': 'off',
+      'no-new-symbol': 'off',
+      'no-new-native-nonconstructor': 'off',
+      'no-obj-calls': 'off',
+      'no-redeclare': 'off',
+      'no-setter-return': 'off',
+      'no-this-before-super': 'off',
+      'no-undef': 'off',
+      'no-unreachable': 'off',
+      'no-unsafe-negation': 'off',
+      'no-var': 'error',
+      'prefer-const': 'error',
+      'prefer-rest-params': 'error',
+      'prefer-spread': 'error',
+      '@typescript-eslint/triple-slash-reference': 'off',
+      '@typescript-eslint/ban-ts-comment': ['error', { 'ts-expect-error': 'allow-with-description' }],
+      '@typescript-eslint/no-non-null-asserted-nullish-coalescing': 'error',
+      '@typescript-eslint/no-useless-constructor': 'error',
+      '@typescript-eslint/prefer-literal-enum-member': 'error',
+      '@typescript-eslint/no-unused-expressions': [
+        'error',
+        { allowShortCircuit: true, allowTaggedTemplates: true, allowTernary: true },
+      ],
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/unified-signatures': 'off',
+    },
+  },
+  { files: ['**/*.vue'], extends: vue.configs['flat/essential'] },
+  {
+    files: ['**/*.vue'],
+    languageOptions: { parser: vueParser, parserOptions: { parser: tsParser, extraFileExtensions: ['.vue'] } },
+    rules: {
+      // Single-word component filenames are part of the library layout.
+      'vue/multi-word-component-names': 'off',
+      'vue/attributes-order': 'warn',
+      'vue/no-lone-template': 'warn',
+      'vue/no-multiple-slot-args': 'warn',
+      'vue/this-in-template': 'warn',
+      'vue/block-order': 'warn',
+    },
+  },
+  {
+    files: ['**/*.{test,spec}.?(c|m)[jt]s?(x)'],
+    plugins: { vitest },
+    rules: {
+      'vitest/no-commented-out-tests': 'warn',
+      'vitest/no-identical-title': 'error',
+      'vitest/no-import-node-test': 'warn',
+      'vitest/require-local-test-context-for-concurrent-snapshots': 'warn',
+      'vitest/valid-describe-callback': 'error',
+      'vitest/valid-expect': 'error',
+      'vitest/valid-title': 'error',
+    },
+  },
+  {
+    // Utility and resolver package scripts run these tests with node --test.
+    files: ['scripts/quality/*.test.mjs', 'scripts/browser/*.test.mjs', 'packages/resolver/test/*.test.mjs'],
+    rules: {
+      'vitest/no-import-node-test': 'off',
+    },
+  },
+  {
+    files: ['packages/ui/src/*/example/**/*.vue'],
+    rules: {
+      'no-undef': 'error',
+    },
+  },
+])

@@ -1856,7 +1856,7 @@ export default {
 import { presetMaple } from '@maple-design/preset-tailwindcss-vue'
 
 export default {
-  presets: [presetMaple()],
+  presets: [presetMaple({ tailwindVersion: 4 })],
 }
 ```
 
@@ -1865,6 +1865,8 @@ export default {
 @import 'tailwindcss';
 @config '../tailwind.config.js';
 ```
+
+v4 的写法是 `mp:p-4`、`mp:bg-primary` 和 `mp:sm:p-4`。前缀由预设设置，CSS 入口按上例导入。Tailwind v4 不支持 v3 的 corePlugins 配置，默认的阴影工具类可以生成。
 
 ---
 
@@ -1934,9 +1936,6 @@ Example source: src/atomic-css/example/basic.vue
 ```vue
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { onThemeChange } from '@maple-design/cli-vue/client'
-
-onThemeChange()
 
 const width = ref(typeof window !== 'undefined' ? window.innerWidth : 0)
 const onResize = () => {
@@ -2362,12 +2361,6 @@ UnoCSS 与 Tailwind **类名相同**，项目里二选一配置即可。
 Example source: src/atomic-usage/example/basic.vue
 
 ```vue
-<script setup>
-import { onThemeChange } from '@maple-design/cli-vue/client'
-
-onThemeChange()
-</script>
-
 <template>
   <div class="demo mp-px-16 mp-py-16">
     <div class="mp-text-3 mp-mb-8">Flex · 间距 · 省略</div>
@@ -6899,7 +6892,7 @@ html[lang='en-US'] .demo-config-comparison-hint > [lang='zh-CN'] {
 
 ### 卡片尺寸与标题层级
 
-尺寸控制布局间距，标题层级控制标题字号。预览会显示当前组合，以及标题和说明各自的字号与上方间距。关闭「显示正文」后，默认插槽只剩注释，正文容器和它的间距会一起移除。标题与下方说明同属卡片头部。从 `xs` 到 `xl`，两者间距依次为 2、4、6、8、10px。
+尺寸控制布局间距，标题层级可选 `h1` 到 `h6`，Card 默认使用普通文本标题。预览会显示当前组合，以及标题和说明各自的字号与上方间距。关闭「显示描述」会收起描述及其上方间距。关闭「显示正文」后，默认插槽只剩注释，正文容器和它的间距会一起移除。标题与下方说明同属卡片头部。从 `xs` 到 `xl`，两者间距依次为 2、4、6、8、10px。
 
 Example source: src/card/example/demos/sizes-and-headings.vue
 
@@ -6910,7 +6903,8 @@ import { ref, watch } from 'vue'
 const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
 const size = ref<(typeof sizes)[number]>('md')
 const levels = [1, 2, 3, 4, 5, 6] as const
-const level = ref<(typeof levels)[number]>(1)
+const level = ref<(typeof levels)[number] | 'default'>('default')
+const showDescription = ref(true)
 const showContent = ref(true)
 const preview = ref<HTMLElement | null>(null)
 const titleMetrics = ref('')
@@ -6918,12 +6912,14 @@ const descriptionMetrics = ref('')
 
 function measureText() {
   const container = preview.value?.querySelector<HTMLElement>('.mp-card__container')
-  const title = container?.querySelector(`h${level.value}`)
+  const title = container?.querySelector('.mp-card__title-text')
   const description = container?.querySelector('.mp-card__description')
-  if (!container || !title?.parentElement || !description) return
+  if (!container || !title?.parentElement) {
+    return
+  }
 
   titleMetrics.value = formatMetrics(title, getComputedStyle(title.parentElement).marginTop)
-  descriptionMetrics.value = formatMetrics(description, getComputedStyle(description).marginTop)
+  descriptionMetrics.value = description ? formatMetrics(description, getComputedStyle(description).marginTop) : ''
 }
 
 function formatMetrics(element: Element, gap: string) {
@@ -6931,7 +6927,7 @@ function formatMetrics(element: Element, gap: string) {
   return `字号 ${fontSize} · 上方间距 ${gap}`
 }
 
-watch([preview, size, level], measureText, { flush: 'post' })
+watch([preview, size, level, showDescription], measureText, { flush: 'post' })
 </script>
 
 <template>
@@ -6942,16 +6938,23 @@ watch([preview, size, level], measureText, { flush: 'post' })
     </mp-radio-group>
     <span>标题层级</span>
     <mp-radio-group v-model="level" aria-label="标题层级">
+      <mp-radio value="default">默认</mp-radio>
       <mp-radio v-for="value in levels" :key="value" :value="value">h{{ value }}</mp-radio>
     </mp-radio-group>
+    <mp-checkbox v-model="showDescription">显示描述</mp-checkbox>
     <mp-checkbox v-model="showContent">显示正文</mp-checkbox>
     <output>
-      尺寸 {{ size }} · 标题层级 h{{ level }}<br>
-      标题 · {{ titleMetrics }}<br>
-      说明 · {{ descriptionMetrics }}
+      尺寸 {{ size }} · 标题层级 {{ level === 'default' ? '默认' : `h${level}` }}<br />
+      标题 · {{ titleMetrics }}
+      <template v-if="showDescription"><br />说明 · {{ descriptionMetrics }}</template>
     </output>
     <div ref="preview" @transitionend="measureText">
-      <mp-card :size="size" :heading-level="level" title="项目概览" description="项目设置适用于整个团队。">
+      <mp-card
+        :size="size"
+        :heading-level="level === 'default' ? undefined : level"
+        title="项目概览"
+        :description="showDescription ? '项目设置适用于整个团队。' : undefined"
+      >
         <!-- 隐藏正文后，插槽中只剩注释。 -->
         <span v-if="showContent">管理员可以邀请成员。</span>
       </mp-card>
@@ -7111,27 +7114,40 @@ Example source: src/card/example/demos/tooltip.vue
 
 ```vue
 <script setup lang="ts">
-const title = 'Project overview with a long title that does not fit on one line'
+const title = '项目进度总览：本季度各团队的交付计划与关键里程碑'
+const description = '查看各团队的交付时间、任务依赖，以及下个阶段需要关注的里程碑。'
 </script>
 
 <template>
   <mp-card style="width: 100%; max-width: 280px">
-    <template #title
-      ><span class="long-title" :title="title">{{ title }}</span></template
-    >
-    <template #description
-      ><span class="long-title" :title="title">{{ title }}</span></template
-    >
-    Native title tooltip on pointer devices; the full text remains in the DOM.
+    <template #title>
+      <mp-tooltip :content="title" trigger="click">
+        <button type="button" class="long-text">{{ title }}</button>
+      </mp-tooltip>
+    </template>
+    <template #description>
+      <mp-tooltip :content="description" trigger="click">
+        <button type="button" class="long-text">{{ description }}</button>
+      </mp-tooltip>
+    </template>
+    点按标题或说明，即可查看全文。
   </mp-card>
 </template>
 
 <style scoped>
-.long-title {
+.long-text {
   display: block;
+  width: 100%;
+  min-width: 0;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: start;
 }
 </style>
 ```
@@ -7358,6 +7374,8 @@ Card 展开时保留原有 DOM 位置和表单归属。支持 Popover API 的浏
 | update:floating | `(value: boolean)`，内置关闭按钮或 Escape 请求关闭时发送 false；展开由父级设置 |
 
 ### Card Slots
+
+默认插槽控制正文。省略插槽，或用 `v-if` 隐藏其中的全部内容时，正文容器及其间距一并移除。使用 `{{ note }}` 这样的文本插值时，即使字符串为空，也会保留正文容器。
 
 | 插槽 | 说明 | 参数 |
 | --- | --- | --- |
@@ -8066,8 +8084,7 @@ const slides = [
     <p role="status">Slide: {{ current }}</p>
     <section v-for="group in groups" :key="group.name" :data-comparison-scene="group.name">
       <h4>
-        <span lang="zh-CN">{{ group.zh }}</span
-        ><span lang="en-US">{{ group.en }}</span>
+        <span lang="zh-CN">{{ group.zh }}</span><span lang="en-US">{{ group.en }}</span>
       </h4>
       <div class="indicator-comparison-grid">
         <div v-for="preset in group.values" :key="preset.label">
@@ -11485,7 +11502,7 @@ const selected = ref([0])
 两端均支持原始值或对象选项。`field-names` 映射 `label/value/disabled/readonly/indeterminate`；只读选项允许聚焦但不能改值，Checkbox 的半选仅用于展示。
 `label` 插槽接收 `{ data, checked }`，优先于标签渲染函数 `(data, checked) => VNodeChild`。data 为保留业务字段的归一化副本，不修改输入对象；未提供标签时显示值的文字。
 显式传入 `options` 时替代默认插槽，包括 `[]`；不传时使用默认插槽。选项值限字符串、有限数字或布尔值；缺失/非法值及同类型重复值被忽略（保留第一项）。`false`、`0`、`''` 和 `'0'` 是不同选项。异步选项变更不反向修改模型。
-CheckboxGroup 使用 `ChoiceValue[]`，`max` 只接受 number，请使用 `:max="2"`。
+CheckboxGroup 使用 `(string | number | boolean)[]`，`max` 只接受 number，请使用 `:max="2"`。
 
 Example source: src/checkbox/example/demos/option-data.vue
 
@@ -12164,14 +12181,14 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 
 以上是字段展示层 API；纯面板不因此新增阅读模式。Form 与 FormItem 提供继承配置。empty-value 的现有类型与默认输出仍按该组件原 API 执行。
 
-`ChoiceValue = string | number | boolean`；`CheckboxModel = boolean | ChoiceValue[] | null`；`RadioModel = ChoiceValue | null`。
+`string | number | boolean = string | number | boolean`；`boolean | (string | number | boolean)[] | null = boolean | (string | number | boolean)[] | null`；`string | number | boolean | null = string | number | boolean | null`。
 
 ### Checkbox Props
 
 | 属性                   | 说明                               | 类型                     | 默认值    |
 | ---------------------- | ---------------------------------- | ------------------------ | --------- |
-| model-value (v-model) | 受控值 | CheckboxModel | undefined |
-| default-value | 非受控初始值 | CheckboxModel | false |
+| model-value (v-model) | 受控值 | boolean \| (string \| number \| boolean)[] \| null | undefined |
+| default-value | 非受控初始值 | boolean \| (string \| number \| boolean)[] \| null | false |
 | value                  | 数组/分组模式的选项标识            | string\|number\|boolean  | true      |
 | disabled               | 是否禁用；未设置时继承表单/分组    | boolean                  | undefined |
 | readonly               | 是否只读；未设置时继承表单/分组    | boolean                  | undefined |
@@ -12187,7 +12204,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 | edit-mode | 编辑模式，继承 FormItem 和 Form | `'direct' \| 'popup'` | `'direct'` |
 | read-pretty | 独立阅读状态，显式 false 覆盖父级 | `boolean` | `false` |
 | clearable | 延迟编辑层清空操作，不改变原生取消选择 | `boolean` | `false` |
-| empty-value | 展示层显式清空输出，不控制原生取消勾选 | `CheckboxModel \| (() => CheckboxModel)` | `false` |
+| empty-value | 展示层显式清空输出，不控制原生取消勾选 | `boolean \| (string \| number \| boolean)[] \| null \| (() => boolean \| (string \| number \| boolean)[] \| null)` | `false` |
 | empty-values | 空值识别策略，字段优先于 FormItem 和 Form | `readonly unknown[]` | `-` |
 | empty-text | 阅读空文案，显式空字符串有效 | `string` | `'-'` |
 | before-commit | 延迟编辑保存前守卫；返回布尔值、Promise 或通过 done 完成 | `(payload: { value: unknown; previousValue: unknown }, done: (allow?: boolean) => void, context: { signal: AbortSignal; event?: Event }) => void \| boolean \| Promise<void \| boolean>` | `-` |
@@ -12199,10 +12216,10 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 
 | 属性                  | 说明                                                        | 类型                                                                                                       | 默认值       |
 | --------------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ------------ |
-| model-value (v-model) | 受控值 | ChoiceValue[] \| null | undefined |
-| default-value         | 非受控初始值                                                | ChoiceValue[]                                                                                              | []           |
+| model-value (v-model) | 受控值 | (string \| number \| boolean)[] \| null | undefined |
+| default-value         | 非受控初始值                                                | (string \| number \| boolean)[]                                                                                              | []           |
 | max                   | 最多可选数量                                                | number                                                                                                     | undefined    |
-| options               | 选项；传入时替代默认插槽                                    | Array<ChoiceValue \| CheckboxOption \| Record<string, unknown>> / `(query, { signal }) => Array / Promise` | `undefined`  |
+| options               | 选项；传入时替代默认插槽                                    | Array<string \| number \| boolean \| CheckboxOption \| Record<string, unknown>> / `(query, { signal }) => Array / Promise` | `undefined`  |
 | orientation           | 复选组内选项的横纵排列，默认 horizontal；不表示文字阅读方向 | Orientation<br>`'horizontal' \| 'vertical'` | 'horizontal' |
 | disabled              | 是否禁用；未设置时继承表单/分组                             | boolean                                                                                                    | undefined    |
 | readonly              | 是否只读；未设置时继承表单/分组                             | boolean                                                                                                    | undefined    |
@@ -12213,7 +12230,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 | edit-mode | 编辑模式，继承 FormItem 和 Form | `'direct' \| 'popup'` | `'direct'` |
 | read-pretty | 独立阅读状态，显式 false 覆盖父级 | `boolean` | `false` |
 | clearable | 延迟编辑层清空操作，不改变原生取消选择 | `boolean` | `false` |
-| empty-value | 展示层显式清空输出，不控制原生取消勾选 | `ChoiceValue[] \| null \| (() => ChoiceValue[] \| null)` | `[]` |
+| empty-value | 展示层显式清空输出，不控制原生取消勾选 | `(string \| number \| boolean)[] \| null \| (() => (string \| number \| boolean)[] \| null)` | `[]` |
 | empty-values | 空值识别策略，字段优先于 FormItem 和 Form | `readonly unknown[]` | `-` |
 | empty-text | 阅读空文案，显式空字符串有效 | `string` | `'-'` |
 | before-commit | 延迟编辑保存前守卫；返回布尔值、Promise 或通过 done 完成 | `(payload: { value: unknown; previousValue: unknown }, done: (allow?: boolean) => void, context: { signal: AbortSignal; event?: Event }) => void \| boolean \| Promise<void \| boolean>` | `-` |
@@ -12233,15 +12250,15 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 
 | 方法       | 参数 | 返回值        |
 | ---------- | ---- | ------------- |
-| checkAll   | -    | ChoiceValue[] |
-| inverseAll | -    | ChoiceValue[] |
+| checkAll   | -    | (string \| number \| boolean)[] |
+| inverseAll | -    | (string \| number \| boolean)[] |
 
 ### Checkbox Events
 
 | 事件名             | 说明             | 参数                                |
 | ------------------ | ---------------- | ----------------------------------- |
-| update:modelValue | 提议新值         | value: CheckboxModel                |
-| change             | 值变化           | value: CheckboxModel, event?: Event |
+| update:modelValue | 提议新值         | value: boolean \| (string \| number \| boolean)[] \| null                |
+| change             | 值变化           | value: boolean \| (string \| number \| boolean)[] \| null, event?: Event |
 | click              | 点击；禁用不触发 | event: MouseEvent                   |
 | focus              | 聚焦             | event: FocusEvent                   |
 | blur               | 失焦             | event: FocusEvent                   |
@@ -12252,8 +12269,8 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 
 | 事件名             | 说明                        | 参数                                               |
 | ------------------ | --------------------------- | -------------------------------------------------- |
-| update:modelValue | 提议新值 | value: ChoiceValue[] \| null |
-| change | 值变化提案 | value: ChoiceValue[] \| null, event?: Event |
+| update:modelValue | 提议新值 | value: (string \| number \| boolean)[] \| null |
+| change | 值变化提案 | value: (string \| number \| boolean)[] \| null, event?: Event |
 | update:open | 编辑层受控开关更新 | open: boolean |
 | open-change | 编辑层实际开关变化 | open: boolean |
 | load-error | 显式选项加载失败，不改变模型 | error: unknown |
@@ -12267,7 +12284,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 | unchecked-icon     | 未选中图标         | -                                                           |
 | indeterminate-icon | 半选图标           | -                                                           |
 | default            | 标签               | checked: boolean                                            |
-| read | 自定义阅读内容，优先于 empty-text | value: CheckboxModel, text: string |
+| read | 自定义阅读内容，优先于 empty-text | value: boolean \| (string \| number \| boolean)[] \| null, text: string |
 
 ### CheckboxGroup Slots
 
@@ -12275,7 +12292,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 | -------- | ----------------- | -------------------------------------- |
 | checkbox | 自定义复选框      | checked: boolean<br/>disabled: boolean<br/>indeterminate: boolean |
 | label    | checkbox 文案内容 | data: CheckboxOption, checked: boolean |
-| read | 自定义阅读内容，优先于 empty-text | value: ChoiceValue[] \| null, text: string |
+| read | 自定义阅读内容，优先于 empty-text | value: (string \| number \| boolean)[] \| null, text: string |
 | default | 未提供 options 时的原生子选项 | - |
 
 ## Types
@@ -12284,7 +12301,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 
 | 字段          | 说明           | 类型                                                                 |
 | ------------- | -------------- | -------------------------------------------------------------------- |
-| value         | 选项标识       | ChoiceValue                                                          |
+| value         | 选项标识       | string \| number \| boolean                                                          |
 | label         | 标签或渲染函数 | VNodeChild \| (data: CheckboxOption, checked: boolean) => VNodeChild |
 | disabled      | 禁用           | boolean                                                              |
 | readonly      | 只读           | boolean                                                              |
@@ -12385,39 +12402,32 @@ maple-cli gen
 ### 配置文件
 
 项目根目录下的 `maple.config.mjs` 用来管理整个组件库项目的具体细节。
-默认配置可查阅 [maple.default.config.ts](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.default.config.ts?ref_type=heads)。
-也可以参考 `@maple-design/ui-vue` 的 [maple.config.mjs](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/ui/maple.config.mjs?ref_type=heads)。
+默认配置可查阅 [maple.default.config.ts](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/cli/src/node/config/maple.default.config.ts)。
+也可以参考 `@maple-design/ui-vue` 的 [maple.config.mjs](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/ui/maple.config.mjs)。
+
+文档站的 Vite 插件和代理在 `docs/.vuepress/config.ts` 中配置。组件库的打包入口、外部依赖和产物选项在 `ui-build.config.mjs` 中配置。
 
 | 参数 | 说明 | 类型 | 默认值 |
 | -- | -------------- | -------- | ---------- |
 | `name` | 组件库全名，会作为包名 | _string_ | `Maple` |
-| `namespace` | 组件库命名空间, 会作为组件前缀 | _string_ | `var` |
-| `host` | 开发服务器主机 | _number_ | `localhost` |
+| `namespace` | 组件库命名空间, 会作为组件前缀 | _string_ | `mp` |
 | `port` | 开发服务器端口 | _number_ | `8080` |
-| `proxy` | 开发服务器代理 | _Record<string, string \| ProxyOptions>_ | `-` |
 | `title` | 文档中组件库的标题 | _string_ | `Maple` |
 | `logo` | 文档中组件库的 logo | _string_ | `-` |
 | `alias` | 路径别名 (使用相对路径时，根路径为 src 文件夹) | _Record<string, string>_ | `-` |
 | `defaultLanguage` | 文档默认语言 | _string_ | `zh-CN` |
 | `defaultLightTheme` | 默认使用的亮色主题 | _string_ | `lightTheme` |
 | `defaultDarkTheme` | 默认使用的暗色主题 | _string_ | `darkTheme` |
-| `useMobile` | 是否显示右侧手机预览 | _boolean_ | `false` |
 | `themeKey` | 主题在本地存储中的 key | _string_ | `MAPLE_THEME` |
 | `lightTheme` | 默认品牌亮色文档主题 | _Record<string, any>_ | `-` |
 | `darkTheme` | 默认品牌暗色文档主题 | _Record<string, any>_ | `-` |
 | `mapleLightTheme` | 枫叶品牌亮色文档主题 | _Record<string, any>_ | `-` |
 | `mapleDarkTheme` | 枫叶品牌暗色文档主题 | _Record<string, any>_ | `-` |
-| `highlight` | 文档代码片段样式相关 | _{ style: string }_ | `-` |
-| `analysis` | 文档统计相关 | _{ baidu: string }_ | `-` |
-| `pc` | pc 端文档结构配置 | _[MapleConfigPc](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.config.ts?ref_type=heads)_ | `-` |
-| `mobile` | mobile 端文档结构配置 | _[MapleConfigMobile](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.config.ts?ref_type=heads)_ | `-` |
-| `bundle` | 组件库编译的捆绑产物配置 | _{ external: string[], globals: Record<string, string> }_ | `-` |
-| `vitePlugins` | vite 插件 | _[Plugin](https://vite.dev/guide/using-plugins.html)[]_ \| `(plugins: Plugin[]) => Plugin[])` | `-` |
+| `pc` | pc 端文档结构配置 | _[MapleConfigPc](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/cli/src/node/config/maple.config.ts)_ | `-` |
+| `mobile` | mobile 端文档结构配置 | _[MapleConfigMobile](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/cli/src/node/config/maple.config.ts)_ | `-` |
 | `directives` | 组件库指令文件夹名称 | _string[]_ | `[]` |
-| `copy` | 复制文件配置 | _[CopyPath[]](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/vite-plugins/src/copy.ts)_ | `-` |
-| `icons` | 字体图标打包相关配置 | _[MapleConfigIcons](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.config.ts?ref_type=heads)_ | `-` |
-| `esbuild` | esbuild 配置 | _[MapleConfigEsbuild](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.config.ts?ref_type=heads)_ | `-` |
-| `seo` | seo 选项 | _[MapleConfigSeo](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.config.ts?ref_type=heads)_ | ` -` |
+| `icons` | 字体图标打包相关配置 | _[MapleConfigIcons](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/cli/src/node/config/maple.config.ts)_ | `-` |
+| `seo` | seo 选项 | _[MapleConfigSeo](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/cli/src/node/config/maple.config.ts)_ | ` -` |
 
 #### Menu
 
@@ -12426,41 +12436,10 @@ maple-cli gen
 | `doc` | 文档页面应匹配的文件名称, 必填 | _string_ | `-` |
 | `type` | menu 类型, 当 type 为 `1` 时表示分类 menu, 类型为 `2` 时 doc 字段匹配 src 下的组件文件, 类型为`3`时 doc 字段匹配 docs 下的 md 文件 | _MenuTypes_ | `-` |
 | `text` | menu 所展示的文字, 当设置国际化时可配置英文展示文字 | _Record<string, string>_ | `-` |
-| `useMobile` | 是否在当前文档页显示右侧手机预览, 如不填写, 默认取 config 中的 useMobile | _boolean_ | `-` |
 
 ### 自定义页面
 
-如果想在组件库中插入其他页面，可以在项目根目录下的创建 `pages` 文件夹编写 vue 组件， 用来生成其他的页面。
-目录结构如下：
-
-```text
-// playground-ignore
-|-- maple-ui
-  |-- src
-  |-- docs
-  |-- pages
-    |-- sponsor
-      |-- index.vue
-    |-- contributor
-      |-- locale
-        |-- en-US.ts
-      |-- index.vue
-    |-- changelog
-      |-- locale
-        |-- zh-CN.ts
-        |-- en-US.ts
-      |-- index.vue
-```
-
-生成的路由如下：
-
-```text
-// playground-ignore
-/zh-CN/sponsor
-/en-US/contributor
-/zh-CN/changelog
-/en-US/changelog
-```
+Maple 的文档站从 `docs/sponsor.zh-CN.md` 和 `docs/sponsor.en-US.md` 分别生成 `/zh-CN/sponsor/` 和 `/en-US/sponsor/`。要在侧边栏显示新页面，在 `maple.config.mjs` 的 `pc.menu` 中添加对应的 `doc`。页面匹配和路由规则由 `docs/.vuepress/config.ts` 定义。
 
 ### 命令相关
 
@@ -12471,8 +12450,6 @@ maple-cli gen
 maple-cli dev
 # force mode
 maple-cli dev -f
-# draft mode
-maple-cli dev -d
 ```
 
 #### 构建文档站点
@@ -13817,9 +13794,6 @@ Example source: src/color/example/basic.vue
 
 ```vue
 <script setup>
-import { onThemeChange } from '@maple-design/cli-vue/client'
-
-onThemeChange()
 const status = ['primary', 'success', 'warning', 'danger', 'info']
 const levels = [1, 2, 3, 4]
 </script>
@@ -15384,6 +15358,8 @@ Document: llms/zh-CN/date-range.md
 
 `abbreviation`（boolean，默认 `true`）控制日历月份网格的缩写；`false` 使用当前 Locale 的完整月份名。运行时修改立即生效，不改变值，也不触发选择事件。此开关不影响星期标签、标题、滚轮列或值格式。范围日历以顶层选项为准，嵌套日历参数不能覆盖。
 
+选中的范围包含开始和结束两个值。使用格式字符串时，每个值是字符串；`value-format="Date"` 时是日期对象；`value-format="timestamp"` 时是数字时间戳。清空时返回配置的空值。
+
 ## 基础示例
 
 ### 基础用法
@@ -16396,7 +16372,7 @@ function requestOpen(next) {
 
 | 事件                  | 说明               | 参数                              |
 | --------------------- | ------------------ | --------------------------------- |
-| `update:picker-value` | 请求日历视口更新   | value: DateSelection              |
+| `update:picker-value` | 请求日历视口更新   | value: Date \| string \| number \| (Date \| string \| number \| null \| undefined)[] \| null \| undefined              |
 | `picker-value-change` | 视口请求及展示通知 | value, date(s), formatted text(s) |
 | `select-shortcut`     | 接受的原快捷项对象 | shortcut: DateShortcut            |
 
@@ -16739,7 +16715,7 @@ function beforeCommit(
 | `date-fields` | 日期滚轮列及顺序；显式列表决定可见列 | `readonly DatePickerField[]`<br>`DatePickerField: 'month' \| 'year' \| 'day'` | 按精度推导 |
 | `date-picker-props` | 范围内部日历展示白名单，不覆盖根所有权 | `DateRangeCalendarOptions` | `{}` |
 | `day-start-of-week` | 每周第一天，仅日历展示，整数 0～6 | `DateWeekStart` | `0` |
-| `default-picker-value` | 初始日历视口，仅初始化读取；优先已选值，再用当前日期 | `DateSelection` | `undefined` |
+| `default-picker-value` | 初始日历视口，仅初始化读取；优先已选值，再用当前日期 | `Date \| string \| number \| (Date \| string \| number \| null \| undefined)[] \| null \| undefined` | `undefined` |
 | `default-value` | 非受控初始值，仅创建时读取 | `(DateValue \| undefined)[]` | `undefined` |
 | `disable-confirm` | 选择后立即提交；false 保留草稿待确认 | `boolean` | `true` |
 | `disabled` | 禁用整体或分别锁定起止；字段未设时继承 FormItem/Form | `boolean \| boolean[]` | `false` |
@@ -16753,7 +16729,7 @@ function beforeCommit(
 | `min` | 包含下界，非法的已提供边界不会被静默忽略 | `DateValue` | `undefined` |
 | `model-value` | 外部日期值；undefined 为非受控，null 为显式空值 | `(DateValue \| undefined)[] \| null` | `undefined` |
 | `picker-props` | Maple 日期/时间滚轮展示配置，不接管根模型与规则 | `DateWheelOptions` | `{}` |
-| `picker-value` | 受控日历视口，不是选中值；范围视口含两个日期 | `DateSelection` | `undefined` |
+| `picker-value` | 受控日历视口，不是选中值；范围视口含两个日期 | `Date \| string \| number \| (Date \| string \| number \| null \| undefined)[] \| null \| undefined` | `undefined` |
 | `presentation` | Maple 独立面板展示方式 | `calendar \| picker \| calendarPicker` | `calendarPicker` |
 | `preview-shortcut` | 悬停/聚焦快捷项时预览，不提交 | `boolean` | `true` |
 | `readonly` | 只读面板，不改变候选或提交 | `boolean` | `false` |
@@ -16965,8 +16941,9 @@ datePickerProps/dateRangePickerProps 只配置展示，不能覆盖根模型、�
 
 ```ts
 import { DateRange, DateRangePicker, type DateRangeProps, type DateRangePickerProps,
-  type DateRangeEmits, type DateRangePickerEmits, type DateValue, type DateSelection,
-  type DateChangeArgs, type DateRules, type DateShortcut } from '@maple-design/ui-vue'
+  type DateRangeEmits, type DateRangePickerEmits, type DateValue,
+  type DateChangeArgs, type DateRules, type DateShortcut
+} from '@maple-design/ui-vue'
 ```
 
 <!-- date-contract:end -->
@@ -17029,6 +17006,8 @@ Document: llms/zh-CN/date.md
 纯面板不接收 open/default-open、popup-container、placement、trigger-props、placeholder、variant、clearable。确认区由 disable-confirm 控制；actions 插槽提供 { confirm, disabled }。DatePicker/DateRangePicker 可以单独 app.use 安装，根入口和 date/date-range 子路径导出组件、Props、Instance、Type、Options、Emits；没有独立 date-picker/date-range-picker npm 子路径。
 
 安装 Date 时会一并注册 DatePicker，也可通过静态成员 `Date.Picker` 使用。
+
+单选时，格式字符串对应字符串值，`value-format="Date"` 返回日期对象，`value-format="timestamp"` 返回数字时间戳。范围和多选使用数组；清空时返回配置的空值。
 
 ## 基础示例
 
@@ -18434,7 +18413,7 @@ function requestOpen(next) {
 
 | 事件                  | 说明               | 参数                              |
 | --------------------- | ------------------ | --------------------------------- |
-| `update:picker-value` | 请求日历视口更新   | value: DateSelection              |
+| `update:picker-value` | 请求日历视口更新   | value: Date \| string \| number \| (Date \| string \| number \| null \| undefined)[] \| null \| undefined              |
 | `picker-value-change` | 视口请求及展示通知 | value, date(s), formatted text(s) |
 | `select-shortcut`     | 接受的原快捷项对象 | shortcut: DateShortcut            |
 
@@ -18565,11 +18544,14 @@ Example source: src/date/example/demos/entry-boundary.vue
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { DateSelection } from '@maple-design/ui-vue'
 
 const limited = ref(true)
-const fieldValue = ref<DateSelection>('2025-02-12')
-const panelValue = ref<DateSelection>('2025-02-12')
+const fieldValue = ref<Date | string | number | (Date | string | number | null | undefined)[] | null | undefined>(
+  '2025-02-12',
+)
+const panelValue = ref<Date | string | number | (Date | string | number | null | undefined)[] | null | undefined>(
+  '2025-02-12',
+)
 const week = ref<0 | 1 | 6>(1)
 const presentation = ref<'picker' | 'calendar'>('calendar')
 </script>
@@ -18837,7 +18819,7 @@ datePickerProps/dateRangePickerProps 只配置展示，不能覆盖根模型、�
 | `color` | Maple 日历主题色 | `string` | 主题缺省 |
 | `date-fields` | 日期滚轮列及顺序；显式列表决定可见列 | `readonly DatePickerField[]`<br>`DatePickerField: 'month' \| 'year' \| 'day'` | 按精度推导 |
 | `day-start-of-week` | 每周第一天，仅日历展示，整数 0～6 | `DateWeekStart` | `0` |
-| `default-picker-value` | 初始日历视口，仅初始化读取；优先已选值，再用当前日期 | `DateSelection` | `undefined` |
+| `default-picker-value` | 初始日历视口，仅初始化读取；优先已选值，再用当前日期 | `Date \| string \| number \| (Date \| string \| number \| null \| undefined)[] \| null \| undefined` | `undefined` |
 | `default-value` | 非受控初始值，仅创建时读取 | `DateValue \| DateValue[]` | `undefined` |
 | `disable-confirm` | 选择后立即提交；false 保留草稿待确认 | `boolean` | `true` |
 | `disabled` | 禁用面板选择和提交 | `boolean` | `false` |
@@ -18853,7 +18835,7 @@ datePickerProps/dateRangePickerProps 只配置展示，不能覆盖根模型、�
 | `model-value` | 外部日期值；undefined 为非受控，null 为显式空值 | `DateValue \| DateValue[] \| null` | `undefined` |
 | `multiple` | Maple 多选；避免同时开启范围模式 | `boolean` | `false` |
 | `picker-props` | Maple 日期/时间滚轮展示配置，不接管根模型与规则 | `DateWheelOptions` | `{}` |
-| `picker-value` | 受控日历视口，不是选中值；范围视口含两个日期 | `DateSelection` | `undefined` |
+| `picker-value` | 受控日历视口，不是选中值；范围视口含两个日期 | `Date \| string \| number \| (Date \| string \| number \| null \| undefined)[] \| null \| undefined` | `undefined` |
 | `presentation` | Maple 独立面板展示方式 | `calendar \| picker \| calendarPicker` | `calendarPicker` |
 | `preview-shortcut` | 悬停/聚焦快捷项时预览，不提交 | `boolean` | `true` |
 | `range` | Maple 通用独立面板的范围模式 | `boolean` | `false` |
@@ -18944,8 +18926,9 @@ Date/DateRange 的时间区域仅在 show-time 开启时生效。`format` 控制
 
 ```ts
 import { Date as DateField, DatePicker, type DateProps, type DatePickerProps,
-  type DateEmits, type DatePickerEmits, type DateValue, type DateSelection,
-  type DateChangeArgs, type DateRules, type DateShortcut } from '@maple-design/ui-vue'
+  type DateEmits, type DatePickerEmits, type DateValue,
+  type DateChangeArgs, type DateRules, type DateShortcut
+} from '@maple-design/ui-vue'
 ```
 
 <!-- date-contract:end -->
@@ -21373,7 +21356,7 @@ expand-duration／fade-duration 消费到 transform／opacity 过渡；运行时
 
 | 变量 | 层级 | 声明值／条件 | 消费路径／CSS 属性 |
 | --- | --- | --- | --- |
-| `--mp-section-accent-color` | 公开 | `var(--mp-sys-color-action-primary)` | 本组件 CSS<br>`background`, `background-color`, `border` |
+| `--mp-section-accent-color` | 公开 | `var(--mp-sys-color-action-primary)` | 本组件 CSS<br>`background`, `border`, `border-inline-start` |
 | `--mp-section-after-gap` | 公开 | `24px` | 本组件 CSS<br>`margin-block`, `padding-block-start` |
 | `--mp-section-before-gap` | 公开 | `32px` | 本组件 CSS<br>`padding-block-start` |
 | `--mp-section-card-background` | 公开 | `var(--mp-sys-color-surface-default)` | 本组件 CSS<br>`background-color` |
@@ -21385,32 +21368,32 @@ expand-duration／fade-duration 消费到 transform／opacity 过渡；运行时
 | `--mp-section-description-line-height` | 公开 | `20px` | 本组件 CSS<br>`line-height` |
 | `--mp-section-description-size` | 公开 | `13px` | 本组件 CSS<br>`font-size` |
 | `--mp-section-divider-color` | 公开 | `var(--mp-sys-color-border-default)` | 本组件 CSS<br>`border-block-start` |
-| `--mp-section-divider-width` | 公开 | `1px` | 本组件 CSS<br>`border`, `border-block-start` |
-| `--mp-section-header-gap` | 公开 | `16px` | 本组件 CSS<br>`margin-block-end` |
+| `--mp-section-divider-width` | 公开 | `1px` | 本组件 CSS<br>`border`, `border-block-start`, `border-radius` |
+| `--mp-section-header-gap` | 公开 | `16px` | 本组件 CSS<br>`margin-block-start` |
 | `--mp-section-heading-gap` | 公开 | `16px` | 本组件 CSS<br>`margin-inline-start` |
 | `--mp-section-heading-size-step` | 公开 | `1px` | 本组件 CSS<br>`font-size`, `line-height` |
 | `--mp-section-marker-gap` | 公开 | `12px` | 本组件 CSS<br>`padding-inline-end`, `padding-inline-start`, `row-gap` |
 | `--mp-section-marker-height` | 公开 | `calc(100% - 1lh + 1em)` | 本组件 CSS<br>`height` |
 | `--mp-section-marker-radius` | 公开 | `2px` | 本组件 CSS<br>`border-radius` |
-| `--mp-section-marker-width` | 公开 | `3px` | 本组件 CSS<br>`padding-inline-start`, `width` |
+| `--mp-section-marker-width` | 公开 | `3px` | 本组件 CSS<br>`border-inline-start`, `padding-inline-start`, `width` |
 | `--mp-section-outline-color` | 公开 | `var(--mp-sys-color-border-default)` | 本组件 CSS<br>`border` |
 | `--mp-section-size-lg-card-padding` | 公开 | `20px` | 本组件 CSS<br>`padding` |
-| `--mp-section-size-lg-header-gap` | 公开 | `20px` | 本组件 CSS<br>`margin-block-end` |
+| `--mp-section-size-lg-header-gap` | 公开 | `20px` | 本组件 CSS<br>`margin-block-start` |
 | `--mp-section-size-lg-marker-height` | 公开 | `calc(100% - 1lh + 1em)` | 本组件 CSS<br>`height` |
 | `--mp-section-size-lg-title-line-height` | 公开 | `28px` | 本组件 CSS<br>`line-height` |
 | `--mp-section-size-lg-title-size` | 公开 | `16px` | 本组件 CSS<br>`font-size` |
 | `--mp-section-size-sm-card-padding` | 公开 | `12px` | 本组件 CSS<br>`padding` |
-| `--mp-section-size-sm-header-gap` | 公开 | `12px` | 本组件 CSS<br>`margin-block-end` |
+| `--mp-section-size-sm-header-gap` | 公开 | `12px` | 本组件 CSS<br>`margin-block-start` |
 | `--mp-section-size-sm-marker-height` | 公开 | `calc(100% - 1lh + 1em)` | 本组件 CSS<br>`height` |
 | `--mp-section-size-sm-title-line-height` | 公开 | `20px` | 本组件 CSS<br>`line-height` |
 | `--mp-section-size-sm-title-size` | 公开 | `16px` | 本组件 CSS<br>`font-size` |
 | `--mp-section-size-xl-card-padding` | 公开 | `24px` | 本组件 CSS<br>`padding` |
-| `--mp-section-size-xl-header-gap` | 公开 | `24px` | 本组件 CSS<br>`margin-block-end` |
+| `--mp-section-size-xl-header-gap` | 公开 | `24px` | 本组件 CSS<br>`margin-block-start` |
 | `--mp-section-size-xl-marker-height` | 公开 | `calc(100% - 1lh + 1em)` | 本组件 CSS<br>`height` |
 | `--mp-section-size-xl-title-line-height` | 公开 | `32px` | 本组件 CSS<br>`line-height` |
 | `--mp-section-size-xl-title-size` | 公开 | `16px` | 本组件 CSS<br>`font-size` |
 | `--mp-section-size-xs-card-padding` | 公开 | `8px` | 本组件 CSS<br>`padding` |
-| `--mp-section-size-xs-header-gap` | 公开 | `8px` | 本组件 CSS<br>`margin-block-end` |
+| `--mp-section-size-xs-header-gap` | 公开 | `8px` | 本组件 CSS<br>`margin-block-start` |
 | `--mp-section-size-xs-marker-height` | 公开 | `calc(100% - 1lh + 1em)` | 本组件 CSS<br>`height` |
 | `--mp-section-size-xs-title-line-height` | 公开 | `18px` | 本组件 CSS<br>`line-height` |
 | `--mp-section-size-xs-title-size` | 公开 | `16px` | 本组件 CSS<br>`font-size` |
@@ -22065,7 +22048,7 @@ expand-duration／fade-duration 消费到 transform／opacity 过渡；运行时
 | `--mp-tag-orangered-border-color-hover` | 公开 | `transparent` | 本组件 CSS<br>`border-color` |
 | `--mp-tag-orangered-icon-color` | 公开 | `rgb(var(--mp-orangered-6))` | 本组件 CSS<br>`color` |
 | `--mp-tag-orangered-text-color` | 公开 | `rgb(var(--mp-orangered-6))` | 本组件 CSS<br>`border-color`, `color` |
-| `--mp-tag-padding-horizontal` | 公开 | `10px` | 本组件 CSS<br>`padding` |
+| `--mp-tag-padding-horizontal` | 公开 | `8px` | 本组件 CSS<br>`padding` |
 | `--mp-tag-padding-vertical` | 公开 | `0` | 本组件 CSS<br>`line-height`, `padding` |
 | `--mp-tag-pinkpurple-bg` | 公开 | `rgb(var(--mp-pinkpurple-1))`<br>`rgba(var(--mp-pinkpurple-6), 0.2)` (`:root[maple-theme='dark']`) | 本组件 CSS<br>`background-color` |
 | `--mp-tag-pinkpurple-bg-hover` | 公开 | `rgb(var(--mp-pinkpurple-2))`<br>`rgba(var(--mp-pinkpurple-6), 0.35)` (`:root[maple-theme='dark']`) | 本组件 CSS<br>`background-color` |
@@ -22086,15 +22069,15 @@ expand-duration／fade-duration 消费到 transform／opacity 过渡；运行时
 | `--mp-tag-red-icon-color` | 公开 | `rgb(var(--mp-red-6))` | 本组件 CSS<br>`color` |
 | `--mp-tag-red-text-color` | 公开 | `rgb(var(--mp-red-6))` | 本组件 CSS<br>`border-color`, `color` |
 | `--mp-tag-round-radius` | 公开 | `100px` | 本组件 CSS<br>`border-radius` |
-| `--mp-tag-size-lg` | 公开 | `36px` | 本组件 CSS<br>`height`, `line-height` |
+| `--mp-tag-size-lg` | 公开 | `30px` | 本组件 CSS<br>`height`, `line-height` |
 | `--mp-tag-size-lg-font-size` | 公开 | `var(--mp-sys-font-size-md)` | 本组件 CSS<br>`font-size` |
-| `--mp-tag-size-md` | 公开 | `32px` | 本组件 CSS<br>`height`, `line-height` |
-| `--mp-tag-size-md-font-size` | 公开 | `var(--mp-sys-font-size-md)` | 本组件 CSS<br>`font-size` |
-| `--mp-tag-size-sm` | 公开 | `28px` | 本组件 CSS<br>`height`, `line-height` |
+| `--mp-tag-size-md` | 公开 | `26px` | 本组件 CSS<br>`height`, `line-height` |
+| `--mp-tag-size-md-font-size` | 公开 | `var(--mp-sys-font-size-sm)` | 本组件 CSS<br>`font-size` |
+| `--mp-tag-size-sm` | 公开 | `22px` | 本组件 CSS<br>`height`, `line-height` |
 | `--mp-tag-size-sm-font-size` | 公开 | `var(--mp-sys-font-size-xs)` | 本组件 CSS<br>`font-size` |
-| `--mp-tag-size-xl` | 公开 | `40px` | 本组件 CSS<br>`height`, `line-height` |
+| `--mp-tag-size-xl` | 公开 | `34px` | 本组件 CSS<br>`height`, `line-height` |
 | `--mp-tag-size-xl-font-size` | 公开 | `var(--mp-sys-font-size-lg)` | 本组件 CSS<br>`font-size` |
-| `--mp-tag-size-xs` | 公开 | `24px` | 本组件 CSS<br>`height`, `line-height` |
+| `--mp-tag-size-xs` | 公开 | `18px` | 本组件 CSS<br>`height`, `line-height` |
 | `--mp-tag-size-xs-font-size` | 公开 | `var(--mp-sys-font-size-xs)` | 本组件 CSS<br>`font-size` |
 | `--mp-tag-status-danger-bg-color` | 公开 | `rgb(var(--mp-danger-1))` | 本组件 CSS<br>`background-color` |
 | `--mp-tag-status-danger-text-color` | 公开 | `var(--mp-sys-color-content-danger)` | 本组件 CSS<br>`color` |
@@ -28828,7 +28811,7 @@ function clearSection() {
 <template>
   <div data-section-demo="actions">
     <mp-form :model="model" layout="horizontal" label-col-flex="7rem" edit-mode="direct">
-      <mp-section title="现场处置" description="引用模板填充本分区；清空后，分区外的技能等级保持不变。">
+      <mp-section show-marker title="现场处置" description="引用模板填充本分区；清空后，分区外的技能等级保持不变。">
         <template #extra>
           <mp-space size="sm" wrap>
             <mp-button variant="text" size="sm" @click="applyTemplate">引用模板</mp-button>
@@ -31094,7 +31077,7 @@ Form / FormItem 通过 `empty-values` 提供空值识别策略；字段自己的
 | `disabled`          | 是否禁用；未传时继承 Form                                                                               | _boolean_                                              | `-`              |
 | `readonly`          | 是否只读；未传时继承 Form                                                                               | _boolean_                                              | `-`              |
 | `size`              | 控件尺寸；未传时继承 Form                                                                               | _'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'_                 | `-`              |
-| `no-style`          | 去除标签与错误信息样式，仅保留校验能力                                                                  | _boolean_                                              | `false`          |
+| `no-style`          | 隐藏本项的标签和反馈区域，保留布局容器与字段注册。单独切换此属性时，默认插槽中的字段保持挂载。                                                                  | _boolean_                                              | `false`          |
 | `rules`             | 校验规则（函数 / Zod / 数组）                                                                           | `FormRule \| FormRule[]`                                                  | `-`              |
 | `validate-trigger`  | 触发校验的时机；`clear` 仅由控件清空动作触发，不等同于 `change`                                         | _FormItemValidateTrigger \| FormItemValidateTrigger[]_<br>`FormItemValidateTrigger: 'input' \| 'change' \| 'focus' \| 'blur' \| 'clear'` | `'change'`       |
 
@@ -33415,7 +33398,7 @@ const switchSource = () => {
 | rotateLeft() / rotateRight() | 旋转 90 度 |
 | toggleFullscreen() | 切换浏览器全屏，返回浏览器 Promise；不支持时返回 undefined |
 
-`Image.showPreview()` 请求打开当前可预览图片；服务 `imagePreview`、`previewImage` 和 `ImagePreviewFn` 接受 URL、URL 数组或配置对象，返回 `ImagePreviewHandle | undefined`（例如 SSR）。返回的 handle 提供 Group 的 12 项能力，单图中不适用的翻页调用无效果。服务还提供 `close()`、`setDefaultOptions()` 和 `resetDefaultOptions()`。原生 `lazy` 由浏览器调度，不承诺自动重试。
+`Image.showPreview()` 请求打开当前可预览图片；服务 `imagePreview`、`previewImage` 和 `ImagePreviewFn` 接受 URL、URL 数组或配置对象，返回 `ImagePreviewHandle | undefined`（例如 SSR）。返回的 handle 提供 Group 的 12 项能力，单图中不适用的翻页调用无效果。服务还提供 `close()`、`setDefaultOptions()` 和 `resetDefaultOptions()`。调用 `imagePreview({ closable: true })` 时会使用 `setDefaultOptions()` 配置的默认图片。调用时传入的非空 `images` 列表或 `src` 地址会覆盖默认图片，同时传入两者时优先使用列表。原生 `lazy` 由浏览器调度，不承诺自动重试。
 
 缩放参数必须为有限正数；无效的 min/max/default/step 分别回退 0.5/8/1/0.5，若 max 小于 min 则按 min 处理。初始与重置缩放限制在区间内；边界变化会夹紧当前值，`zoomTo` 忽略非有限值。`actionsLayout` 中的 `close` 是工具栏关闭动作，与 `closable` 控制的独立关闭按钮分别配置。
 
@@ -39057,6 +39040,8 @@ const activeMessages = computed(() =>
 
 `<mp-locale-provider dir="rtl">` 提供阅读方向作用域，与 locale 分别配置。省略 dir 时继承，可用嵌套 `dir="ltr"` 或原生 DOM dir 容器局部覆盖。Popup 挂载到外部后仍保留来源作用域的方向。物理 left/right 方位和媒体内容保留原有语义。
 
+原生 `dir="auto"` 或 `<bdi>` 容器中的控件会跟随浏览器计算的文本方向。输入框作为弹层参考元素时，键入文字会更新弹层方向。脚本直接修改 `input.value` 或 `textarea.value` 时，共享定时器会在后续检查中同步方向。封闭 ShadowRoot 的内部插槽设置了方向时，请在传入插槽的元素上同步设置原生 `dir`。
+
 ### 语言回退与作用域
 
 `messages` 的键为语言名称，`locale` 需匹配本层语言包。每个词条依次使用本层选中语言的自有值、最近父级 LocaleProvider、当前全局 Locale；缺包、缺词及 `null`/`undefined` 继续回退，显式空字符串保留。`Message` 包含文字及日期月份、星期等字典，不能简化为纯字符串映射。可从 `@maple-design/ui-vue/locale` 导入 `Message` 类型。
@@ -41151,7 +41136,7 @@ function changeValue(type) {
 ## 行为说明
 
 - `duration` 单位为毫秒，`0` 表示常驻；`Message.loading(...)` 默认常驻。
-- 同一挂载容器和位置内，相同 `id` 更新原实例，不创建重复 DOM。
+- 同一挂载容器和位置内，相同 `id` 更新原实例，不创建重复 DOM。 省略 ID 时在该队列中分配尚未占用的 ID，并创建新消息。
 - 仅当 `resetOnUpdate` 为 `true` 时，相同 id 更新会重新计算完整显示时长。
 - `pauseOnHover` 保存剩余时间，鼠标离开后从剩余时间继续。
 - 展示期限独立于 CSS 动效；重启、hover 暂停、清理或卸载使旧计时回调失效，执行时再次检查 open。
@@ -41204,6 +41189,8 @@ close/closed 通知回调抛错不会保留已关闭项目或空管理器宿主�
 
 `update:open`、`open`、`opened`、`close`、`closed`；每次开关周期各触发一次。 服务端渲染的消息初始为打开时，激活阶段跳过首次入场动画，并在挂载时按 `open`、`opened` 的顺序触发事件。
 
+消息重新打开时，`opened` 在 Vue 的 `after-enter` 钩子中触发。如果浏览器延迟绘制动画帧，最终画面可能在事件触发之后才显示。
+
 ### Message Methods
 
 | 方法                                              | 说明                     |
@@ -41224,7 +41211,7 @@ close/closed 通知回调抛错不会保留已关闭项目或空管理器宿主�
 | ---- | ---- |
 | restartTimer() | 按当前 duration 重置计时；受 active、open、resetOnUpdate 与 hover 暂停约束 |
 
-`MessageContent` 为 `VNodeChild | (() => VNodeChild)`：支持文字、数字、布尔空内容、VNode、嵌套子节点数组及同步渲染函数。任意普通对象和异步任务不是内容协议。content、icon、action 使用相同规则，本地插槽优先。
+`MessageContent` 为 `VNodeChild | (() => VNodeChild)`：支持文字、数字、布尔空内容、VNode、嵌套子节点数组及同步渲染函数。任意普通对象和异步任务不是内容协议。content、icon、action 使用相同规则，本地插槽优先。 数字 0 在正文、图标和操作区域均按文本显示。
 
 duration 应为有限非负数；负数、NaN、Infinity 等非法值不调度自动关闭，并在开发环境触发属性校验提示。0 表示常驻，restartTimer 仍遵守相同规则。
 
@@ -42111,7 +42098,7 @@ const open = ref(false)
 | `v-model:open`     | 是否显示背景层                                         | _boolean_                      | `false`  |
 | `default-open`     | 非受控模式下是否默认显示                               | _boolean_                      | `false`  |
 | `overlay-closable` | 点击背景区域是否关闭                                   | _boolean_                      | `true`   |
-| `lock-scroll`      | 是否禁止滚动穿透，禁止时滚动背景层不会引发 body 的滚动 | _boolean_                      | `true`   |
+| `lock-scroll`      | 打开时锁定挂载容器的滚动。原地渲染时锁定所在文档的 body。 | _boolean_                      | `true`   |
 | `unmount-on-close` | 关闭后是否卸载插槽内容                                 | _boolean_                      | `true`   |
 | `popup-container`  | Teleport 挂载位置；`false` 表示原地渲染                | _string \| HTMLElement \| false_ | `'body'` |
 | `esc-to-close`     | 是否支持键盘 ESC 关闭背景层                            | _boolean_                      | `true`   |
@@ -43205,10 +43192,6 @@ Example source: src/palette/example/basic.vue
 
 ```vue
 <script setup>
-import { onThemeChange } from '@maple-design/cli-vue/client'
-
-onThemeChange()
-
 const hues = [
   { name: 'primary', label: 'Primary' },
   { name: 'success', label: 'Success' },
@@ -45125,6 +45108,10 @@ Cedar 面向桌面应用，Maple 面向移动应用。根据操作方式和信�
 Cedar / Maple 以 Vue 3.3 及以上版本作为持续兼容验证目标，开发环境使用 Vue 3.5。UI 包的 `peerDependencies` 保持为 `3`，安装成功不代表所有 Vue 3 版本和场景均已验证。在 Vue 3.2 下，异步组件在服务端和客户端的完成顺序不同时，生成的 ID 可能关联到不同元素。Vue 3.0、3.1 未验证。
 
 Cedar Table 在 SSR 首屏需要应用默认筛选时，请通过 `:columns` 数组传入列，并设置 `filterable.defaultFilteredValue`。使用 `<c-table-column>` 子组件声明列时，不保证服务端输出已筛选的行。
+
+## 弹层的服务端渲染
+
+Dialog、Message 或 Cedar Drawer 在首屏打开并使用默认挂载目标 `body` 时，请将渲染上下文传给 `renderToString(app, context)`。如果由应用自行拼接 HTML，请在 `<body>` 开始标签之后、应用根节点之前插入 `context.teleports?.body ?? ''`，保留其中的 HTML 和注释锚点。把这段内容追加到应用根节点之后，接管时可能生成第二份弹层，原遮罩会继续拦截点击。
 
 ## 构建工具兼容范围
 
@@ -47839,8 +47826,7 @@ const items = [
     <mp-progress-group mode="circle" :items="items" circle-size="min(42vw, 240px)" :stroke-width="12" show-text>
       <template #text="{ value, max }">
         <div class="progress-group-example__circle-status">
-          <strong>{{ value }}</strong
-          ><small>/ {{ max }} GB</small>
+          <strong>{{ value }}</strong><small>/ {{ max }} GB</small>
         </div>
       </template>
     </mp-progress-group>
@@ -48196,8 +48182,11 @@ const scene2 = demoProxyRefs(
       <h4><span lang="zh-CN">五档与自定义尺寸</span><span lang="en-US">size</span></h4>
       <mp-space direction="column" size="16px">
         <mp-space v-for="size in scene1.sizes" :key="size" wrap size="16px" align="center">
-          <span>{{ size }}</span
-          ><mp-progress :size="size" :percent="42" /><mp-progress mode="circle" :size="size" :percent="42" />
+          <span>{{ size }}</span><mp-progress :size="size" :percent="42" /><mp-progress
+            mode="circle"
+            :size="size"
+            :percent="42"
+          />
         </mp-space>
         <mp-progress :size="10" :percent="12.5" />
         <mp-progress size="0.75rem" :stroke-width="6" :percent="60" />
@@ -49672,14 +49661,14 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 
 以上是字段展示层 API；纯面板不因此新增阅读模式。Form 与 FormItem 提供继承配置。empty-value 的现有类型与默认输出仍按该组件原 API 执行。
 
-`ChoiceValue = string | number | boolean`；`CheckboxModel = boolean | ChoiceValue[] | null`；`RadioModel = ChoiceValue | null`。
+`string | number | boolean = string | number | boolean`；`boolean | (string | number | boolean)[] | null = boolean | (string | number | boolean)[] | null`；`string | number | boolean | null = string | number | boolean | null`。
 
 ### Radio Props
 
 | 属性                  | 说明                            | 类型                      | 默认值    |
 | --------------------- | ------------------------------- | ------------------------- | --------- |
-| model-value (v-model) | 受控值 | RadioModel | undefined |
-| default-value         | 非受控初始值                    | ChoiceValue \| null       | null      |
+| model-value (v-model) | 受控值 | string \| number \| boolean \| null | undefined |
+| default-value         | 非受控初始值                    | string \| number \| boolean \| null       | null      |
 | value                 | 选项的`value`                   | `string\|number\|boolean` | `true`    |
 | variant               | 单选的类型                      | `'radio'\|'button'`       | `'radio'` |
 | disabled              | 是否禁用；未设置时继承表单/分组 | boolean                   | undefined |
@@ -49688,7 +49677,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 | edit-mode | 编辑模式，继承 FormItem 和 Form | `'direct' \| 'popup'` | `'direct'` |
 | read-pretty | 独立阅读状态，显式 false 覆盖父级 | `boolean` | `false` |
 | clearable | 延迟编辑层清空操作，不改变原生取消选择 | `boolean` | `false` |
-| empty-value | 展示层显式清空输出，不控制原生取消勾选 | `RadioModel \| (() => RadioModel)` | `null` |
+| empty-value | 展示层显式清空输出，不控制原生取消勾选 | `string \| number \| boolean \| null \| (() => string \| number \| boolean \| null)` | `null` |
 | empty-values | 空值识别策略，字段优先于 FormItem 和 Form | `readonly unknown[]` | `-` |
 | empty-text | 阅读空文案，显式空字符串有效 | `string` | `'-'` |
 | before-commit | 延迟编辑保存前守卫；返回布尔值、Promise 或通过 done 完成 | `(payload: { value: unknown; previousValue: unknown }, done: (allow?: boolean) => void, context: { signal: AbortSignal; event?: Event }) => void \| boolean \| Promise<void \| boolean>` | `-` |
@@ -49708,11 +49697,11 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 
 | 属性                  | 说明                                                        | 类型                                                                                                    | 默认值         |
 | --------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | -------------- |
-| model-value (v-model) | 受控值 | RadioModel | undefined |
-| default-value         | 非受控初始值                                                | RadioModel                                                                                              | null           |
+| model-value (v-model) | 受控值 | string \| number \| boolean \| null | undefined |
+| default-value         | 非受控初始值                                                | string \| number \| boolean \| null                                                                                              | null           |
 | variant               | 单选框组的类型                                              | `'radio'\|'button'`                                                                                     | `'radio'`      |
 | size                  | 单选框组的尺寸                                              | `'xs'\|'sm'\|'md'\|'lg'\|'xl'`                                                                          | `-`            |
-| options               | 选项；传入时替代默认插槽                                    | Array<ChoiceValue \| RadioOption \| Record<string, unknown>> / `(query, { signal }) => Array / Promise` | `undefined`    |
+| options               | 选项；传入时替代默认插槽                                    | Array<string \| number \| boolean \| RadioOption \| Record<string, unknown>> / `(query, { signal }) => Array / Promise` | `undefined`    |
 | orientation           | 单选组内选项的横纵排列，默认 horizontal；不表示文字阅读方向 | `'horizontal'\|'vertical'`                                                                              | `'horizontal'` |
 | disabled              | 是否禁用；未设置时继承表单/分组                             | boolean                                                                                                 | undefined      |
 | readonly              | 是否只读；未设置时继承表单/分组                             | boolean                                                                                                 | undefined      |
@@ -49722,7 +49711,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 | edit-mode | 编辑模式，继承 FormItem 和 Form | `'direct' \| 'popup'` | `'direct'` |
 | read-pretty | 独立阅读状态，显式 false 覆盖父级 | `boolean` | `false` |
 | clearable | 延迟编辑层清空操作，不改变原生取消选择 | `boolean` | `false` |
-| empty-value | 展示层显式清空输出，不控制原生取消勾选 | `RadioModel \| (() => RadioModel)` | `null` |
+| empty-value | 展示层显式清空输出，不控制原生取消勾选 | `string \| number \| boolean \| null \| (() => string \| number \| boolean \| null)` | `null` |
 | empty-values | 空值识别策略，字段优先于 FormItem 和 Form | `readonly unknown[]` | `-` |
 | empty-text | 阅读空文案，显式空字符串有效 | `string` | `'-'` |
 | before-commit | 延迟编辑保存前守卫；返回布尔值、Promise 或通过 done 完成 | `(payload: { value: unknown; previousValue: unknown }, done: (allow?: boolean) => void, context: { signal: AbortSignal; event?: Event }) => void \| boolean \| Promise<void \| boolean>` | `-` |
@@ -49743,8 +49732,8 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 
 | 事件名             | 说明     | 参数                              |
 | ------------------ | -------- | --------------------------------- |
-| update:modelValue | 提议新值 | value: RadioModel |
-| change | 值变化提案 | value: RadioModel, event?: Event |
+| update:modelValue | 提议新值 | value: string \| number \| boolean \| null |
+| change | 值变化提案 | value: string \| number \| boolean \| null, event?: Event |
 | focus              | 聚焦     | event: FocusEvent                 |
 | blur               | 失焦     | event: FocusEvent                 |
 | update:open | 编辑层受控开关更新 | open: boolean |
@@ -49755,8 +49744,8 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 
 | 事件名             | 说明                        | 参数                                           |
 | ------------------ | --------------------------- | ---------------------------------------------- |
-| update:modelValue | 提议新值 | value: RadioModel |
-| change | 值变化提案 | value: RadioModel, event?: Event |
+| update:modelValue | 提议新值 | value: string \| number \| boolean \| null |
+| change | 值变化提案 | value: string \| number \| boolean \| null, event?: Event |
 | update:open | 编辑层受控开关更新 | open: boolean |
 | open-change | 编辑层实际开关变化 | open: boolean |
 | load-error | 显式选项加载失败，不改变模型 | error: unknown |
@@ -49766,7 +49755,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 | 插槽名 | 说明         | 参数                                     |
 | ------ | ------------ | ---------------------------------------- |
 | radio  | 自定义单选框 | `checked:boolean`<br/>`disabled:boolean` |
-| read | 自定义阅读内容，优先于 empty-text | value: RadioModel, text: string |
+| read | 自定义阅读内容，优先于 empty-text | value: string \| number \| boolean \| null, text: string |
 | default | button 标签或默认圆形标签 | checked: boolean, disabled: boolean |
 | checked-icon | 默认圆形选中图标 | - |
 | unchecked-icon | 默认圆形未选中图标 | - |
@@ -49777,7 +49766,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 | ------ | ------------- | ---------------------------------------- |
 | radio  | 自定义单选框  | `checked:boolean`<br/>`disabled:boolean` |
 | label  | radio文案内容 | `data: RadioOption, checked: boolean`    |
-| read | 自定义阅读内容，优先于 empty-text | value: RadioModel, text: string |
+| read | 自定义阅读内容，优先于 empty-text | value: string \| number \| boolean \| null, text: string |
 | default | 未提供 options 时的原生子选项 | - |
 
 ## Types
@@ -49786,7 +49775,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 
 | 字段     | 说明           | 类型                                                              |
 | -------- | -------------- | ----------------------------------------------------------------- |
-| value    | 选项标识       | ChoiceValue                                                       |
+| value    | 选项标识       | string \| number \| boolean                                                       |
 | label    | 标签或渲染函数 | VNodeChild \| (data: RadioOption, checked: boolean) => VNodeChild |
 | disabled | 禁用           | boolean                                                           |
 | readonly | 只读           | boolean                                                           |
@@ -53268,20 +53257,36 @@ Example source: src/section/example/demos/outline.vue
 </template>
 ```
 
-### 分区尺寸与标题层级
+### 分区尺寸、标题层级与内容
 
-尺寸控制布局间距，标题层级控制标题字号。预览会显示当前组合，以及标题和说明各自的字号与上方间距。关闭「显示正文」后，默认插槽只剩注释，正文容器和它的间距会一起移除。单行标题旁的色条与字号等高，并垂直居中。标题换行时，色条每多一行增加一个行高。
+标题、描述和正文可独立开关，也可切换风格、状态和色条位置。隐藏标题后，启用的色条会标记整个分区。尺寸控制布局间距，标题层级可选 `h1` 到 `h6`，Section 默认为 `h4`。预览会显示当前组合，以及标题和说明各自的字号与上方间距。关闭「显示描述」会收起描述及其上方间距。关闭「显示正文」后，默认插槽只剩注释，正文容器和它的间距会一起移除。标题与色条的间距固定为 12px，可在分区上覆盖 `--mp-section-marker-gap`。单行标题旁的色条与字号等高，并垂直居中。标题换行时，色条每多一行增加一个行高。
 
 Example source: src/section/example/demos/sizes.vue
 
 ```vue
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
+import type { SectionMarkerPlacement, SectionStatus, SectionVariant } from '@maple-design/ui-vue'
+
+const variants = ['plain', 'heading-line', 'tonal', 'outline'] as const
+const variant = ref<SectionVariant>('outline')
+const statuses = ['default', 'info', 'success', 'warning', 'danger'] as const
+const status = ref<SectionStatus>('default')
+const showTitle = ref(true)
+const showDescription = ref(true)
+const showMarker = ref(true)
+const preferredPlacement = ref<SectionMarkerPlacement>('title')
+const markerPlacement = computed({
+  get: () => (showTitle.value ? preferredPlacement.value : 'section'),
+  set: (value: SectionMarkerPlacement) => {
+    preferredPlacement.value = value
+  },
+})
 
 const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
 const size = ref<(typeof sizes)[number]>('md')
 const levels = [1, 2, 3, 4, 5, 6] as const
-const level = ref<(typeof levels)[number]>(1)
+const level = ref<(typeof levels)[number]>(4)
 const showContent = ref(true)
 const preview = ref<HTMLElement | null>(null)
 const titleMetrics = ref('')
@@ -53291,10 +53296,12 @@ function measureText() {
   const container = preview.value?.querySelector<HTMLElement>('.mp-section__surface')
   const title = container?.querySelector(`h${level.value}`)
   const description = container?.querySelector('.mp-section__description')
-  if (!container || !title || !description) return
+  if (!container) {
+    return
+  }
 
-  titleMetrics.value = formatMetrics(title, getComputedStyle(container).paddingTop)
-  descriptionMetrics.value = formatMetrics(description, getComputedStyle(description).marginTop)
+  titleMetrics.value = title ? formatMetrics(title, getComputedStyle(container).paddingTop) : ''
+  descriptionMetrics.value = description ? formatMetrics(description, getComputedStyle(description).marginTop) : ''
 }
 
 function formatMetrics(element: Element, gap: string) {
@@ -53302,11 +53309,15 @@ function formatMetrics(element: Element, gap: string) {
   return `字号 ${fontSize} · 上方间距 ${gap}`
 }
 
-watch([preview, size, level], () => {
-  measureText()
-  const view = preview.value?.ownerDocument.defaultView
-  view?.requestAnimationFrame?.(measureText)
-}, { flush: 'post' })
+watch(
+  [preview, size, level, showTitle, showDescription, variant, showMarker, markerPlacement],
+  () => {
+    measureText()
+    const view = preview.value?.ownerDocument.defaultView
+    view?.requestAnimationFrame?.(measureText)
+  },
+  { flush: 'post' },
+)
 </script>
 
 <template>
@@ -53319,14 +53330,38 @@ watch([preview, size, level], () => {
     <mp-radio-group v-model="level" aria-label="标题层级">
       <mp-radio v-for="value in levels" :key="value" :value="value">h{{ value }}</mp-radio>
     </mp-radio-group>
-    <mp-checkbox v-model="showContent">显示正文</mp-checkbox>
+    <mp-radio-group v-model="variant" aria-label="分组风格">
+      <mp-radio v-for="value in variants" :key="value" :value="value">{{ value }}</mp-radio>
+    </mp-radio-group>
+    <mp-radio-group v-model="status" aria-label="分组状态">
+      <mp-radio v-for="value in statuses" :key="value" :value="value">{{ value }}</mp-radio>
+    </mp-radio-group>
+    <mp-space wrap>
+      <mp-checkbox v-model="showTitle">显示标题</mp-checkbox>
+      <mp-checkbox v-model="showDescription">显示描述</mp-checkbox>
+      <mp-checkbox v-model="showMarker">显示色条</mp-checkbox>
+      <mp-checkbox v-model="showContent">显示正文</mp-checkbox>
+    </mp-space>
+    <mp-radio-group v-model="markerPlacement" :disabled="!showMarker" aria-label="色条位置">
+      <mp-radio value="title" :disabled="!showTitle">标题旁</mp-radio>
+      <mp-radio value="section">整个分区</mp-radio>
+    </mp-radio-group>
     <output>
-      尺寸 {{ size }} · 标题层级 h{{ level }}<br>
-      标题 · {{ titleMetrics }}<br>
-      说明 · {{ descriptionMetrics }}
+      尺寸 {{ size }} · 标题层级 h{{ level }}
+      <template v-if="showTitle"><br />标题 · {{ titleMetrics }}</template>
+      <template v-if="showDescription"><br />说明 · {{ descriptionMetrics }}</template>
     </output>
     <div ref="preview" @transitionend="measureText">
-      <mp-section :size="size" :heading-level="level" variant="outline" show-marker title="成员权限" description="权限按成员角色分组。">
+      <mp-section
+        :size="size"
+        :heading-level="level"
+        :marker-placement="markerPlacement"
+        :variant="variant"
+        :status="status"
+        :show-marker="showMarker"
+        :title="showTitle ? '成员权限' : undefined"
+        :description="showDescription ? '权限变更将应用到所有项目成员。' : undefined"
+      >
         <!-- 隐藏正文后，插槽中只剩注释。 -->
         <span v-if="showContent">管理员可以邀请成员。</span>
       </mp-section>
@@ -53335,72 +53370,9 @@ watch([preview, size, level], () => {
 </template>
 ```
 
-### 有标题、仅说明与纯正文
-
-切换 plain、heading-line、tonal、outline，并分别勾选标题和说明，观察同一份内容在不同组合下的效果。初始只显示正文。勾选「显示色条」后，无标题时会标记整个分区；显示标题后可选择「标题旁」或「整个分区」。标题和说明都关闭时，整个头部会收起，heading-line 的标题装饰线也随之收起。
-
-Example source: src/section/example/demos/heading-options.vue
-
-```vue
-<script setup lang="ts">
-import { computed, ref } from 'vue'
-import type { SectionMarkerPlacement, SectionStatus, SectionVariant } from '@maple-design/ui-vue'
-
-const variants = ['plain', 'heading-line', 'tonal', 'outline'] as const
-const variant = ref<SectionVariant>('outline')
-const statuses = ['default', 'info', 'success', 'warning', 'danger'] as const
-const status = ref<SectionStatus>('default')
-const withTitle = ref(false)
-const withDescription = ref(false)
-const showMarker = ref(false)
-const preferredPlacement = ref<SectionMarkerPlacement>('title')
-const markerPlacement = computed({
-  get: () => (withTitle.value ? preferredPlacement.value : 'section'),
-  set: (value: SectionMarkerPlacement) => {
-    preferredPlacement.value = value
-  },
-})
-</script>
-
-<template>
-  <mp-space direction="column" align="stretch">
-    <mp-radio-group v-model="variant" aria-label="分组风格">
-      <mp-radio v-for="value in variants" :key="value" :value="value">{{ value }}</mp-radio>
-    </mp-radio-group>
-    <mp-radio-group v-model="status" aria-label="分组状态">
-      <mp-radio v-for="value in statuses" :key="value" :value="value">{{ value }}</mp-radio>
-    </mp-radio-group>
-    <mp-space wrap>
-      <mp-checkbox v-model="withTitle">显示标题</mp-checkbox>
-      <mp-checkbox v-model="withDescription">显示说明</mp-checkbox>
-      <mp-checkbox v-model="showMarker">显示色条</mp-checkbox>
-    </mp-space>
-    <mp-radio-group v-model="markerPlacement" :disabled="!showMarker" aria-label="色条位置">
-      <mp-radio value="title" :disabled="!withTitle">标题旁</mp-radio>
-      <mp-radio value="section">整个分区</mp-radio>
-    </mp-radio-group>
-    <mp-section
-      :marker-placement="markerPlacement"
-      :variant="variant"
-      :status="status"
-      :show-marker="showMarker"
-      :title="withTitle ? '成员权限' : undefined"
-      :description="withDescription ? '权限变更将应用到所有项目成员。' : undefined"
-    >
-      <dl>
-        <dt>管理员</dt>
-        <dd>管理成员、修改项目设置</dd>
-        <dt>成员</dt>
-        <dd>查看项目、更新任务</dd>
-      </dl>
-    </mp-section>
-  </mp-space>
-</template>
-```
-
 ### 行内表单分组
 
-放在 Form 中时，Section 默认采用 heading-line 并显示标题色条。字段跟随 inline 布局横排，空间不足时换行。需要分隔相邻分区时，可在页面中使用 Divider。
+放在 Form 中时，Section 默认采用 heading-line。需要标题色条时显式传 show-marker。字段跟随 inline 布局横排，空间不足时换行。需要分隔相邻分区时，可在页面中使用 Divider。
 
 Example source: src/section/example/demos/inline-form.vue
 
@@ -53413,7 +53385,7 @@ const model = reactive({ name: '', department: '' })
 
 <template>
   <mp-form :model="model" layout="inline" edit-mode="direct">
-    <mp-section title="成员信息">
+    <mp-section title="成员信息" show-marker>
       <mp-form-item field="name" label="姓名">
         <mp-input v-model="model.name" />
       </mp-form-item>
@@ -53437,11 +53409,13 @@ const model = reactive({ name: '', department: '' })
 | size | 视觉尺寸（xs / sm / md / lg / xl） | SectionSize | md |
 | variant | 外观，可选 plain、heading-line、tonal、outline | 'plain' \| 'heading-line' \| 'tonal' \| 'outline' | heading-line |
 | status | 状态决定色条、tonal 浅色背景和 outline 描边的颜色（default / info / success / warning / danger） | SectionStatus | — |
-| heading-level | 标题层级，取值 1 至 6 | 1–6 | 表单内 3，其他场景 2 |
-| show-marker | 显示色条 | boolean | 表单内开启 |
+| heading-level | 标题层级，取值 1 至 6 | 1–6 | `4` |
+| show-marker | 显示色条 | boolean | 默认关闭 |
 | marker-placement | 色条位置（`title` / `section`） | string | `title` |
 
 ### Section Slots
+
+默认插槽控制正文。省略插槽，或用 `v-if` 隐藏其中的全部内容时，正文容器及其间距一并移除。使用 `{{ note }}` 这样的文本插值时，即使字符串为空，也会保留正文容器。
 
 默认插槽承载正文。title 和 description 插槽优先于同名属性。extra 插槽承载操作。
 
@@ -53462,7 +53436,7 @@ const model = reactive({ name: '', department: '' })
 
 | 变量 | 默认值／条件 | 影响的样式 |
 | --- | --- | --- |
-| `--mp-section-accent-color` | `var(--mp-sys-color-action-primary)` | `background`, `background-color`, `border` |
+| `--mp-section-accent-color` | `var(--mp-sys-color-action-primary)` | `background`, `border`, `border-inline-start` |
 | `--mp-section-after-gap` | `24px` | `margin-block`, `padding-block-start` |
 | `--mp-section-before-gap` | `32px` | `padding-block-start` |
 | `--mp-section-card-background` | `var(--mp-sys-color-surface-default)` | `background-color` |
@@ -53474,32 +53448,32 @@ const model = reactive({ name: '', department: '' })
 | `--mp-section-description-line-height` | `20px` | `line-height` |
 | `--mp-section-description-size` | `13px` | `font-size` |
 | `--mp-section-divider-color` | `var(--mp-sys-color-border-default)` | `border-block-start` |
-| `--mp-section-divider-width` | `1px` | `border`, `border-block-start` |
-| `--mp-section-header-gap` | `16px` | `margin-block-end` |
+| `--mp-section-divider-width` | `1px` | `border`, `border-block-start`, `border-radius` |
+| `--mp-section-header-gap` | `16px` | `margin-block-start` |
 | `--mp-section-heading-gap` | `16px` | `margin-inline-start` |
 | `--mp-section-heading-size-step` | `1px` | `font-size`, `line-height` |
 | `--mp-section-marker-gap` | `12px` | `padding-inline-end`, `padding-inline-start`, `row-gap` |
 | `--mp-section-marker-height` | `calc(100% - 1lh + 1em)` | `height` |
 | `--mp-section-marker-radius` | `2px` | `border-radius` |
-| `--mp-section-marker-width` | `3px` | `padding-inline-start`, `width` |
+| `--mp-section-marker-width` | `3px` | `border-inline-start`, `padding-inline-start`, `width` |
 | `--mp-section-outline-color` | `var(--mp-sys-color-border-default)` | `border` |
 | `--mp-section-size-lg-card-padding` | `20px` | `padding` |
-| `--mp-section-size-lg-header-gap` | `20px` | `margin-block-end` |
+| `--mp-section-size-lg-header-gap` | `20px` | `margin-block-start` |
 | `--mp-section-size-lg-marker-height` | `calc(100% - 1lh + 1em)` | `height` |
 | `--mp-section-size-lg-title-line-height` | `28px` | `line-height` |
 | `--mp-section-size-lg-title-size` | `16px` | `font-size` |
 | `--mp-section-size-sm-card-padding` | `12px` | `padding` |
-| `--mp-section-size-sm-header-gap` | `12px` | `margin-block-end` |
+| `--mp-section-size-sm-header-gap` | `12px` | `margin-block-start` |
 | `--mp-section-size-sm-marker-height` | `calc(100% - 1lh + 1em)` | `height` |
 | `--mp-section-size-sm-title-line-height` | `20px` | `line-height` |
 | `--mp-section-size-sm-title-size` | `16px` | `font-size` |
 | `--mp-section-size-xl-card-padding` | `24px` | `padding` |
-| `--mp-section-size-xl-header-gap` | `24px` | `margin-block-end` |
+| `--mp-section-size-xl-header-gap` | `24px` | `margin-block-start` |
 | `--mp-section-size-xl-marker-height` | `calc(100% - 1lh + 1em)` | `height` |
 | `--mp-section-size-xl-title-line-height` | `32px` | `line-height` |
 | `--mp-section-size-xl-title-size` | `16px` | `font-size` |
 | `--mp-section-size-xs-card-padding` | `8px` | `padding` |
-| `--mp-section-size-xs-header-gap` | `8px` | `margin-block-end` |
+| `--mp-section-size-xs-header-gap` | `8px` | `margin-block-start` |
 | `--mp-section-size-xs-marker-height` | `calc(100% - 1lh + 1em)` | `height` |
 | `--mp-section-size-xs-title-line-height` | `18px` | `line-height` |
 | `--mp-section-size-xs-title-size` | `16px` | `font-size` |
@@ -53507,7 +53481,7 @@ const model = reactive({ name: '', department: '' })
 | `--mp-section-title-line-height` | `24px` | `line-height` |
 | `--mp-section-title-size` | `16px` | `font-size` |
 | `--mp-section-title-weight` | `600` | `font-weight` |
-| `--mp-section-tonal-background` | `var(--mp-sys-color-surface-muted)` | `background-color` |
+| `--mp-section-tonal-background` | `color-mix(in srgb, var(--mp-sys-color-surface-muted) 60%, var(--mp-section-card-background))` | `background-color` |
 
 </div>
 
@@ -58614,6 +58588,10 @@ const values = reactive({
 
 ## 布局与排列
 
+在原生 `dir="auto"` 或 `<bdi>` 作用域中，文本方向变化后，滑块的位置和左右键会随之更新。
+
+水平滑块会跟随开放 ShadowRoot 中插槽的阅读方向，重新分配插槽后也会更新。滑块直接挂载在封闭 ShadowRoot 内时，会跟随根内祖先的方向。如果滑块从外部传入该根，且方向由内部插槽设置，请在传入该插槽的元素上同步设置原生 `dir`，使滑块位置和左右键保持一致。
+
 ### 垂直
 
 <!-- demo-config-notes:start -->
@@ -59492,8 +59470,7 @@ Example source: src/space/example/demos/demo-8.vue
 
 <template>
   <mp-space v-for="size in ['xs', 'sm', 'md', 'lg', 'xl']" :key="size" :size="size" wrap>
-    <span>{{ size }}</span
-    ><span>Item 1</span><span>Item 2</span>
+    <span>{{ size }}</span><span>Item 1</span><span>Item 2</span>
   </mp-space>
 </template>
 ```
@@ -59903,11 +59880,10 @@ Example source: src/split-button/example/basic.vue
 
 ```vue
 <script setup lang="ts">
-import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
 
 const publish = () => {
-  Message.info(english.value ? 'Published' : '发布成功')
+  Message.info('发布成功')
 }
 const handleSelect = (_value: unknown, option: { label?: unknown }) => {
   Message.info(String(option.label))
@@ -59916,12 +59892,12 @@ const handleSelect = (_value: unknown, option: { label?: unknown }) => {
 
 <template>
   <mp-split-button placement="bottom-end" @click="publish" @select="handleSelect">
-    {{ english ? 'Publish' : '发布' }}
+    发布
 
     <template #content>
-      <mp-menu-option :label="english ? 'Save draft' : '保存草稿'" value="draft" />
-      <mp-menu-option :label="english ? 'Save and publish' : '保存并发布'" value="publish" />
-      <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
+      <mp-menu-option label="保存草稿" value="draft" />
+      <mp-menu-option label="保存并发布" value="publish" />
+      <mp-menu-option label="暂无权限" value="restricted" disabled />
     </template>
   </mp-split-button>
 </template>
@@ -59949,11 +59925,10 @@ Example source: src/split-button/example/variants.vue
 
 ```vue
 <script setup lang="ts">
-import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
 
 const publish = () => {
-  Message.info(english.value ? 'Published' : '发布成功')
+  Message.info('发布成功')
 }
 const handleSelect = (_value: unknown, option: { label?: unknown }) => {
   Message.info(String(option.label))
@@ -59973,9 +59948,9 @@ const variants = ['default', 'outline', 'tonal', 'text'] as const
       {{ variant }}
 
       <template #content>
-        <mp-menu-option :label="english ? 'Save draft' : '保存草稿'" value="draft" />
-        <mp-menu-option :label="english ? 'Save and publish' : '保存并发布'" value="publish" />
-        <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
+        <mp-menu-option label="保存草稿" value="draft" />
+        <mp-menu-option label="保存并发布" value="publish" />
+        <mp-menu-option label="暂无权限" value="restricted" disabled />
       </template>
     </mp-split-button>
   </mp-space>
@@ -59990,11 +59965,10 @@ Example source: src/split-button/example/disabled.vue
 
 ```vue
 <script setup lang="ts">
-import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
 
 const publish = () => {
-  Message.info(english.value ? 'Published' : '发布成功')
+  Message.info('发布成功')
 }
 const handleSelect = (_value: unknown, option: { label?: unknown }) => {
   Message.info(String(option.label))
@@ -60010,30 +59984,30 @@ const handleSelect = (_value: unknown, option: { label?: unknown }) => {
       @click="publish"
       @select="handleSelect"
     >
-      {{ english ? 'All disabled' : '整体禁用' }}
+      整体禁用
 
       <template #content>
-        <mp-menu-option :label="english ? 'Save draft' : '保存草稿'" value="draft" />
-        <mp-menu-option :label="english ? 'Save and publish' : '保存并发布'" value="publish" />
-        <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
+        <mp-menu-option label="保存草稿" value="draft" />
+        <mp-menu-option label="保存并发布" value="publish" />
+        <mp-menu-option label="暂无权限" value="restricted" disabled />
       </template>
     </mp-split-button>
     <mp-split-button :button-props="{ disabled: true }" @click="publish" @select="handleSelect">
-      {{ english ? 'Main disabled' : '仅禁用主按钮' }}
+      仅禁用主按钮
 
       <template #content>
-        <mp-menu-option :label="english ? 'Save draft' : '保存草稿'" value="draft" />
-        <mp-menu-option :label="english ? 'Save and publish' : '保存并发布'" value="publish" />
-        <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
+        <mp-menu-option label="保存草稿" value="draft" />
+        <mp-menu-option label="保存并发布" value="publish" />
+        <mp-menu-option label="暂无权限" value="restricted" disabled />
       </template>
     </mp-split-button>
     <mp-split-button :trigger-button-props="{ disabled: true }" @click="publish" @select="handleSelect">
-      {{ english ? 'Menu disabled' : '仅禁用菜单按钮' }}
+      仅禁用菜单按钮
 
       <template #content>
-        <mp-menu-option :label="english ? 'Save draft' : '保存草稿'" value="draft" />
-        <mp-menu-option :label="english ? 'Save and publish' : '保存并发布'" value="publish" />
-        <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
+        <mp-menu-option label="保存草稿" value="draft" />
+        <mp-menu-option label="保存并发布" value="publish" />
+        <mp-menu-option label="暂无权限" value="restricted" disabled />
       </template>
     </mp-split-button>
   </mp-space>
@@ -60189,7 +60163,6 @@ Example source: src/split-button/example/popup.vue
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue'
-import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
 
 const lastAction = ref('')
@@ -60209,21 +60182,15 @@ const handleSelect = (value: unknown, option: { label?: unknown }) => {
       @click="lastAction = 'publish'"
       @select="handleSelect"
     >
-      {{ english ? 'Choose action' : '选择操作' }}
+      选择操作
       <template #content>
-        <mp-menu-option :label="english ? 'Save draft' : '保存草稿'" value="draft" />
-        <mp-menu-option :label="english ? 'Save and publish' : '保存并发布'" value="publish" />
-        <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
+        <mp-menu-option label="保存草稿" value="draft" />
+        <mp-menu-option label="保存并发布" value="publish" />
+        <mp-menu-option label="暂无权限" value="restricted" disabled />
       </template>
     </mp-split-button>
-    <span aria-live="polite"
-      >{{ english ? 'Last action' : '最近操作' }}: {{ lastAction || (english ? 'None' : '暂无操作') }}</span
-    >
-    <span>{{
-      english
-        ? 'The menu stays open after selection; click outside to close.'
-        : '选择后菜单保持展开，可连续选择；点击外部关闭。'
-    }}</span>
+    <span aria-live="polite">最近操作: {{ lastAction || '暂无操作' }}</span>
+    <span>选择后菜单保持展开，可连续选择；点击外部关闭。</span>
   </mp-space>
 </template>
 ```
@@ -60238,11 +60205,10 @@ Example source: src/split-button/example/custom-icon.vue
 
 ```vue
 <script setup lang="ts">
-import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
 
 const publish = () => {
-  Message.info(english.value ? 'Published' : '发布成功')
+  Message.info('发布成功')
 }
 const handleSelect = (_value: unknown, option: { label?: unknown }) => {
   Message.info(String(option.label))
@@ -60251,7 +60217,7 @@ const handleSelect = (_value: unknown, option: { label?: unknown }) => {
 
 <template>
   <mp-split-button @click="publish" @select="handleSelect">
-    {{ english ? 'Publish' : '发布' }}
+    发布
     <template #icon="{ open }">
       <m-icon-menu-down
         :style="{
@@ -60261,9 +60227,9 @@ const handleSelect = (_value: unknown, option: { label?: unknown }) => {
       />
     </template>
     <template #content>
-      <mp-menu-option :label="english ? 'Save draft' : '保存草稿'" value="draft" />
-      <mp-menu-option :label="english ? 'Save and publish' : '保存并发布'" value="publish" />
-      <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
+      <mp-menu-option label="保存草稿" value="draft" />
+      <mp-menu-option label="保存并发布" value="publish" />
+      <mp-menu-option label="暂无权限" value="restricted" disabled />
     </template>
   </mp-split-button>
 </template>
@@ -60282,11 +60248,10 @@ Example source: src/split-button/example/controlled.vue
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue'
-import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
 
 const publish = () => {
-  Message.info(english.value ? 'Published' : '发布成功')
+  Message.info('发布成功')
 }
 const handleSelect = (_value: unknown, option: { label?: unknown }) => {
   Message.info(String(option.label))
@@ -60297,19 +60262,19 @@ const open = ref(false)
 <template>
   <mp-space direction="column" align="flex-start">
     <mp-space wrap>
-      <mp-button @click.stop="open = true">{{ english ? 'Open menu' : '展开菜单' }}</mp-button>
-      <mp-button @click.stop="open = false">{{ english ? 'Close menu' : '关闭菜单' }}</mp-button>
+      <mp-button @click.stop="open = true">展开菜单</mp-button>
+      <mp-button @click.stop="open = false">关闭菜单</mp-button>
     </mp-space>
     <mp-split-button v-model:open="open" @click="publish" @select="handleSelect">
-      {{ english ? 'Publish' : '发布' }}
+      发布
 
       <template #content>
-        <mp-menu-option :label="english ? 'Save draft' : '保存草稿'" value="draft" />
-        <mp-menu-option :label="english ? 'Save and publish' : '保存并发布'" value="publish" />
-        <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
+        <mp-menu-option label="保存草稿" value="draft" />
+        <mp-menu-option label="保存并发布" value="publish" />
+        <mp-menu-option label="暂无权限" value="restricted" disabled />
       </template>
     </mp-split-button>
-    <span aria-live="polite">{{ open ? (english ? 'Opened' : '已展开') : english ? 'Closed' : '已关闭' }}</span>
+    <span aria-live="polite">{{ open ? '已展开' : '已关闭' }}</span>
   </mp-space>
 </template>
 ```
@@ -60325,7 +60290,6 @@ Example source: src/split-button/example/async-action.vue
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue'
-import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
 
 const completed = ref(0)
@@ -60351,15 +60315,15 @@ const handleSelect = (_value: unknown, option: { label?: unknown }) => {
 <template>
   <mp-space direction="column" align="flex-start">
     <mp-split-button :button-props="{ loading: publishing }" @click="publish" @select="handleSelect">
-      {{ english ? 'Publish' : '发布' }}
+      发布
 
       <template #content>
-        <mp-menu-option :label="english ? 'Save draft' : '保存草稿'" value="draft" />
-        <mp-menu-option :label="english ? 'Save and publish' : '保存并发布'" value="publish" />
-        <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
+        <mp-menu-option label="保存草稿" value="draft" />
+        <mp-menu-option label="保存并发布" value="publish" />
+        <mp-menu-option label="暂无权限" value="restricted" disabled />
       </template>
     </mp-split-button>
-    <span aria-live="polite">{{ english ? 'Completed' : '完成次数' }}: {{ completed }}</span>
+    <span aria-live="polite">完成次数: {{ completed }}</span>
   </mp-space>
 </template>
 ```
@@ -61497,11 +61461,7 @@ Example source: src/style/example/basic.vue
 
 ```vue
 <script setup>
-import { onThemeChange } from '@maple-design/cli-vue/client'
-
 const elevations = Array.from({ length: 25 }).map((_, index) => index)
-
-onThemeChange()
 </script>
 
 <template>
@@ -65362,7 +65322,7 @@ show / checked 为受控值时由调用方更新。隐藏时保留淡出效果�
 | `--mp-tag-orangered-border-color-hover` | `transparent` | `border-color` |
 | `--mp-tag-orangered-icon-color` | `rgb(var(--mp-orangered-6))` | `color` |
 | `--mp-tag-orangered-text-color` | `rgb(var(--mp-orangered-6))` | `border-color`, `color` |
-| `--mp-tag-padding-horizontal` | `10px` | `padding` |
+| `--mp-tag-padding-horizontal` | `8px` | `padding` |
 | `--mp-tag-padding-vertical` | `0` | `line-height`, `padding` |
 | `--mp-tag-pinkpurple-bg` | `rgb(var(--mp-pinkpurple-1))`<br>`rgba(var(--mp-pinkpurple-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-pinkpurple-bg-hover` | `rgb(var(--mp-pinkpurple-2))`<br>`rgba(var(--mp-pinkpurple-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
@@ -65383,15 +65343,15 @@ show / checked 为受控值时由调用方更新。隐藏时保留淡出效果�
 | `--mp-tag-red-icon-color` | `rgb(var(--mp-red-6))` | `color` |
 | `--mp-tag-red-text-color` | `rgb(var(--mp-red-6))` | `border-color`, `color` |
 | `--mp-tag-round-radius` | `100px` | `border-radius` |
-| `--mp-tag-size-lg` | `36px` | `height`, `line-height` |
+| `--mp-tag-size-lg` | `30px` | `height`, `line-height` |
 | `--mp-tag-size-lg-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
-| `--mp-tag-size-md` | `32px` | `height`, `line-height` |
-| `--mp-tag-size-md-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
-| `--mp-tag-size-sm` | `28px` | `height`, `line-height` |
+| `--mp-tag-size-md` | `26px` | `height`, `line-height` |
+| `--mp-tag-size-md-font-size` | `var(--mp-sys-font-size-sm)` | `font-size` |
+| `--mp-tag-size-sm` | `22px` | `height`, `line-height` |
 | `--mp-tag-size-sm-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
-| `--mp-tag-size-xl` | `40px` | `height`, `line-height` |
+| `--mp-tag-size-xl` | `34px` | `height`, `line-height` |
 | `--mp-tag-size-xl-font-size` | `var(--mp-sys-font-size-lg)` | `font-size` |
-| `--mp-tag-size-xs` | `24px` | `height`, `line-height` |
+| `--mp-tag-size-xs` | `18px` | `height`, `line-height` |
 | `--mp-tag-size-xs-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
 | `--mp-tag-status-danger-bg-color` | `rgb(var(--mp-danger-1))` | `background-color` |
 | `--mp-tag-status-danger-text-color` | `var(--mp-sys-color-content-danger)` | `color` |
@@ -66305,28 +66265,30 @@ Example source: src/themes/example/FireflyScenes.vue
 
 ```vue
 <script setup>
-import { computed, ref } from 'vue'
-import { watchTheme } from '@maple-design/cli-vue/client'
-import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
+import { computed, ref, watch } from 'vue'
 import { Themes } from '@maple-design/ui-vue'
 
-const mode = ref('light')
+const props = defineProps({ dark: Boolean })
+const mode = computed(() => (props.dark ? 'dark' : 'light'))
 const background = ref('light')
-watchTheme((theme) => {
-  mode.value = theme.toLowerCase().includes('dark') ? 'dark' : 'light'
-  background.value = mode.value === 'dark' ? 'navy' : 'light'
-})
+watch(
+  mode,
+  () => {
+    background.value = mode.value === 'dark' ? 'navy' : 'light'
+  },
+  { immediate: true },
+)
 const variants = ['default', 'text', 'outline', 'tonal']
 const roles = [
-  { status: 'primary', label: '黄色主行动', labelEn: 'Yellow primary action' },
-  { status: 'secondary', label: '中性次级操作', labelEn: 'Neutral secondary action' },
-  { status: 'tertiary', label: '紫色辅助品牌', labelEn: 'Violet auxiliary brand' },
+  { status: 'primary', label: '黄色主行动' },
+  { status: 'secondary', label: '中性次级操作' },
+  { status: 'tertiary', label: '紫色辅助品牌' },
 ]
 const backgrounds = [
-  { label: 'Navy / 深蓝', value: 'navy', color: '#17224B', text: '#FFFFFF' },
-  { label: 'White / 白色', value: 'light', color: '#FFFFFF', text: '#17224B' },
-  { label: 'Light gray / 浅灰', value: 'muted', color: '#F5F5F5', text: '#17224B' },
-  { label: 'Dark gray / 深灰', value: 'dark', color: '#252525', text: '#FFFFFF' },
+  { label: '深蓝', value: 'navy', color: '#17224B', text: '#FFFFFF' },
+  { label: '白色', value: 'light', color: '#FFFFFF', text: '#17224B' },
+  { label: '浅灰', value: 'muted', color: '#F5F5F5', text: '#17224B' },
+  { label: '深灰', value: 'dark', color: '#252525', text: '#FFFFFF' },
 ]
 // Read the actual preset so this example cannot silently redefine secondary as violet.
 const palette = computed(() => Themes.firefly[mode.value])
@@ -66355,26 +66317,17 @@ const contact = ref('')
 </script>
 
 <template>
-  <section class="firefly-button-scenes" :aria-label="english ? 'Firefly brand roles' : '萤火虫品牌角色'">
+  <section class="firefly-button-scenes" aria-label="萤火虫品牌角色">
     <p>
-      {{
-        english
-          ? 'Primary is yellow, secondary is neutral, and tertiary is violet. Switch the card background to compare transparent text and outline buttons; yellow text belongs on dark surfaces.'
-          : 'primary 为黄色主行动，secondary 为中性次级，tertiary 为紫色辅助。切换整张卡片背景对照文字与描边按钮；黄色文字适合深色背景。'
-      }}
+      primary 为黄色主行动，secondary 为中性次级，tertiary
+      为紫色辅助。切换整张卡片背景对照文字与描边按钮；黄色文字适合深色背景。
     </p>
-    <mp-form-item layout="vertical" size="sm" :label="english ? 'Card background' : '卡片背景'">
-      <mp-radio-group
-        v-model="background"
-        :aria-label="english ? 'Card background' : '卡片背景'"
-        :options="backgrounds"
-        variant="button"
-        size="sm"
-      />
+    <mp-form-item layout="vertical" size="sm" label="卡片背景">
+      <mp-radio-group v-model="background" aria-label="卡片背景" :options="backgrounds" variant="button" size="sm" />
     </mp-form-item>
     <mp-theme-provider :style-vars="cardVars" class="firefly-button-scenes__panel" :data-surface="background">
       <div v-for="role in roles" :key="role.status" class="firefly-button-scenes__family">
-        <p>{{ english ? role.labelEn : role.label }} / {{ role.status }}</p>
+        <p>{{ role.label }} / {{ role.status }}</p>
         <mp-space wrap>
           <mp-button
             v-for="variant in variants"
@@ -66390,21 +66343,17 @@ const contact = ref('')
       </div>
     </mp-theme-provider>
     <mp-theme-provider :style-vars="interactionVars" class="firefly-interactions">
-      <h3>{{ english ? 'Violet selection and focus' : '紫色选择与焦点反馈' }}</h3>
+      <h3>紫色选择与焦点反馈</h3>
       <mp-space direction="column" block align="stretch" :size="16">
-        <mp-radio-group v-model="service" :aria-label="english ? 'Service selection' : '体验项目选择'">
-          <mp-radio value="drive">{{ english ? 'Test drive' : '预约试驾' }}</mp-radio>
-          <mp-radio value="visit">{{ english ? 'Visit' : '到店体验' }}</mp-radio>
+        <mp-radio-group v-model="service" aria-label="体验项目选择">
+          <mp-radio value="drive">预约试驾</mp-radio>
+          <mp-radio value="visit">到店体验</mp-radio>
         </mp-radio-group>
-        <mp-checkbox v-model="agreement">{{ english ? 'Receive service updates' : '接收服务信息' }}</mp-checkbox>
-        <mp-switch v-model="reminder" :aria-label="english ? 'Service reminder' : '体验提醒'" />
-        <mp-slider v-model="level" :aria-label="english ? 'Preference level' : '偏好程度'" />
-        <mp-input
-          v-model="contact"
-          :aria-label="english ? 'Firefly focus example' : '萤火虫焦点示例'"
-          :placeholder="english ? 'Focus to see the violet border' : '点击输入，查看紫色焦点边框'"
-        />
-        <mp-link status="primary">{{ english ? 'View service details' : '查看服务详情' }}</mp-link>
+        <mp-checkbox v-model="agreement">接收服务信息</mp-checkbox>
+        <mp-switch v-model="reminder" aria-label="体验提醒" />
+        <mp-slider v-model="level" aria-label="偏好程度" />
+        <mp-input v-model="contact" aria-label="萤火虫焦点示例" placeholder="点击输入，查看紫色焦点边框" />
+        <mp-link status="primary">查看服务详情</mp-link>
       </mp-space>
     </mp-theme-provider>
   </section>
@@ -70818,7 +70767,9 @@ placement 是首选方位，auto-fit-position 默认 true 时最终方位可能�
 
 ### 减少动态效果
 
-`allowClose()` 只恢复内部关闭门控；没有公开的对应禁用方法，也不能用它阻止关闭。
+弹层位于封闭 Shadow DOM 时，外部点击会等浏览器派发完事件再处理。在处理前将 `click-outside-to-close` 设为 `false`，弹层会继续保持打开。
+
+保留实例方法 `allowClose()` 供已有调用方使用。关闭行为遵循当前触发与关闭配置。
 
 ## API
 
@@ -70883,7 +70834,7 @@ placement 是首选方位，auto-fit-position 默认 true 时最终方位可能�
 
 `reference-attrs` 的 `aria-describedby` 与参考元素已有描述 ID 合并去重；清理或更换引用时恢复原始属性。
 
-默认插槽的首个参考节点为原生元素时，服务端首屏会包含传入的 `aria-*` 和 `data-*` 属性。指定外部参考元素时，客户端挂载后将属性写入该元素。
+默认插槽中的参考元素在服务端渲染时就会带上传入的 `aria-*` 和 `data-*` 属性。插槽传入组件时，属性作用于组件渲染出的首个元素。已有的 `aria-describedby` 会与 Trigger 提供的描述 ID 合并；切换参考元素时保留业务自己的 ID。指定外部参考元素时，客户端挂载后将属性写入该元素。
 
 多个 Trigger 共用同一元素时，描述 ID 会合并。卸载其中一个会移除它独有的 ID；最后一个卸载后恢复业务侧最新写入的属性值。
 
@@ -70959,12 +70910,6 @@ Maple（Mobile）**不复制**该工具包：移动端字阶由组件与 `--mp-f
 Example source: src/typography/example/basic.vue
 
 ```vue
-<script setup>
-import { onThemeChange } from '@maple-design/cli-vue/client'
-
-onThemeChange()
-</script>
-
 <template>
   <div class="demo mp-px-16 mp-py-16">
     <div class="mp-text-1 mp-mb-8">mp-text-1 主文案</div>
@@ -70987,13 +70932,13 @@ Document: llms/zh-CN/updates.md
 
 <!-- Source: docs/updates.zh-CN.md; locale: zh-CN; page: /zh-CN/updates -->
 
-# 更新与迁移
+# 变更记录
 
 升级前核对目标包版本与发布说明，检查变更涉及的属性、事件、类型和主题变量。保留项目依赖锁文件，并验证关键业务流程。没有迁移说明时，不应假设不同版本的 API 完全兼容。
 
-## 更新日志
+## 发布说明
 
-[查看完整 Changelog](https://github.com/sparknest-team/maple-design-mobile/blob/main/CHANGELOG.md)。记录新增功能、问题修复和不兼容变更；Unreleased 表示尚未发布的内容，不等于当前 npm 包已包含。
+[查看完整 Changelog](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/ui/CHANGELOG.md)。记录新增功能、问题修复和不兼容变更；Unreleased 表示尚未发布的内容，不等于当前 npm 包已包含。
 
 ## 升级检查
 
@@ -71002,6 +70947,8 @@ Document: llms/zh-CN/updates.md
 3. 更新依赖锁文件，检查构建与关键交互后再发布业务应用。
 
 [LLM documentation](#/zh-CN/llms) · [Cedar](https://cedar.show) · [Maple](https://maple.show)
+
+<!-- @include: ../CHANGELOG.md{3-} -->
 
 ---
 
@@ -72091,10 +72038,6 @@ Example source: src/utilities/example/basic.vue
 
 ```vue
 <script setup>
-import { onThemeChange } from '@maple-design/cli-vue/client'
-
-onThemeChange()
-
 const statusColors = ['primary', 'success', 'warning', 'danger', 'info']
 const textLevels = [1, 2, 3, 4]
 const spaceSamples = [
