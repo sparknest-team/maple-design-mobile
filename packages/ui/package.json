@@ -81,7 +81,9 @@
     "umd",
     "highlight",
     "types",
-    "types-generated"
+    "types-generated",
+    "!es/maple.esm.js",
+    "!lib/maple.cjs.js"
   ],
   "scripts": {
     "build": "pnpm build:lib && pnpm build:doc",
