@@ -55,7 +55,7 @@
     "@maple-design/resolver-vue": "workspace:*",
     "@maple-design/shared-vue": "workspace:*",
     "@maple-design/vite-plugins-vue": "workspace:*",
-    "@sparknest/ui-build-vue": "^1.4.4",
+    "@sparknest/ui-build-vue": "^1.5.0",
     "@sparknest/ui-doc-preview-vue": "^1.0.0",
     "@vitejs/plugin-vue": "catalog:",
     "@vitejs/plugin-vue-jsx": "catalog:",
