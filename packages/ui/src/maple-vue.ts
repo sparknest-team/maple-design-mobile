@@ -99,7 +99,7 @@ import Upload from './upload'
 import VerificationCode from './verification-code'
 import Watermark from './watermark'
 
-export const version = '1.4.8'
+export const version = '1.4.10'
 
 function install(app: App) {
   const plugins = [ActionSheet, Affix, Alert, AutoComplete, Avatar, BackTop, Badge, Breadcrumb, Button, Card, Carousel, Cascader, Cell, Checkbox, Code, Col, Collapse, Context, CountTo, Countdown, Date, DateRange, Dialog, Divider, Drag, Ellipsis, Empty, Fab, FieldDecorator, FloatingPanel, Form, FormDetails, Grid, HighlighterProvider, Hover, Icon, Image, IndexBar, InfiniteScroll, Input, InputNumber, InputTag, Lazy, Link, List, Loading, LoadingBar, Locale, LocaleProvider, Mention, Menu, Message, NavMenu, NoticeBar, NumberKeyboard, Overlay, PageHeader, Pagination, Paper, PeopleSelect, Picker, Popover, Popup, Progress, ProgressGroup, PullRefresh, Radio, Rate, Result, Ripple, Row, SafeArea, Search, Section, Select, Signature, Skeleton, Slider, Space, SplitButton, Statistic, Steps, SwipeCell, Switch, TabBar, Table, Tabs, Tag, Textarea, ThemeProvider, Themes, Time, TimeRange, Timeline, Tooltip, Trigger, Upload, VerificationCode, Watermark]
