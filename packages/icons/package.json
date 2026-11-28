@@ -59,7 +59,7 @@
     "typecheck": "tsc --runExternalCode --noEmit -p tsconfig.contract.json"
   },
   "devDependencies": {
-    "@sparknest/ui-build-vue": "^1.4.4",
+    "@sparknest/ui-build-vue": "^1.5.0",
     "@sparknest/ui-icons-vue": "^1.4.4",
     "@vitejs/plugin-vue": "catalog:",
     "@vue/content-mapper": "4.0.0-alpha.0",

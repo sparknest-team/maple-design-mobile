@@ -36,7 +36,7 @@ packageExtensions:
 
 overrides:
   # Use the tested release candidates until their versions are available from npm.
-  '@sparknest/ui-build-vue': file:vendor/sparknest/ui-build-vue-candidate.2.tgz
+  # @sparknest/ui-build-vue 已发布 1.5.0，改用 npm 正式版（提供 bundleFormats 开关）。
   '@sparknest/ui-doc-preview-vue': file:vendor/sparknest/ui-doc-preview-vue-candidate.tgz
   '@sparknest/vuepress-plugins-vue': file:vendor/sparknest/vuepress-plugins-vue-candidate.2.tgz
   '@sparknest/ui-icons-vue': file:vendor/sparknest/ui-icons-vue-candidate.tgz
