@@ -40,7 +40,7 @@
     "@maple-design/shared-vue": "workspace:*"
   },
   "devDependencies": {
-    "@sparknest/ui-build-vue": "^1.4.4",
+    "@sparknest/ui-build-vue": "^1.5.0",
     "@types/node": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:",

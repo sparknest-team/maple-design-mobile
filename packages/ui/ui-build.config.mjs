@@ -10,6 +10,7 @@ export default {
   name: '@maple-design/ui-vue',
   globalName: 'Maple',
   bundleName: 'maple',
+  bundleFormats: ['umd'],
   emitTypes: false,
   vueSfcStyles: false,
   cssVariables: 'style/theme/css-variables.less',
